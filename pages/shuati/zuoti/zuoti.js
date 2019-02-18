@@ -386,4 +386,13 @@ Page({
     this.errorRecovery.toogleDialog();
   },
 
+  /**
+   * 生命周期事件
+   */
+  onUnload:function(e){
+    wx.navigateTo({
+      url: '/pages/shuati/tongji/tongji',
+    })
+  }
+
 })
