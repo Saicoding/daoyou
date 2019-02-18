@@ -1,0 +1,26 @@
+<!--pages/IM/IMlist/IMlist.wxml-->
+<view class="container">
+  <view wx:for="{{chatList}}" wx:for-item="chat" wx:key="c">
+    <view data-headpic="{{chat.pic}}" data-username="{{chat.nickname==''?'陌生人':chat.nickname}}" data-toid="{{chat.toid}}" class="chat" bindtap="GOIM" hover-class='select1' hover-stay-time='400'>
+      
+
+      <image class="chat-pic" src="{{chat.pic}}" style ="margin-left:{{chat.new?0:35}}rpx;"></image>
+      <view wx:if ="{{}}" class ="hui">已读</view><view wx:if ="{{}}" class ="hui">未读</view>
+
+      <view class="chat-right">
+        <view class="chat-mid">
+          <view class="chat-mid-name">{{}}</view>
+          <view class="chat-mid-content">{{chat.content}}</view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+
+  <image wx:if="{{!isLoaded}}" style="display:block;width:30rpx;height:30rpx;margin:0 auto;margin-top:200rpx;"    src="/images/loading.gif"> </image>
+    <!-- 最下面的加载条 -->
+  <view class="loading-block">
+    <image wx:if="{{showLoadingGif}}" class="loading-gif" src="/images/loading.gif"></image>
+    <view class="loading-text"> {{loadingText}}</view>
+  </view>
+</view>

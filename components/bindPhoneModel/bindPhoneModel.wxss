@@ -1,0 +1,110 @@
+/* components/errorRecovery/errorRecovery.wxss */
+.container{
+  position: absolute;
+  width:100%;
+  top:250rpx;
+  z-index: 100;
+}
+
+.content{
+  position: relative;
+  background: white;
+  width:650rpx;
+  margin:0 auto;
+  top:-188rpx;
+  z-index: -1;
+  border-radius: 10rpx;
+  padding-bottom: 40rpx;
+}
+
+.pic{
+  display: block;
+  width:400rpx;
+  height:328rpx;
+  margin:0 auto;
+}
+
+.close{
+  position: relative;
+  width:80rpx;
+  height:80rpx;
+  left:575rpx;
+  z-index:101;
+}
+
+.close-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:20rpx;
+  margin-left:20rpx;
+}
+
+.content-line{
+  clear: both;
+  width:100%;
+  height:170rpx;
+  line-height: 300rpx;
+  text-align: center;
+  font-weight: bold;
+  font-size:30rpx;
+}
+
+.num{
+  display: flex;
+  padding:0 20rpx;
+  margin-top:30rpx;
+}
+
+.num,.num-text,.phone-input{
+  height:70rpx;
+  line-height: 70rpx;
+}
+
+.num-text{
+  width:150rpx;
+  font-size:28rpx;
+  padding-left:20rpx;
+}
+
+.phone-input{
+  background: #f6f6f6;
+  padding-left:20rpx;
+  font-size:28rpx;
+  width:560rpx;
+}
+
+.identify-code{
+  width:200rpx;
+  text-align: center;
+  font-size:28rpx;
+  background: white;
+}
+
+.identify-code::after{
+  border:none;
+}
+
+.submit{
+  width:93%;
+  height:80rpx;
+  line-height: 80rpx;
+  margin:0 auto;
+  margin-top:60rpx;
+  border-radius: 10rpx;
+  background: #24cc9b;
+  color:white;
+  text-align: center;
+  font-size:32rpx;
+
+}
+
+.modal {
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  filter: Alpha(Opacity=60);
+  background: rgba(12, 12, 12,0.3);
+  z-index: 99;
+}

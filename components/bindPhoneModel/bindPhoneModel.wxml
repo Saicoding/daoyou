@@ -1,0 +1,29 @@
+<!--components/Dialog/dialog.wxml-->
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container">
+  <view style="width:100%;" bindtap='close'>
+    <image class="pic" src="/images/bindphone.png"></image>
+  </view>
+
+  <!-- 有背景部分 -->
+  <view class="content">
+    <view class="close" bindtap = "close" >
+      <image class="close-icon" src="/images/close.png"></image>
+    </view>
+    <view class="content-line">还差最后一步...</view>
+    <view class="num">
+      <view class="num-text">+86</view>
+      <input type="number" class="phone-input" placeholder-style='font-size:25rpx;' placeholder='请输入手机号' class="phone-input"></input>
+    </view>
+    <view class="num">
+      <input type="number" class="phone-input" placeholder='请输入验证码' class="phone-input" style= "width:400rpx;"></input>
+      <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}' style="background-color:{{color}}">
+        {{text}}
+      </button>
+    </view>
+
+    <view class ="submit" >免费获取考前咨询</view>
+  </view>
+</view>
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+</view>

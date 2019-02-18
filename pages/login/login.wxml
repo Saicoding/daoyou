@@ -1,0 +1,59 @@
+<!--pages/login/login.wxml-->
+<view class='rel'>
+  <image src="/images/denglu@3x.jpg" style='width:100%; height:auto' mode="widthFix"></image>
+  <view class="title abs" wx:if="{{statu.code!=3}}">
+    <view class="title_sub {{statu.code==0?'on':''}}" data-statu="0" bindtap="changeLoginType">登陆</view>
+    <view class="title_sub {{statu.code==2?'on':''}}" data-statu="2" bindtap="changeLoginType">注册</view>
+  </view>
+  <view class="title abs" wx:if="{{statu.code==3}}">
+    <view>忘记密码</view>
+  </view>
+</view>
+
+<view class="mycontainer">
+
+  <!-- <view class="title">
+    {{statu.title}}
+  </view> -->
+  <view class="block">
+    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" />
+  </view>
+
+  <!-- 验证码 -->
+  <view wx:if="{{statu.code != 0}}" class="block code">
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" />
+    <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}'>
+      {{text}}
+    </button>
+  </view>
+
+  <view wx:if="{{statu.code!=1}}" class="block">
+    <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.ph_user2}}" placeholder-style="color:#ddd;" bindinput="pwdInput" />
+  </view>
+
+  <view class="smallblock clear">
+    <view data-statu="3" class="smallblock-sign fr" bindtap="changeLoginType">忘记密码?</view>
+  </view>
+
+  <!-- 确定按钮 -->
+  <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
+
+  <view wx:if="{{submit_disabled}}" class="submit">{{statu.confirm_text}}</view>
+
+  <!-- 快速登录 -->
+  <view class="line">
+    <view class="line-border"></view>
+    <view class="line-text" style="margin-left:30rpx;">其他登陆方式</view>
+    <view class="line-border" style="margin-left:30rpx;"></view>
+  </view>
+
+  <!-- 快速登录 -->
+  <view class="fastlogin">
+    <view bindtap="wxLogin" class='tac'>
+    <button open-type="getUserInfo" bindgetuserinfo="wxLogin" style='background:#fff'>
+    <image src="/images/weixin@3x.png"  style='width:50%' mode="widthFix"></image>
+    </button>
+      
+    </view>
+  </view>
+</view>

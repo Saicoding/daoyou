@@ -1,0 +1,30 @@
+<image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
+
+  <view wx:if="{{loaded}}" class="content">
+    <view wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
+      <!-- 一项 -->
+      <view class="block">
+        <image data-title="{{video.title}}" data-img="{{video.img}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="img" src="{{video.img}}" mode="aspectFit"></image>
+        <view class="right-block">
+          <!-- 标题 -->
+          <view data-title="{{video.title}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="title">{{video.title}}</view>
+          <!-- 热度 -->
+          <view class="hot">
+            <view class="in-line">
+               基础
+            </view>
+            <view class="in-line2">
+               提升
+            </view>
+          </view>
+          <!-- 滑块 -->
+          <view class="slider-block">
+            <view class="slider">
+              <slider disabled activeColor="#0197f6" block-color="white" block-size="0" value="{{video.jindu}}"></slider>
+            </view>
+            <view class="slider-text">{{video.jindu}}%</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>

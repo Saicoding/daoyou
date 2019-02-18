@@ -1,0 +1,46 @@
+<!--pages/index/navaigation/navigation.wxml-->
+<view class="container" style="padding-top:{{statusBarHeight+10}}rpx">
+  <view class="back" hover-class='select1' hover-stay-time='500' bindtap="back" style="top:{{statusBarHeight+10}}rpx">
+    <image class="back-icon" src="/images/back.png"></image>
+  </view>
+
+  <view class="title1" style="margin-top:{{statusBarHeight+50}}rpx">实时考讯</view>
+  <view class="title2">导游要想考得好，关注时讯少不了。</view>
+
+  <view class="content">
+    <view wx:for="{{infos}}" wx:for-item="info" wx:key="i">
+      <view class="item">
+        <view class="item-line1">
+          <image class="item-line1-icon" src="{{icons[index]}}"></image>
+          <view class="item-line-text wp">{{info.title}}</view>
+        </view>
+        <view class="item-line2 wp" style="border-left:{{index == infos.length-1?'none':'4rpx solid #eaeaea;'}}">
+          {{info.content}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+   <!-- 最下面的目录 -->
+  <view class="bottom">
+    <!-- 第一行 -->
+    <view class="bottom-line">
+      <view wx:for="{{catalogs1}}" wx:for-item= "catalog" wx:key = "c">
+        <view data-index="{{index}}" class="bottom-line-item" bindtap="changeCatalog" style="background:{{currentIndex == index?' rgba(0, 0, 0, 0.1)':'white'}}" >
+          <image class="bottom-line-item-icon" src="{{cataLogIcons[index]}}"></image>
+          <view class="bottom-line-item-text">{{catalog}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 第二行 -->
+    <view class="bottom-line" style= "padding-bottom:30rpx;">
+      <view wx:for="{{catalogs2}}" wx:for-item= "catalog" wx:key = "c">
+        <view data-index="{{index+4}}" class="bottom-line-item" bindtap="changeCatalog" style="background:{{currentIndex == index+4?' rgba(0, 0, 0, 0.1)':'white'}}" >
+          <image class="bottom-line-item-icon" src="{{cataLogIcons[index+4]}}"></image>
+          <view class="bottom-line-item-text">{{catalog}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

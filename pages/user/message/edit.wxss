@@ -1,0 +1,5 @@
+.block-input {
+  height: 90rpx; line-height: 90px; border-radius: 4px; text-align: center;
+  font-size: 30rpx; border: 1px #eee solid; width:90%; margin: 0 auto;
+}
+.submit{display:block; color:#fff; width:90%; margin:30px auto; text-align:center; height:90rpx; line-height:90rpx; border-radius:8rpx; font-size:30rpx; background: -moz-linear-gradient(left, #11d66d, #53e4a9);background: -webkit-linear-gradient(left, #11d66d, #53e4a9);background: -o-linear-gradient(left, #11d66d, #53e4a9); }

@@ -1,0 +1,10 @@
+<!--pages/user/degree/degree.wxml-->
+<view class='rel'>
+<image src='../../../images/user/youhuiquanbeijing.png' style='width:100%;' mode='widthFix'></image>
+<view class='abs' style='top:12%; left:4%; width:92%'>
+<view><text style='font-size:30px;font-weight: bold'>100</text><text class='f16'> 元</text> (解锁题库赠送)</view>
+<view>有效期：2019.5.28-2019.10.01</view>
+<view class='abs' style='top:40rpx; right:0;'>去使用 ></view>
+</view>
+<view class='abs' style='bottom:6px; left:4%; color:#222'>[全陪学习计划]课程套餐专用券</view>
+</view>

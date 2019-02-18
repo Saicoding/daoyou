@@ -1,0 +1,108 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 最上面的自定义标题栏 -->
+  <view class="up">
+    <!-- 扫描图标 -->
+    <image class="up-scan" src="/images/index/scan.png" style="margin-top:{{statusBarHeight+25}}rpx;"></image>
+    <!-- 轮播图 -->
+    <swiper indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
+      <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
+        <swiper-item>
+          <image src="{{img}}" class="slide-image" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <!-- 中间个人信息部分 -->
+  <view class="info">
+    <!-- 个人信息最上面部分 -->
+    <view class="info-up">
+      <!-- 个人信息的图像 -->
+      <image class="info-up-avatar" src="{{user.Pic}}"></image>
+
+      <!-- 个人信息最上面的中间部分 -->
+      <view class="info-up-mid">
+        <!-- 名字 -->
+        <view class="info-up-name">{{user.Nickname}}</view>
+        <!-- 是否加入计划 -->
+        <view class="info-up-jihua">
+          <image class="info-up-jihua-icon" src="/images/index/vip.png"></image>
+          <view class="info-up-jihua-text">你已加入学习计划</view>
+        </view>
+      </view>
+      <!-- 日期图片 -->
+      <view class="info-up-date">30</view>
+    </view>
+
+    <!-- 个人信息下面部分 -->
+    <view class="info-down">
+      <view class="info-down-item">
+        <image class="info-down-item-icon" src="/images/index/yishuati.png"></image>
+        <view class="info-down-item-mid">
+          <view class="info-down-item-num">10</view>
+          <view class="info-down-item-midtext">已刷题</view>
+        </view>
+        <view class="info-down-item-text">道</view>
+      </view>
+      <view class="info-down-item">
+        <image class="info-down-item-icon" src="/images/index/yikanke.png"></image>
+        <view class="info-down-item-mid">
+          <view class="info-down-item-num">0</view>
+          <view class="info-down-item-midtext">已看课</view>
+        </view>
+
+        <view class="info-down-item-text">节</view>
+      </view>
+      <view class="info-down-item">
+        <image class="info-down-item-icon" src="/images/index/yixuexi.png"></image>
+        <view class="info-down-item-mid">
+          <view class="info-down-item-num">0</view>
+          <view class="info-down-item-midtext">已学习</view>
+        </view>
+        <view class="info-down-item-text">天</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 刷题 & 看课 -->
+  <view class="mid">
+    <view class="mid-item">
+      <view class="mid-item-image icon1">继续刷题</view>
+      <view class="mid-item-title">概述</view>
+      <image class="mid-item-bottom" src="/images/index/shuati.png"></image>
+    </view>
+    <view class="mid-item">
+      <view class="mid-item-image icon2">继续看课</view>
+      <view class="mid-item-title">暂无观看记录</view>
+
+      <image class="mid-item-bottom" src="/images/index/kanke.png"></image>
+    </view>
+  </view>
+
+  <!-- 最下面的目录 -->
+  <view class="bottom">
+    <!-- 第一行 -->
+    <view class="bottom-line">
+      <view wx:for="{{catalogs1}}" wx:for-item= "catalog" wx:key = "c">
+        <view data-index="{{index}}" class="bottom-line-item" bindtap="GOpage" hover-class='select1' hover-stay-time='500'>
+          <image class="bottom-line-item-icon" src="{{icons[index]}}"></image>
+          <view class="bottom-line-item-text">{{catalog}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 第二行 -->
+    <view class="bottom-line">
+      <view wx:for="{{catalogs2}}" wx:for-item= "catalog" wx:key = "c">
+        <view data-index="{{index+4}}" class="bottom-line-item" bindtap="GOpage" hover-class='select1' hover-stay-time='500'>
+          <image class="bottom-line-item-icon" src="{{icons[index+4]}}"></image>
+          <view class="bottom-line-item-text">{{catalog}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 弹窗 -->
+<bindPhoneModel id="bindPhoneModel"></bindPhoneModel>

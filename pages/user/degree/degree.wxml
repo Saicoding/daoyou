@@ -1,0 +1,29 @@
+<view class="mycontainer">
+  <view class="up rel">
+    <image class="up-backimg1" src="/images/background.jpg"></image>
+
+    <view class="pic-container">
+
+      <image class="pic" src="/images/avatar.png" mode="aspectFit"></image>
+      <view>我的总掌握度：
+        <text class='fr f16'>30%</text>
+      </view>
+      <progress percent="40" stroke-width="6" border-radius="4" />
+    </view>
+
+
+  </view>
+  <view wx:if="{{loaded}}" class='tac' style='line-height: 60rpx;'>
+    <view class='f18'>能力图谱</view>
+    <view class='hui f12'>注：答过得题和已掌握的题都记为已掌握，仅供参考。</view>
+    <view class='clear'></view>
+  </view>
+
+  <view wx:if="{{loaded}}" class='radarContainer'>
+
+    <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
+  </view>
+  <view wx:if="{{!loaded}}">
+    <image class="loading-img" src="/images/timg.gif" mode="aspectFit" style="margin-top:100rpx;"></image>
+  </view>
+</view>

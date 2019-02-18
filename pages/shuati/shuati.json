@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "goAnswerModel":"/components/goAnswerModel/goAnswerModel"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false
+}

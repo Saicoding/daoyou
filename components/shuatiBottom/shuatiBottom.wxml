@@ -1,0 +1,22 @@
+<!--components/shuatiBottom/shuatiBottom.wxml-->
+<view class = "container">
+  <view class="bottom-block" bindtap="_toogleMark" style="margin-left:0rpx;">
+    <image src="{{isMark ==0?'/images/shoucang.png':'/images/shoucang1.png'}}" mod="aspectFit" class="bottom-img"></image>
+    <view class="bottom-text" style="color:#c3c3c3;font-size:30rpx;">收藏</view>
+  </view>
+
+  <view class="bottom-block" bindtap="_note">
+    <image src="/images/biji.png" mod="aspectFit" class="bottom-img"></image>
+    <view class="bottom-text" style="color:#c3c3c3;font-size:30rpx;">笔记</view>
+  </view>
+
+  <view class="bottom-block" bindtap = "_jiaocheng">
+    <image src="/images/jiaocheng.png" mod="aspectFit" class="bottom-img"></image>
+    <view class="bottom-text" style="color:#c3c3c3;font-size:30rpx;">教程</view>
+  </view>
+
+  <view class="bottom-block" bindtap="_toggleMarkAnswer" >
+    <image src="/images/datiban.png" mod="aspectFit" class="bottom-img"></image>
+    <view class="bottom-text" style = "width:120rpx;">{{50}}/{{300}}</view>
+  </view>
+</view>

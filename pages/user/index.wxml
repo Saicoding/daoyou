@@ -1,0 +1,96 @@
+<view class="body-container">
+  <!-- 最上面 -->
+  <view class="up">
+    <view class="nickname">
+      <view>{{user.username}}</view>
+      <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
+    </view>
+    <view class="nickname2">
+      <view class='fr' style='height: 150rpx;line-height: 150rpx; color:#fff;'>></view>
+      <image class="pic fr" src="{{user.Pic}}" mode="aspectFit"></image>
+    </view>
+    <view class='clear'></view>
+  </view>
+  <view class='sankuai'>
+    <view class='sub'>
+    <navigator url='course/list'>
+    <image src='../../images/user/wodekcheng@3x.png' mode='aspectFit'></image>
+    <view>我的课程</view>
+    </navigator>
+    </view>
+    <view class='sub'>
+    <navigator>
+    <image src='../../images/user/zhuanqin@3x.png' mode='aspectFit'></image>
+    <view>边学边赚</view>
+    </navigator>
+    </view>
+    <view class='sub'>
+    <navigator>
+    <image src='../../images/user/zhangwo@3x.png' mode='aspectFit'></image>
+    <view>掌握情况</view>
+    </navigator>
+    </view>
+    <view class='clear'></view>
+  </view>
+  <view class="mycontainer">
+    <view class="line">
+      <view class="block">
+        <navigator>
+        <view class="mytext fl">
+          账户余额
+        </view>
+        <view class='fr hui'>></view>
+        <view class='fr hong'>5962.00元</view>
+        </navigator>
+      </view>
+    </view>
+
+
+    <view class="line">
+      <view class="block">
+        <navigator>
+        <view class="mytext fl">
+          我的消息
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hong fr'>0条</view>
+        </navigator>
+      </view>
+    </view>
+    <view class="line">
+      <view class="block">
+        <navigator>
+        <view class="mytext fl">
+          我的优惠券
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>100元</view>
+        </navigator>
+      </view>
+    </view>
+    
+    <view class="line">
+      <view class="block">
+        <button open-type="contact">
+        <view class="mytext fl">
+          在线咨询
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>周一至周六 09：00~17：30</view>
+        </button>
+      </view>
+    </view>
+    <view class="line">
+      <view class="block" bindtap='calling' data-tel='4006456114'>
+       
+        <view class="mytext fl">
+          客服热线
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>周一至周六 09：00~17：30</view>
+       
+      </view>
+    </view>
+    
+  </view>
+</view>

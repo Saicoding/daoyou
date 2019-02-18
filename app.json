@@ -1,0 +1,69 @@
+{
+  "pages": [
+    "pages/user/index",
+    "pages/index/index",
+    "pages/user/message/edit",
+    "pages/user/message/headimg/weCropper",
+    "pages/user/message/index",
+    "pages/user/degree/degree",
+    "pages/user/coupon/coupon",
+
+    "pages/shuati/shuati",
+    
+
+    "pages/user/course/list",
+    
+    "pages/login/login",
+    "pages/logs/logs",
+    "pages/learn/learn",
+    "pages/mine/mine",
+    "pages/index/navigation/navigation",
+    "pages/user/news/news",
+    "pages/shuati/zuoti/zuoti"
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#32d584",
+    "navigationBarTitleText": "导游考试通",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#32d584",
+    "color": "#333",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "selectedColor": "#32d584",
+        "iconPath": "/images/bars/home1.png",
+        "selectedIconPath": "/images/bars/home.png",
+        "color": "#333",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/shuati/shuati",
+        "selectedColor": "#32d584",
+        "iconPath": "/images/bars/pen1.png",
+        "selectedIconPath": "/images/bars/pen.png",
+        "color": "#333",
+        "text": "刷题"
+      },
+      {
+        "pagePath": "pages/learn/learn",
+        "selectedColor": "#32d584",
+        "iconPath": "/images/bars/video1.png",
+        "selectedIconPath": "/images/bars/video.png",
+        "color": "#333",
+        "text": "学习"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "iconPath": "/images/bars/mine1.png",
+        "selectedIconPath": "/images/bars/mine.png",
+        "selectedColor": "#32d584",
+        "color": "#333",
+        "text": "我的"
+      }
+    ]
+  }
+}

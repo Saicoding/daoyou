@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "bindPhoneModel":"/components/bindPhoneModel/bindPhoneModel"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false
+}

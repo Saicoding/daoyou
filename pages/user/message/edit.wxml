@@ -1,0 +1,8 @@
+
+<view class='f16 tac' style='line-height: 80px;'>{{statu.title}}</view>
+<view class="block">
+  <input value="{{Text}}" type="password" class="block-input" placeholder="{{statu.moren}}" bindinput="pwdInput" />
+</view>
+
+<!-- 确定按钮 -->
+<button class='submit' bindtap='submit'>确定</button>

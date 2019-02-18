@@ -1,0 +1,2 @@
+.rel {width:92%; margin: 16px auto}
+.rel view,.rel text{ font-size: 26rpx; color: #fff; line-height: 64rpx; letter-spacing:1px; }

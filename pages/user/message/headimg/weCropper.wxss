@@ -1,0 +1,12 @@
+.croper-wrapper{
+    margin-top:80px;
+    position: relative;
+}
+.cropper{
+    background-color: #fff;
+    z-index: 1;
+    margin: auto;
+}
+.btn {display:block; color:#fff; width:30%;  text-align:center; height:80rpx; line-height:80rpx; border-radius:8rpx; font-size:28rpx; background: -moz-linear-gradient(left, #11d66d, #53e4a9);background: -webkit-linear-gradient(left, #11d66d, #53e4a9);background: -o-linear-gradient(left, #11d66d, #53e4a9); position: fixed; bottom: 2%; left: 2%}
+.btn2 {display:block; color:#fff; width:30%;  text-align:center; height:80rpx; line-height:80rpx; border-radius:8rpx; font-size:28rpx; background: -moz-linear-gradient(left, #f70, #f80);background: -webkit-linear-gradient(left, #f70, #f80);background: -o-linear-gradient(left,#f70, #f80); position: fixed; bottom: 2%; right: 2%;}
+

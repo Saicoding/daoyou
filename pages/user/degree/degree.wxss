@@ -1,0 +1,112 @@
+
+.mycontainer {
+  
+}
+
+.up {
+  
+  width: 100%; margin-bottom: 40rpx; 
+  align-items: center;
+  z-index: 0;
+  padding-bottom: 18px
+}
+
+.pic-container {
+  position: absolute; bottom:0px; left: 5%;
+  width: 82%; padding: 0 4%;
+  border-radius: 16rpx;
+  background: #fff; line-height: 30px;-webkit-box-shadow: 0 0 8px 0px #47f3a3;box-shadow: 0 0 8px 0px #47f3a3;
+}
+.pic-container view {position: relative; top: -60rpx; font-size: 26rpx;}
+.pic-container progress {position: relative; top: -40rpx;}
+.up-backimg1 {
+    width: 100%; height: 400rpx;
+}
+
+.up-backimg2 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 20rpx;
+    z-index: 10000;
+}
+
+.pic {
+  width: 160rpx;
+  height: 160rpx; border: 3px #eee solid; background: #fff;
+  border-radius: 50%; display: block;
+  margin: 0 auto; position: relative; top: -80rpx
+}
+
+.nickname {
+  font-size: 50rpx;
+  width: 100%;
+  text-align: center;
+  margin-top: 25rpx;
+  letter-spacing: 8rpx;
+}
+
+.rate {
+  font-size: 35rpx;
+  width: 100%;
+  text-align: center;
+  margin-top: 50rpx;
+  letter-spacing: 4rpx;
+}
+
+.down {
+}
+
+.radarContainer {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top:10rpx;
+}
+
+.radarCanvas {
+  clear: both;
+  width: 700rpx;
+  height: 600rpx;
+  margin: 0rpx auto;
+}
+
+.loading-img{
+  display: block;
+  width: 118rpx;
+  height:150rpx;
+  margin:300rpx auto;
+}
+
+.time-icon,.time-text{
+  display: float;
+  float:left;
+}
+
+.changeType{
+  width:100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 30rpx;
+  padding-right: 20rpx;
+  border-bottom: 1px #cecece solid;
+  box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
+}
+
+.time-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:30rpx;
+  margin-left:25rpx;
+}
+
+.tui-picker-detail{
+  margin-left:90rpx;
+  line-height: 100rpx;
+}
+
+

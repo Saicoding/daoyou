@@ -1,0 +1,74 @@
+<view class="mycontainer">
+
+
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          头像
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>
+          <image class="pic" src="/images/avatar.png" mode="aspectFit"></image>
+        </view>
+      </navigator>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          昵称
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>臭不要脸的管子</view>
+      </navigator>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          账号
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'></view>
+      </navigator>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          资料邮寄地址
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'></view>
+      </navigator>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          修改登陆密码
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'></view>
+      </navigator>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+      <navigator>
+        <view class="mytext fl">
+          绑定手机
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hui fr'>13312345678</view>
+      </navigator>
+    </view>
+  </view>
+  <button bindtap='logout' class='btn'>退出当前账号</button>
+
+</view>
