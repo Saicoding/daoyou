@@ -5,6 +5,8 @@
     "markAnswer": "/components/markAnswer/markAnswer",
     "jiexi": "/components/jiexi/jiexi",
     "errorRecovery": "/components/errorRecovery/errorRecovery",
-    "shuatiBottom":"/components/shuatiBottom/shuatiBottom"
-  }
+    "shuatiBottom":"/components/shuatiBottom/shuatiBottom",
+    "tongji":"/components/tongji/tongji"
+  },
+  "navigationStyle": "custom"
 }

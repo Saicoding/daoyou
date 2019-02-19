@@ -168,14 +168,17 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.errorRecovery = this.selectComponent("#errorRecovery");
+    this.tongji = this.selectComponent('#tongji');
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
+        let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
-          windowHeight: windowHeight
+          windowHeight: windowHeight,
+          statusBarHeight: statusBarHeight
         })
       }
     });
@@ -390,9 +393,21 @@ Page({
    * 生命周期事件
    */
   onUnload:function(e){
-    wx.navigateTo({
-      url: '/pages/shuati/tongji/tongji',
-    })
-  }
+    this.tongji.showDialog();
+  },
 
+  /**
+   * 点击返回按钮，这时弹出统计页面model
+   */
+  back:function(){
+    console.log('ok')
+    this.tongji.showDialog();
+  },
+
+  /**
+   * 模板点击返回按钮
+   */
+  _toBack:function(){
+    wx.navigateBack({    })
+  }
 })

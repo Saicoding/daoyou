@@ -1,2 +1,49 @@
-<!--pages/learn/learn.wxml-->
-<text>pages/learn/learn.wxml</text>
+<!-- 轮播图 -->
+<swiper indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300">
+  <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
+    <swiper-item>
+      <image src="{{img}}" class="slide-image" mode='widthFix' />
+    </swiper-item>
+  </block>
+</swiper>
+
+<scroll-view scroll-x class="bars {{className?'fixed':''}}">
+  <view class="bars-huodong {{types==0?'on':''}}" bindtap='getList'>笔试</view>
+  <view class="bars-huodong {{types==1?'on':''}}" bindtap='getList'>面试</view>
+  <view class="bars-huodong {{types==2?'on':''}}" bindtap='getList'>讲座</view>
+  <view class="bars-huodong {{types==3?'on':''}}" bindtap='getList'>导游词</view>
+
+</scroll-view>
+
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+
+<view wx:if="{{loaded}}" class="content">
+  <view wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
+    <!-- 一项 -->
+    <view class="block">
+      <image src="/images/course/218111057.jpg" data-title="{{video.title}}" data-img="{{video.img}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="img" mode='widthFix' />
+
+      <view class="right-block">
+        <!-- 标题 -->
+        <view data-title="{{video.title}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="title">{{video.title}}</view>
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' src="/images/course/jichu@2x.png" mode='widthFix'></image>
+        <view class='clear'></view>
+        <!-- 热度 -->
+        <view class="hot">
+          <view class="in-line">
+            <image class="hot-img" src="/images/course/renshu@2x.png" mode="aspectFit"></image>
+            <view class="hot-text">{{video.videoNums}}</view>
+          </view>
+          <view class="in-line">
+            <image class="hot-img" src="/images/course/HomeExam_Kemu2_VideoTime_17x17_@2x.png" mode="aspectFit"></image>
+            <view class="hot-text">{{video.viewNums}}</view>
+          </view>
+        </view>
+        
+      </view>
+      <view class='clear'></view>
+
+
+    </view>
+  </view>
+</view>

@@ -1,6 +1,5 @@
 {
   "pages": [
-        "pages/shuati/tongji/tongji",
     "pages/user/index",
     "pages/index/index",
     "pages/user/message/edit",
@@ -12,8 +11,6 @@
     "pages/user/course/list",
     "pages/login/login",
     "pages/logs/logs",
-    "pages/learn/learn",
-    "pages/mine/mine",
     "pages/index/navigation/navigation",
     "pages/user/news/news",
     "pages/shuati/zuoti/zuoti"

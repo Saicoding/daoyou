@@ -18,14 +18,14 @@
     <view>我的课程</view>
     </navigator>
     </view>
-    <view class='sub'>
-    <navigator>
+    <view class='sub' >
+    <navigator url="learn/learn">
     <image src='../../images/user/zhuanqin@3x.png' mode='aspectFit'></image>
     <view>边学边赚</view>
     </navigator>
     </view>
-    <view class='sub'>
-    <navigator>
+    <view class='sub' >
+    <navigator url="degree/degree">
     <image src='../../images/user/zhangwo@3x.png' mode='aspectFit'></image>
     <view>掌握情况</view>
     </navigator>
@@ -48,7 +48,7 @@
 
     <view class="line">
       <view class="block">
-        <navigator>
+        <navigator url='news/news'>
         <view class="mytext fl">
           我的消息
         </view>
@@ -59,7 +59,7 @@
     </view>
     <view class="line">
       <view class="block">
-        <navigator>
+        <navigator url="coupon/coupon">
         <view class="mytext fl">
           我的优惠券
         </view>

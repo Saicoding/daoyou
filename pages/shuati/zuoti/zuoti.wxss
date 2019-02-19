@@ -4,6 +4,35 @@
   background: #f4f7f9;
 }
 
+.container1 {
+  position: fixed;
+  background: #32d584;
+  width: 100%;
+  z-index: 101;
+  top:0rpx;
+  height:80rpx;
+}
+
+.back {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.title {
+  width: 600rpx;
+  font-size: 35rpx;
+  height: 80rpx;
+  line-height: 75rpx;
+  color: white;
+}
+
 .swiper {
   width: 100%;
   height: 100%;
