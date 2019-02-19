@@ -8,6 +8,7 @@ Page({
    */
   data: {
     shitiArray: [
+
       {
         A: "第一产业",
         B: "第二产业",

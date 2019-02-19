@@ -23,9 +23,16 @@
               <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
               <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看解析</view>
             </view>
+
+            <!-- 面试题 -->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==3}}">
+              <mianshi shiti="{{shiti}}" ></mianshi>
+              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看答案</view>
+            </view>
+
           </view>
           <!-- 解析 -->
-          <jiexi answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo = "_jiesuo"></jiexi>
+          <jiexi answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
 
           <!-- 笔记 -->
           <view wx:if="{{noteShow}}" class="note">
@@ -47,7 +54,7 @@
 </markAnswer>
 
 <!-- 底部正确错误个数统计条 -->
-<shuatiBottom id="shuatiBottom" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindnote="_note" bindjiaocheng = "_jiaocheng">
+<shuatiBottom id="shuatiBottom" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindnote="_note" bindjiaocheng="_jiaocheng">
 </shuatiBottom>
 
 <!-- 纠错板 -->
@@ -64,10 +71,10 @@
   </view>
   <textarea class="biji-textarea" bindinput="textareaInput" placeholder-style='font-size:25rpx;' placeholder='请输入内容...' cursor-spacing="120rpx" fixed="{{true}}" focus="{{focus}}" auto-focus="{{true}}" maxlength="140" bindblur="blur"></textarea>
 </view>
-<view wx:if="{{showbiji}}" class="model" ></view>
+<view wx:if="{{showbiji}}" class="model"></view>
 
 <!-- 教程 -->
-<jiaocheng id ="jiaocheng"></jiaocheng>
+<jiaocheng id="jiaocheng"></jiaocheng>
 
 <!-- 解锁 -->
-<jiesuo id ="jiesuo"></jiesuo>
+<jiesuo id="jiesuo"></jiesuo>

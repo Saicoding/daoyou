@@ -598,8 +598,8 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
   let srcs = shiti.srcs; //选项前的图标对象
   let flag = 0; //初始化正确还是错误
 
-  switch (shiti.tx) {
-    case "单选题":
+  switch (shiti.TX) {
+    case 1:
       srcs[shiti.answer] = "/images/right_Single.png" //将正确答案的图标变为正确图标
       //先判断是否正确
       if (done_daan != shiti.answer) {
@@ -613,7 +613,7 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
       if (!ifSubmit) shiti.done_daan = done_daan; //已经做的选择
       shiti.isAnswer = true;
       break;
-    case "多选题":
+    case 2:
       let answers = shiti.answer.replace(/,|\s+/g, "");
       answers = answers.split(""); //将“ABD” 这种字符串转为字符数组
       if (!ifSubmit) shiti.done_daan = done_daan; //已经做的选择
@@ -638,6 +638,10 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
         flag = 1;
       }
       shiti.isAnswer = true;
+      break;
+    
+    case 3:
+      shiti.isAnswer =true;
       break;
   }
   shiti.flag = flag; //答案是否正确

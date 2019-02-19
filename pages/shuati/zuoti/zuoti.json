@@ -8,7 +8,8 @@
     "shuatiBottom":"/components/shuatiBottom/shuatiBottom",
     "tongji":"/components/tongji/tongji",
     "jiaocheng": "/components/jiaocheng/jiaocheng",
-    "jiesuo": "/components/jiesuo/jiesuo"
+    "jiesuo": "/components/jiesuo/jiesuo",
+    "mianshi":"/components/mianshi/mianshi"
   },
   "navigationStyle": "custom"
 }

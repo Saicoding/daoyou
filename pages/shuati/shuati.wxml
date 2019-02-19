@@ -32,7 +32,7 @@
       <view class='t_right'>
         <view class='ti_z3' bindtap="GOAnswerWrong">
           <image class="ti_img" src="/images/shua-3.png" mode="aspectFit"></image>
-          <view class='t_text'>收藏·排除</view>
+          <view class='t_text'>收藏试题</view>
         </view>
         <view class='ti_z4'>
           <image class="ti_img" data-ti="yati" bindtap="GOModelReal" src="/images/shua-4.png" mode="aspectFit"></image>
