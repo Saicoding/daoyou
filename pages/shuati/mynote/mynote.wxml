@@ -1,0 +1,11 @@
+<!--pages/shuati/mynote/mynote.wxml-->
+<view class ="container">
+  <view class ="up">共<span style = "color:#575061;font-size:40rpx;">3</span>条笔记</view>
+
+  <view class ="content">
+    <view class ="note" wx:for = "{{notes}}" wx:for-item = "note" wx:key = "n" bindtap='GOzuoti'>
+      <view class ="note-text">{{note.text}}</view>
+      <view class ="note-num">{{note.num}}</view>
+    </view>
+  </view>
+</view>

@@ -1,6 +1,8 @@
 {
   "pages": [
-        "pages/index/index",
+        "pages/shuati/shuati",
+    "pages/shuati/mynote/mynote",
+    "pages/index/index",
     "pages/user/index",
     "pages/learn/learn",
     "pages/user/message/edit",
@@ -8,7 +10,6 @@
     "pages/user/message/index",
     "pages/user/degree/degree",
     "pages/user/coupon/coupon",
-    "pages/shuati/shuati",
     "pages/user/course/list",
     "pages/login/login",
     "pages/logs/logs",

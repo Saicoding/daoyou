@@ -213,5 +213,14 @@ Page({
     wx.navigateTo({
       url: '/pages/shuati/zuoti/zuoti?currentSelectIndex=' + currentSelectIndex + "&selected=" + selected + "&title=" + title,
     })
+  },
+
+  /**
+   * 导航到笔记页面
+   */
+  GOnote:function(){
+    wx.navigateTo({
+      url: '/pages/shuati/mynote/mynote',
+    })
   }
 })

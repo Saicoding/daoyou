@@ -9,7 +9,7 @@
     <!-- 上面部分 -->
     <view class='top'>
       <view class='t_left'>
-        <view class='ti_z1' bindtap="GOMarkExercise">
+        <view class='ti_z1' bindtap="GOnote" hover-class='select1' hover-stay-time='500'>
           <image class="ti_img" src="/images/shua-1.png" mode="aspectFit"></image>
           <view class='t_text'>我的笔记</view>
         </view>

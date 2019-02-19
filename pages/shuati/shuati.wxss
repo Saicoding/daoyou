@@ -306,4 +306,8 @@ page {
   line-height: 60rpx;
 }
 
+.select1{
+  background: rgba(34, 34, 34,0.05);
+}
+
 
