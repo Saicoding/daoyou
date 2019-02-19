@@ -259,13 +259,13 @@ page {
 }
 
 .ti-block-line1-title {
-  width: 400rpx;
+  width: 300rpx;
   height: 60rpx;
   font-size:25rpx;
 }
 
 .ti-block-line1-num {
-  width: 100rpx;
+  width: 200rpx;
   height: 60rpx;
   text-align: right;
 }
@@ -276,7 +276,7 @@ page {
 }
 
 .ti-block-line2 {
-  width: 460rpx;
+  width: 490rpx;
   background: #e5e5e5;
 }
 

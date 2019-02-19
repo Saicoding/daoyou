@@ -1,6 +1,7 @@
 {
   "pages": [
-        "pages/shuati/shuati",
+    "pages/shuati/shuati",
+    "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",
     "pages/index/index",
     "pages/user/index",

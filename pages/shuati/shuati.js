@@ -222,5 +222,14 @@ Page({
     wx.navigateTo({
       url: '/pages/shuati/mynote/mynote',
     })
+  },
+
+  /**
+   * 导航到错题按钮
+   */
+  GOcuoti:function(){
+    wx.navigateTo({
+      url: '/pages/shuati/cuoti/cuoti',
+    })
   }
 })

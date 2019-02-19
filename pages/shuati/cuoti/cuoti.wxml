@@ -1,0 +1,72 @@
+<!--pages/shuati/cuoti/cuoti.wxml-->
+<view class="container">
+  <view class="up">
+    <view class="up-item">
+      <view class="up-item-num">10</view>
+      <view class="up-item-bottom">
+        <view class="up-item-bottom-circle" style = "background: radial-gradient(#f8776a,#f71e0a);"></view>
+        <view class="up-item-bottom-text">未掌握</view>
+      </view>
+    </view>
+    <view class="line"></view>
+    <view class="up-item">
+      <view class="up-item-num">23</view>
+      <view class="up-item-bottom">
+        <view class="up-item-bottom-circle" style = "background: radial-gradient(#ffd43d,#fac400);"></view>
+        <view class="up-item-bottom-text">待强化</view>
+      </view>
+    </view>
+    <view class="line"></view>
+    <view class="up-item">
+      <view class="up-item-num">88</view>
+      <view class="up-item-bottom">
+        <view class="up-item-bottom-circle" style = "background: radial-gradient(#18ce61,#00f562);"></view>
+        <view class="up-item-bottom-text">已掌握</view>
+      </view>
+    </view>
+  </view>
+  <view class ="shadow"></view>
+
+   <scroll-view scroll-y class="ti" style = "height:{{windowHeight-360}}rpx;">
+    <!-- 题-->
+    <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
+      <view class="ti-block">
+        <image data-index="{{zhangIdx}}" bindtap="toogleFolder" class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
+        <view class="ti-block-line" style="margin-left:30rpx;">
+          <view data-index="{{zhangIdx}}" class="ti-block-line1" bindtap="toogleFolder">
+            <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
+            <view class="ti-block-line1-num">{{zhangjie.num1}}/{{zhangjie.num2}}/{{zhangjie.num3}}</view>
+          </view>
+          <view class="ti-block-line2" ></view>
+        </view>
+
+        <view class="ti-block-shu"></view>
+        <image data-rightRate="{{zhangjie.rightRate}}" data-doneNum="{{zhangjie.doneNum}}" data-num = "{{zhangjie.num}}" data-title="{{zhangjie.title}}" bindtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
+      </view>
+      <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
+
+      <view wx:if="{{zhangjie.unfolding}}">
+        <view wx:for="{{zhangjie.jies}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
+          <view data-rightRate="{{jie.rightRate}}" data-doneNum="{{jie.doneNum}}" data-num = "{{jie.num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
+            <image class="jie-dot" src="/images/dot.png"></image>
+            <view class="ti-block-line" style="margin-left:40rpx;">
+              <view class="ti-block-line1">
+                <view class="ti-block-line1-title wp">{{jie.title}}</view>
+                <view class="ti-block-line1-num">{{jie.doneNum}}/{{jie.num}}</view>
+              </view>
+              <view class="ti-block-line2"></view>
+              <view class="ti-block-line3"></view>
+            </view>
+
+            <view class="ti-block-shu"></view>
+            <image class="ti-block-answer" src="/images/answer.png"></image>
+          </view>
+
+          <view wx:if="{{jieIdx != zhangjie.jies.length-1 }}" class="jie-border"></view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class ="bottom">清除全部错题</view>
+</view>

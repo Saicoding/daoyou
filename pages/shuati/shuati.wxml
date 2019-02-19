@@ -13,7 +13,7 @@
           <image class="ti_img" src="/images/shua-1.png" mode="aspectFit"></image>
           <view class='t_text'>我的笔记</view>
         </view>
-        <view class='ti_z2' data-ti="model" bindtap="GOModelReal">
+        <view class='ti_z2' bindtap="GOcuoti" hover-class='select1' hover-stay-time='500'>
           <image class="ti_img" src="/images/shua-2.png" mode="aspectFit"></image>
           <view class='t_text'>我的错题</view>
         </view>
@@ -54,8 +54,8 @@
     <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
       <view class="ti-block">
         <image data-index="{{zhangIdx}}" bindtap="toogleFolder" class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
-        <view class="ti-block-line" style="margin-left:30rpx;">
-          <view data-index="{{zhangIdx}}" class="ti-block-line1" bindtap="toogleFolder">
+        <view data-index="{{zhangIdx}}" class="ti-block-line" style="margin-left:30rpx;" bindtap="toogleFolder">
+          <view  class="ti-block-line1" >
             <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
             <view class="ti-block-line1-num">{{zhangjie.doneNum}}/{{zhangjie.num}}</view>
           </view>
