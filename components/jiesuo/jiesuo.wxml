@@ -1,0 +1,20 @@
+<!--components/Dialog/dialog.wxml-->
+<view hidden="{{!isShow}}" class="container" catchtap='stopBubbling'>
+  <view class ="up">
+    <view class ="up-text1">9块9解锁所有解析</view>
+    <view class ="up-text2">解锁后章节、模拟试卷的解析都可以看哦!</view>
+  </view>
+  <view class ="down">
+    <view class ="down-text1">随机赠送<span style = "color:red;">500~100元</span>优惠券</view>
+
+    <view class = "down-img" >
+      有效期： 三天(即日起至2018.5.31)
+    </view>
+    <view class ="down-text2">*支付后可在我的优惠劵内查看</view>
+
+    <view class ="btn">9.9元立即解锁</view>
+  </view>
+</view>
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+</view>

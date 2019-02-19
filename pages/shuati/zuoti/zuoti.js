@@ -166,10 +166,11 @@ Page({
   onReady: function() {
     let self = this;
     //获得dialog组件
-    this.markAnswer = this.selectComponent("#markAnswer");
-    this.errorRecovery = this.selectComponent("#errorRecovery");
-    this.tongji = this.selectComponent('#tongji');
-    this.jiaocheng = this.selectComponent('#jiaocheng');
+    this.markAnswer = this.selectComponent("#markAnswer");//答题板
+    this.errorRecovery = this.selectComponent("#errorRecovery");//纠错板
+    this.tongji = this.selectComponent('#tongji');//统计面板
+    this.jiaocheng = this.selectComponent('#jiaocheng');//教程板
+    this.jiesuo = this.selectComponent('#jiesuo');//解锁板
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -433,6 +434,13 @@ Page({
    */
   _jiaocheng:function(e){
     this.jiaocheng.toogleShow();
+  },
+
+  /**
+   * 点击解锁按钮
+   */
+  _jiesuo:function(e){
+    this.jiesuo.showDialog();
   },
 
   /**

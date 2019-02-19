@@ -11,8 +11,17 @@
       <view class="jiexi-top-left">答案： {{answer}}</view>
       <view class="jiexi-top-right" bindtap="_toggleErrorRecovery">题目纠错</view>
     </view>
-    <view class="jiexi-text2">
+    <view wx:if="{{buy == 1}}" class="jiexi-text2">
       <span style="color:#21c867;">宝典秘籍：</span>{{jiexi}}</view>
+    
+    <view wx:if="{{buy == 0}}" class ="suoding">
+      <image class = "suoding-icon" src = "/images/suoding.png"></image>
+      <view class ="suoding-right">
+        <view class ="suoding-right-line1">哎呦?解析不能看?</view>
+        <view class ="suoding-right-line2" bindtap = "_jiesuo" hover-class='select1' hover-stay-time='500'>立即解锁</view>
+      </view>
+
+    </view>
     <!-- 难度-->
     <view class="difficulty">
       <view class="difficulty-text">难度</view>

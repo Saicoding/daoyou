@@ -15,6 +15,10 @@ Component({
     answer: {
       type: String,
       value: ""
+    },
+    buy:{
+      type:Number,
+      value:0
     }
   },
 
@@ -22,7 +26,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+ 
   },
 
   /**
@@ -31,6 +35,13 @@ Component({
   methods: {
     _toggleErrorRecovery: function () {
       this.triggerEvent('toggleErrorRecovery')
+    },
+    
+    /**
+     * 点击解锁后
+     */
+    _jiesuo:function(){
+      this.triggerEvent('jiesuo')
     }
   }
 })

@@ -7,7 +7,8 @@
     "errorRecovery": "/components/errorRecovery/errorRecovery",
     "shuatiBottom":"/components/shuatiBottom/shuatiBottom",
     "tongji":"/components/tongji/tongji",
-    "jiaocheng": "/components/jiaocheng/jiaocheng"
+    "jiaocheng": "/components/jiaocheng/jiaocheng",
+    "jiesuo": "/components/jiesuo/jiesuo"
   },
   "navigationStyle": "custom"
 }

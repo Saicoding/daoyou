@@ -67,6 +67,43 @@
   margin-top:30rpx;
 }
 
+.suoding{
+  display: flex;
+  justify-content: space-around;
+  margin-top:40rpx;
+  margin-bottom:30rpx;
+}
+
+.suoding-icon{
+  width:130rpx;
+  height:130rpx;
+}
+
+.suoding-right{
+  width:300rpx;
+}
+
+.suoding-right-line1{
+  width:100%;
+  height:80rpx;
+  line-height:80rpx;
+  font-size:30rpx;
+  font-weight: bold;
+  text-align: center;
+}
+
+.suoding-right-line2{
+  width:170rpx;
+  height:50rpx;
+  border-radius: 50rpx;
+  line-height: 50rpx;
+  font-size:25rpx;
+  color:white;
+  text-align: center;
+  margin:0 auto;
+  background: linear-gradient(to right,#4ae534,#12d8b6);
+}
+
 .difficulty,.difficulty-text{
   display: flex;
   height:80rpx;
@@ -95,5 +132,9 @@
   color:#5cc167;
   height:80rpx;
   line-height: 80rpx;
+}
+
+.select1{
+  background: linear-gradient(to right,#8edb84,#66d8c5);
 }
 
