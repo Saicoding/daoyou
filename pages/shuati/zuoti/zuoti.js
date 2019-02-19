@@ -400,7 +400,6 @@ Page({
    * 点击返回按钮，这时弹出统计页面model
    */
   back:function(){
-    console.log('ok')
     this.tongji.showDialog();
   },
 
@@ -409,5 +408,49 @@ Page({
    */
   _toBack:function(){
     wx.navigateBack({    })
+  },
+
+  /**
+   * 点击笔记按钮
+   */
+  _note:function(){
+    let self = this;
+    this.setData({
+      showbiji:true
+    })
+
+    setTimeout(function(){
+      self.setData({
+        focus: true
+      })
+    },200)
+  },
+
+  /**
+   * 笔记输入框失去焦点
+   */
+  blur:function(){
+    this.setData({
+      showbiji: false
+    })
+  },
+
+  /**
+   * 笔记输入框输入文字
+   */
+  textareaInput:function(e){
+    let text = e.detail.value;
+    this.setData({
+      noteText:text
+    })
+  },
+
+  /**
+   * 发表笔记
+   */
+  noteFabiao:function(){
+    this.setData({
+      noteShow:true
+    })
   }
 })

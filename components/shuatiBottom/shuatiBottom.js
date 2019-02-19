@@ -34,6 +34,10 @@ Component({
 
     _toggleErrorRecovery: function () {
       this.triggerEvent('toggleErrorRecovery')
+    },
+
+    _note:function(){
+      this.triggerEvent('note');
     }
   }
 })

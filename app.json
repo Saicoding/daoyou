@@ -1,7 +1,8 @@
 {
   "pages": [
+        "pages/index/index",
     "pages/user/index",
-    "pages/index/index",
+    "pages/learn/learn",
     "pages/user/message/edit",
     "pages/user/message/headimg/weCropper",
     "pages/user/message/index",

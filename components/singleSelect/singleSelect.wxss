@@ -4,6 +4,7 @@
   width: 94%;
   margin: 0 auto;
   border-radius: 10rpx;
+  background: #f4f7f9;
 }
 
 .question {
