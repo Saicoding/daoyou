@@ -6,7 +6,7 @@ view,text,input,button,textarea,table{letter-spacing:0.6px;}
 button::after {
   border: none;
 }
-
+.b { font-weight: bold}
 .f11 {
   font-size: 22rpx !important;
 }

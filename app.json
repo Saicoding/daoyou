@@ -1,11 +1,33 @@
 {
   "pages": [
+<<<<<<< .mine
+    "pages/learn/learn",
+    "pages/learn/play",
+||||||| .r27
+<<<<<<< .mine
+    "pages/learn/play",
+=======
     "pages/shuati/shuati",
     "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",
     "pages/index/index",
     "pages/user/index",
+>>>>>>> .r34
+<<<<<<< .mine
+    "pages/shuati/tongji/tongji",
+    "pages/user/index",
+    "pages/index/index",
+||||||| .r27
     "pages/learn/learn",
+||||||| .r24
+=======
+        "pages/shuati/tongji/tongji",
+>>>>>>> .r26
+    "pages/user/index",
+    "pages/index/index",
+=======
+    "pages/learn/learn",
+>>>>>>> .r34
     "pages/user/message/edit",
     "pages/user/message/headimg/weCropper",
     "pages/user/message/index",
@@ -16,7 +38,8 @@
     "pages/logs/logs",
     "pages/index/navigation/navigation",
     "pages/user/news/news",
-    "pages/shuati/zuoti/zuoti"
+    "pages/shuati/zuoti/zuoti",
+    "pages/learn/pay"
   ],
   "window": {
     "backgroundTextStyle": "light",

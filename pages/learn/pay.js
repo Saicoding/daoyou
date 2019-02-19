@@ -1,18 +1,12 @@
-
+// pages/learn/pay.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    loaded: true,
-    isPlaying: false, //是否在播放
-    useFlux: false, //是否使用流量观看
-    isWifi: true, //默认有wifi
-    lastType: "first",
-    buy:0
-  },
 
+  },
 
   /**
    * 生命周期函数--监听页面加载

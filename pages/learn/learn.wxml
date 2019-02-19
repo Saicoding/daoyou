@@ -1,49 +1,77 @@
 <!-- 轮播图 -->
-<swiper indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300">
+<navigator url='pay' wx:if="{{barUrls.length==1}}">
+  <image src="{{barUrls}}" class="slide-image" mode='widthFix' />
+</navigator>
+<swiper wx:if="{{barUrls.length>1}}" indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300">
   <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
     <swiper-item>
-      <image src="{{img}}" class="slide-image" mode='widthFix' />
+      <navigator url='pay'>
+        <image src="{{img}}" class="slide-image" mode='widthFix' />
+      </navigator>
     </swiper-item>
   </block>
 </swiper>
 
 <scroll-view scroll-x class="bars {{className?'fixed':''}}">
-  <view class="bars-huodong {{types==0?'on':''}}" bindtap='getList'>笔试</view>
-  <view class="bars-huodong {{types==1?'on':''}}" bindtap='getList'>面试</view>
-  <view class="bars-huodong {{types==2?'on':''}}" bindtap='getList'>讲座</view>
-  <view class="bars-huodong {{types==3?'on':''}}" bindtap='getList'>导游词</view>
+  <view class="bars-huodong {{types=='笔试'?'on':''}}" data-val='笔试' bindtap='getList'>笔试</view>
+  <view class="bars-huodong {{types=='面试'?'on':''}}" data-val='面试' bindtap='getList'>面试</view>
+  <view class="bars-huodong {{types=='基础套餐'?'on':''}}" data-val='基础套餐' bindtap='getList'>基础套餐</view>
+  <view class="bars-huodong {{types=='冲刺套餐'?'on':''}}" data-val='冲刺套餐' bindtap='getList'>冲刺套餐</view>
+  <view class="bars-huodong {{types=='导考套餐'?'on':''}}" data-val='导考套餐' bindtap='getList'>导考套餐</view>
+  <view class="bars-huodong {{types=='豪华套餐'?'on':''}}" data-val='豪华套餐' bindtap='getList'>豪华套餐</view>
+  <view class="bars-huodong {{types=='导游词'?'on':''}}" data-val='导游词' bindtap='getList2'>导游词</view>
 
 </scroll-view>
 
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 
 <view wx:if="{{loaded}}" class="content">
-  <view wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
+  <view wx:if="{{!daoyouci}}" wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
     <!-- 一项 -->
     <view class="block">
-      <image src="/images/course/218111057.jpg" data-title="{{video.title}}" data-img="{{video.img}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="img" mode='widthFix' />
+      <image src="{{video.pic}}" data-title="{{video.title}}" data-img="{{video.pic}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="img" mode='widthFix' />
 
       <view class="right-block">
         <!-- 标题 -->
-        <view data-title="{{video.title}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="title">{{video.title}}</view>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' src="/images/course/jichu@2x.png" mode='widthFix'></image>
+        <view data-title="{{video.cname}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="title">{{video.cname}}</view>
+
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='基础'}}" src="/images/course/jichu@2x.png" mode='widthFix'></image>
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='提升'}}" src="/images/course/tisheng@2x.png" mode='widthFix'></image>
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='冲刺'}}" src="/images/course/chongci@2x.png" mode='widthFix'></image>
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
+        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
+
         <view class='clear'></view>
         <!-- 热度 -->
         <view class="hot">
           <view class="in-line">
             <image class="hot-img" src="/images/course/renshu@2x.png" mode="aspectFit"></image>
-            <view class="hot-text">{{video.videoNums}}</view>
+            <view class="hot-text">{{video.hot}}</view>
           </view>
           <view class="in-line">
             <image class="hot-img" src="/images/course/HomeExam_Kemu2_VideoTime_17x17_@2x.png" mode="aspectFit"></image>
-            <view class="hot-text">{{video.viewNums}}</view>
+            <view class="hot-text">{{video.course_nums}}</view>
           </view>
         </view>
-        
+
       </view>
       <view class='clear'></view>
 
 
     </view>
+  </view>
+  <view wx:if="{{daoyouci}}" style='padding:4%'>
+      <view class='title_ci'>A-F</view> 
+      <view class='diqu' wx:for="{{diqus[0]}}" wx:key="i">{{item}}</view>
+      <view class='title_ci'>H </view> 
+      <view class='diqu' wx:for="{{diqus[1]}}" wx:key="i">{{item}}</view>
+      <view class='title_ci'>Q-S </view> 
+      <view class='diqu' wx:for="{{diqus[2]}}" wx:key="i">{{item}}</view>
+      <view class='title_ci'>G </view> 
+      <view class='diqu' wx:for="{{diqus[3]}}" wx:key="i">{{item}}</view>
+      <view class='title_ci'>J-N </view> 
+      <view class='diqu' wx:for="{{diqus[4]}}" wx:key="i">{{item}}</view>
+      <view class='title_ci'>X-Z </view> 
+      <view class='diqu' wx:for="{{diqus[5]}}" wx:key="i">{{item}}</view>
   </view>
 </view>
