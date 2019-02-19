@@ -1,0 +1,29 @@
+<!--components/jiaocheng/jiaocheng.wxml-->
+<view wx:if="{{show}}" class="container" catchtap='stopBubbling'>
+  <view class="up">
+    <view style="font-size:28rpx;height:85rpx;line-height:85rpx;">对应章节</view>
+    <view>我国的宪法基本知识>宪法基本知识</view>
+  </view>
+  <video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" class="video" src="{{video}}" bindtimeupdate="timeupdate" custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}"
+    autoplay="{{false}}">
+    <view class="unBuy" wx:if="{{buy==0}}">
+      <image class="video-icon" src="/images/play-icon.png" />
+    </view>
+    <!-- <view wx:if="{{!isWifi && !useFlux && buy!=0}}" class="wifi">
+      <view class="wifi-text1">您正在使用移动网络</view>
+      <view class="wifi-text2">继续观看会耗费通用流量</view>
+      <view bindtap='continueWatch' class="wifi-button">继续观看</view>
+    </view> -->
+
+    <!-- 暂停或默认或未购买 -->
+    <view wx:if="{{!isPlaying || buy ==0}}" class="pause">
+      <image class="video-icon" src="/images/play-icon.png" />
+      <view class="pause-text">观看课程</view>
+      <view wx:if = "{{showPrompt}}" class="prompt">
+        <view class="prompt-top">提示:购买学习计划或本课程后,可直接进行观看。本视频内容为题目对应章节内容的讲解。</view>
+        <view class="hide" catchtap="closePrompt">关闭</view>
+      </view>
+    </view>
+  </video>
+</view>
+<view wx:if="{{show}}" class="model" bindtap="tapBlank"></view>

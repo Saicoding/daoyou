@@ -32,12 +32,18 @@ Component({
       this.triggerEvent('toogleMarkAnswer')
     },
 
-    _toggleErrorRecovery: function () {
-      this.triggerEvent('toggleErrorRecovery')
-    },
-
+    /**
+     *点击笔记按钮
+     */
     _note:function(){
       this.triggerEvent('note');
+    },
+
+    /**
+     * 点击教程按钮
+     */
+    _jiaocheng:function(){
+      this.triggerEvent('jiaocheng');
     }
   }
 })

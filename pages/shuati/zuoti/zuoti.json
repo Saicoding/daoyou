@@ -6,7 +6,8 @@
     "jiexi": "/components/jiexi/jiexi",
     "errorRecovery": "/components/errorRecovery/errorRecovery",
     "shuatiBottom":"/components/shuatiBottom/shuatiBottom",
-    "tongji":"/components/tongji/tongji"
+    "tongji":"/components/tongji/tongji",
+    "jiaocheng": "/components/jiaocheng/jiaocheng"
   },
   "navigationStyle": "custom"
 }
