@@ -3,10 +3,10 @@ App({
   /** 
    * 自定义post函数，返回Promise
    * +-------------------
-   * author: 武当山道士<912900700@qq.com>
+   * author: Saicoding<g6666g@163.com>
    * +-------------------
    * @param {String}      url 接口网址
-   * @param {arrayObject} data 要传的数组对象 例如: {name: '武当山道士', age: 32}
+   * @param {arrayObject} data 要传的数组对象 例如: {name: 'Saicoding', age: 32}
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
@@ -42,7 +42,7 @@ App({
           }
           let status = res.data.status;
           let message = res.data.message;
-          console.log(res)
+
           if (status == 1) { //请求成功
             resolve(res);
           } else if (status == -2) { //没有权限
@@ -73,6 +73,13 @@ App({
             wx.showToast({
               title: message,
               icon: 'none',
+              duration: 3000
+            })
+          } else{
+            console.log(res)
+            wx.showToast({
+              icon: 'none',
+              title: '异常错误',
               duration: 3000
             })
           }

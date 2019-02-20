@@ -1,0 +1,6 @@
+<!--pages/index/catalogDetail/catalogDetail.wxml-->
+<view wx:if ="{{isLoaded}}" style="padding:30rpx;">
+  <rich-text nodes="{{nodes}}"></rich-text>
+</view>
+
+<image wx:if="{{!isLoaded}}" src="/images/loading/loading.gif" class="loading-img" style="margin-top:200rpx;"></image>

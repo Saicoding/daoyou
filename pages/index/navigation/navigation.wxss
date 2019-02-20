@@ -1,5 +1,4 @@
 /* pages/index/navaigation/navigation.wxss */
-
 page {
   background: #f4f8fb;
 }
@@ -46,27 +45,29 @@ page {
 }
 
 .content {
-  width: 85%;
+  width: 690rpx;
   margin: 0 auto;
   border-radius: 15rpx;
   background: white;
-  padding: 30rpx;
+  padding: 30rpx 0rpx 30rpx 0rpx;
   box-shadow: 1rpx 1rpx 14rpx 7rpx rgba(17, 17, 17, 0.1);
   margin-top:50rpx;
 }
 
 .item {
+  padding-top:30rpx;
 }
 
 .item-line1 {
   display: flex;
+  width:100%;
   font-size: 25rpx;
 }
 
 .item-line-text {
   width:500rpx;
   height: 30rpx;
-  line-height: 28rpx;
+  line-height: 30rpx;
   font-size: 28rpx;
   margin-left: 35rpx;
 }
@@ -74,6 +75,7 @@ page {
 .item-line1-icon {
   width: 30rpx;
   height: 30rpx;
+  margin-left:30rpx;
 }
 
 .item-line2 {
@@ -83,7 +85,8 @@ page {
   line-height: 50rpx;
   padding-left: 50rpx;
   font-size: 22rpx;
-  margin-left: 14rpx;
+  margin-left: 43rpx;
+  margin-top:30rpx;
 }
 
 /* 最下面的目录 */
@@ -117,6 +120,27 @@ page {
   font-size:25rpx;
 }
 
+.hasNopage{
+  display: block;
+  width:300rpx;
+  height:300rpx;
+  margin: 0 auto;
+  margin-top:80rpx;
+}
+
+.hasNopage-text{
+  width:100%;
+  height:40rpx;
+  line-height: 20rpx;
+  font-size:25rpx;
+  color:#bdbdbd;
+  text-align: center;
+}
+
 .select1{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.select2{
   background: rgba(0, 0, 0, 0.1);
 }

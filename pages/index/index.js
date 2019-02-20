@@ -1,27 +1,52 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 
 Page({
   data: {
-    barUrls: [//轮播图
+    barUrls: [ //轮播图
       "/images/index/title.png",
       "/images/index/title.png"
     ],
 
-    catalogs1:[//首页目录名称1
-      "实时考讯",
-      "考试大纲",
-      "报名审核",
-      "疑难解答"
+    catalogs1: [ //首页目录名称1
+      {
+        name: "实时考讯",
+        id: '10004'
+      },
+      {
+        name: "考试大纲",
+        id: '10005'
+      },
+      {
+        name: "报名审核",
+        id: '10001'
+      },
+      {
+        name: "疑难解答",
+        id: '10006'
+      }
     ],
-    catalogs2: [//首页目录名称2
-      "笔试指南",
-      "面试指南",
-      "成绩领证",
-      "学习计划"
+    catalogs2: [ //首页目录名称2
+      {
+        name: "笔试指南",
+        id: '10000'
+      },
+      {
+        name: "面试指南",
+        id: '10002'
+      },
+      {
+        name: "成绩领证",
+        id: '10003'
+      },
+      {
+        name: "学习计划",
+        id: '0'
+      }
     ],
-    icons:[
+    icons: [
       "/images/index/item1.png",
       "/images/index/item2.png",
       "/images/index/item3.png",
@@ -37,7 +62,17 @@ Page({
    * 生命周期函数
    */
   onLoad: function() {
+    let self = this;
+    this.setData({ //设置第一次载入参数,用于onshow只载入一次
+      first: true
+    })
+    app.post(API_URL,"action=getIndex_AD",false,false,"","").then(res=>{
+      let banners = res.data.data;
 
+      self.setData({
+        banners: banners
+      })
+    })
   },
 
   /**
@@ -71,6 +106,11 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
+    let first = this.data.first;
+
+    this.setData({ //设置已经载入一次
+      first: false
+    })
 
     if (user) { //如果已经登录
       self.setData({
@@ -85,28 +125,54 @@ Page({
       })
     }
 
-    setTimeout(function(){
-      self.bindPhoneModel.showDialog();
-    },3000)
+    if (first) { //如果第一次载入
+
+    }
   },
 
   /**
    * 导航到页面
    */
   GOpage: function(e) {
-    let index = e.currentTarget.dataset.index;//页面标识
-   
-    wx.navigateTo({
-      url: '/pages/index/navigation/navigation?index='+index,
-    })
+    let index = e.currentTarget.dataset.index; //页面标识
+    let id = e.currentTarget.dataset.id
+
+    if(index <= 6){//点击除学习计划外
+      wx.navigateTo({
+        url: '/pages/index/navigation/navigation?index=' + index,
+      })
+    }else if(index == 7 ){//点击学习计划
+      console.log('点击了学习计划')
+    }
   },
 
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  /**
+   * 调起客户端扫码界面进行扫码
+   */
+  scan:function(){
+    wx.scanCode({
+      success:function(e){
+        let code = e.result.substring(6);
+        let user = wx.getStorageSync('user');
+        if(!user){
+          wx.showToast({
+            title: '',
+            icon:'none',
+            duration:'您还没有登录'
+          })
+        }
+        
+        app.post(API_URL,"action=APPLogin&zcode="+zcode+"&token="+token+"&t="+code,false,false,"","").then(res=>{
+
+        })
+      },
+      fail:function(){
+        wx.showToast({
+          icon:'none',
+          title: '扫描失败',
+          duration:3000
+        })
+      }
     })
   }
 })

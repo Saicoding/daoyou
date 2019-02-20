@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login/login",
     "pages/learn/learn",
     "pages/learn/play",
     "pages/shuati/shuati",
@@ -14,12 +15,12 @@
     "pages/user/degree/degree",
     "pages/user/coupon/coupon",
     "pages/user/course/list",
-    "pages/login/login",
     "pages/logs/logs",
     "pages/index/navigation/navigation",
     "pages/user/news/news",
     "pages/shuati/zuoti/zuoti",
-    "pages/learn/pay"
+    "pages/learn/pay",
+    "pages/index/catalogDetail/catalogDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

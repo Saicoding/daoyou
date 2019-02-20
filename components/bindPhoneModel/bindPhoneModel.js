@@ -26,7 +26,6 @@ Component({
     },
     //展示弹框
     showDialog() {
-      console.log('ok')
       this.setData({
         isShow: true
       })
@@ -50,7 +49,6 @@ Component({
 
     //关闭
     close:function(){
-      console.log('oo')
       this.hideDialog();
     }
   }
