@@ -7,7 +7,7 @@ view,text,input,button,textarea,table{letter-spacing:0.6px;}
   display: block;
   width:35rpx;
   height:35rpx;
-  margin: 0 auto;
+  margin:200rpx auto;
 }
 
 button::after {

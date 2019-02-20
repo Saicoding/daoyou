@@ -19,7 +19,7 @@
   <view class="bars-huodong {{types=='冲刺套餐'?'on':''}}" data-val='冲刺套餐' bindtap='getList'>冲刺套餐</view>
   <view class="bars-huodong {{types=='导考套餐'?'on':''}}" data-val='导考套餐' bindtap='getList'>导考套餐</view>
   <view class="bars-huodong {{types=='豪华套餐'?'on':''}}" data-val='豪华套餐' bindtap='getList'>豪华套餐</view>
-  <view class="bars-huodong {{types=='导游词'?'on':''}}" data-val='导游词' bindtap='getList2'>导游词</view>
+  <view class="bars-huodong {{types=='导游词'?'on':''}}" data-val='导游词' bindtap='getList2' style='margin-right: 4%;'>导游词</view>
 
 </scroll-view>
 
@@ -62,16 +62,16 @@
   </view>
   <view wx:if="{{daoyouci}}" style='padding:4%'>
       <view class='title_ci'>A-F</view> 
-      <view class='diqu' wx:for="{{diqus[0]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[0]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
       <view class='title_ci'>H </view> 
-      <view class='diqu' wx:for="{{diqus[1]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[1]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
       <view class='title_ci'>Q-S </view> 
-      <view class='diqu' wx:for="{{diqus[2]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[2]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
       <view class='title_ci'>G </view> 
-      <view class='diqu' wx:for="{{diqus[3]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[3]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
       <view class='title_ci'>J-N </view> 
-      <view class='diqu' wx:for="{{diqus[4]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[4]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
       <view class='title_ci'>X-Z </view> 
-      <view class='diqu' wx:for="{{diqus[5]}}" wx:key="i">{{item}}</view>
+      <view class='diqu' wx:for="{{diqus[5]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
   </view>
 </view>

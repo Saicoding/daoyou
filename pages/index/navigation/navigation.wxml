@@ -7,8 +7,8 @@
   <view class="title1" style="margin-top:{{statusBarHeight+40}}rpx">{{title}}</view>
   <view class="title2">{{describe}}</view>
 
-  <scroll-view scroll-y class="content" style= "height:600rpx;">
-    <view wx:if="{{infos.length>0 && isLoaded}}">
+  <scroll-view scroll-y class="content" style= "height:{{windowHeight-statusBarHeight-720}}rpx;">
+    <view wx:if="{{infos.length>0 && isLoaded}}"  >
       <view wx:for="{{infos}}" wx:for-item="info" wx:key="i">
         <view data-title = "{{info.title}}" data-id="{{info.id}}" class="item" bindtap='GOdetail' hover-class='select2' hover-stay-time='500'>
           <view  class="item-line1" >
@@ -21,7 +21,7 @@
         </view>
       </view>
     </view>
-    <view wx:if ="{{infos.length==0 && isLoaded}}">
+    <view wx:if ="{{infos.length==0 && isLoaded}}" style="  border:1rpx solid rgba(248, 247, 247,0);" >
         <image class ="hasNopage" src="/images/hasNopage/hasNopage.png"></image>
         <view class ="hasNopage-text">没有相关信息</view>
     </view>

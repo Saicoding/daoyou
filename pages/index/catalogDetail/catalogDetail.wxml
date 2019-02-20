@@ -1,5 +1,5 @@
 <!--pages/index/catalogDetail/catalogDetail.wxml-->
-<view wx:if ="{{isLoaded}}" style="padding:30rpx;">
+<view wx:if ="{{isLoaded}}" style="padding:30rpx;line-height:1.6em;text-indent:2em;">
   <rich-text nodes="{{nodes}}"></rich-text>
 </view>
 

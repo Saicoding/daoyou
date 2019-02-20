@@ -7,8 +7,6 @@ Page({
   /**
    * 页面的初始数据
    */
-
-
   data: {
     types: "导游词",
     barUrls: [],
@@ -31,6 +29,7 @@ Page({
    */
   onReady: function() {
     let self = this;
+    //获取顶部图
     app.post(API_URL, "action=getCourseAD", false, false, "", "", "", self).then(res => {
       let barUrls = res.data.data[0].pic.split(",");
       self.setData({
@@ -40,10 +39,17 @@ Page({
         self.bindPhoneModel = self.selectComponent("#bindPhoneModel");
       }
     });
-    if (this.data.types != "导游词") { this.getCourse() } else { this.getCourse2()}
+
+    
+    if (this.data.types != "导游词") { this.getCourse() } else {
+      this.setData({
+        daoyouci: true,
+        loaded: true,
+      })
+    }
     
   },
-  
+  //获取课程列表
   getCourse: function() {
     this.setData({
       loaded: false
@@ -56,57 +62,33 @@ Page({
       });
     });
   },
-  getCourse2: function () {
-    this.setData({
-      loaded: false
-    });
-    app.post(API_URL, "action=getDaoyouciList&page=" + this.data.page +"&province="+this.data.diqu, false, false, "", "", "", self).then(res => {
-      let newcourse = res.data.data[0].list;
-      this.setData({
-        videoList: newcourse,
-        loaded: true
-      });
-    });
-  },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 当滚动页面时
-   */
-  onPageScroll: function(e) {
-    let windowWidth = this.data.windowWidth;
-    console.log(e.scrollTop * (750 / windowWidth))
-    if (e.scrollTop * (750 / windowWidth) > 440) {
-      this.setData({
-        className: true
-      })
-    } else {
-      this.setData({
-        className: false
-      })
-    }
-  },
+  //切换菜单
   getList: function(e) {
     var val = e.currentTarget.dataset.val;
     if (this.data.types != val) {
       this.setData({
-        types: val
+        types: val,
+        daoyouci:false
       })
       this.getCourse()
     }
   },
+  //导游词菜单
   getList2: function (e) {
-    // var val = e.currentTarget.dataset.val;
-    // if (this.data.types != val) {
-    //   this.setData({
-    //     types: val
-    //   })
-    //   this.getCourse2()
-    // }
-  }
+    var val = e.currentTarget.dataset.val;
+    if (this.data.types != val) {
+      this.setData({
+        types: val,
+        daoyouci:true
+      })
+    }
+  },
+  //点击导游词
+  diqu: function (e) {
+    var val = e.currentTarget.dataset.diqu;
+    wx.navigateTo({
+      url: 'daoyouci_list?val=' + val,
+    })
+
+  },
 })
