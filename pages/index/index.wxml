@@ -26,9 +26,9 @@
         <!-- 名字 -->
         <view class="info-up-name">{{user.Nickname}}</view>
         <!-- 是否加入计划 -->
-        <view class="info-up-jihua">
-          <image class="info-up-jihua-icon" src="/images/index/vip.png"></image>
-          <view class="info-up-jihua-text">你已加入学习计划</view>
+        <view  class="info-up-jihua" bindtap = "GOxuexijihua" hover-class='select1' hover-stay-time='500'>
+          <image class="info-up-jihua-icon" src="{{user.loginIcon}}"></image>
+          <view class="info-up-jihua-text">{{user.text}}</view>
         </view>
       </view>
       <!-- 日期图片 -->
@@ -66,7 +66,7 @@
   </view>
 
   <!-- 刷题 & 看课 -->
-  <view class="mid" style = "  margin-top: {{statusBarHeight+110}}rpx;">
+  <view class="mid" style = "  margin-top: {{statusBarHeight+120}}rpx;">
     <view class="mid-item">
       <view class="mid-item-image icon1">继续刷题</view>
       <view class="mid-item-title">概述</view>

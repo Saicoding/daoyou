@@ -1,0 +1,36 @@
+<!--pages/index/xuexijihua/xuexijihua.wxml-->
+<view class="container">
+  <view>
+    <rich-text nodes="{{nodes}}"></rich-text>
+  </view>
+
+  <view class="float" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
+    <image class="float-icon" src="/images/youhuiquan.png" style="margin-left:30rpx;margin-right:20rpx;"></image>
+    <view class="float-text">您有1张100元的全部计划优惠券</view>
+    <image class="float-icon" src="/images/hongbao.png" animation="{{tiaoData}}" style="margin-left:20rpx;"></image>
+    <view class="float-text" style="margin-left:40rpx;">立即领取></view>
+  </view>
+
+  <view class="bottom">
+    <view class="bottom-item1" style="border-right:1rpx solid #ececec;" bindtap="GOindex" hover-class='select2' hover-stay-time='500'>
+      <image class="bottom-item1-icon" src="/images/home.png"></image>
+      <view class="bottom-item1-text">首页</view>
+    </view>
+    <view>
+      <button open-type="contact" show-message-card="{{true}}" session-from="xuexijihua" session-from="weapp" class="bottom-item" bindtap="GOkefu" hover-class='select2' hover-stay-time='500'>
+        <image class="bottom-item1-icon" src="/images/kefu.png" style=""></image>
+        <view class="bottom-item1-text" style = "margin-left:15rpx;">客服</view>
+      </button>
+    </view>
+
+    <view class="bottom-item2 " bindtap="buy" hover-class='select3' hover-stay-time='500'>
+      <view class="bottom-item2-line1">¥ 599</view>
+      <view class="bottom-item2-line2">单独购买</view>
+    </view>
+
+    <view class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
+      <view class="bottom-item2-line1">¥ 499</view>
+      <view class="bottom-item2-line2">发起团购</view>
+    </view>
+  </view>
+</view>

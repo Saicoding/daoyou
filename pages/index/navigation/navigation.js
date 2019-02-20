@@ -217,11 +217,17 @@ Page({
           isLoaded:true
         })
       })
+    } else if(currentIndex == 7){//点击了学习计划
+      wx.navigateTo({
+        url: '/pages/index/xuexijihua/xuexijihua',
+      })
     }
 
-    this.setData({
-      currentIndex: currentIndex
-    })
+    if (currentIndex !=7){
+      this.setData({
+        currentIndex: currentIndex
+      })
+    }
   },
 
   /**

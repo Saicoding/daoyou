@@ -36,11 +36,11 @@
 .info {
   position: absolute;
   z-index: 88;
-  width: 660rpx;
+  width: 640rpx;
   border-radius: 15rpx;
   left: 25rpx;
   background: white;
-  padding: 30rpx 30rpx;
+  padding: 30rpx 30rpx 40rpx 30rpx;
   box-shadow: 2rpx 2rpx 13rpx 7rpx rgba(92, 92, 92, 0.1);
 }
 
@@ -56,7 +56,7 @@
 }
 
 .info-up-mid, .info-up-name, .info-up-jihua {
-  width: 470rpx;
+  width: 450rpx;
 }
 
 .info-up-mid {
@@ -64,25 +64,27 @@
   margin-left: 20rpx;
 }
 
-.info-up-name, .info-up-jihua {
-  height: 40rpx;
+.info-up-jihua {
+  height: 60rpx;
   color: #818181;
   font-size: 25rpx;
 }
 
 .info-up-name {
   line-height: 30rpx;
+  color: #818181;
+  font-size: 25rpx;
 }
 
 .info-up-jihua {
   display: flex;
-  line-height: 46rpx;
+  line-height: 60rpx;
 }
 
 .info-up-jihua-icon {
   width: 26rpx;
   height: 26rpx;
-  margin-top: 10rpx;
+  margin-top: 17rpx;
 }
 
 .info-up-jihua-text {
@@ -222,4 +224,5 @@
 
 .select1 {
   background: rgba(0, 0, 0, 0.1);
+  border-radius: 10rpx;
 }

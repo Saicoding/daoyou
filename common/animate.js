@@ -1,6 +1,6 @@
-function easeOutAnimation(){
+function easeOutAnimation(duration){
   let myAnimation = wx.createAnimation({
-    duration: 500,
+    duration: duration,
     delay: 0,
     timingFunction: "ease-out",
     transformOrigin: "50%,50%"
@@ -9,9 +9,9 @@ function easeOutAnimation(){
   return myAnimation;
 }
 
-function easeInAnimation() {
+function easeInAnimation(duration) {
   let myAnimation = wx.createAnimation({
-    duration: 500,
+    duration: duration,
     delay: 0,
     timingFunction: "ease-in",
     transformOrigin: "50%,50%"
@@ -118,6 +118,27 @@ function blockSpreadAnimation(min, max, question) {
   }, 40)
 }
 
+/**
+ * 红包跳动动画
+ */
+function tiaoAnimation(myAnimation,self){
+  var next = true;
+  setInterval(function () {
+    if (next) {
+      //根据需求实现相应的动画
+      myAnimation.rotate(20).scale(1.2).step()
+      next = !next;
+    } else {
+      myAnimation.rotate(-20).scale(0.8).step()
+      next = !next;
+    }
+    self.setData({
+      //导出动画到指定控件animation属性
+      tiaoData: myAnimation.export()
+    })
+  }.bind(this), 300)
+}
+
 
 module.exports = {
   easeOutAnimation: easeOutAnimation,
@@ -129,5 +150,6 @@ module.exports = {
   questionFoldAnimation: questionFoldAnimation,
   questionSpreadAnimation: questionSpreadAnimation,
   blockFoldAnimation: blockFoldAnimation,
-  blockSpreadAnimation: blockSpreadAnimation
+  blockSpreadAnimation: blockSpreadAnimation,
+  tiaoAnimation: tiaoAnimation
 }

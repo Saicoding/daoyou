@@ -20,7 +20,8 @@
     "pages/user/news/news",
     "pages/shuati/zuoti/zuoti",
     "pages/learn/pay",
-    "pages/index/catalogDetail/catalogDetail"
+    "pages/index/catalogDetail/catalogDetail",
+    "pages/index/xuexijihua/xuexijihua"
   ],
   "window": {
     "backgroundTextStyle": "light",

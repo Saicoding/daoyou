@@ -1,0 +1,114 @@
+/* pages/index/xuexijihua/xuexijihua.wxss */
+
+/* 优惠券 */
+
+.float {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  top: 0rpx;
+  height: 50rpx;
+  background: linear-gradient(to right, rgb(255, 135, 139), rgb(255, 213, 214));
+}
+
+.float-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 5rpx;
+}
+
+.float-text {
+  font-weight: bold;
+  font-size: 25rpx;
+  color: #fd2f3b;
+  line-height: 50rpx;
+}
+
+/* 最下面 */
+
+.bottom {
+  display: flex;
+  width: 750rpx;
+  position: fixed;
+  bottom: 0rpx;
+  height: 120rpx;
+}
+
+.bottom-item1 {
+  display: flex;
+  justify-content: space-around;
+  width: 130rpx;
+  font-size: 25rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  color: #7c7c7e;
+  background: white;
+  border-top: 1rpx solid #ececec;
+}
+
+.bottom-item {
+  display: flex;
+  justify-content: space-around;
+  width: 170rpx;
+  font-size: 25rpx;
+  color: #7c7c7e;
+  background: white;
+  border-radius: 0rpx;
+  border-top: 1rpx solid #ececec;
+}
+
+.bottom-item1-icon {
+  width: 41rpx;
+  height: 35rpx;
+  margin-top: 42.5rpx;
+}
+
+.bottom-item1-text {
+  line-height: 120rpx;
+}
+
+.bottom-item2 {
+  color: white;
+  text-align: center;
+  letter-spacing: 1rpx;
+  background: #a0eaaf;
+  width: 168rpx;
+}
+
+.bottom-item3 {
+  color: white;
+  background: #0fd75d;
+  width: 249rpx;
+  text-align: center;
+  letter-spacing: 1rpx;
+}
+
+.bottom-item2-line1 {
+  width: 100%;
+  font-size: 30rpx;
+  height: 60rpx;
+  line-height: 80rpx;
+}
+
+.bottom-item2-line2 {
+  width: 100%;
+  font-size: 25rpx;
+  height: 60rpx;
+  line-height: 40rpx;
+}
+
+.select1 {
+  background: linear-gradient(to right, rgba(248, 0, 8, 0.3), rgba(255, 154, 158, 0.3));
+}
+
+.select2 {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.select3 {
+  background: #ceebd3;
+}
+
+.select4 {
+  background: #77cf99;
+}

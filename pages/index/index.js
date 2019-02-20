@@ -113,6 +113,13 @@ Page({
     })
 
     if (user) { //如果已经登录
+      if(user.buy == 0){//未加入学习计划
+        user.text = "你尚未加入学习计划,去加入>>";
+        user.loginIcon = "/images/index/danger.png";
+      }else{
+        user.text = "你已加入学习计划,快去学习吧!"
+        user.loginIcon = "/images/index/vip.png";
+      }
       self.setData({
         user: user
       })
@@ -120,6 +127,8 @@ Page({
       let user = {};
       user.Pic = '/images/avatar.png'
       user.Nickname = '未登录'
+      user.loginIcon = "/images/index/login.png";
+      user.text  = "点此登录"
       self.setData({
         user: user
       })
@@ -142,7 +151,21 @@ Page({
         url: '/pages/index/navigation/navigation?index=' + index,
       })
     }else if(index == 7 ){//点击学习计划
-      console.log('点击了学习计划')
+      wx.navigateTo({
+        url: '/pages/index/xuexijihua/xuexijihua',
+      })
+    }
+  },
+
+  /**
+   * 导航到学习计划
+   */
+  GOxuexijihua:function(e){
+    let user = this.data.user;
+    if(user.buy ==0){
+      wx.navigateTo({
+        url: '/pages/index/xuexijihua/xuexijihua',
+      })
     }
   },
 
