@@ -10,17 +10,14 @@ Page({
     useFlux: false, //是否使用流量观看
     isWifi: true, //默认有wifi
     lastType: "first",
-    buy:0
+    buy:0,
   },
-
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
 
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

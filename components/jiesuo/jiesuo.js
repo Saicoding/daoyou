@@ -4,14 +4,17 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    windowHeight:{
+      type:Number,
+      value:1333
+    }
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-
+    isShow: false
   },
 
   /**
@@ -46,6 +49,16 @@ Component({
         isShow: false
       })
     },
+
+    //解锁解析包
+    _buyJiexi:function(){
+      this.triggerEvent('buyJiexi');
+    },
+
+    //解锁全部
+    _buyAll:function(){
+      this.triggerEvent('_buyALl');
+    }
 
   }
 })

@@ -68,7 +68,6 @@ Page({
     })
     app.post(API_URL,"action=getIndex_AD",false,false,"","").then(res=>{
       let banners = res.data.data;
-
       self.setData({
         banners: banners
       })
@@ -162,7 +161,9 @@ Page({
    */
   GOxuexijihua:function(e){
     let user = this.data.user;
-    if(user.buy ==0){
+    let from = e.currentTarget.dataset.from;
+
+    if(user.buy ==0 || from == "banner"){
       wx.navigateTo({
         url: '/pages/index/xuexijihua/xuexijihua',
       })

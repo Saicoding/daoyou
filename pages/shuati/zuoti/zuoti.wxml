@@ -26,7 +26,7 @@
 
             <!-- 面试题 -->
             <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==3}}">
-              <mianshi shiti="{{shiti}}" ></mianshi>
+              <mianshi shiti="{{shiti}}"></mianshi>
               <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看答案</view>
             </view>
 
@@ -45,9 +45,7 @@
 </view>
 
 <!-- 载入动画 -->
-<view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
-</view>
+<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/loading/loading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
 
 <!-- 答题板 -->
 <markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">
@@ -77,4 +75,4 @@
 <jiaocheng id="jiaocheng"></jiaocheng>
 
 <!-- 解锁 -->
-<jiesuo id="jiesuo"></jiesuo>
+<jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuyAll = "_buyAll" bindbuyJiexi = "_buyJiexi"></jiesuo>

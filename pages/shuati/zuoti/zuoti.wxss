@@ -68,13 +68,6 @@ page {
   z-index: 100;
 }
 
-.loading-img {
-  display: block;
-  width: 118rpx;
-  height: 150rpx;
-  margin: 300rpx auto;
-}
-
 /* 笔记输入框 */
 
 .biji{

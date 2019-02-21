@@ -445,6 +445,30 @@ Page({
   },
 
   /**
+   * 购买解析包
+   */
+  _buyJiexi:function(){
+    this.jiesuo.hideDialog();
+    wx.showToast({
+      title: '购买解锁开发中',
+      icon:'none',
+      duration:3000
+    })
+  },
+
+  /**
+   * 购买全部
+   */
+  _buyAll:function(){
+    this.jiesuo.hideDialog();
+    wx.showToast({
+      title: '购买全部课程开发中',
+      icon: 'none',
+      duration: 3000
+    })
+  },
+
+  /**
    * 笔记输入框失去焦点
    */
   blur:function(){

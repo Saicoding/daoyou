@@ -1,20 +1,21 @@
 <!--components/Dialog/dialog.wxml-->
-<view hidden="{{!isShow}}" class="container" catchtap='stopBubbling'>
-  <view class ="up">
-    <view class ="up-text1">9块9解锁所有解析</view>
-    <view class ="up-text2">解锁后章节、模拟试卷的解析都可以看哦!</view>
+<view wx:if="{{isShow}}" class="container" catchtap='stopBubbling' style = "top:{{(windowHeight-900)/2}}rpx;">
+  <view class="up">
+    <view class="up-line"></view>
+    <view class="up-text">解锁题库套餐</view>
+    <view class="up-line"></view>
   </view>
+  <view class="mid">
+    <image class ="mid-img" src="/images/jiesuo.png"></image>
+    <view class ="mid-text">解锁后可查看全部章节题库解析</view>
+    <view class ="mid-btn" bindtap = "_buyJiexi" hover-class='select1' hover-stay-time='500'>60元解锁章节题库解析包</view>
+  </view>
+
   <view class ="down">
-    <view class ="down-text1">随机赠送<span style = "color:red;">500~100元</span>优惠券</view>
-
-    <view class = "down-img" >
-      有效期： 三天(即日起至2018.5.31)
-    </view>
-    <view class ="down-text2">*支付后可在我的优惠劵内查看</view>
-
-    <view class ="btn">9.9元立即解锁</view>
+    <image class ="down-img" src="/images/jiesuo1.png"></image>
+    <view class = "down-text">108元即可解锁所有题库功能,并赠送100元代金券,立即可用。</view>
+    <view class ="down-btn" bindtap = "_buyAll" hover-class='select2' hover-stay-time='500'>108元解锁全部试题题库<span style="font-size:22rpx;">(赠100元代金券)</span></view>
   </view>
 </view>
 
-<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
-</view>
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank"></view>
