@@ -1,10 +1,20 @@
 <!--pages/shuati/shuati.wxml-->
-<view class="container" style="padding-top:{{statusBarHeight+190}}rpx;">
-  <view class="bars" style="top:{{statusBarHeight+15}}rpx;">
+<view class="container">
+  <view class="bars" style="top:{{jiaonang.top}}px;height:{{jiaonang.height-40}}px;border-radius:{{jiaonang.height}}px;">
     <view wx:for="{{bars}}" wx:for-item="bar" wx:key="b">
-      <view data-index="{{index}}" class="bar" style="background:{{currentIndex == index?'#00c356':'white'}};color:{{currentIndex == index?'white':'#00c356'}};" bindtap="changeBar">{{currentIndex == index?bar.title2:bar.title1}}</view>
+      <view data-index="{{index}}" class="bar" style="background:{{currentIndex == index?'#00c356':'white'}};color:{{currentIndex == index?'white':'#00c356'}};height:{{jiaonang.height-40}}px;line-height:{{jiaonang.height-40}}px" bindtap="changeBar">{{currentIndex == index?bar.title2:bar.title1}}</view>
     </view>
   </view>
+
+  <!-- 轮播图 -->
+  <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
+    <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
+      <swiper-item>
+        <image src="{{img.pic}}" class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
+
   <view class="content">
     <!-- 上面部分 -->
     <view class='top'>
@@ -50,46 +60,54 @@
   </view>
 
   <view class="ti">
-    <!-- 题-->
-    <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
-      <view class="ti-block">
-        <image data-index="{{zhangIdx}}" bindtap="toogleFolder" class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
-        <view data-index="{{zhangIdx}}" class="ti-block-line" style="margin-left:30rpx;" bindtap="toogleFolder">
-          <view  class="ti-block-line1" >
-            <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
-            <view class="ti-block-line1-num">{{zhangjie.doneNum}}/{{zhangjie.num}}</view>
+    <!-- 章节练习-->
+    <view wx:if = "{{currentMidIndex == 0}}">
+      <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
+        <view class="ti-block">
+          <image data-index="{{zhangIdx}}" bindtap="toogleFolder" class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
+          <view data-index="{{zhangIdx}}" class="ti-block-line" style="margin-left:30rpx;" bindtap="toogleFolder">
+            <view class="ti-block-line1">
+              <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
+              <view class="ti-block-line1-num">{{zhangjie.doneNum}}/{{zhangjie.num}}</view>
+            </view>
+            <view class="ti-block-line2"></view>
           </view>
-          <view class="ti-block-line2"></view>
+
+          <view class="ti-block-shu"></view>
+          <image data-rightRate="{{zhangjie.rightRate}}" data-doneNum="{{zhangjie.doneNum}}" data-num="{{zhangjie.num}}" data-title="{{zhangjie.title}}" bindtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
         </view>
+        <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
 
-        <view class="ti-block-shu"></view>
-        <image data-rightRate="{{zhangjie.rightRate}}" data-doneNum="{{zhangjie.doneNum}}" data-num = "{{zhangjie.num}}" data-title="{{zhangjie.title}}" bindtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
-      </view>
-      <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
-
-      <view wx:if="{{zhangjie.unfolding}}">
-        <view wx:for="{{zhangjie.jies}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
-          <view data-rightRate="{{jie.rightRate}}" data-doneNum="{{jie.doneNum}}" data-num = "{{jie.num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
-            <image class="jie-dot" src="/images/dot.png"></image>
-            <view class="ti-block-line" style="margin-left:40rpx;">
-              <view class="ti-block-line1">
-                <view class="ti-block-line1-title wp">{{jie.title}}</view>
-                <view class="ti-block-line1-num">{{jie.doneNum}}/{{jie.num}}</view>
+        <view wx:if="{{zhangjie.unfolding}}">
+          <view wx:for="{{zhangjie.jies}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
+            <view data-rightRate="{{jie.rightRate}}" data-doneNum="{{jie.doneNum}}" data-num="{{jie.num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
+              <image class="jie-dot" src="/images/dot.png"></image>
+              <view class="ti-block-line" style="margin-left:40rpx;">
+                <view class="ti-block-line1">
+                  <view class="ti-block-line1-title wp">{{jie.title}}</view>
+                  <view class="ti-block-line1-num">{{jie.doneNum}}/{{jie.num}}</view>
+                </view>
+                <view class="ti-block-line2"></view>
+                <view class="ti-block-line3"></view>
               </view>
-              <view class="ti-block-line2"></view>
-              <view class="ti-block-line3"></view>
+
+              <view class="ti-block-shu"></view>
+              <image class="ti-block-answer" src="/images/answer.png"></image>
             </view>
 
-            <view class="ti-block-shu"></view>
-            <image class="ti-block-answer" src="/images/answer.png"></image>
+            <view wx:if="{{jieIdx != zhangjie.jies.length-1 }}" class="jie-border"></view>
           </view>
-
-          <view wx:if="{{jieIdx != zhangjie.jies.length-1 }}" class="jie-border"></view>
         </view>
       </view>
     </view>
+
+    <!-- 全真模拟和核心密卷 -->
+    <view wx:if = "{{currentMidIndex !=0}}">
+      全真模拟
+    </view>
+
   </view>
 </view>
 
 <!-- 弹窗 -->
-<goAnswerModel id= "goAnswerModel" bindGOzuoti = "_GOzuoti" ></goAnswerModel>
+<goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti"></goAnswerModel>

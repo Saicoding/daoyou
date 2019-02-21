@@ -66,6 +66,8 @@ Page({
     this.setData({ //设置第一次载入参数,用于onshow只载入一次
       first: true
     })
+
+    // 请求banner图
     app.post(API_URL,"action=getIndex_AD",false,false,"","").then(res=>{
       let banners = res.data.data;
       self.setData({

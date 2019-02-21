@@ -1,4 +1,7 @@
 // pages/shuati/shuati.js
+const app = getApp()
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
+
 Page({
 
   /**
@@ -99,9 +102,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let self = this;
     let currentIndex = 0;//当前bar的标识
     this.setData({
-      currentIndex:currentIndex
+      currentIndex:currentIndex,
+    })
+
+    // 获取banner图,此请求适合放在onLoad周期函数中
+    app.post(API_URL,"action=getTestAD",false,false,"","").then(res=>{
+      console.log(res.data.data)
+      let banners = res.data.data;
+      self.setData({
+        banners: banners
+      })
     })
   },
 
@@ -119,12 +132,14 @@ Page({
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+        let jiaonang = wx.getMenuButtonBoundingClientRect();//胶囊位置及尺寸
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
-          statusBarHeight: statusBarHeight
+          statusBarHeight: statusBarHeight,
+          jiaonang:jiaonang
         })
       }
     });
@@ -134,6 +149,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let self =  this;
 
   },
 
@@ -141,6 +157,7 @@ Page({
    * 改变科目
    */
   changeBar:function(e){
+    console.log(e)
     let self = this;
     let currentIndex = e.currentTarget.dataset.index;
     self.setData({
