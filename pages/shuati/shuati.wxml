@@ -61,11 +61,11 @@
 
   <view class="ti">
     <!-- 章节练习-->
-    <view wx:if = "{{currentMidIndex == 0}}">
+    <view wx:if="{{currentMidIndex == 0}}">
       <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
-        <view class="ti-block">
-          <image data-index="{{zhangIdx}}" bindtap="toogleFolder" class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
-          <view data-index="{{zhangIdx}}" class="ti-block-line" style="margin-left:30rpx;" bindtap="toogleFolder">
+        <view data-index="{{zhangIdx}}" class="ti-block" bindtap="toogleFolder">
+          <image class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
+          <view class="ti-block-line" style="margin-left:30rpx;">
             <view class="ti-block-line1">
               <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
               <view class="ti-block-line1-num">{{zhangjie.doneNum}}/{{zhangjie.num}}</view>
@@ -74,7 +74,12 @@
           </view>
 
           <view class="ti-block-shu"></view>
-          <image data-rightRate="{{zhangjie.rightRate}}" data-doneNum="{{zhangjie.doneNum}}" data-num="{{zhangjie.num}}" data-title="{{zhangjie.title}}" bindtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
+
+
+
+          <view style="height:90rpx;width:90rpx;">
+            <image data-rightRate="{{zhangjie.rightRate}}" data-doneNum="{{zhangjie.doneNum}}" data-num="{{zhangjie.num}}" data-title="{{zhangjie.title}}" catchtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
+          </view>
         </view>
         <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
 
@@ -92,7 +97,9 @@
               </view>
 
               <view class="ti-block-shu"></view>
-              <image class="ti-block-answer" src="/images/answer.png"></image>
+              <view style="height:90rpx;width:90rpx;">
+                <image class="ti-block-answer" src="/images/answer.png"></image>
+              </view>
             </view>
 
             <view wx:if="{{jieIdx != zhangjie.jies.length-1 }}" class="jie-border"></view>
@@ -102,8 +109,20 @@
     </view>
 
     <!-- 全真模拟和核心密卷 -->
-    <view wx:if = "{{currentMidIndex !=0}}">
-      全真模拟
+    <view wx:if="{{currentMidIndex !=0}}">
+      <view wx:for="{{monis}}" wx:for-item="moni" wx:key="m">
+        <view data-free = "{{moni.free}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
+          <view class="item-line1">
+            <image class="item-line1-icon" src="/images/dot.png"></image>
+            <view class="item-line1-text">
+              <span style="color:green;">{{moni.free==1?'【免费】':''}}</span>{{moni.title}}</view>
+          </view>
+          <view class="item-line2" style = "border-left:{{index == monis.length-1?'none':'1rpx solid #eaeaea;'}}">
+            <view class="item-line2-text">题数{{moni.num}}</view>
+            <view class="item-line2-text">考试时间{{moni.time}}</view>
+          </view>
+        </view>
+      </view>
     </view>
 
   </view>
@@ -111,3 +130,4 @@
 
 <!-- 弹窗 -->
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti"></goAnswerModel>
+<jiesuoti id = "jiesuoti" bindbuyAll = "_buyAll" windowHeight = "{{windowHeight}}"></jiesuoti>

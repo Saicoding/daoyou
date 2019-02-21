@@ -37,5 +37,5 @@
   <view class="submit" bindtap = "_GOzuoti">开始刷题</view>
 </view>
 
-<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+<view wx:if="{{isShow}}" class="modal" catchtap="tapBlank">
 </view>

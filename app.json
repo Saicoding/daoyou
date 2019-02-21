@@ -21,7 +21,8 @@
     "pages/shuati/zuoti/zuoti",
     "pages/learn/pay",
     "pages/index/catalogDetail/catalogDetail",
-    "pages/index/xuexijihua/xuexijihua"
+    "pages/index/xuexijihua/xuexijihua",
+    "pages/shuati/moni/moni"
   ],
   "window": {
     "backgroundTextStyle": "light",

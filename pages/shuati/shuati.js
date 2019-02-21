@@ -35,7 +35,6 @@ Page({
         title3: "面试"
       },
     ],
-    currentMidIndex: 0,//当前试题种类
     zhangjies:[
       {
         title:'旅游业发展概况',
@@ -95,6 +94,68 @@ Page({
           }
         ]
       },
+    ],
+    monis:[
+      {
+        free:1,
+        title:'2018导游考试模拟试卷(科目1、2) (一)',
+        num:165,
+        time:90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (二)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (三)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (四)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (五)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (六)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (七)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (八)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (九)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (十)',
+        num: 165,
+        time: 90
+      },
     ]
   },
 
@@ -103,9 +164,11 @@ Page({
    */
   onLoad: function (options) {
     let self = this;
-    let currentIndex = 0;//当前bar的标识
+    let currentIndex = wx.getStorageSync('currentIndex') ? wx.getStorageSync('currentIndex'):0;//如果有本地缓存就用本地缓存,没有就设置默认0
+    let currentMidIndex = wx.getStorageSync('currentMidIndex') ? wx.getStorageSync('currentMidIndex') : 0;//当前试题种类(如果有本地缓存就用本地缓存,没有就设置默认0)
     this.setData({
       currentIndex:currentIndex,
+      currentMidIndex: currentMidIndex 
     })
 
     // 获取banner图,此请求适合放在onLoad周期函数中
@@ -125,6 +188,7 @@ Page({
     let self = this;
 
     this.goAnswerModel = this.selectComponent("#goAnswerModel");
+    this.jiesuoti = this.selectComponent("#jiesuoti");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
@@ -163,6 +227,18 @@ Page({
     self.setData({
       currentIndex:currentIndex
     })
+
+    wx.setStorage({//设置本地缓存
+      key: 'currentIndex',
+      data: currentIndex,
+      fail:function(){
+        wx.showToast({
+          title: '设置currentIndex失败',
+          icon:'none',
+          duration:3000
+        })
+      }
+    })
   },
 
   /**
@@ -172,6 +248,18 @@ Page({
     let currentMidIndex = e.currentTarget.dataset.index;
     this.setData({
       currentMidIndex:currentMidIndex
+    })
+
+    wx.setStorage({//设置本地缓存
+      key: 'currentMidIndex',
+      data: currentMidIndex,
+      fail: function () {
+        wx.showToast({
+          title: '设置currentMidIndex失败',
+          icon: 'none',
+          duration: 3000
+        })
+      }
     })
   },
 
@@ -233,6 +321,18 @@ Page({
   },
 
   /**
+   * 导航到购买页面
+   */
+  _buyAll:function(){
+    this.jiesuoti.hideDialog();
+    wx.showToast({
+      icon:'none',
+      title: '购买开发中',
+      duration:3000
+    })
+  },
+
+  /**
    * 导航到笔记页面
    */
   GOnote:function(){
@@ -248,5 +348,19 @@ Page({
     wx.navigateTo({
       url: '/pages/shuati/cuoti/cuoti',
     })
+  },
+
+  /**
+   * 导航到模拟
+   */
+  GOmoni:function(e){
+    let free = e.currentTarget.dataset.free;
+    if(free == 1){//免费
+      wx.navigateTo({
+        url: '/pages/shuati/moni/moni',
+      })
+    }else{//不免费
+      this.jiesuoti.showDialog();
+    }
   }
 })

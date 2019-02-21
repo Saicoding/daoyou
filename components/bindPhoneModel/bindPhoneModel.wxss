@@ -1,6 +1,6 @@
 /* components/errorRecovery/errorRecovery.wxss */
 .container{
-  position: absolute;
+  position: fixed;
   width:100%;
   top:250rpx;
   z-index: 100;
