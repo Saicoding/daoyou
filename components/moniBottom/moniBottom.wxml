@@ -1,0 +1,21 @@
+<view class="container">
+
+  <view class="bottom-block3" bindtap="_toogleMark" bindtap = "_toogleMark" >
+    <image class="bottom-block2-icon" src="/images/shoucang.png"></image>
+    <view style = "margin-left:10rpx;">收藏</view>
+  </view>
+
+  <view class="bottom-block1" bindtap="_submit"  hover-class='select1' hover-stay-time='500'>
+    <image class="bottom-icon" src="/images/clock.png"></image>
+    <view style = "margin-left:15rpx;"> {{'01:30:00'}}</view>
+    <view style = "margin-left:15rpx;">|</view>
+    <view style = "margin-left:15rpx;"> {{'立即交卷'}}</view>
+  </view>
+
+  <view class="bottom-block2" bindtap="_toggleMarkAnswer" >
+    <image class="bottom-block2-icon" src="/images/list.png"  ></image>
+    <view style="width:50rpx; text-align:right;">110</view>
+    <view >/</view>
+    <view style="width:50rpx;color:#a0a0a0;">120</view>
+  </view>
+</view>

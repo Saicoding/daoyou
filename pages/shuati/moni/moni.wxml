@@ -1,2 +1,44 @@
-<!--pages/shuati/moni/moni.wxml-->
-<text>pages/shuati/moni/moni.wxml</text>
+<!--pages/shuati/zuoti/zuoti.wxml-->
+<view class="container">
+  <swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" style="height:{{windowHeight}}rpx;" bindchange="sliderChange">
+    <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
+      <swiper-item>
+        <scroll-view scroll-y style="height:{{windowHeight-115}}rpx;">
+          <view style="border:1rpx solid #f4f7f9;">
+            <!--单选题-->
+            <view style="margin-bottom:50rpx;" wx:if="{{shiti.TX == 1}}">
+              <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
+            </view>
+
+            <!--多选题-->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==2}}">
+              <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
+              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看解析</view>
+            </view>
+
+            <!-- 面试题 -->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==3}}">
+              <mianshi shiti="{{shiti}}"></mianshi>
+              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看答案</view>
+            </view>
+
+            <!-- 解析 -->
+            <jiexi answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
+
+          </view>
+        </scroll-view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+<!-- 载入动画 -->
+<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/loading/loading.gif" style="margin-top:{{(windowHeight-420)/2}}rpx;"></image>
+
+<!-- 答题板 -->
+<markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">
+</markAnswer>
+
+<!-- 底部正确错误个数统计条 -->
+<moniBottom id="shuatiBottom" isMark="{{myFavorite}}" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer">
+</moniBottom>

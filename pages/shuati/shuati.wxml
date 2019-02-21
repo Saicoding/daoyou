@@ -111,7 +111,7 @@
     <!-- 全真模拟和核心密卷 -->
     <view wx:if="{{currentMidIndex !=0}}">
       <view wx:for="{{monis}}" wx:for-item="moni" wx:key="m">
-        <view data-free = "{{moni.free}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
+        <view data-title = "{{moni.title}}" data-free = "{{moni.free}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
           <view class="item-line1">
             <image class="item-line1-icon" src="/images/dot.png"></image>
             <view class="item-line1-text">

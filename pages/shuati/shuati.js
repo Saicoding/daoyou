@@ -355,9 +355,10 @@ Page({
    */
   GOmoni:function(e){
     let free = e.currentTarget.dataset.free;
+    let title = e.currentTarget.dataset.title;
     if(free == 1){//免费
       wx.navigateTo({
-        url: '/pages/shuati/moni/moni',
+        url: '/pages/shuati/moni/moni?title='+title,
       })
     }else{//不免费
       this.jiesuoti.showDialog();
