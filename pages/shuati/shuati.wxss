@@ -1,7 +1,7 @@
 /* pages/shuati/shuati.wxss */
 
 page {
-  background: #f4f8fb;
+  background: white;
 }
 
 /* 自定义标题栏 */
@@ -51,10 +51,11 @@ page {
 }
 
 .midline-dot{
-  width:8px;
-  height:8px;
-  border-radius: 8px;
+  width:16rpx;
+  height:16rpx;
+  border-radius: 16rpx;
   background: #23cb9a;
+  margin-top:37rpx;
   margin-left:40rpx;
 }
 
@@ -64,7 +65,15 @@ page {
 
 .fixed{
   position: fixed;
+  z-index:99;
+}
+
+.blank{
+  position: fixed;
   top:0rpx;
+  width:100%;
+  background: #32d584;
+  z-index:99; 
 }
 
 /* 上面部分 */
@@ -378,9 +387,17 @@ page {
   padding-left:35rpx;
 }
 
+.item-line2-icon{
+  width:30rpx;
+  height:30rpx;
+}
+
 .item-line2-text{
+  height:30rpx;
+  line-height: 30rpx;
   font-size:22rpx;
   color:rgb(151, 151, 151);
+    margin-left:10rpx;
 }
 
 .select1{

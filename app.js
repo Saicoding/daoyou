@@ -79,7 +79,7 @@ App({
             console.log(res)
             wx.showToast({
               icon: 'none',
-              title: '异常错误',
+              title: message,
               duration: 3000
             })
           }
