@@ -1,6 +1,6 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl == undefined?'':videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting"
+<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].videoUrl == undefined?'':files[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting"
   custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
   <cover-view class="unBuy" wx:if="{{buy==0}}">
     <cover-image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
@@ -29,11 +29,11 @@
   </view>
   <view style='padding:4%;'>
   <view class='f20 b'>
-  2018导游从业资格--导游业务（考点精讲）
+  {{kc_name}}
   </view>
   <view class='clear' style='height:20rpx;'></view>
   <view class='f14'>
-    <text class='hui mr10'>状态</text>80课时<text class='hui mr10' style='margin-left:50rpx;'>讲师</text>陈龙
+    <text class='hui mr10'>状态</text>{{files.length}}课时<text class='hui mr10' style='margin-left:50rpx;'>讲师</text>陈龙
     <view class='clear' style='height:20rpx;'></view>
  
     <text class='hui mr10'>选课</text><view class='xk on'>基础精讲</view><view class='xk'>习题提升</view><view class='xk'>考前冲刺</view>
@@ -51,24 +51,22 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <!-- 目录列表  -->
   <scroll-view scroll-top="{{scroll}}" scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
-      {{info}}
+       
+        <image  style='width:94%'  src='{{info}}'  mode='widthFix'></image>
+     
     </view>
 
     <!-- 目录信息 -->
     <view hidden="{{product != 'option'}}" class="option">
-      <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
+      <view wx:for="{{files}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
 
-          <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
-
-          <image src="{{video.src}}" mode="aspectFit" class="icon"></image>
           <view class="title-block">
-            <view class="title">{{video.title}}</view>
-            <view class="view-time">{{video.time}}</view>
+            <view class="title">{{video.filesname}}</view>
+            <view class="view-time">{{video.time_length}}</view>
           </view>
         </view>
       </view>
@@ -81,7 +79,7 @@
 
   <!-- bottom -->
   <!-- android -->
-  <view wx:if="{{buy==0 && platform == 'android' }}" data-product="{{videos[px-1].id}}" class="bottom" bindtap='buy'>
+  <view wx:if="{{buy==0 && platform == 'android' }}" data-product="{{files[px-1].id}}" class="bottom" bindtap='buy'>
     <view class="bottom-price">¥{{kc_money}}</view>
     <view class="bottom-buy">开通此课</view>
   </view>

@@ -17,6 +17,6 @@
 
   <view class="bottom-block" bindtap="_toggleMarkAnswer" >
     <image src="/images/datiban.png" mod="aspectFit" class="bottom-img"></image>
-    <view class="bottom-text" style = "width:120rpx;">{{50}}/{{300}}</view>
+    <view class="bottom-text" style = "width:120rpx;">{{150}}/{{300}}</view>
   </view>
 </view>

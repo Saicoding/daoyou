@@ -72,7 +72,7 @@
 .up-block{
   width:96%;
   padding: 2%; border-top:1px #ddd solid; 
-  background: #fff; position: fixed; left: 0; bottom: 0;
+  background: #fff; position: fixed; left: 0; bottom: 0; z-index: 100
 }
 
 .xk { display: inline-block; margin-right: 20rpx; border: 1px #ddd solid; padding: 0 30rpx; border-radius:4px; color: #aaa; font-size: 24rpx; line-height: 50rpx; }
@@ -157,7 +157,7 @@
 .blockMove{
   position: absolute;
   bottom:-3rpx;
-  left:44.8%;
+  left:11.55%;
   width:10%;
   border-bottom:6rpx solid #66d68e;
   border-radius: 6rpx;
@@ -169,10 +169,7 @@
 }
 
 .info{
-  padding:20rpx 20rpx 20rpx 20rpx;
-  text-indent: 60rpx;
-  font-size:30rpx;
-  line-height: 54rpx;
+ text-align: center
 }
 
 .video-block{

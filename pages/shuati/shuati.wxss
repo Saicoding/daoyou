@@ -40,12 +40,40 @@ page {
   height: 312rpx;
 }
 
-/* 上面部分 */
+/* 中间条 */
+.midline{
+  display: flex;
+  width:100%;
+  height:90rpx;
+  line-height: 90rpx;
+  background: #f1f5f8;
+  font-size:22rpx;
+}
 
+.midline-dot{
+  width:8px;
+  height:8px;
+  border-radius: 8px;
+  background: #23cb9a;
+  margin-left:40rpx;
+}
+
+.midline-text{
+  margin-left:20rpx;
+}
+
+.fixed{
+  position: fixed;
+  top:0rpx;
+}
+
+/* 上面部分 */
 .content {
+  height:430rpx;
   box-shadow: 1rpx 1rpx 14rpx 7rpx rgba(8, 8, 8, 0.1);
   padding-bottom: 30rpx;
   background: white;
+  overflow-y: hidden;
 }
 
 .top {
@@ -222,7 +250,7 @@ page {
 .ti {
   width: 750rpx;
   padding: 50rpx 0rpx 20rpx 0rpx;
-  background: #f4f8fb;
+  background: white;
 }
 
 .ti-icons {

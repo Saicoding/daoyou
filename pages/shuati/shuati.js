@@ -156,7 +156,28 @@ Page({
         num: 165,
         time: 90
       },
-    ]
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (十)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (十)',
+        num: 165,
+        time: 90
+      },
+      {
+        free: 0,
+        title: '2018导游考试模拟试卷(科目1、2) (十)',
+        num: 165,
+        time: 90
+      }
+    ],
+    midHeight:430,//中间条的高度
+    lastScrollTop:0,//上次滚动条的位置
+    opacity:1//banner透明度
   },
 
   /**
@@ -363,5 +384,36 @@ Page({
     }else{//不免费
       this.jiesuoti.showDialog();
     }
+  },
+
+  /**
+   * 监测滚动条滚动
+   */
+  onPageScroll: function (e) {
+    let windowWidth = this.data.windowWidth;
+    let scrollTop = e.scrollTop * (750 / windowWidth);
+    let lastScrollTop = this.data.lastScrollTop;//上一次滑动的高度
+    let opacity = this.data.opacity;//当前页面透明度
+    let unit = 1/100;
+
+    if (scrollTop >150){//滑动超过200时开始透明变色
+      opacity = 1 - (scrollTop-150) * unit;
+    } else{
+      opacity = 1;
+    }
+
+    
+    let subHeight = (lastScrollTop - scrollTop)*1.5;//高度差
+    let midHeight = this.data.midHeight + subHeight;
+    let midHeight2 = midHeight < 0 ? 0 : midHeight;//中间组件的高度
+    let fixed = scrollTop > 340 ? "fixed":"";
+    
+    this.setData({
+      midHeight: midHeight,
+      midHeight2: midHeight2,
+      lastScrollTop: scrollTop,
+      fixed: fixed,
+      opacity: opacity
+    })
   }
 })

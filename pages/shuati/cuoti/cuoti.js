@@ -88,6 +88,8 @@ Page({
   onReady: function () {
     let self = this;
 
+    this.goAnswerModel = this.selectComponent("#goAnswerModel");
+
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -122,5 +124,35 @@ Page({
     this.setData({
       zhangjies: zhangjies
     })
+  },
+
+  /**
+    * 导航到做题页面
+    */
+  _GOzuoti: function (e) {
+    let currentSelectIndex = e.detail.currentSelectIndex;//选择做题的题型
+
+    wx.navigateTo({
+      url: '/pages/shuati/zuoti/zuoti?currentSelectIndex=' + currentSelectIndex + "&selected=" + selected + "&title=我的错题" ,
+    })
+  },
+
+  /**
+   * 答题弹窗提示
+   */
+  showAnswerModel: function (e) {
+    let num = e.currentTarget.dataset.num;//总题数
+    let donenum = e.currentTarget.dataset.donenum;//已答数目
+    let rightrate = e.currentTarget.dataset.rightrate;//正确率
+    let title = e.currentTarget.dataset.title;//点击的标题
+
+    this.goAnswerModel.setData({
+      num: num,
+      donenum: donenum,
+      rightrate: rightrate,
+      title: title
+    })
+
+    this.goAnswerModel.showDialog();
   },
 })

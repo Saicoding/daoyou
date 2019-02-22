@@ -33,7 +33,22 @@ Page({
         TX: 1,
         answer: "C",
         done_daan: "",
-        favorite: 0,
+        favorite: 1,
+        id: 154174,
+        isAnswer: false,
+        jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
+        question: "在国民经济产业分类中,房地产属于()。【2012年真题】"
+      },
+      {
+        A: "第一产业",
+        B: "第二产业",
+        C: "第三产业",
+        D: "第四产业",
+        E: "",
+        TX: 1,
+        answer: "C",
+        done_daan: "",
+        favorite: 1,
         id: 154174,
         isAnswer: false,
         jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
@@ -63,7 +78,7 @@ Page({
         TX: 1,
         answer: "C",
         done_daan: "",
-        favorite: 0,
+        favorite: 1,
         id: 154174,
         isAnswer: false,
         jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
@@ -93,22 +108,7 @@ Page({
         TX: 1,
         answer: "C",
         done_daan: "",
-        favorite: 0,
-        id: 154174,
-        isAnswer: false,
-        jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
-        question: "在国民经济产业分类中,房地产属于()。【2012年真题】"
-      },
-      {
-        A: "第一产业",
-        B: "第二产业",
-        C: "第三产业",
-        D: "第四产业",
-        E: "",
-        TX: 1,
-        answer: "C",
-        done_daan: "",
-        favorite: 0,
+        favorite: 1,
         id: 154174,
         isAnswer: false,
         jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
@@ -138,7 +138,7 @@ Page({
         TX: 2,
         answer: "C",
         done_daan: "",
-        favorite: 0,
+        favorite: 1,
         id: 154174,
         isAnswer: false,
         jiexi: "房地产业是从事房地产投资、开发、经营、服务和管理的行业，包括房地产开发经营、物业管理、房地产中介服务、房地产租赁经营和其他房地产活动。在国民经济产业分类中，房地产业属于第三产业，是为生产和生活服务的部门。",
@@ -147,17 +147,26 @@ Page({
     ],
     markAnswerItems: [], //设置一个空答题板数组
     doneAnswerArray: [], //已做答案数组
+    checked: false, //选项框是否被选择
+
+    isModelReal: false, //是不是真题或者押题
+    isSubmit: false, //是否已提交答卷
+    circular: true, //默认slwiper可以循环滚动
+    myFavorite: 0, //默认收藏按钮是0
+    isHasShiti: true, //是否有试题
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    let self = this;
     wx.setNavigationBarTitle({
       title: options.title //设置标题
     })
     this.setData({
-      options: options
+      options: options,
+      first:true
     })
   },
 
@@ -193,125 +202,33 @@ Page({
    */
   onShow: function() {
     let self = this;
+
     let user = wx.getStorageSync('user');
+    let first = self.data.first;//只有首次载入或者重复登录才重新请求
+    let options = self.data.options;//上个页面传过来的参数
 
-    let username = user.username;//用户名称(测试)
+    if(first){//如果首次载入
+      let page = 1; //默认是第一页
+      let pageArray = []; //页面缓存数组
+      let LoginRandom = user.Login_random == undefined ? "" : user.Login_random;
+      let zcode = user.zcode == undefined ? "" : user.zcode;
+      let username = user.username == undefined?"":user.username;
+      let circular = false;
+      let myFavorite = 0;
 
-    let options = self.data.options;
-    let shitiArray = self.data.shitiArray;
-    let circular = false;
+      let last_view_key = 'last_view' +  options.tikuId + zcode;
+      let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
 
-    let last_view = wx.getStorageSync('测试'); //得到最后一次的题目
-    let px = last_view.px; //最后一次浏览的题的编号
-    let myFavorite = 0;
-    if (px == undefined) {
-      px = 1 //如果没有这个px说明这个章节首次访问
-      circular: false
-    }
+      let px = last_view.px; //最后一次浏览的题的编号
 
-    setTimeout(res => {
-      self.setData({
-        isLoaded: true
-      })
-      common.initShitiArrayDoneAnswer(shitiArray); //将试题的所有done_daan置空
-      common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
-
-      //得到swiper数组
-      let preShiti = undefined; //前一题
-      let nextShiti = undefined; //后一题
-      let midShiti = shitiArray[px - 1]; //中间题
-
-      let sliderShitiArray = [];
-      let lastSliderIndex = 0;
-
-      common.initShiti(midShiti, self); //初始化试题对象(初始化图标和选中状态)
-
-      if (px != 1 && px != shitiArray.length) { //如果不是第一题也是不是最后一题
-        preShiti = shitiArray[px - 2];
-        common.initShiti(preShiti, self); //初始化试题对象
-        nextShiti = shitiArray[px];
-        common.initShiti(nextShiti, self); //初始化试题对象
-      } else if (px == 1) { //如果是第一题
-        nextShiti = shitiArray[px];
-        common.initShiti(nextShiti, self); //初始化试题对象
+      if (px == undefined) {
+        px = 1 //如果没有这个px说明这个章节首次访问
+        circular: false
       } else {
-        preShiti = shitiArray[px - 2];
-        common.initShiti(preShiti, self); //初始化试题对象
+        page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
-      //对是否是已答试题做处理
-      wx.getStorage({
-        key: "shiti" + options.zhangjie_id + username,
-        success: function(res1) {
-          //根据章是否有子节所有已经回答的题
-          let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
-          common.setMarkAnswerItems(doneAnswerArray, options.nums, self.data.isModelReal, self.data.isSubmit, self); //设置答题板数组     
-
-          //映射已答题目的已作答的答案到shitiArray
-          for (let i = 0; i < doneAnswerArray.length; i++) {
-            let doneAnswer = doneAnswerArray[i];
-            shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan; //设置已答试题的答案
-          }
-
-          //先处理是否是已经回答的题,渲染3个
-          if (preShiti != undefined) common.processDoneAnswer(preShiti.done_daan, preShiti, self);
-          common.processDoneAnswer(midShiti.done_daan, midShiti, self);
-          if (nextShiti != undefined) common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
-
-          //根据已答试题库得到正确题数和错误题数
-          let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
-
-
-          //如果已答试题数目大于0才更新shiti
-          if (doneAnswerArray.length > 0) {
-            self.setData({
-              sliderShitiArray: sliderShitiArray,
-              doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
-              rightNum: rightAndWrongObj.rightNum,
-              wrongNum: rightAndWrongObj.wrongNum
-            })
-          }
-        },
-      })
-
-      circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-      myFavorite = midShiti.favorite;
-
-      if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
-        sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-        sliderShitiArray[2] = preShiti;
-      } else if (px == 1) { //如果是第一题
-        sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-      } else { //如果是最后一题
-
-        sliderShitiArray[0] = preShiti;
-        sliderShitiArray[1] = midShiti;
-        lastSliderIndex = 1;
-        self.setData({
-          myCurrent: 1
-        })
-      }
-
-      self.setData({
-        // z_id: options.z_id, //点击组件的id编号
-        // zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
-        // zhangIdx: options.zhangIdx, //章的id号
-        // jieIdx: options.jieIdx, //节的id号
-
-        px: px,
-        user: user,
-        circular: circular,
-        myFavorite: myFavorite, //是否收藏
-        nums: shitiArray.length, //题数
-        shitiArray: shitiArray, //整节的试题数组
-        sliderShitiArray: sliderShitiArray, //滑动数组
-        lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
-        isLoaded: true, //是否已经载入完毕,用于控制过场动画
-      });
-
-    }, 500)
+    }
   },
 
   /**

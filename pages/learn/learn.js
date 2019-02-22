@@ -8,14 +8,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    types: "导游词",
+    types: "笔试",
     barUrls: [],
     videoList: "",
     loaded: false,
     page:"0",
     diqus: [['安徽', '北京', '重庆', '福建'], ['河南', '河北', '湖北', '湖南', '海南', '黑龙江'], ['青海', '山东', '陕西', '四川', '山西', '上海', '深圳'], ['广东', '甘肃', '广西', '贵州'], ['江西', '辽宁', '江苏', '吉林', '宁夏', '内蒙古'], ['浙江', ' 天津', '新疆', '云南', '西藏']],
     diqu:"北京",
-    daoyouci:true,
+    daoyouci:false,
   },
 
   /**
@@ -52,7 +52,8 @@ Page({
   //获取课程列表
   getCourse: function() {
     this.setData({
-      loaded: false
+      loaded: false,
+      daoyouci: false,
     });
     app.post(API_URL, "action=getCourseList&types=" + this.data.types, false, false, "", "", "", self).then(res => {
       let newcourse = res.data.data[0].list;

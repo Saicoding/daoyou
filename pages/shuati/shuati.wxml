@@ -7,7 +7,7 @@
   </view>
 
   <!-- 轮播图 -->
-  <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
+  <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500" style="  opacity: {{opacity}}">
     <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
       <swiper-item>
         <image src="{{img.pic}}" class="slide-image" />
@@ -15,7 +15,7 @@
     </block>
   </swiper>
 
-  <view class="content">
+  <view class="content" style = "height:{{midHeight2}}rpx;opacity:{{opacity}};">
     <!-- 上面部分 -->
     <view class='top'>
       <view class='t_left'>
@@ -57,6 +57,12 @@
       <view data-index="1" bindtap="changeMidBar" class="mid-item" style="background:{{currentMidIndex ==1?'#11d55d':'white'}};color:{{currentMidIndex ==1?'white':'#9f9f9f'}}">全真模拟</view>
       <view data-index="2" bindtap="changeMidBar" class="mid-item" style="background:{{currentMidIndex ==2?'#11d55d':'white'}};color:{{currentMidIndex ==2?'white':'#9f9f9f'}}">核心密卷</view>
     </view>
+  </view>
+
+  <!-- 中间条 -->
+  <view class = "midline {{fixed}}" style = "height:{{jiaonang.top}}px; line-height:{{jiaonang.top}}px">
+    <view class ="midline-dot" style="margin-top:{{(jiaonang.top-8)/2}}px;"></view>
+    <view class ="midline-text">本题库根据2018年最新导游考试大纲命题</view>
   </view>
 
   <view class="ti">

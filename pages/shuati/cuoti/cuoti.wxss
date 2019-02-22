@@ -70,10 +70,12 @@ page{
 }
 
 .jie-border {
+  position: relative;
   border-left: 1rpx solid #eaeaea;
   height: 90rpx;
   margin-left:25rpx;
   margin-top:-50rpx;
+  z-index:1;
 }
 
 .jie-dot {
@@ -84,8 +86,10 @@ page{
 }
 
 .ti-block {
+  position: relative;
   display: flex;
   height:90rpx;
+  z-index:100;
 }
 
 .ti-block-line,.ti-block-line1{
@@ -139,6 +143,7 @@ page{
   width:50rpx;
   height:50rpx;
   margin-top:10rpx;
+  margin-left:20rpx;
 }
 
 .ti-block-line1-num{
