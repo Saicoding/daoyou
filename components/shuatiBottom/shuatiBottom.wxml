@@ -16,7 +16,7 @@
   </view>
 
   <view class="bottom-block" bindtap="_toggleMarkAnswer" >
-    <image src="/images/datiban.png" mod="aspectFit" class="bottom-img"></image>
-    <view class="bottom-text" style = "width:120rpx;">{{150}}/{{300}}</view>
+    <image src="/images/list.png" mod="aspectFit" class="bottom-img"></image>
+    <view class="bottom-text" style = "width:120rpx;">{{px}}/{{all_nums}}</view>
   </view>
 </view>

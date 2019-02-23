@@ -103,7 +103,7 @@
 
 /* 中间的线 */
 .line{
-  width:78%;
+  width:600rpx;
   margin:0 auto;
   margin-top:50rpx;
 }

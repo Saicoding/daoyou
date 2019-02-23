@@ -1,62 +1,68 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].videoUrl == undefined?'':files[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting"
+<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting"
   custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
-  <cover-view class="unBuy" wx:if="{{buy==0}}">
-    <cover-image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
-  </cover-view>
-  <cover-view wx:if="{{!isWifi && !useFlux && buy!=0}}" class="wifi">
-    <cover-view class="wifi-text1">您正在使用移动网络</cover-view>
-    <cover-view class="wifi-text2">继续观看会耗费通用流量</cover-view>
-    <cover-view bindtap='continueWatch' class="wifi-button">继续观看</cover-view>
-  </cover-view>
-  <cover-view class="video-play" wx:if="{{!isPlaying && buy!=0}}" bindtap="tooglePlay">
-    <cover-image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
-  </cover-view>
+  
+  <!-- <view class="unBuy" wx:if="{{buy==0}}">
+    <image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
+  </view> -->
+  <view wx:if="{{!isWifi && !useFlux && buy!=0}}" class="wifi">
+    <view class="wifi-text1">您正在使用移动网络</view>
+    <view class="wifi-text2">继续观看会耗费通用流量</view>
+    <view bindtap='continueWatch' class="wifi-button">继续观看</view>
+  </view>
+
 </video>
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
   <!-- 视频 -->
-  <view class="up-block">
+  <view class="up-block" wx:if="{{product != 'pingjia'}}">
     <view class='kc_money'>
-      <text class='b'>{{kc_money?"":"100"}}</text><text class='f12'>元</text>
+      <text class='b'>{{kc_money?"":"免费"}}</text>
+      <text class='f12'>元</text>
       <view class='f12 hui'>已有1162人报名</view>
     </view>
-    <button open-type="contact" class='hui f14 fl zixun'><image  src="/images/course/icon_humanService_black@2x.png" class='fl'></image>咨询</button>
-  
+    <button open-type="contact" class='hui f14 fl zixun'>
+      <image src="/images/course/icon_humanService_black@2x.png" class='fl'></image>咨询</button>
+
     <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">立即报名</view>
     <view wx:if="{{buy==1}}" class="purchased">已开通</view>
   </view>
   <view style='padding:4%;'>
-  <view class='f20 b'>
-  {{kc_name}}
+    <view class='f20 b'>
+      {{kc_name}}
+    </view>
+    <view class='clear' style='height:20rpx;'></view>
+    <view class='f14'>
+      <text class='hui mr10'>状态</text>{{files.length}}课时
+      <text class='hui mr10' style='margin-left:50rpx;'>讲师</text>陈龙
+      <view class='clear' style='height:20rpx;'></view>
+
+      <text class='hui mr10'>选课</text>
+      <navigator url='learn' open-type="switchTab" class='xk {{zi=="精讲"?"on":""}}'>基础精讲</navigator>
+      <navigator url='learn' open-type="switchTab" class='xk {{zi=="提升"?"on":""}}'>习题提升</navigator>
+      <navigator url='learn' open-type="switchTab" class='xk {{zi=="冲刺"?"on":""}}'>考前冲刺</navigator>
+      <view class='clear' style='height:20rpx;'></view>
+      <text class='hui mr10'>优惠</text>
+      <navigator url='' class='text hong'>2018导游全陪学习计划2折限量抢购 》</navigator>
+      <view class='clear' style='height:20rpx;'></view>
+    </view>
   </view>
-  <view class='clear' style='height:20rpx;'></view>
-  <view class='f14'>
-    <text class='hui mr10'>状态</text>{{files.length}}课时<text class='hui mr10' style='margin-left:50rpx;'>讲师</text>陈龙
-    <view class='clear' style='height:20rpx;'></view>
- 
-    <text class='hui mr10'>选课</text><view class='xk on'>基础精讲</view><view class='xk'>习题提升</view><view class='xk'>考前冲刺</view>
-    <view class='clear' style='height:20rpx;'></view>
-    <text class='hui mr10'>优惠</text><navigator url='' class='text hong'>2018导游全陪学习计划2折限量抢购 》</navigator>
-    <view class='clear' style='height:20rpx;'></view>
-  </view>
-</view>
   <view class="mybar">
-    
-      <view data-product="introduction" bindtap='changeOption' class="title1" style="color:{{product == 'introduction'?'#1aa0f4':'black'}}">课程介绍</view>
-      <view data-product="option" bindtap='changeOption' class="title1" style="color:{{product == 'option'?'#1aa0f4':'black'}}">课程目录</view>
-      <view data-product="pingjia" bindtap='changeOption' class="title1" style="color:{{product == 'pingjia'?'#1aa0f4':'black'}}">课程评价</view>
-    
+
+    <view data-product="introduction" bindtap='changeOption' class="title1" style="color:{{product == 'introduction'?'#1aa0f4':'black'}}">课程介绍</view>
+    <view data-product="option" bindtap='changeOption' class="title1" style="color:{{product == 'option'?'#1aa0f4':'black'}}">课程目录</view>
+    <view data-product="pingjia" bindtap='changeOption' class="title1" style="color:{{product == 'pingjia'?'#1aa0f4':'black'}}">课程评价</view>
+
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <scroll-view scroll-top="{{scroll}}" scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
+  <scroll-view scroll-top="{{scroll}}" scroll-y style="height:{{windowHeight-90}}rpx; padding-bottom: 100rpx;" scroll-with-animation>
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
-       
-        <image  style='width:94%'  src='{{info}}'  mode='widthFix'></image>
-     
+
+      <image style='width:94%' src='{{info}}' mode='widthFix'></image>
+
     </view>
 
     <!-- 目录信息 -->
@@ -71,23 +77,44 @@
         </view>
       </view>
     </view>
-    <!-- 评价 -->
+    <!-- 评价-->
     <view hidden="{{product != 'pingjia'}}" class="pingjia">
+      <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
+        <view class='pllist'>
+          <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
+          <view class='plcont'>
+            <view class='clear'>
+              <text class='f15'>{{pl.nickname}}</text>
+              <text class='f12 hui fr'>{{pl.pl_time}}</text>
+            </view>
+            <view class='pltext f14'>{{pl.pc_content}}</view>
+            <view class='pltext2 f13' wx:if="{{pl.hf!=''}}">
+              <text>管理员回复：</text>{{pl.hf}}</view>
+          </view>
+          <view class='clear'></view>
+        </view>
+      </view>
 
+
+      <view class="bottomkk">
+
+        <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
+        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?150:0}}rpx;" bindtap="sendMessage">发送</view>
+      </view>
     </view>
   </scroll-view>
 
   <!-- bottom -->
   <!-- android -->
-  <view wx:if="{{buy==0 && platform == 'android' }}" data-product="{{files[px-1].id}}" class="bottom" bindtap='buy'>
+  <!-- <view wx:if="{{buy==0 && platform == 'android' }}" data-product="{{files[px-1].id}}" class="bottom" bindtap='buy'>
     <view class="bottom-price">¥{{kc_money}}</view>
     <view class="bottom-buy">开通此课</view>
-  </view>
+  </view> -->
 
   <!-- ios -->
-  <view data-product="{{myproduct}}" wx:if="{{buy==0 && platform == 'ios'}}"  class="bottom" bindtap='goPay'>
+  <!-- <view data-product="{{myproduct}}" wx:if="{{buy==0 && platform == 'ios'}}" class="bottom" bindtap='goPay'>
     <view class="bottom-buy" style="width:100%;">点此开通</view>
-  </view>
+  </view> -->
 </view>
 
 

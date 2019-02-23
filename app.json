@@ -1,10 +1,10 @@
 {
   "pages": [
+    "pages/shuati/shuati",
     "pages/index/index",
     "pages/login/login",
     "pages/learn/learn",
     "pages/learn/play",
-    "pages/shuati/shuati",
     "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",
     "pages/shuati/tongji/tongji",

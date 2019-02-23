@@ -82,12 +82,13 @@
               <view class="ti-block-line1-num">{{zhangjie.donenum}}/{{zhangjie.all_num}}</view>
             </view>
             <view class="ti-block-line2"></view>
+            <view class="ti-block-line3" style = "width:{{zhangjie.rateWidth}}rpx;"></view>
           </view>
 
           <view class="ti-block-shu"></view>
 
-          <view style="height:90rpx;width:90rpx;">
-            <image data-rightRate="{{zhangjie.rightrate}}" data-doneNum="{{zhangjie.donenum}}" data-num="{{zhangjie.all_num}}" data-title="{{zhangjie.title}}" catchtap="showAnswerModel" class="ti-block-answer" src="/images/answer.png"></image>
+          <view data-f_id = "{{zhangjie.id}}" style="height:90rpx;width:90rpx;"  data-rightRate="{{zhangjie.rightrate}}" data-doneNum="{{zhangjie.donenum}}" data-num="{{zhangjie.all_num}}" data-title="{{zhangjie.title}}" catchtap="showAnswerModel">
+            <image class="ti-block-answer" src="/images/answer.png"></image>
           </view>
         </view>
         <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
@@ -95,7 +96,7 @@
         <!-- 节 -->
         <view wx:if="{{zhangjie.unfolding}}">
           <view wx:for="{{zhangjie.list}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
-            <view data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
+            <view  data-f_id="{{jie.id}}" data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
               <image class="jie-dot" src="/images/dot.png"></image>
               <view class="ti-block-line" style="margin-left:40rpx;">
                 <view class="ti-block-line1">
@@ -103,7 +104,7 @@
                   <view class="ti-block-line1-num">{{jie.donenum}}/{{jie.all_num}}</view>
                 </view>
                 <view class="ti-block-line2"></view>
-                <view class="ti-block-line3"></view>
+                <view class="ti-block-line3" style = "width:{{jie.rateWidth}}rpx;"></view>
               </view>
 
               <view class="ti-block-shu"></view>
@@ -127,7 +128,7 @@
             <view class="item-line1-text">{{moni.title}}</view>    
           </view>
 
-          <view class="item-line2" style = "border-left:{{index == monis.length-1?'none':'1rpx solid #eaeaea;'}}">
+          <view class="item-line2" style = "border-left:{{index == zhangjies.length-1?'none':'1rpx solid #eaeaea;'}}">
             <image class ="item-line2-icon" src="/images/tishu.png"></image>
             <view class="item-line2-text">{{moni.nums}}题</view>
             <image class ="item-line2-icon" src="/images/time.png" style = "margin-left:20rpx;"></image>

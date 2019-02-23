@@ -7,6 +7,14 @@ Component({
     isMark: {
       type: Number,
       value: 0
+    },
+    px: {
+      type: Number,
+      value: 0
+    },
+    all_nums:{
+      type:Number,
+      value:0
     }
   },
 

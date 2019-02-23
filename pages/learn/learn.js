@@ -63,6 +63,12 @@ Page({
       });
     });
   },
+  watch: function (e) {
+    var kc_id = e.currentTarget.dataset.kc_id;
+    wx.navigateTo({
+      url: 'play?kc_id=' + kc_id,
+    })
+  },
   //切换菜单
   getList: function(e) {
     var val = e.currentTarget.dataset.val;

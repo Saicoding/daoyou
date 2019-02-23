@@ -82,6 +82,21 @@ function formatTimeBySecond(t) {
 }
 
 /**
+ * 根据秒数得到时间字符串
+ */
+
+function formatTimeBySecond1(t) {
+  console.log(t)
+  let h = parseInt(t / 3600);
+  let m = parseInt((t - h * 3600) / 60);
+  let s = t % 60;
+
+  m = m < 10 ? "0" + m : m;
+  s = s < 10 ? "0" + s : s;
+  return h + ":" + m + ":" + s;
+}
+
+/**
  * 距离某天还有多少天
  * param: 格式 2018-04-01
  */
@@ -132,5 +147,6 @@ module.exports = {
   formatTimeBySecond: formatTimeBySecond,
   leftTime: leftTime,
   leftTime2: leftTime2,
-  getTimeObj: getTimeObj
+  getTimeObj: getTimeObj,
+  formatTimeBySecond1: formatTimeBySecond1
 }

@@ -5,16 +5,16 @@
       <image class="back-icon" src="/images/back.png"></image>
     </view>
 
-    <view class="title1" style="margin-top:{{statusBarHeight+50}}rpx">32</view>
+    <view class="title1" style="margin-top:{{statusBarHeight+50}}rpx">{{donenum}}</view>
     <view class="title2">本次做题数</view>
 
     <view class="timeRate">
       <view class="timeRate-item">
-        <view class="timeRate-item-text" style="font-size:36rpx;">00:12:56</view>
+        <view class="timeRate-item-text" style="font-size:36rpx;">{{timeStr}}</view>
         <view class="timeRate-item-text">做题用时</view>
       </view>
       <view class="timeRate-item">
-        <view class="timeRate-item-text" style="font-size:36rpx;">48%</view>
+        <view class="timeRate-item-text" style="font-size:36rpx;">{{rightRate}}%</view>
         <view class="timeRate-item-text">正确率</view>
       </view>
     </view>
@@ -27,14 +27,14 @@
 
   <view class="mid">
     <view style="font-size:25rpx;font-weight:bold;">累计答题
-      <span style="font-size:22rpx;font-weight:normal;">10题</span>
+      <span style="font-size:22rpx;font-weight:normal;">{{allDoneNum}}题</span>
     </view>
-    <view style="font-size:25rpx;color:#b8b7b8">未做题1497题</view>
+    <view style="font-size:25rpx;color:#b8b7b8">未做题{{undonenum}}题</view>
   </view>
 
   <view class="line">
     <view class="line-1"></view>
-    <view class="line-2" style="width:300rpx;"></view>
+    <view class="line-2" style="width:{{rateWidth}}rpx;"></view>
   </view>
 
   <view style="width:100%;height:10rpx;background:#f2f2f2;margin-top:40rpx;"></view>
@@ -54,7 +54,7 @@
       <image class="down-item-icon" src="/images/chakancuoti.png"></image>
       <view class="down-item-right">
         <view class="down-item-text" style="line-height:45rpx;">查看错题</view>
-        <view class="down-item-text" style="color:#cacaca;">本次共有错题5道, 快来回顾吧!</view>
+        <view class="down-item-text" style="color:#cacaca;">本次共有错题<span style ="color:red;font-weight:bold;letter-spacing:6rpx;padding-left:6rpx;">{{wrongNum}}</span>道, 快来回顾吧!</view>
       </view>
     </view>
   </view>

@@ -5,13 +5,10 @@ let md5 = require('../../common/MD5.js');
 let animate = require('../../common/animate.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
-
-
+let myanimation = animate.easeOutAnimation();
+let buttonClicked = false;
 let changeVideo = false; //是否是通过点击更换的video
-
 let changeType = false; //网络类型是否更改
-
-
 let currentTime = 1;
 
 let icon = { //图标高度宽度
@@ -31,17 +28,20 @@ Page({
     isWifi: true, //默认有wifi
     lastType: "first",
     product: 'introduction',
+    pl:"",
+    page_all: '2',
+    page_now: '1',
+    text:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var kcid = options.kc_id
+    var kcid = options.kc_id;
 
     this.setData({
-      //kcid: kc_id, 
-      kcid: "141908"
+      kcid: kcid, 
     })
     changeVideo = true; //防止视频结束时自动播放到下一个视频
   },
@@ -84,7 +84,6 @@ Page({
 
     let windowWidth = wx.getSystemInfoSync().windowWidth;
     let user = wx.getStorageSync('user');
-    let LoginRandom = user.Login_random;
     let zcode = user.zcode;
 
     let kcid = self.data.kcid;
@@ -92,8 +91,7 @@ Page({
     let img = "";
     let loaded = self.data.loaded;
     let px = 1;
-    let buied = self.data.buied;
-
+    
     self.videoContext = wx.createVideoContext('myVideo');
 
 
@@ -104,41 +102,26 @@ Page({
       px = lastpx;
     }
 
-    if (loaded && buied == undefined) return;
+    if (loaded == undefined) return;
 
     loaded = false;
     app.post(API_URL, "action=getCourseShow&cid=" + kcid, false, false, "", "").then((res) => {
 
       let files = res.data.data[0].files; //视频列表
       let currentVideo = files[px - 1];
-      // if (currentVideo.videoUrl == "") {
-      //   wx.showToast({
-      //     title: '您还没有开通此课程',
-      //     icon: 'none',
-      //     duration: 3000
-      //   })
-      // }
-      let my_canvas = [];
-
-      for (let i = 0; i < files.length; i++) {
-        let cv = wx.createCanvasContext('myCanvas' + i, self)
-        my_canvas.push(cv);
-      }
-
-      self.initfiles(files, px, my_canvas); //初始化video的图片信息
-
+      
       let buy = res.data.data[0].buy; //是否已经开通
-      //let kc_money = res.data.data[0].kc_money; //价格  
+      let kc_money = res.data.data[0].money; //价格  
       var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/g;
       var info3 = res.data.data[0].kc_info.match(srcReg) + "";
       var info = info3.replace(/src=/i, "").replace(/[\'\"]?/g, "");
-     
+      self.initfiles(files, px)
       self.setData({
         files: files,
         kc_name: res.data.data[0].kc_name,
+        zi: res.data.data[0].kc_name.substr(res.data.data[0].kc_name.length -2, 2),
         info: info,
-        my_canvas: my_canvas,
-        //kc_money: kc_money,
+        kc_money: kc_money,
         loaded: true,
         img: res.data.data[0].kc_img,
         kcid: kcid,
@@ -147,11 +130,86 @@ Page({
         user: user,
         scroll: scroll
       })
-
-
     })
 
+
+   //获取评论列表
+    self.getPL();
+    
   },
+  /**
+   * 初始化视频信息
+   */
+  initfiles: function (files, px) {
+    for (let i = 0; i < files.length; i++) {
+      let video = files[i];
+
+      video.show = true;
+     
+      //处理时间
+      let length = Math.ceil(video.time_length);
+      let m = parseInt(length / 60);
+      let s = length % 60 < 10 ? '0' + length % 60 - 1 : length % 60 - 1;
+      video.time_length = m + '分' + s + '秒';
+
+
+    }
+  },
+
+  getPL: function () {
+    //获取评论列表
+    if (this.data.page_now < this.data.page_all){
+    var self = this;
+    
+    app.post(API_URL, "action=getCoursePL&cid=" + this.data.kcid + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
+      self.setData({
+        page_all: res.data.data[0].page_all,
+        page_now: res.data.data[0].page_now,
+        pl: res.data.data[0].pllist
+      })
+
+    })
+    }
+  },
+
+  /**
+     * 输入文字
+     */
+  typing: function (e) {
+   
+    let text = e.detail.value;
+    this.setData({
+      text: text
+      
+    })
+  },
+  /**
+     * 发送信息
+     */
+  sendMessage: function () {
+    buttonClicked = false;
+    let self = this;
+    let user = wx.getStorageSync('user');
+   
+    let zcode = user.zcode;
+    let token = user.token;
+    let kcid = self.data.kcid;
+    let content = self.data.text;
+    app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
+     
+      self.setData({
+        
+      })
+      setTimeout(res => {
+        self.setData({
+          text: ''
+        })
+      }, 250)
+    })
+  },
+
+
+
   /**
    * 使用流量继续观看
    */
@@ -175,12 +233,12 @@ Page({
 
     let user = self.data.user;
     let kcid = self.data.kcid;
-    let LoginRandom = user.Login_random;
+   
     let zcode = user.zcode;
     changeVideo = false;
 
     let files = self.data.files; //当前所有视频
-    let my_canvas = self.data.my_canvas; //当前所有画布
+  
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否正在播放视频
 
@@ -189,14 +247,11 @@ Page({
     if (index == px - 1) return; //如果点击的是同一个视频就不做任何操作
 
     let lastVideo = files[px - 1]; //上一个视频
-    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
-
-    let lastCv = my_canvas[px - 1]; //上一个画布
     let videoID = lastVideo.id; //视频id
 
     let currentVideo = files[index]; //点击的这个视频
 
-    if (currentVideo.videoUrl == "") {
+    if (currentVideo.files == "") {
       wx.showToast({
         title: '您还没有开通此课程',
         icon: 'none',
@@ -204,8 +259,6 @@ Page({
       })
       return;
     }
-
-    let currentCv = my_canvas[index]; //当前画布
 
     let playTime = 0;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
@@ -216,15 +269,6 @@ Page({
       playTime = 0;
     }
 
-    let playCourseArr = lastVideo.playCourseArr;
-    let playCourseStr = "";
-    for (let i = 0; i < playCourseArr.length; i++) {
-      if (i < playCourseArr.length - 1) {
-        playCourseStr += playCourseArr[i] + ",";
-      } else {
-        playCourseStr += playCourseArr[i];
-      }
-    }
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
@@ -251,7 +295,7 @@ Page({
       px: index + 1,
     })
 
-    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
+    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
 
   },
 
@@ -270,29 +314,24 @@ Page({
    * 播放进度改变时
    */
   timeupdate: function(e) {
-    let self = this;
-    let px = self.data.px;
-    let files = self.data.files;
-    let video = files[px - 1];
+    // let self = this;
+    // let px = self.data.px;
+    // let files = self.data.files;
+    // let video = files[px - 1];
 
-    let my_canvas = self.data.my_canvas;
-    let cv = my_canvas[px - 1];
-    currentTime = e.detail.currentTime; //当前播放进度(秒)
+  
+    // currentTime = e.detail.currentTime; //当前播放进度(秒)
 
-    let m = parseInt(currentTime / 60);
-    let angle = currentTime / video.length * 2 * Math.PI;
+    // let m = parseInt(currentTime / 60);
+    // let angle = currentTime / video.length * 2 * Math.PI;
 
-    if (video.playCourseArr[m] == 0) {
-      video.playCourseArr[m] = 1;
-    }
+    
+    // if (currentTime % 10 >= 0 && currentTime % 10 <= 1) {
 
-
-    if (currentTime % 10 >= 0 && currentTime % 10 <= 1) {
-
-      self.setData({
-        files: files
-      })
-    }
+    //   self.setData({
+    //     files: files
+    //   })
+    // }
   },
 
   /**
@@ -304,7 +343,7 @@ Page({
     let files = self.data.files; //当前所有视频
     let currentVideo = files[px - 1];
 
-    if (currentVideo.videoUrl == "") {
+    if (currentVideo.files == "") {
       wx.showToast({
         title: '您还没有开通此课程',
         icon: 'none',
@@ -340,25 +379,25 @@ Page({
 
     let user = self.data.user;
     let kcid = self.data.kcid;
-    let LoginRandom = user.Login_random;
+   
     let zcode = user.zcode;
 
     let files = self.data.files; //当前所有视频
-    let my_canvas = self.data.my_canvas; //当前所有画布
+   
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否在播放
 
     if (px == files.length) return; //如果点击的是同一个视频就不做任何操作
 
     let lastVideo = files[px - 1]; //上一个视频
-    let lastCv = my_canvas[px - 1]; //上一个画布
+
     let videoID = lastVideo.id; //视频id
 
-    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
+    //let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
 
     let currentVideo = files[px]; //当前视频
 
-    if (currentVideo.videoUrl == "") {
+    if (currentVideo.files == "") {
       wx.showToast({
         title: '您还没有开通此课程',
         icon: 'none',
@@ -367,7 +406,7 @@ Page({
       return;
     }
 
-    let currentCv = my_canvas[px]; //当前画布
+ 
 
     let playTime = 0;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
@@ -380,16 +419,7 @@ Page({
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
-    let playCourseArr = lastVideo.playCourseArr;
-    let playCourseStr = "";
-    for (let i = 0; i < playCourseArr.length; i++) {
-      if (i < playCourseArr.length - 1) {
-        playCourseStr += playCourseArr[i] + ",";
-      } else {
-        playCourseStr += playCourseArr[i];
-      }
-    }
-
+   
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
@@ -406,7 +436,7 @@ Page({
     })
 
 
-    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {
+    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => {
 
     //})
   },
@@ -416,12 +446,13 @@ Page({
    */
   tooglePlay: function() {
     let self = this;
+    console.log('ok')
 
     let px = self.data.px; //当前视频编号
     let files = self.data.files; //当前所有视频
     let currentVideo = files[px - 1];
 
-    if (currentVideo.videoUrl == "") {
+    if (currentVideo.files == "") {
       wx.showToast({
         title: '您还没有开通此课程',
         icon: 'none',
@@ -447,41 +478,6 @@ Page({
     })
   },
 
-  /**
-   * 初始化视频信息
-   */
-  initfiles: function(files, px, my_canvas) {
-    for (let i = 0; i < files.length; i++) {
-      let video = files[i];
-      // "orderid": "0",
-      //   "filesname": "0_揭秘！导游业务科目如何学！.",
-      //     "files": "http://test-xiaoyi-2017-4.oss-cn-qingdao.aliyuncs.com/2018daoyou/2018.6.26daoyouyewu_jingjiang_chenlong/0_34143141908206780jsudh.mp4",
-      //       "time_length": "400.940567"
-
-
-      video.show = true;
-      let flag = video.Flag;
-      let cv = my_canvas[i];
-
-      //处理时间
-      let length = Math.ceil(video.time_length);
-      let m = parseInt(length / 60);
-      let s = length % 60 < 10 ? '0' + length % 60 - 1 : length % 60 - 1;
-      video.time_length = m + '分' + s + '秒';
-
-      //初始化已观看视频的时间数组
-      // if (video.playCourseArr.length == 0) { //如果是空数组，说明是首次观看
-      //   if (s !== "00") {
-      //     for (let i = 0; i < m + 1; i++) {
-      //       video.playCourseArr.push(0);
-      //     }
-      //   }
-      // }
-
-      // let angle = video.lastViewLength / video.length * 2 * Math.PI;
-
-    }
-  },
 
   /**
    * 生命周期函数
@@ -507,23 +503,12 @@ Page({
     let kcid = self.data.kcid;
     let px = self.data.px;
 
-    let LoginRandom = user.Login_random;
     let zcode = user.zcode;
 
     let files = self.data.files; //当前所有视频
 
     let lastVideo = files[px - 1]; //上一个视频
-    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
-
-    // let playCourseArr = lastVideo.playCourseArr;
-    // let playCourseStr = "";
-    // for (let i = 0; i < playCourseArr.length; i++) {
-    //   if (i < playCourseArr.length - 1) {
-    //     playCourseStr += playCourseArr[i] + ",";
-    //   } else {
-    //     playCourseStr += playCourseArr[i];
-    //   }
-    // }
+    
 
     let videoID = lastVideo.orderid; //视频id
 
@@ -541,24 +526,10 @@ Page({
 
     clearInterval(self.data.interval);
 
-    ////app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
+    ////app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
   },
 
-  /**
-   * 是否真正看完
-   */
-  ifEnd: function(video) {
-    let end = true;
-    for (let i = 0; i < video.playCourseArr.length; i++) {
-      let playCourse = video.playCourseArr[i];
-      if (playCourse == 0) {
-        end = false;
-        break;
-      }
-    }
-    return end;
-  },
-
+ 
   /**
    * 开通课程
    */
@@ -569,7 +540,7 @@ Page({
   //   let product = self.data.kcid;
   //   let code = "";
   //   let user = wx.getStorageSync('user');
-  //   let Login_random = user.Login_random; //用户登录随机值
+  //   ; //用户登录随机值
   //   let zcode = user.zcode; //客户端id号
 
   //   // 登录
@@ -580,8 +551,8 @@ Page({
   //       app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
   //         let openid = res.data.openid;
 
-  //         console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
-  //         app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
+ 
+  //         app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
 
   //           let status = res.data.status;
   //           console.log(status)
@@ -607,7 +578,7 @@ Page({
   //               'signType': "MD5",
   //               success: function (res) {
   //                 if (res.errMsg == "requestPayment:ok") { //成功付款后
-  //                   app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
+  //                   app.post(API_URL, "action=BuyTC&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
 
   //                     wx.showToast({
   //                       title: '开通成功',
@@ -619,11 +590,11 @@ Page({
   //                       loaded: false,
   //                     })
 
-  //                     app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+  //                     app.post(API_URL, "action=getCourseShow&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
 
   //                       let files = res.data.data[0].files; //视频列表
-  //                       let my_canvas = self.data.my_canvas;
-  //                       self.initfiles(files, px, my_canvas); //初始化video的图片信息
+  //                    
+  //                      
   //                       self.setData({
   //                         files: files,
   //                         loaded: true,
@@ -672,7 +643,7 @@ Page({
   //   let px = self.data.px;
   //   let code = "";
   //   let user = wx.getStorageSync('user');
-  //   let Login_random = user.Login_random; //用户登录随机值
+  //   ; //用户登录随机值
   //   let zcode = user.zcode; //客户端id号
 
   //   // 登录
@@ -683,7 +654,7 @@ Page({
   //       app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
   //         let openid = res.data.openid;
 
-  //         app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
+  //         app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
 
   //           let status = res.data.status;
 
@@ -708,7 +679,7 @@ Page({
   //               'signType': "MD5",
   //               success: function (res) {
   //                 if (res.errMsg == "requestPayment:ok") { //成功付款后
-  //                   app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
+  //                   app.post(API_URL, "action=BuyTC&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
   //                     self.setData({ //设置已经开通
   //                       buy: 1
   //                     })
@@ -722,11 +693,11 @@ Page({
   //                       loaded: false,
   //                     })
 
-  //                     app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+  //                     app.post(API_URL, "action=getCourseShow&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
   //                       let files = res.data.data[0].files; //视频列表
 
-  //                       let my_canvas = self.data.my_canvas;
-  //                       self.initfiles(files, px, my_canvas); //初始化video的图片信息
+ 
+  //                      
 
   //                       self.setData({
   //                         files: files,

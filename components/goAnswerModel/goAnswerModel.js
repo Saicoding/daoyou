@@ -71,7 +71,7 @@ Component({
     //点击开始刷题按钮
     _GOzuoti:function(e){
       this.hideDialog();
-      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected});//传两个参数,1.当前选择的题型(全部、单选、多选、判断).2.已做的题还是未做的题(默认是未做的题)
+      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum});//传三个参数,1.当前选择的题型(全部、单选、多选、判断).2.已做的题还是未做的题(默认是未做的题).3.章节id 
     }
   }
 

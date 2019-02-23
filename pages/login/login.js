@@ -1,6 +1,6 @@
 const app = getApp();
 
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 let WXBizDataCrypt = require('../../utils/cryptojs/RdWXBizDataCrypt.js');
 let appId = "wx274bc5c5c5ce0434";
 let md5 = require('../../common/MD5.js')
@@ -21,7 +21,7 @@ Page({
     openId: '', //用户唯一标识  
     unionId: '',
     encryptedData: '',
-    url1: '',
+    url: '',
     ifGoPage: '',
     phoneText: "13292374292",
     pwdText: '000000',
@@ -77,7 +77,7 @@ Page({
       statu: status[0]
     });
     if (options.url){
-      this.setData({ url1: options.url});
+      this.setData({ url: options.url});
     }
     if (options.ifGoPage){
       this.setData({ ifGoPage: options.ifGoPage });
@@ -265,7 +265,7 @@ Page({
     } else {
       let Sign = md5.md5(phone + "ChinaplatSms").toLowerCase();
       //当手机号正确的时候提示用户短信验证码已经发送
-      app.post(API_URL, "action=SendSms&mobile=" + self.data.phone + "&Sign=" + Sign, true, true, "发送中").then((res) => {
+      app.post("https://xcx2.chinaplat.com/", "action=SendSms&mobile=" + self.data.phone + "&Sign=" + Sign, true, true, "发送中").then((res) => {
         wx.showToast({
           title: '短信验证码已发送',
           icon: 'none',
@@ -380,7 +380,25 @@ Page({
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
-        let user = res.data.list[0];
+
+
+        // "token":"7bd3b5881bd3ce5ec3875f33899c51ef",
+        //     "Mycode":"111562",
+        //     "username":"13292374292",
+        //     "Nickname":"游客",
+        //     "Jifen":"0",
+        //     "Money":"19893.56",
+        //     "xueshi":"602623",
+        //     "Vip":"0",
+        //     "Ktime":"",
+        //     "Jtime":"",
+        //     "zcode":11562,
+        //     "Pic":"http://www.chinaplat.com/user/UserHeadImg/11562.jpg",
+        //     "TKflag":1,
+        //     "YHQ":1,
+        //     "taocan":"1",
+        //     "yhq_time":"2018/7/30 11:37:58"
+        let user = res.data.data[0].data;
 
         wx.setStorage({
           key: 'user',
@@ -437,8 +455,8 @@ Page({
     } else {
       //开始登录
       pwd = md5.md5(pwd).toLowerCase();
-      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
-        let user = res.data.list[0];
+      app.post(API_URL, "action=Login&user=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
+        let user = res.data.data[0].data;
 
         wx.setStorage({
           key: 'user',
@@ -498,7 +516,7 @@ Page({
 
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
-      app.post(API_URL + "daoyou/", "action=Reg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
+      app.post(API_URL, "action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
 
         let user = res.data.list[0];
 

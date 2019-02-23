@@ -3,7 +3,7 @@
 
 .list .listimg image {width: 100%;  height:240rpx;}
 .yuyin { position: absolute; left: 0; bottom: 70px; background: rgba(0, 0, 0, 0.4); color: #fff; line-height: 24rpx; padding:5px 6px; border-radius:0 4px 4px 0; font-size: 24rpx; padding-top: 7px;}
-.yuyin image { float: left; width: 30rpx; margin-right: 3px;}
+.yuyin image { float: left; width: 30rpx; height: 30rpx; margin-right: 3px;}
 
 .list_t { line-height: 30px; padding: 0 8px; overflow: hidden; white-space: nowrap;text-overflow: ellipsis; font-size: 28rpx; color: #333}
 .biao { color: #aaa;  font-size: 24rpx; padding: 0 2%}

@@ -19,6 +19,10 @@ Component({
     buy:{
       type:Number,
       value:0
+    },
+    beizhu:{
+      type:String,
+      value:""
     }
   },
 

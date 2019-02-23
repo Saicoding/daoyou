@@ -7,7 +7,7 @@
       <view class="mid-item-1">{{donenum}}</view>
       <view class="mid-item-2">已答题</view>
     </view>
-    <view class="mid-item">
+    <view class="mid-item" style = "width:180rpx;">
       <view class="mid-item-1">{{rightrate}}
         <span style="color:white;font-size:20rpx;">%</span>
       </view>

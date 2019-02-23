@@ -1,5 +1,5 @@
 // pages/shuati/shuati.js
-const app = getApp()
+const app = getApp();
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 
 Page({
@@ -131,10 +131,13 @@ Page({
           zhangjie.donenum += doneArray.length;
 
           let rightNum = 0;
+
+          jie.rateWidth = 490 * (jie.donenum / parseInt(jie.all_num));
           // 计算正确率
           for (let k = 0; k < doneArray.length; k++) {
             let done = doneArray[k];
-            if (done.flag == 1) { //正确
+
+            if (done.isRight == 0) { //正确
               rightNum++;
               zhangjie.rightNum++;
             }
@@ -143,8 +146,11 @@ Page({
         } else {
           jie.donenum = 0;
           jie.rightrate = 0;
+          jie.rateWidth = 0;
         }
       }
+
+      zhangjie.rateWidth = 490 * zhangjie.donenum / parseInt(zhangjie.all_num);//绿条宽度
       zhangjie.rightrate = zhangjie.donenum == 0 ? 0 : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 
@@ -331,12 +337,14 @@ Page({
     let donenum = e.currentTarget.dataset.donenum; //已答数目
     let rightrate = e.currentTarget.dataset.rightrate; //正确率
     let title = e.currentTarget.dataset.title; //点击的标题
+    let f_id = e.currentTarget.dataset.f_id;//章节id
 
     this.goAnswerModel.setData({
       num: num,
       donenum: donenum,
       rightrate: rightrate,
-      title: title
+      title: title,
+      f_id:f_id
     })
 
     this.goAnswerModel.showDialog();
@@ -347,24 +355,17 @@ Page({
    */
   _GOzuoti: function(e) {
     let currentSelectIndex = e.detail.currentSelectIndex; //选择做题的题型
-    let title = "";
-    let selected = e.detail.selected; //已做题还是未做题
+    let currentIndex = this.data.currentIndex;//当前科目index
+    let title = e.detail.title;
+    let selected = e.detail.selected; //已做题还是全部试题
+    let donenum = e.detail.donenum;//已做的题数
     let currentMidIndex = this.data.currentMidIndex; //当前试卷类型(章节练习、全镇模拟、核心密卷)
-
-    switch (currentMidIndex) { //根据index得到标题字符串
-      case 0:
-        title = "章节练习";
-        break;
-      case 1:
-        title = "全真模拟";
-        break;
-      case 2:
-        title = "核心密卷";
-        break;
-    }
+    let types = this.getkemuIDByindex(currentIndex);//科目ID
+    let f_id = e.detail.f_id;//章节id
+    let all_nums = e.detail.all_nums;//点击章节的题数
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?currentSelectIndex=' + currentSelectIndex + "&selected=" + selected + "&title=" + title,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum,
     })
   },
 

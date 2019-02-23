@@ -2,7 +2,7 @@
 <view wx:if="{{loaded}}" class="content">
   <view wx:for="{{list}}" wx:for-item="list" wx:key="i" class='list' data-id='{{list.id}}' bindtap='info'>
     <view class='listimg'>
-    <image src="{{list.pic}}" mode="aspectFill"></image>
+    <image src="{{list.pic}}"></image>
     </view>
     <view class='yuyin' wx:if="{{list.audio*1>0}}"><image src="../../images/course/yuyin@2x.png" class='fl' mode="widthFix"></image>语音版</view>
     <view class='yuyin' wx:if="{{list.audio*1==0}}"><image src="../../images/course/wenzi@3x.png" class='fl' mode="widthFix"></image>文字版</view>
