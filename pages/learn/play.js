@@ -28,10 +28,10 @@ Page({
     isWifi: true, //默认有wifi
     lastType: "first",
     product: 'introduction',
-    pl:"",
+    pl: "",
     page_all: '2',
     page_now: '1',
-    text:""
+    text: ""
   },
 
   /**
@@ -39,9 +39,10 @@ Page({
    */
   onLoad: function(options) {
     var kcid = options.kc_id;
-
+    var renshu = options.renshu;
     this.setData({
-      kcid: kcid, 
+      kcid: kcid,
+      renshu: renshu
     })
     changeVideo = true; //防止视频结束时自动播放到下一个视频
   },
@@ -78,29 +79,27 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    
+
 
     let self = this;
 
     let windowWidth = wx.getSystemInfoSync().windowWidth;
-    let user = wx.getStorageSync('user');
-    let zcode = user.zcode;
 
     let kcid = self.data.kcid;
 
     let img = "";
     let loaded = self.data.loaded;
     let px = 1;
-    
+
     self.videoContext = wx.createVideoContext('myVideo');
 
 
-    let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
-    let scroll = lastpx * 100 * windowWidth / 750;
+    //let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
+    //let scroll = lastpx * 100 * windowWidth / 750;
 
-    if (lastpx != "") {
-      px = lastpx;
-    }
+    // if (lastpx != "") {
+    //   px = lastpx;
+    // }
 
     if (loaded == undefined) return;
 
@@ -109,7 +108,7 @@ Page({
 
       let files = res.data.data[0].files; //视频列表
       let currentVideo = files[px - 1];
-      
+
       let buy = res.data.data[0].buy; //是否已经开通
       let kc_money = res.data.data[0].money; //价格  
       var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/g;
@@ -119,7 +118,8 @@ Page({
       self.setData({
         files: files,
         kc_name: res.data.data[0].kc_name,
-        zi: res.data.data[0].kc_name.substr(res.data.data[0].kc_name.length -2, 2),
+        teacher: res.data.data[0].teacher,
+        zi: res.data.data[0].kc_name.substr(res.data.data[0].kc_name.length - 2, 2),
         info: info,
         kc_money: kc_money,
         loaded: true,
@@ -127,25 +127,25 @@ Page({
         kcid: kcid,
         px: px,
         buy: buy,
-        user: user,
-        scroll: scroll
+        //user: user,
+        //scroll: scroll
       })
     })
 
 
-   //获取评论列表
+    //获取评论列表
     self.getPL();
-    
+
   },
   /**
    * 初始化视频信息
    */
-  initfiles: function (files, px) {
+  initfiles: function(files, px) {
     for (let i = 0; i < files.length; i++) {
       let video = files[i];
 
       video.show = true;
-     
+
       //处理时间
       let length = Math.ceil(video.time_length);
       let m = parseInt(length / 60);
@@ -156,56 +156,64 @@ Page({
     }
   },
 
-  getPL: function () {
+  getPL: function() {
     //获取评论列表
-    if (this.data.page_now < this.data.page_all){
-    var self = this;
-    
-    app.post(API_URL, "action=getCoursePL&cid=" + this.data.kcid + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
-      self.setData({
-        page_all: res.data.data[0].page_all,
-        page_now: res.data.data[0].page_now,
-        pl: res.data.data[0].pllist
-      })
+    if (this.data.page_now < this.data.page_all) {
+      var self = this;
 
-    })
+      app.post(API_URL, "action=getCoursePL&cid=" + this.data.kcid + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
+        self.setData({
+          page_all: res.data.data[0].page_all,
+          page_now: res.data.data[0].page_now,
+          pl: res.data.data[0].pllist
+        })
+
+      })
     }
   },
 
   /**
-     * 输入文字
-     */
-  typing: function (e) {
-   
+   * 输入文字
+   */
+  typing: function(e) {
+
     let text = e.detail.value;
     this.setData({
       text: text
-      
+
     })
   },
   /**
-     * 发送信息
-     */
-  sendMessage: function () {
+   * 发送信息
+   */
+  sendMessage: function() {
     buttonClicked = false;
     let self = this;
+    
     let user = wx.getStorageSync('user');
-   
-    let zcode = user.zcode;
-    let token = user.token;
-    let kcid = self.data.kcid;
-    let content = self.data.text;
-    app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
-     
-      self.setData({
-        
-      })
-      setTimeout(res => {
+    console.log(user)
+    if (user) {
+      let zcode = user.zcode;
+      let token = user.token;
+      let kcid = self.data.kcid;
+      let content = self.data.text;
+      app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
+
         self.setData({
           text: ''
         })
-      }, 250)
-    })
+        self.getPL();
+        wx.pageScrollTo({
+          scrollTop: 0
+        })
+      })
+    } else {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+
+
+    }
   },
 
 
@@ -231,14 +239,14 @@ Page({
     let self = this;
     let windowWidth = self.data.windowWidth;
 
-    let user = self.data.user;
+
     let kcid = self.data.kcid;
-   
-    let zcode = user.zcode;
+
+
     changeVideo = false;
 
     let files = self.data.files; //当前所有视频
-  
+
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否正在播放视频
 
@@ -247,17 +255,24 @@ Page({
     if (index == px - 1) return; //如果点击的是同一个视频就不做任何操作
 
     let lastVideo = files[px - 1]; //上一个视频
-    let videoID = lastVideo.id; //视频id
+    let videoID = lastVideo.id; //上一个视频id
 
     let currentVideo = files[index]; //点击的这个视频
 
     if (currentVideo.files == "") {
-      wx.showToast({
-        title: '您还没有开通此课程',
-        icon: 'none',
-        duration: 3000
-      })
-      return;
+      let user = wx.getStorageSync('user');
+      if (user) {
+        wx.showToast({
+          title: '您还没有开通此课程',
+          icon: 'none',
+          duration: 3000
+        })
+        return;
+      } else {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
     }
 
     let playTime = 0;
@@ -294,8 +309,14 @@ Page({
       isPlaying: isPlaying,
       px: index + 1,
     })
-
-    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+    wx.pageScrollTo({
+      scrollTop: 0
+    })
+    let user = wx.getStorageSync('user');
+    if (user) {
+      let zcode = user.zcode;
+      //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+    }
 
   },
 
@@ -319,13 +340,13 @@ Page({
     // let files = self.data.files;
     // let video = files[px - 1];
 
-  
+
     // currentTime = e.detail.currentTime; //当前播放进度(秒)
 
     // let m = parseInt(currentTime / 60);
     // let angle = currentTime / video.length * 2 * Math.PI;
 
-    
+
     // if (currentTime % 10 >= 0 && currentTime % 10 <= 1) {
 
     //   self.setData({
@@ -377,13 +398,10 @@ Page({
       return; //如果是通过点击更换的video
     }
 
-    let user = self.data.user;
     let kcid = self.data.kcid;
-   
-    let zcode = user.zcode;
 
     let files = self.data.files; //当前所有视频
-   
+
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否在播放
 
@@ -398,15 +416,22 @@ Page({
     let currentVideo = files[px]; //当前视频
 
     if (currentVideo.files == "") {
-      wx.showToast({
-        title: '您还没有开通此课程',
-        icon: 'none',
-        duration: 3000
-      })
-      return;
+      let user = wx.getStorageSync('user');
+      if (user) {
+        wx.showToast({
+          title: '您还没有开通此课程',
+          icon: 'none',
+          duration: 3000
+        })
+        return;
+      } else {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
     }
 
- 
+
 
     let playTime = 0;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
@@ -419,7 +444,7 @@ Page({
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
-   
+
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
@@ -435,10 +460,13 @@ Page({
       px: px + 1,
     })
 
+    let user = wx.getStorageSync('user');
+    if (user) {
+      let zcode = user.zcode;
+      //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => {
 
-    //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => {
-
-    //})
+      //})
+    }
   },
 
   /**
@@ -499,16 +527,11 @@ Page({
    */
   onUnload: function() {
     let self = this;
-    let user = self.data.user;
+
     let kcid = self.data.kcid;
     let px = self.data.px;
-
-    let zcode = user.zcode;
-
     let files = self.data.files; //当前所有视频
-
     let lastVideo = files[px - 1]; //上一个视频
-    
 
     let videoID = lastVideo.orderid; //视频id
 
@@ -525,11 +548,14 @@ Page({
     wx.setStorageSync('lastVideo' + kcid + user.username, px);
 
     clearInterval(self.data.interval);
-
-    ////app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+    let user = wx.getStorageSync('user');
+    if (user) {
+      let zcode = user.zcode;
+      ////app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+    }
   },
 
- 
+
   /**
    * 开通课程
    */
@@ -551,7 +577,7 @@ Page({
   //       app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
   //         let openid = res.data.openid;
 
- 
+
   //         app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
 
   //           let status = res.data.status;
@@ -617,19 +643,9 @@ Page({
    * 弹出支付详细信息
    */
   showPayDetail: function(e) {
-    let product = e.currentTarget.dataset.product;
 
-    if (product == "DB16") {
-      this.payDetail.setData({
-        product: "jjr"
-      })
-      this.payDetail.showDialog();
-    } else {
-      this.payDetail.setData({
-        product: "xl"
-      })
-      this.payDetail.showDialog();
-    }
+    this.payDetail.showDialog();
+
   },
 
   /**
@@ -696,7 +712,7 @@ Page({
   //                     app.post(API_URL, "action=getCourseShow&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
   //                       let files = res.data.data[0].files; //视频列表
 
- 
+
   //                      
 
   //                       self.setData({
@@ -747,7 +763,7 @@ Page({
   goPay: function() {
 
     wx.navigateTo({
-      url: ''
+      url: 'pay'
     })
   }
 })

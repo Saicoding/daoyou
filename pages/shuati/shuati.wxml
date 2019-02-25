@@ -75,7 +75,7 @@
     <view wx:if="{{currentMidIndex == 0&&isLoaded}}">
       <view style="margin-bottom:50rpx;" wx:for="{{zhangjies}}" wx:for-item="zhangjie" wx:for-index="zhangIdx" wx:key="z">
         <view data-index="{{zhangIdx}}" class="ti-block" bindtap="toogleFolder">
-          <image class="ti-title-icon" src="{{zhangjie.unfolding?'/images/unfold.png':'/images/fold.png'}}"></image>
+          <image class="ti-title-icon" src="{{zhangjie.isFolder && !zhangjie.display?'/images/fold.png':'/images/unfold.png'}}"></image>
           <view class="ti-block-line" style="margin-left:30rpx;">
             <view class="ti-block-line1">
               <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
@@ -91,12 +91,12 @@
             <image class="ti-block-answer" src="/images/answer.png"></image>
           </view>
         </view>
-        <view wx:if="{{zhangjie.unfolding}}" class="jie-border"></view>
+        <view wx:if="{{!zhangjie.isFolder}}" class="jie-border"></view>
 
         <!-- 节 -->
-        <view wx:if="{{zhangjie.unfolding}}">
+        <view class="jie"  animation="{{!zhangjie.isFolder?zhangjie.spreadData:zhangjie.folderData}}" >
           <view wx:for="{{zhangjie.list}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
-            <view  data-f_id="{{jie.id}}" data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel">
+            <view  data-f_id="{{jie.id}}" data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel" >
               <image class="jie-dot" src="/images/dot.png"></image>
               <view class="ti-block-line" style="margin-left:40rpx;">
                 <view class="ti-block-line1">

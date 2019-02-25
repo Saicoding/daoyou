@@ -181,7 +181,8 @@ Page({
 
     this.setData({
       shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray
+      sliderShitiArray: sliderShitiArray,
+      restart:false
     })
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
@@ -630,8 +631,10 @@ Page({
         let jie = mytiku.list[j];
         if(jie.id == options.f_id){//找到对应章节
           jie.donenum += doneAnswerArray.length - donenum;
+          jie.donenum = this.data.restart ? 0 : jie.donenum;
           jie.rateWidth = 490 * jie.donenum / parseInt(jie.all_num);
           mytiku.donenum += doneAnswerArray.length - donenum;
+          mytiku.donenum = this.data.restart ? 0 : jie.donenum;
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
           prePage.setData({
             zhangjies: mytikuArray,

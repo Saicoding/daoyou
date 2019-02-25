@@ -281,6 +281,13 @@ page {
   z-index:1;
 }
 
+.jie{
+    /* hidden是为了实现点击后有动画效果 */
+  height: 0rpx;
+  overflow-y: hidden;
+  opacity: 1;
+}
+
 .jie-dot {
   width: 30rpx;
   height: 30rpx;

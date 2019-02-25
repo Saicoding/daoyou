@@ -2,9 +2,8 @@
 
 const app = getApp();
 
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
-let appId = "wx274bc5c5c5ce0434";
-let buttonClicked = false;
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
+
 Page({
 
   /**
@@ -15,32 +14,47 @@ Page({
     openId: '', //用户唯一标识  
     unionId: '',
     encryptedData: '',
-   
-    user:{
-      username:"臭不要脸的管子",
-      Pic:"../../images/user/img.png"
-    }
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let user = wx.getStorageSync('user');
+    if (user) {
+      this.setData({ user: user })
+    } else {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    
   },
-
+  logout: function () {
+    wx.clearStorage("user");
+    wx.navigateTo({
+      url: '../login/login',
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let user = wx.getStorageSync('user');
+    if (user) {
+      this.setData({ user: user })
+    } else {
+      wx.navigateTo({
+        url: '../login/login',
+      })
+    }
   },
 
   /**

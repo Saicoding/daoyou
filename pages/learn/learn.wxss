@@ -61,7 +61,7 @@
 }
 
 .title{
-  font-size:30rpx;
+  font-size:28rpx;
   line-height:50rpx;
   overflow: hidden; white-space: nowrap;text-overflow: ellipsis;
 }

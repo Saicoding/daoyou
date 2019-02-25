@@ -2,12 +2,12 @@
   <!-- 最上面 -->
   <view class="up">
     <view class="nickname">
-      <view>{{user.username}}</view>
+      <view class='f16'>{{user.Nickname}}</view>
       <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
     </view>
     <view class="nickname2">
       <view class='fr' style='height: 150rpx;line-height: 150rpx; color:#fff;'>></view>
-      <image class="pic fr" src="{{user.Pic}}" mode="aspectFit"></image>
+      <image class="pic fr" src="{{user.Pic}}" mode="widthFit"></image>
     </view>
     <view class='clear'></view>
   </view>
@@ -40,7 +40,7 @@
           账户余额
         </view>
         <view class='fr hui'>></view>
-        <view class='fr hong'>5962.00元</view>
+        <view class='fr hong'>{{user.Money}}元</view>
         </navigator>
       </view>
     </view>
@@ -91,6 +91,6 @@
        
       </view>
     </view>
-    
+    <view class="submit" bindtap="logout" hover-class='select2' hover-stay-time='500'>退出登陆</view>
   </view>
 </view>

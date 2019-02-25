@@ -8,4 +8,27 @@
 .list_t { line-height: 30px; padding: 0 8px; overflow: hidden; white-space: nowrap;text-overflow: ellipsis; font-size: 28rpx; color: #333}
 .biao { color: #aaa;  font-size: 24rpx; padding: 0 2%}
 .biao view { display: inline-block; margin-right: 10px;}
-.biao image { width: 34rpx; margin-right: 8rpx; float: left}
+.biao image { width: 34rpx; height: 34rpx; margin-right: 8rpx; float: left}
+
+.loading-block {
+  width: 100%;
+  height: 70rpx;
+  font-size: 23rpx;
+  line-height: 70rpx;
+  margin: 0rpx auto;
+  text-align: center;
+  color: rgb(156, 156, 156);
+}
+
+.loading-gif {
+  width: 30rpx;
+  height: 30rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.loading-text {
+  display: inline-block;
+  margin-left: 10rpx;
+  vertical-align: middle;
+}

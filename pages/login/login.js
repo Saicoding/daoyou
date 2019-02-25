@@ -23,8 +23,8 @@ Page({
     encryptedData: '',
     url: '',
     ifGoPage: '',
-    phoneText: "13292374292",
-    pwdText: '000000',
+    phoneText: "",
+    pwdText: '',
     statu: {
       code: 0,
       title: '帐号登录',
@@ -381,24 +381,7 @@ Page({
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
 
-
-        // "token":"7bd3b5881bd3ce5ec3875f33899c51ef",
-        //     "Mycode":"111562",
-        //     "username":"13292374292",
-        //     "Nickname":"游客",
-        //     "Jifen":"0",
-        //     "Money":"19893.56",
-        //     "xueshi":"602623",
-        //     "Vip":"0",
-        //     "Ktime":"",
-        //     "Jtime":"",
-        //     "zcode":11562,
-        //     "Pic":"http://www.chinaplat.com/user/UserHeadImg/11562.jpg",
-        //     "TKflag":1,
-        //     "YHQ":1,
-        //     "taocan":"1",
-        //     "yhq_time":"2018/7/30 11:37:58"
-        let user = res.data.data[0].data;
+        let user = res.data.data[0];
 
         wx.setStorage({
           key: 'user',
@@ -456,12 +439,15 @@ Page({
       //开始登录
       pwd = md5.md5(pwd).toLowerCase();
       app.post(API_URL, "action=Login&user=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
-        let user = res.data.data[0].data;
 
+       
+        let user = res.data.data[0];
+        
         wx.setStorage({
           key: 'user',
           data: user,
           success: function () {
+           
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -525,11 +511,12 @@ Page({
           title: '注册成功',
           duration: 3000
         })
-
+        console.log(user)
         wx.setStorage({
           key: 'user',
           data: user,
           success: function () {
+            console.log(wx.getStorageSync("user"))
             wx.navigateBack({})
 
             if (ifGoPage == "true") {

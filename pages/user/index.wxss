@@ -105,3 +105,16 @@
 .sankuai { padding: 4%; line-height: 20px; font-size: 28rpx}
 .sankuai .sub { width: 33.2%; float: left; text-align: center}
 .sankuai image { height: 30px; width: 30px}
+
+.submit {
+  width: 80%;
+  height: 40px;
+  line-height: 40px;
+ 
+  margin: 30rpx auto;
+  margin-top: 80rpx;
+  color: white;
+  font-size: 30rpx;
+  text-align: center;
+  background:  #63d291; border-radius:10rpx; 
+}

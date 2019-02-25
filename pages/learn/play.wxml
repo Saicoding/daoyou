@@ -18,9 +18,9 @@
   <!-- 视频 -->
   <view class="up-block" wx:if="{{product != 'pingjia'}}">
     <view class='kc_money'>
-      <text class='b'>{{kc_money?"":"免费"}}</text>
-      <text class='f12'>元</text>
-      <view class='f12 hui'>已有1162人报名</view>
+      <text class='b'>{{kc_money?kc_money:"免费"}}</text>
+      <text class='f12'>{{kc_money?"元":""}}</text>
+      <view class='f12 hui'>已有{{renshu}}人报名</view>
     </view>
     <button open-type="contact" class='hui f14 fl zixun'>
       <image src="/images/course/icon_humanService_black@2x.png" class='fl'></image>咨询</button>
@@ -35,7 +35,7 @@
     <view class='clear' style='height:20rpx;'></view>
     <view class='f14'>
       <text class='hui mr10'>状态</text>{{files.length}}课时
-      <text class='hui mr10' style='margin-left:50rpx;'>讲师</text>陈龙
+      <text class='hui mr10' style='margin-left:50rpx;'>讲师</text>{{teacher}}
       <view class='clear' style='height:20rpx;'></view>
 
       <text class='hui mr10'>选课</text>
@@ -50,9 +50,9 @@
   </view>
   <view class="mybar">
 
-    <view data-product="introduction" bindtap='changeOption' class="title1" style="color:{{product == 'introduction'?'#1aa0f4':'black'}}">课程介绍</view>
-    <view data-product="option" bindtap='changeOption' class="title1" style="color:{{product == 'option'?'#1aa0f4':'black'}}">课程目录</view>
-    <view data-product="pingjia" bindtap='changeOption' class="title1" style="color:{{product == 'pingjia'?'#1aa0f4':'black'}}">课程评价</view>
+    <view data-product="introduction" bindtap='changeOption' class="title1" style="color:{{product == 'introduction'?'#63d291':'black'}}">课程介绍</view>
+    <view data-product="option" bindtap='changeOption' class="title1" style="color:{{product == 'option'?'#63d291':'black'}}">课程目录</view>
+    <view data-product="pingjia" bindtap='changeOption' class="title1" style="color:{{product == 'pingjia'?'#63d291':'black'}}">课程评价</view>
 
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
@@ -99,7 +99,7 @@
       <view class="bottomkk">
 
         <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
-        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?150:0}}rpx;" bindtap="sendMessage">发送</view>
+        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
       </view>
     </view>
   </scroll-view>

@@ -904,6 +904,8 @@ function markRestart(self) {
 function lianxiRestart(self) {
   let shitiArray = self.data.shitiArray;
   let options = self.data.options;
+  options.donenum = 0;
+
   let user = self.data.user;
   let zcode = user.zcode == undefined?'':user.zcode;
 
@@ -925,6 +927,7 @@ function lianxiRestart(self) {
   self.setData({ //先把答题板数组置空
     markAnswerItems: [],
     options: options,
+    restart:true,
     beginTimestamp: beginTimestamp
   })
 

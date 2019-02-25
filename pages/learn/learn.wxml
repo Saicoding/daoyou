@@ -27,19 +27,19 @@
 <view wx:if="{{loaded}}" class="content">
   <view wx:if="{{!daoyouci}}" wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
     <!-- 一项 -->
-    <view class="block">
-      <image src="{{video.pic}}" data-title="{{video.title}}" data-img="{{video.pic}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="img" mode='widthFix' />
+    <view class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch">
+      <image src="{{video.pic}}" class="img" mode='widthFix' />
 
       <view class="right-block">
         <!-- 标题 -->
-        <view data-title="{{video.cname}}" data-kc_id="{{video.kc_id}}" bindtap="watch" class="title">{{video.cname}}</view>
+        <view class="title">{{video.cname}}</view>
 
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='基础'}}" src="/images/course/jichu@2x.png" mode='widthFix'></image>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='提升'}}" src="/images/course/tisheng@2x.png" mode='widthFix'></image>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='冲刺'}}" src="/images/course/chongci@2x.png" mode='widthFix'></image>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
-        <image style='width:80rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian==''}}" src="/images/course/kong@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='基础'}}" src="/images/course/jichu@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='提升'}}" src="/images/course/tisheng@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='冲刺'}}" src="/images/course/chongci@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian==''}}" src="/images/course/kong@2x.png" mode='widthFix'></image>
         
 
         <view class='clear'></view>

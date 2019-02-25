@@ -65,8 +65,9 @@ Page({
   },
   watch: function (e) {
     var kc_id = e.currentTarget.dataset.kc_id;
+    var renshu = e.currentTarget.dataset.renshu;
     wx.navigateTo({
-      url: 'play?kc_id=' + kc_id,
+      url: 'play?kc_id=' + kc_id + '&renshu=' + renshu,
     })
   },
   //切换菜单

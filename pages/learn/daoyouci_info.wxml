@@ -1,0 +1,33 @@
+<!--pages/learn/daoyouci_info.wxml-->
+<image src='{{topimg}}' mode='widthFix' style='width:100%'></image>
+<view class='cont_t'>
+
+</view>
+<view class='cont_t'>
+
+</view>
+<view class='cont_b'>
+
+</view>
+<view class="pingjia">
+<view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
+        <view class='pllist'>
+          <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
+          <view class='plcont'>
+            <view class='clear'>
+              <text class='f15'>{{pl.nickname}}</text>
+              <text class='f12 hui fr'>{{pl.pl_time}}</text>
+            </view>
+            <view class='pltext f14'>{{pl.pc_content}}</view>
+            <view class='pltext2 f13' wx:if="{{pl.hf!=''}}">
+              <text>管理员回复：</text>{{pl.hf}}</view>
+          </view>
+          <view class='clear'></view>
+        </view>
+      </view>
+</view>
+<view class="bottomkk">
+
+        <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
+        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
+      </view>

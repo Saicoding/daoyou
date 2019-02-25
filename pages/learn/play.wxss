@@ -249,8 +249,8 @@
   height:100rpx;
   position: fixed;
   bottom: 0rpx;
-  border-top:1rpx solid #f1f4f4;
-  background: white;
+  border-top:1rpx solid #ddd;
+  background: #f4f5f6;
 }
 
 .bottom-price,.bottom-buy{
@@ -279,7 +279,7 @@
 .plimg { width: 12%; border-radius:50%; float: left; }
 .plcont { width: 85%;float: right;}
 .plcont .clear{ line-height: 35px;}
-.pltext { line-height: 24px; color: #444}
+.pltext { line-height: 24px; color: #555}
 .pltext2 { padding: 2%; background: #f4f7f9; }
 .pltext2 text { color: #64d56b}
 
@@ -309,7 +309,7 @@
   margin-left: 20rpx;
   height: 70rpx;
   margin-top: 15rpx;
-  padding-left: 15rpx;
+  padding-left: 15rpx; font-size: 26rpx; float: left;
 }
 
 .bottom-send{
@@ -322,5 +322,5 @@
   margin-top:15rpx;
   background: #07c160;
   line-height: 70rpx;
-  margin-left:10rpx;
+  margin-right:15rpx; float: right;
 }

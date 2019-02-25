@@ -20,4 +20,9 @@
 
   </view>
 
+<!-- 最下面的加载条 -->
+  <view class="loading-block">
+    <image wx:if="{{showLoadingGif}}" class="loading-img" src="/images/timg.gif"></image>
+    <view class="loading-text"> {{loadingText}}</view>
+  </view>
 </view>

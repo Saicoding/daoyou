@@ -32,7 +32,8 @@
   </view>
 
   <view class="smallblock clear">
-    <view data-statu="3" class="smallblock-sign fr" bindtap="changeLoginType">忘记密码?</view>
+    <view wx:if="{{statu.code==0}}" data-statu="3" class="smallblock-sign fr" bindtap="changeLoginType">忘记密码?</view>
+    <view wx:if="{{statu.code!=0}}" class="smallblock-sign fr" data-statu="0" bindtap="changeLoginType">返回登录</view>
   </view>
 
   <!-- 确定按钮 -->

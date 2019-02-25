@@ -36,7 +36,7 @@
   height: 70rpx;
   padding-bottom: 10rpx;
   padding-top: 20rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
 }
 
 .code {
@@ -135,5 +135,5 @@
 }
 
 .select2 {
-  background: linear-gradient(to right, #aacdff, rgb(34, 124, 250));
+  background: linear-gradient(to right, #3ec275,#63d291);
 }
