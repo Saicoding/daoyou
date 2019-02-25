@@ -86,7 +86,6 @@ function formatTimeBySecond(t) {
  */
 
 function formatTimeBySecond1(t) {
-  console.log(t)
   let h = parseInt(t / 3600);
   let m = parseInt((t - h * 3600) / 60);
   let s = t % 60;

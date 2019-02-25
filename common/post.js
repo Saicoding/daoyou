@@ -33,7 +33,7 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
 
   //对是否是已答试题做处理
   wx.getStorage({
-    key: "doneArray" + options.f_id + zcode,
+    key: "doneArray" + options.f_id+options.leibie + zcode,
     success: function(res1) {
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = res1.data;

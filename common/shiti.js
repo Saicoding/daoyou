@@ -479,7 +479,8 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  let answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + zcode);
+  let answer_nums_array = wx.getStorageSync("doneArray" + options.f_id+options.leibie + zcode);
+  console.log("doneArray" + options.f_id + options.leibie + zcode)
   answer_nums_array = answer_nums_array ? answer_nums_array:[];
 
   let obj = {
@@ -499,8 +500,32 @@ function storeAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: "doneArray" + options.f_id + zcode,
+    key: "doneArray" + options.f_id+options.leibie + zcode,
     data: answer_nums_array,
+  })
+}
+
+/**
+ * 更新存储已答试题,更新答题板数据（单选和多选）
+ */
+function storeRandomAnswerStatus(shiti, self) {
+  let options = self.data.options;
+  let doneAnswerArray = self.data.doneAnswerArray
+  let user = self.data.user;
+  let zcode = user.zcode == undefined ? '' : user.zcode;
+
+  let obj = {
+    "id": shiti.id,
+    "done_daan": shiti.done_daan,
+    "select": shiti.leibie,
+    "isRight": shiti.flag,
+    "px": shiti.px
+  }
+
+  doneAnswerArray.push(obj) //存储已经做题的状态
+
+  self.setData({
+    doneAnswerArray: doneAnswerArray
   })
 }
 
@@ -831,7 +856,7 @@ function storeLastShiti(px, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  let last_view_key = 'last_view' + options.f_id + zcode;//存储上次访问的题目的key
+  let last_view_key = 'last_view' + options.f_id + options.leibie+zcode;//存储上次访问的题目的key
 
   //本地存储最后一次访问的题目
   wx.setStorage({
@@ -863,6 +888,8 @@ function storeModelRealLastShiti(px, self) {
  * 判断所有本节题已经做完
  */
 function ifDoneAll(shitiArray, doneAnswerArray) {
+  console.log(doneAnswerArray)
+
   if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
     wx.showToast({
       title: '所有题已经作答',
@@ -870,6 +897,26 @@ function ifDoneAll(shitiArray, doneAnswerArray) {
     })
   }
 }
+
+/**
+ * 
+ */
+function ifRandomDoneAll(shitiArray, doneAnswerArray, callBack) {
+  if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
+    wx.showModal({
+      title:'该组练习完毕,是否再练习一组?',
+      confirmText:'再来一组',
+      confirmColor:'#32d584',
+      success:function(e){
+        if(e.confirm){
+          callBack();
+        }
+      }
+    })
+  }
+}
+
+
 /**
  * 收藏题重新开始练习
  */
@@ -1287,5 +1334,7 @@ module.exports = {
   initNewWrongArrayDoneAnswer: initNewWrongArrayDoneAnswer,
   processTapWrongAnswer: processTapWrongAnswer,
   getQuestionHeight: getQuestionHeight,
-  processTapLianxiAnswer: processTapLianxiAnswer
+  processTapLianxiAnswer: processTapLianxiAnswer,
+  storeRandomAnswerStatus: storeRandomAnswerStatus,
+  ifRandomDoneAll: ifRandomDoneAll
 }

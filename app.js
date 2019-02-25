@@ -41,7 +41,7 @@ App({
             wx.hideLoading();
           }
           let status = res.data.status;
-          let message = res.data.message;
+          let message = res.data.message ? res.data.message:res.data.Message;
 
           if (status == 1) { //请求成功
             resolve(res);

@@ -1,0 +1,77 @@
+<!--pages/shuati/zuoti/zuoti.wxml-->
+<view class="container1" style="padding-top:{{statusBarHeight+10}}rpx;display:flex;">
+  <view class="back" hover-class='select1' hover-stay-time='500' bindtap="back" style="top:{{statusBarHeight+10}}rpx" bindtap="back">
+    <image class="back-icon" src="/images/back.png"></image>
+  </view>
+  <view class="title">{{options.title}}</view>
+</view>
+
+<view class="container">
+  <swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" style="height:{{windowHeight-90}}rpx;" bindchange="sliderChange">
+    <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
+      <swiper-item>
+        <scroll-view scroll-y style="height:{{windowHeight-100}}rpx;">
+          <view style="width:100%;height:{{statusBarHeight+110}}rpx;"></view>
+          <view style="border:1rpx solid #f4f7f9;">
+            <!--单选题-->
+            <view style="margin-bottom:50rpx;" wx:if="{{shiti.leibie == 1 || shiti.leibie ==3}}">
+              <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
+            </view>
+
+            <!--多选题-->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.leibie ==2}}">
+              <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
+              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看解析</view>
+            </view>
+
+            <!-- 面试题 -->
+            <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX ==3}}">
+              <mianshi shiti="{{shiti}}"></mianshi>
+              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看答案</view>
+            </view>
+
+          </view>
+          <!-- 解析 -->
+          <jiexi beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
+
+          <!-- 笔记 -->
+          <view wx:if="{{noteShow}}" class="note">
+            <span style="font-weight:bold;color:#58c063;">我的笔记:</span>{{noteText}}
+          </view>
+        </scroll-view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<!-- 载入动画 -->
+<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/loading/loading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
+
+<!-- 答题板 -->
+<markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">
+</markAnswer>
+
+<!-- 底部正确错误个数统计条 -->
+<shuatiBottom px="{{px}}" all_nums = "10" id="shuatiBottom" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindnote="_note" bindjiaocheng="_jiaocheng">
+</shuatiBottom>
+
+<!-- 纠错板 -->
+<errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
+
+<!-- 点击返回按钮后的统计面板 -->
+<tongji id="tongji" statusBarHeight="{{statusBarHeight}}" bindtoBack="_toBack"></tongji>
+
+<!-- 笔记输入框 -->
+<view wx:if="{{showbiji}}" class="biji">
+  <view class="biji-line1">
+    <view class="biji-line1-text" bindtap="blur">取消</view>
+    <view class="biji-line1-text" bindtap="noteFabiao">发表</view>
+  </view>
+  <textarea class="biji-textarea" bindinput="textareaInput" placeholder-style='font-size:25rpx;' placeholder='请输入内容...' cursor-spacing="120rpx" fixed="{{true}}" focus="{{focus}}" auto-focus="{{true}}" maxlength="140" bindblur="blur"></textarea>
+</view>
+<view wx:if="{{showbiji}}" class="model"></view>
+
+<!-- 教程 -->
+<jiaocheng id="jiaocheng"></jiaocheng>
+
+<!-- 解锁 -->
+<jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuyAll = "_buyAll" bindbuyJiexi = "_buyJiexi"></jiesuo>

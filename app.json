@@ -1,16 +1,11 @@
 {
   "pages": [
-
+    "pages/shuati/shuati",
     "pages/learn/learn",
     "pages/login/login",
-
-    "pages/shuati/shuati",
-
     "pages/index/index",
     "pages/learn/play",
-
     "pages/learn/daoyouci_list",
-
     "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",
     "pages/user/index",
@@ -29,7 +24,8 @@
     "pages/index/catalogDetail/catalogDetail",
     "pages/index/xuexijihua/xuexijihua",
     "pages/shuati/moni/moni",
-    "pages/learn/daoyouci_info"
+    "pages/learn/daoyouci_info",
+    "pages/shuati/random/random"
   ],
   "window": {
     "backgroundTextStyle": "light",

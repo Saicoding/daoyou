@@ -126,12 +126,11 @@ Page({
 
       for (let j = 0; j < zhangjie.list.length; j++) {
         let jie = zhangjie.list[j];
-        let doneArray = wx.getStorageSync('doneArray' + jie.id + zcode); //寻找本地节的缓存
+        let doneArray = this.quchong(jie,zcode);//去重后的已做数组
 
-        if (doneArray) { //如果有本地缓存,就计算已做数组的长度
+        if (doneArray.length !=0) { //如果有本地缓存,就计算已做数组的长度
           jie.donenum = doneArray.length;
           zhangjie.donenum += doneArray.length;
-
           let rightNum = 0;
 
           jie.rateWidth = 490 * (jie.donenum / parseInt(jie.all_num));
@@ -156,6 +155,30 @@ Page({
       zhangjie.rightrate = zhangjie.donenum == 0 ? 0 : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 
+  },
+
+  /**
+   * 已做题去重
+   */
+  quchong:function(jie,zcode){
+    let doneArray = wx.getStorageSync('doneArray' + jie.id + '0' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '0' + zcode):[];
+   //寻找本地节全部题缓存
+    let doneArray2 = wx.getStorageSync('doneArray' + jie.id + '1' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '1' + zcode):[]; //寻找本地节单选的缓存
+    let doneArray3 = wx.getStorageSync('doneArray' + jie.id + '2' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '2' + zcode):[]; //寻找本地节多选的缓存
+    let doneArray4 = wx.getStorageSync('doneArray' + jie.id + '3' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '3' + zcode):[]; //寻找本地节判断的缓存
+
+    doneArray = doneArray.concat(doneArray2, doneArray3, doneArray4);
+    //已做题去重
+    let hash = [];
+    for (let i = 0; i < doneArray.length;i++){
+      for (var j = i + 1; j < doneArray.length; j++) {
+        if (doneArray[i].id == doneArray[j].id) {
+          ++i;
+        }
+      }
+      hash.push(doneArray[i]);
+    }
+    return hash;
   },
 
   /**
@@ -495,6 +518,17 @@ Page({
   },
 
   /**
+   * 导航到随机练习
+   */
+  GORandom:function(e){
+    let index = e.currentTarget.dataset.index;
+    let types = this.getkemuIDByindex(index); //科目id
+    wx.navigateTo({
+      url: '/pages/shuati/random/random?types='+types,
+    })
+  },
+
+  /**
    * 导航到模拟
    */
   GOmoni: function(e) {
@@ -525,15 +559,13 @@ Page({
     let unit = 1 / 100;
     let showTiBlock = this.data.showTiBlock;
 
-
-
-    if (scrollTop > 130) { //滑动超过200时开始透明变色
-      opacity = 1 - (scrollTop - 130) * unit;
+    if (scrollTop > 200) { //滑动超过200时开始透明变色
+      opacity = 1 - (scrollTop - 200) * unit;
     } else {
       opacity = 1;
     }
 
-    let subHeight = (lastScrollTop - scrollTop) * 1.5; //高度差
+    let subHeight = (lastScrollTop - scrollTop) * 0.5; //高度差
     let midHeight = this.data.midHeight + subHeight;
 
     // if (containerHeight + subHeight < windowHeight + scrollTop){
@@ -542,9 +574,9 @@ Page({
 
     let midHeight2 = midHeight < 0 ? 0 : midHeight; //中间组件的高度
 
-    let fixed = scrollTop > 262 ? "fixed" : "";
+    let fixed = scrollTop > 432 ? "fixed" : "";
 
-    if (scrollTop > 262) {
+    if (scrollTop > 432) {
       showBlock = true;
     } else {
       showBlock = false;
