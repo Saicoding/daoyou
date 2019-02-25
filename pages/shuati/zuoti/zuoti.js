@@ -50,7 +50,8 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1;
     }
 
-    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page, false, false, "", "", false, self).then((res) => {
+    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page+"&tishu=1", false, false, "", "", false, self).then((res) => {
+
       let result = res.data.data[0];
       let shitiArray = result.list;
       let all_nums = result.records;
@@ -85,7 +86,7 @@ Page({
             shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
           }
 
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进行处理和初始化
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, result , self) //对数据进行处理和初始化
         })
       } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
         app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
@@ -100,13 +101,13 @@ Page({
           for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
             shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
           }
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, result , self) //对数据进
         })
       } else {
         self.setData({
           pageArray: pageArray
         })
-        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进
+        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, result , self) //对数据进
       }
     })
 
@@ -567,6 +568,46 @@ Page({
    */
   _hideMarkAnswer: function() {
     this.markAnswer.hideDialog();
+  },
+
+  /**
+   * 提交纠错
+   */
+  _submit:function(){
+    let self = this;
+    let user = wx.getStorageSync('user');
+    if(user){//已经登录
+      let zcode = user.zcode;
+      let token = user.token;
+      let reason = e.detail.reason;
+      let px = self.data.px;
+      let shitiArray = self.data.shitiArray;
+      let shiti = shitiArray[px - 1];
+
+      app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token +"&zcode="+zcode, true, false, "提交中").then((res) => {
+        console.log(res)
+        self.errorRecovery.hideDialog();
+        wx.showToast({
+          icon: 'none',
+          title: '提交成功,辛苦了!',
+          duration: 3000
+        })
+      })
+    }else{//未登录
+      wx.showModal({
+        content: '您尚未登录,需要登录后才能提交反馈',
+        confirmText:'登录',
+        confirmColor: '#32d584',
+        success:function(e){
+          if(e.confirm){
+            wx.navigateTo({
+              url: '/pages/login/login',
+            })
+          }
+        }
+      })
+    }
+  
   },
 
   /**

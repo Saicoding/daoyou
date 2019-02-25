@@ -389,11 +389,27 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
 /**
  * 设置答题板
  */
-function setMarkAnswerItems(jie_answer_array, isModelReal, isSubmit, self) {
+function setMarkAnswerItems(jie_answer_array, isModelReal, isSubmit, options,result,self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
 
   for (let i = 0; i < jie_answer_array.length; i++) {
-    let px = jie_answer_array[i].px;
+    let px = 0;
+
+    switch (options.leibie){
+      case "0":
+        px = jie_answer_array[i].px;
+      break;
+      case "1":
+        px = jie_answer_array[i].px;
+        break;
+      case "2":
+        px = jie_answer_array[i].px-parseInt(result.num_dan);
+        break;
+      case "3":
+        px = jie_answer_array[i].px - parseInt(result.num_dan) - parseInt(result.num_duo);
+        break;
+    }
+
     let style = "";
     if (isModelReal && isSubmit == false) { //如果是真题或者押题
       if (jie_answer_array[i].done_daan != "") { //如果答案不为空
@@ -479,9 +495,55 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  let answer_nums_array = wx.getStorageSync("doneArray" + options.f_id+options.leibie + zcode);
-  console.log("doneArray" + options.f_id + options.leibie + zcode)
-  answer_nums_array = answer_nums_array ? answer_nums_array:[];
+  let answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + options.leibie + zcode);
+  let all_answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
+
+  all_answer_nums_array = all_answer_nums_array ? all_answer_nums_array : [];
+  answer_nums_array = answer_nums_array ? answer_nums_array : [];
+  let obj_all = null;
+
+  let has = false;
+
+  for (let i = 0; i < all_answer_nums_array.length; i++) {
+    if (all_answer_nums_array[i].id == shiti.id) {
+      has = true;
+      break;
+    }
+  }
+
+  if (!has) {//不包含该试题时
+    switch (options.leibie) {
+      case "1": //单选
+        obj_all = {
+          "id": shiti.id,
+          "done_daan": shiti.done_daan,
+          "select": shiti.leibie,
+          "isRight": shiti.flag,
+          "px": shiti.px
+        };
+        break;
+      case "2": //多选
+        obj_all = {
+          "id": shiti.id,
+          "done_daan": shiti.done_daan,
+          "select": shiti.leibie,
+          "isRight": shiti.flag,
+          "px": shiti.px + self.data.num_dan
+        };
+        break;
+      case "3": //判断
+        obj_all = {
+          "id": shiti.id,
+          "done_daan": shiti.done_daan,
+          "select": shiti.leibie,
+          "isRight": shiti.flag,
+          "px": shiti.px + self.data.num_dan + self.data.num_duo
+        };
+        break;
+      default:
+        break;
+    }
+  }
 
   let obj = {
     "id": shiti.id,
@@ -493,6 +555,8 @@ function storeAnswerStatus(shiti, self) {
   //根据章是否有字节的结构来
   answer_nums_array.push(obj)
 
+  all_answer_nums_array.push(obj_all);
+
   doneAnswerArray.push(obj) //存储已经做题的状态
 
   self.setData({
@@ -500,9 +564,16 @@ function storeAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: "doneArray" + options.f_id+options.leibie + zcode,
+    key: "doneArray" + options.f_id + options.leibie + zcode,
     data: answer_nums_array,
   })
+
+  if (obj_all != null) {
+    wx.setStorage({ //所有已做试题本地存储
+      key: "doneArray" + options.f_id + "0" + zcode,
+      data: all_answer_nums_array,
+    })
+  }
 }
 
 /**
@@ -732,7 +803,7 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
  * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(done_daan, shiti, self) {
-  if (done_daan != "" && done_daan !=undefined) {
+  if (done_daan != "" && done_daan != undefined) {
     changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
     shiti.isAnswer = true;
   }
@@ -856,7 +927,7 @@ function storeLastShiti(px, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  let last_view_key = 'last_view' + options.f_id + options.leibie+zcode;//存储上次访问的题目的key
+  let last_view_key = 'last_view' + options.f_id + options.leibie + zcode; //存储上次访问的题目的key
 
   //本地存储最后一次访问的题目
   wx.setStorage({
@@ -904,11 +975,11 @@ function ifDoneAll(shitiArray, doneAnswerArray) {
 function ifRandomDoneAll(shitiArray, doneAnswerArray, callBack) {
   if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
     wx.showModal({
-      title:'该组练习完毕,是否再练习一组?',
-      confirmText:'再来一组',
-      confirmColor:'#32d584',
-      success:function(e){
-        if(e.confirm){
+      content: '该组练习完毕,是否再练习一组?',
+      confirmText: '再来一组',
+      confirmColor: '#32d584',
+      success: function(e) {
+        if (e.confirm) {
           callBack();
         }
       }
@@ -954,7 +1025,7 @@ function lianxiRestart(self) {
   options.donenum = 0;
 
   let user = self.data.user;
-  let zcode = user.zcode == undefined?'':user.zcode;
+  let zcode = user.zcode == undefined ? '' : user.zcode;
 
   initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
@@ -969,12 +1040,12 @@ function lianxiRestart(self) {
   sliderShitiArray[0] = midShiti;
   sliderShitiArray[1] = nextShiti;
 
-  let beginTimestamp = Date.parse(new Date());//当前是时间戳
+  let beginTimestamp = Date.parse(new Date()); //当前是时间戳
 
   self.setData({ //先把答题板数组置空
     markAnswerItems: [],
     options: options,
-    restart:true,
+    restart: true,
     beginTimestamp: beginTimestamp
   })
 

@@ -4,7 +4,7 @@ let animate = require('animate.js')
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) {
+function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, result , self) {
   let zcode = user.zcode == undefined ? '' : user.zcode;
   //得到swiper数组
   let preShiti = undefined; //前一题
@@ -37,8 +37,8 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
     success: function(res1) {
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = res1.data;
-
-      common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit, self); //设置答题板数组 
+      console.log(doneAnswerArray)
+      common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit,options, result ,self); //设置答题板数组 
 
 
 

@@ -30,6 +30,9 @@ Page({
    */
   onLoad: function(options) {
     let self = this;
+    wx.setNavigationBarTitle({
+      title: '随机练习',
+    })
     let user = wx.getStorageSync('user'); //本地用户信息
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let page = 1; //默认是第一页

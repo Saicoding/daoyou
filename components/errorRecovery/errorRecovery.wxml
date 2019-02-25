@@ -1,6 +1,6 @@
 <!--components/Dialog/dialog.wxml-->
 <view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
-  <view class="container-in">
+  <view class="container-in" style = "top:{{(windowHeight-900)/2}}rpx;">
     <view class="title">纠错原因</view>
 
     <view class="select" style ="margin-top:-30rpx;">
