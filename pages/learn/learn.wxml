@@ -34,12 +34,12 @@
         <!-- 标题 -->
         <view class="title">{{video.cname}}</view>
 
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='基础'}}" src="/images/course/jichu@2x.png" mode='widthFix'></image>
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='提升'}}" src="/images/course/tisheng@2x.png" mode='widthFix'></image>
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='冲刺'}}" src="/images/course/chongci@2x.png" mode='widthFix'></image>
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
-        <image style='width:70rpx; height:auto;margin:10rpx 0;' wx:if="{{video.biaoqian==''}}" src="/images/course/kong@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='基础'}}" src="/images/course/jichu@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='提升'}}" src="/images/course/tisheng@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='冲刺'}}" src="/images/course/chongci@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
+        <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian==''}}" src="/images/course/kong@2x.png" mode='widthFix'></image>
         
 
         <view class='clear'></view>

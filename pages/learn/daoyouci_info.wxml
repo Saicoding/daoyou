@@ -1,33 +1,43 @@
 <!--pages/learn/daoyouci_info.wxml-->
-<image src='{{topimg}}' mode='widthFix' style='width:100%'></image>
-<view class='cont_t'>
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+<view wx:if="{{loaded}}" class="content">
 
-</view>
-<view class='cont_t'>
+  <image src='{{topimg}}' mode='widthFix' class='topimg' style='width:100%'></image>
+  
+  <view class='cont_t rel'>
+    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPlay' data-play='bofang' wx:if="{{play=='zanting'}}"></image>
+    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPause' data-play='zanting' wx:if="{{play=='bofang'}}"></image>
+    <view class='f16'>北京颐和园</view>
+    <view style='width:85%; margin-top: 20px' class='fl progress' bindtap='progress'>
+      <view class='progress_sub' style='width:{{timeon2/time2}}%' ></view>
+    </view>
+    <text style='width:15%; margin-top: 12px' class='fr hui f12 tar' wx:if="{{!bofang}}">{{time}}</text>
+    <text style='width:15%; margin-top: 12px' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
+    <view class='clear'></view>
+  </view>
+  <view class='cont_b'>
 
-</view>
-<view class='cont_b'>
-
-</view>
-<view class="pingjia">
-<view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
-        <view class='pllist'>
-          <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
-          <view class='plcont'>
-            <view class='clear'>
-              <text class='f15'>{{pl.nickname}}</text>
-              <text class='f12 hui fr'>{{pl.pl_time}}</text>
-            </view>
-            <view class='pltext f14'>{{pl.pc_content}}</view>
-            <view class='pltext2 f13' wx:if="{{pl.hf!=''}}">
-              <text>管理员回复：</text>{{pl.hf}}</view>
+  </view>
+  <view class="pingjia">
+    <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
+      <view class='pllist'>
+        <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
+        <view class='plcont'>
+          <view class='clear'>
+            <text class='f15'>{{pl.nickname}}</text>
+            <text class='f12 hui fr'>{{pl.pl_time}}</text>
           </view>
-          <view class='clear'></view>
+          <view class='pltext f14'>{{pl.pc_content}}</view>
+          <view class='pltext2 f13' wx:if="{{pl.hf!=''}}">
+            <text>管理员回复：</text>{{pl.hf}}</view>
         </view>
+        <view class='clear'></view>
       </view>
-</view>
-<view class="bottomkk">
+    </view>
+  </view>
+  <view class="bottomkk">
 
-        <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
-        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
-      </view>
+    <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
+    <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
+  </view>
+</view>

@@ -389,50 +389,51 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
 /**
  * 设置答题板
  */
-function setMarkAnswerItems(jie_answer_array, isModelReal, isSubmit, options,result,self) {
+function setMarkAnswerItems(jie_answer_array, isModelReal, isSubmit, options, self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
-
+  let doneAnswerArray = [];
   for (let i = 0; i < jie_answer_array.length; i++) {
-    let px = 0;
+    let px = jie_answer_array[i].px;
+    
+    if (parseInt(options.leibie) == parseInt(jie_answer_array[i].select) || parseInt(options.leibie)==0) { //如果当前选的类别和题型相同
 
-    switch (options.leibie){
-      case "0":
+      if (options.leibie == "2") {
+        console.log('类别是多选')
+        px = jie_answer_array[i].px - parseInt(options.num_dan);
+      } else if (options.leibie == "3") {
+        console.log('类别是判断')
+        px = jie_answer_array[i].px - parseInt(options.num_dan) - parseInt(options.num_duo);
+      } else if (options.leibie == "0" || options.leibie == "1"){
+        console.log('类别是单选或者全部')
         px = jie_answer_array[i].px;
-      break;
-      case "1":
-        px = jie_answer_array[i].px;
-        break;
-      case "2":
-        px = jie_answer_array[i].px-parseInt(result.num_dan);
-        break;
-      case "3":
-        px = jie_answer_array[i].px - parseInt(result.num_dan) - parseInt(result.num_duo);
-        break;
-    }
+      } 
 
-    let style = "";
-    if (isModelReal && isSubmit == false) { //如果是真题或者押题
-      if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-        style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
-      } else { //如果是空
-        style = "border:1rpx solid #9c9c9c;";
+      let style = "";
+      if (isModelReal && isSubmit == false) { //如果是真题或者押题
+        if (jie_answer_array[i].done_daan != "") { //如果答案不为空
+          style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
+        } else { //如果是空
+          style = "border:1rpx solid #9c9c9c;";
+        }
+
+      } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
+        style = "background:#90dd35;color:white;border:1rpx solid #90dd35;"
+      } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
+        style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
       }
 
-    } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-      style = "background:#90dd35;color:white;border:1rpx solid #90dd35;"
-    } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-      style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
+      markAnswerItems[px - 1].select = jie_answer_array[i].select;
+      markAnswerItems[px - 1].isRight = jie_answer_array[i].isRight
+      markAnswerItems[px - 1].style = style;
+      doneAnswerArray.push(jie_answer_array[i]);
     }
-
-    markAnswerItems[px - 1].select = jie_answer_array[i].select;
-    markAnswerItems[px - 1].isRight = jie_answer_array[i].isRight
-    markAnswerItems[px - 1].style = style;
-
   }
 
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
+
+  return doneAnswerArray
 }
 
 /**
@@ -495,54 +496,25 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  let answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + options.leibie + zcode);
   let all_answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
 
   all_answer_nums_array = all_answer_nums_array ? all_answer_nums_array : [];
-  answer_nums_array = answer_nums_array ? answer_nums_array : [];
-  let obj_all = null;
 
-  let has = false;
+  let px = 0;
 
-  for (let i = 0; i < all_answer_nums_array.length; i++) {
-    if (all_answer_nums_array[i].id == shiti.id) {
-      has = true;
+  switch (options.leibie) {
+    case '0': //所有题
+      px = shiti.px;
       break;
-    }
-  }
-
-  if (!has) {//不包含该试题时
-    switch (options.leibie) {
-      case "1": //单选
-        obj_all = {
-          "id": shiti.id,
-          "done_daan": shiti.done_daan,
-          "select": shiti.leibie,
-          "isRight": shiti.flag,
-          "px": shiti.px
-        };
-        break;
-      case "2": //多选
-        obj_all = {
-          "id": shiti.id,
-          "done_daan": shiti.done_daan,
-          "select": shiti.leibie,
-          "isRight": shiti.flag,
-          "px": shiti.px + self.data.num_dan
-        };
-        break;
-      case "3": //判断
-        obj_all = {
-          "id": shiti.id,
-          "done_daan": shiti.done_daan,
-          "select": shiti.leibie,
-          "isRight": shiti.flag,
-          "px": shiti.px + self.data.num_dan + self.data.num_duo
-        };
-        break;
-      default:
-        break;
-    }
+    case '1': //单选题
+      px = shiti.px;
+      break;
+    case '2': //多选题
+      px = shiti.px + parseInt(options.num_dan);
+      break;
+    case '3': //判断题
+      px = shiti.px + parseInt(options.num_duo) + parseInt(options.num_dan);
+      break;
   }
 
   let obj = {
@@ -550,12 +522,10 @@ function storeAnswerStatus(shiti, self) {
     "done_daan": shiti.done_daan,
     "select": shiti.leibie,
     "isRight": shiti.flag,
-    "px": shiti.px
+    "px": px
   }
   //根据章是否有字节的结构来
-  answer_nums_array.push(obj)
-
-  all_answer_nums_array.push(obj_all);
+  all_answer_nums_array.push(obj);
 
   doneAnswerArray.push(obj) //存储已经做题的状态
 
@@ -564,16 +534,9 @@ function storeAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: "doneArray" + options.f_id + options.leibie + zcode,
-    data: answer_nums_array,
+    key: "doneArray" + options.f_id + "0" + zcode,
+    data: all_answer_nums_array,
   })
-
-  if (obj_all != null) {
-    wx.setStorage({ //所有已做试题本地存储
-      key: "doneArray" + options.f_id + "0" + zcode,
-      data: all_answer_nums_array,
-    })
-  }
 }
 
 /**
@@ -959,8 +922,6 @@ function storeModelRealLastShiti(px, self) {
  * 判断所有本节题已经做完
  */
 function ifDoneAll(shitiArray, doneAnswerArray) {
-  console.log(doneAnswerArray)
-
   if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
     wx.showToast({
       title: '所有题已经作答',
@@ -1022,7 +983,6 @@ function markRestart(self) {
 function lianxiRestart(self) {
   let shitiArray = self.data.shitiArray;
   let options = self.data.options;
-  options.donenum = 0;
 
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
@@ -1051,7 +1011,49 @@ function lianxiRestart(self) {
 
   initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-  wx.clearStorageSync("doneArray" + options.f_id + zcode);
+  if(parseInt(options.leibie) == 0){
+    wx.clearStorageSync("doneArray" + options.f_id +"0"+ zcode);
+  } else if (parseInt(options.leibie) == 1){//单选
+    let doneArray = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);//所有已做试题
+    let newDoneArray = [];
+    for(let i=0;i<doneArray.length;i++){
+      let done = doneArray[i];
+      if(parseInt(done.select)!=1){
+        newDoneArray.push(done);
+      }
+    }
+    wx.setStorage({
+      key: "doneArray" + options.f_id + "0" + zcode,
+      data: newDoneArray
+    })
+  } else if (parseInt(options.leibie) == 2) {//多选
+    let doneArray = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);//所有已做试题
+    let newDoneArray = [];
+    for (let i = 0; i < doneArray.length; i++) {
+      let done = doneArray[i];
+      if (parseInt(done.select) != 2) {
+        newDoneArray.push(done);
+      }
+    }
+    wx.setStorage({
+      key: "doneArray" + options.f_id + "0" + zcode,
+      data: newDoneArray
+    })
+  } else if (parseInt(options.leibie) == 3) {//判断
+    let doneArray = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);//所有已做试题
+    let newDoneArray = [];
+    for (let i = 0; i < doneArray.length; i++) {
+      let done = doneArray[i];
+      if (parseInt(done.select) != 3) {
+        newDoneArray.push(done);
+      }
+    }
+    wx.setStorage({
+      key: "doneArray" + options.f_id + "0" + zcode,
+      data: newDoneArray
+    })
+  }
+  
 
   storeLastShiti(1, self);
 

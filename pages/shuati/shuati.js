@@ -93,6 +93,7 @@ Page({
           isLoaded: true
         })
       })
+
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
 
@@ -127,7 +128,7 @@ Page({
       for (let j = 0; j < zhangjie.list.length; j++) {
         let jie = zhangjie.list[j];
         let doneArray = wx.getStorageSync('doneArray' + jie.id + '0' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '0' + zcode) : [];
-
+        
         if (doneArray.length !=0) { //如果有本地缓存,就计算已做数组的长度
           jie.donenum = doneArray.length;
           zhangjie.donenum += doneArray.length;
@@ -142,6 +143,7 @@ Page({
               rightNum++;
               zhangjie.rightNum++;
             }
+
             jie.rightrate = ((rightNum / doneArray.length) * 100).toFixed(2);
           }
         } else {
@@ -432,16 +434,50 @@ Page({
     let rightrate = e.currentTarget.dataset.rightrate; //正确率
     let title = e.currentTarget.dataset.title; //点击的标题
     let f_id = e.currentTarget.dataset.f_id;//章节id
+    let currentIndex = this.data.currentIndex;
+    let typesid = this.getkemuIDByindex(currentIndex);
 
-    this.goAnswerModel.setData({
-      num: num,
-      donenum: donenum,
-      rightrate: rightrate,
-      title: title,
-      f_id:f_id
-    })
+    console.log(this.goAnswerModel.data.currentIndex)
+    if (this.goAnswerModel.data.currentIndex !=0){
+      this.goAnswerModel.setData({
+        num: num,
+        donenum: donenum,
+        rightrate: rightrate,
+        title: title,
+        f_id: f_id
+      })
+      
+      this.goAnswerModel.showDialog();
+      app.post(API_URL, "action=getTestTypeNums&typesid=" + typesid + "&f_id=" + f_id, false, false, "", "").then(res => {
+        let result = res.data.data[0];
+        this.goAnswerModel.setData({
+          num_dan: result.num_dan,
+          num_duo: result.num_duo,
+          num_pan: result.num_pan,
+        })
 
-    this.goAnswerModel.showDialog();
+        this.goAnswerModel.setNum();
+      })
+    }else{
+      this.goAnswerModel.setData({
+        num: num,
+        donenum: donenum,
+        rightrate: rightrate,
+        title: title,
+        f_id: f_id
+      })
+
+      this.goAnswerModel.showDialog();
+
+      app.post(API_URL, "action=getTestTypeNums&typesid=" + typesid + "&f_id=" + f_id, false, false, "", "").then(res => {
+        let result = res.data.data[0];
+        this.goAnswerModel.setData({
+          num_dan: result.num_dan,
+          num_duo: result.num_duo,
+          num_pan: result.num_pan,
+        })
+      })
+    }
   },
 
   /**
@@ -457,9 +493,12 @@ Page({
     let types = this.getkemuIDByindex(currentIndex);//科目ID
     let f_id = e.detail.f_id;//章节id
     let all_nums = e.detail.all_nums;//点击章节的题数
+    let num_dan = e.detail.num_dan;//单选题数量
+    let num_duo = e.detail.num_duo;//多选题数量
+    let num_pan = e.detail.num_pan;//判断题数量
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum+"&num_dan="+num_dan+"&num_duo="+num_duo+"&num_pan="+num_pan,
     })
   },
 

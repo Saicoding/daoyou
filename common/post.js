@@ -4,7 +4,7 @@ let animate = require('animate.js')
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, result , self) {
+function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall,  self) {
   let zcode = user.zcode == undefined ? '' : user.zcode;
   //得到swiper数组
   let preShiti = undefined; //前一题
@@ -33,18 +33,23 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
 
   //对是否是已答试题做处理
   wx.getStorage({
-    key: "doneArray" + options.f_id+options.leibie + zcode,
+    key: "doneArray" + options.f_id+"0" + zcode,
     success: function(res1) {
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = res1.data;
+      doneAnswerArray = common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit,options ,self); //设置答题板数组 
       console.log(doneAnswerArray)
-      common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit,options, result ,self); //设置答题板数组 
-
-
 
       //映射已答题目的已作答的答案到shitiArray
       for (let i = 0; i < doneAnswerArray.length; i++) {
         let doneAnswer = doneAnswerArray[i];
+        
+        if(options.leibie == '2'){//多选
+          doneAnswer.px = doneAnswer.px - options.num_dan;
+        } else if(options.leibie =="3"){//判断
+          doneAnswer.px = doneAnswer.px - options.num_dan-options.num_duo;
+        }
+
         shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan; //设置已答试题的答案
         shitiArray[doneAnswer.px - 1].isAnswer = true;
       }

@@ -2,10 +2,10 @@
   "pages": [
     "pages/shuati/shuati",
     "pages/learn/learn",
+    "pages/learn/daoyouci_list",
     "pages/login/login",
     "pages/index/index",
     "pages/learn/play",
-    "pages/learn/daoyouci_list",
     "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",
     "pages/user/index",
