@@ -17,9 +17,9 @@
 
   <!-- 选项 -->
   <view class="selects">
-    <view data-index="{{index}}" bindtap="changeType" class="select" wx:for="{{types}}" wx:for-item="type" wx:key="t" >
-      <view class="selectitem" style="background:{{currentIndex == index?'#32d584':'#f2f4f5'}};color:{{currentIndex == index?'white':'black'}}">
-        {{type}}
+    <view wx:if="{{!type.none}}"  data-index="{{index}}" bindtap="changeType" class="select" wx:for="{{types}}" wx:for-item="type" wx:key="t" >
+      <view  class="selectitem" style="background:{{currentIndex == index?'#32d584':'#f2f4f5'}};color:{{currentIndex == index?'white':'black'}}">
+        {{type.title}}
       </view>
     </view>
   </view>

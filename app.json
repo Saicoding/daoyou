@@ -25,7 +25,8 @@
     "pages/index/xuexijihua/xuexijihua",
     "pages/shuati/moni/moni",
     "pages/learn/daoyouci_info",
-    "pages/shuati/random/random"
+    "pages/shuati/random/random",
+    "pages/shuati/mark/mark"
   ],
   "window": {
     "backgroundTextStyle": "light",

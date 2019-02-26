@@ -128,8 +128,8 @@ Page({
       for (let j = 0; j < zhangjie.list.length; j++) {
         let jie = zhangjie.list[j];
         let doneArray = wx.getStorageSync('doneArray' + jie.id + '0' + zcode) ? wx.getStorageSync('doneArray' + jie.id + '0' + zcode) : [];
-        
-        if (doneArray.length !=0) { //如果有本地缓存,就计算已做数组的长度
+
+        if (doneArray.length != 0) { //如果有本地缓存,就计算已做数组的长度
           jie.donenum = doneArray.length;
           zhangjie.donenum += doneArray.length;
           let rightNum = 0;
@@ -153,7 +153,7 @@ Page({
         }
       }
 
-      zhangjie.rateWidth = 490 * zhangjie.donenum / parseInt(zhangjie.all_num);//绿条宽度
+      zhangjie.rateWidth = 490 * zhangjie.donenum / parseInt(zhangjie.all_num); //绿条宽度
       zhangjie.rightrate = zhangjie.donenum == 0 ? 0 : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 
@@ -227,9 +227,9 @@ Page({
     let self = this;
     let type = e.currentTarget.dataset.type;
     let currentIndex = null;
-    let currentMidIndex  = null;
+    let currentMidIndex = null;
 
-    if(type == 1){//点击科目
+    if (type == 1) { //点击科目
       currentIndex = e.currentTarget.dataset.index; //点击的科目id
       currentMidIndex = self.data.currentMidIndex; //当前题型index
       self.setData({
@@ -238,7 +238,7 @@ Page({
       wx.setStorage({ //设置本地缓存
         key: 'currentIndex',
         data: currentIndex,
-        fail: function () {
+        fail: function() {
           wx.showToast({
             title: '设置currentIndex失败',
             icon: 'none',
@@ -246,9 +246,9 @@ Page({
           })
         }
       })
-    }else{//点击题型
-      currentIndex = self.data.currentIndex;//点击的科目id
-      currentMidIndex = e.currentTarget.dataset.index;//当前题型index
+    } else { //点击题型
+      currentIndex = self.data.currentIndex; //点击的科目id
+      currentMidIndex = e.currentTarget.dataset.index; //当前题型index
       self.setData({
         currentMidIndex: currentMidIndex
       })
@@ -256,7 +256,7 @@ Page({
       wx.setStorage({ //设置本地缓存
         key: 'currentMidIndex',
         data: currentMidIndex,
-        fail: function () {
+        fail: function() {
           wx.showToast({
             title: '设置currentMidIndex失败',
             icon: 'none',
@@ -276,10 +276,10 @@ Page({
       })
     } else {
       let types = self.getkemuIDByindex(currentIndex); //科目id
-      let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray;//本地所有已载入标识数组
+      let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //本地所有已载入标识数组
 
       self.setData({
-        isLoaded:false
+        isLoaded: false
       })
 
       // 获取章节列表
@@ -340,9 +340,9 @@ Page({
   },
 
   /**
-  * 实现展开折叠效果
-  */
-  step: function (index, num, windowWidth, zhangjie) {
+   * 实现展开折叠效果
+   */
+  step: function(index, num, windowWidth, zhangjie) {
     let self = this;
     let isFolder = zhangjie[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
@@ -354,7 +354,7 @@ Page({
       }
     }
 
-    let height =  121* num; //上下边框2px 转化为rpx
+    let height = 121 * num; //上下边框2px 转化为rpx
 
     // let scroll = (index * 80 + jie_num * (68 + 2 * 750 / windowWidth)) * (windowWidth / 750);
 
@@ -369,7 +369,7 @@ Page({
       spreadAnimation.height(height + "rpx", 0).opacity(1).step({
 
       })
-    
+
       zhangjie[index].isFolder = false;
       zhangjie[index].height = height;
       zhangjie[index].spreadData = spreadAnimation.export()
@@ -399,7 +399,7 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").opacity(0).step(function () { })
+      foldAnimation.height(0, height + "rpx").opacity(0).step(function() {})
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -410,7 +410,7 @@ Page({
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
 
-      setTimeout(function () {
+      setTimeout(function() {
         zhangjie[index].display = false;
         self.setData({
           zhangjies: zhangjie,
@@ -429,36 +429,17 @@ Page({
    * 答题弹窗提示
    */
   showAnswerModel: function(e) {
+    let self = this;
     let num = e.currentTarget.dataset.num; //总题数
     let donenum = e.currentTarget.dataset.donenum; //已答数目
     let rightrate = e.currentTarget.dataset.rightrate; //正确率
     let title = e.currentTarget.dataset.title; //点击的标题
-    let f_id = e.currentTarget.dataset.f_id;//章节id
+    let f_id = e.currentTarget.dataset.f_id; //章节id
     let currentIndex = this.data.currentIndex;
     let typesid = this.getkemuIDByindex(currentIndex);
 
     console.log(this.goAnswerModel.data.currentIndex)
-    if (this.goAnswerModel.data.currentIndex !=0){
-      this.goAnswerModel.setData({
-        num: num,
-        donenum: donenum,
-        rightrate: rightrate,
-        title: title,
-        f_id: f_id
-      })
-      
-      this.goAnswerModel.showDialog();
-      app.post(API_URL, "action=getTestTypeNums&typesid=" + typesid + "&f_id=" + f_id, false, false, "", "").then(res => {
-        let result = res.data.data[0];
-        this.goAnswerModel.setData({
-          num_dan: result.num_dan,
-          num_duo: result.num_duo,
-          num_pan: result.num_pan,
-        })
-
-        this.goAnswerModel.setNum();
-      })
-    }else{
+    if (this.goAnswerModel.data.currentIndex != 0) {
       this.goAnswerModel.setData({
         num: num,
         donenum: donenum,
@@ -468,14 +449,85 @@ Page({
       })
 
       this.goAnswerModel.showDialog();
-
       app.post(API_URL, "action=getTestTypeNums&typesid=" + typesid + "&f_id=" + f_id, false, false, "", "").then(res => {
         let result = res.data.data[0];
-        this.goAnswerModel.setData({
+        let types = self.goAnswerModel.data.types;
+
+        if (result.num_dan == 0) {
+          currentIndex = 0;
+          types[1].none = true;
+        } else {
+          types[1].none = false;
+        }
+
+        if (result.num_duo == 0) {
+          types[2].none = true;
+          currentIndex = 0;
+        } else {
+          types[2].none = false;
+        }
+
+        if (result.num_pan == 0) {
+          types[3].none = true;
+          currentIndex = 0;
+        } else {
+          types[3].none = false;
+        }
+
+        self.goAnswerModel.setData({
           num_dan: result.num_dan,
           num_duo: result.num_duo,
           num_pan: result.num_pan,
+          types: types,
+          currentIndex: currentIndex
         })
+
+        self.goAnswerModel.setNum();
+      })
+    } else {
+      this.goAnswerModel.setData({
+        num: num,
+        donenum: donenum,
+        rightrate: rightrate,
+        title: title,
+        f_id: f_id
+      })
+
+      this.goAnswerModel.showDialog();
+
+      app.post(API_URL, "action=getTestTypeNums&typesid=" + typesid + "&f_id=" + f_id, false, false, "", "").then(res => {
+        let result = res.data.data[0];
+        let types = self.goAnswerModel.data.types;
+
+        if (result.num_dan == 0) {
+          currentIndex = 0;
+          types[1].none = true;
+        } else {
+          types[1].none = false;
+        }
+
+        if (result.num_duo == 0) {
+          types[2].none = true;
+          currentIndex = 0;
+        } else {
+          types[2].none = false;
+        }
+
+        if (result.num_pan == 0) {
+          types[3].none = true;
+          currentIndex = 0;
+        } else {
+          types[3].none = false;
+        }
+
+        self.goAnswerModel.setData({
+          num_dan: result.num_dan,
+          num_duo: result.num_duo,
+          num_pan: result.num_pan,
+          types: types,
+          currentIndex: currentIndex
+        })
+
       })
     }
   },
@@ -485,20 +537,20 @@ Page({
    */
   _GOzuoti: function(e) {
     let currentSelectIndex = e.detail.currentSelectIndex; //选择做题的题型
-    let currentIndex = this.data.currentIndex;//当前科目index
+    let currentIndex = this.data.currentIndex; //当前科目index
     let title = e.detail.title;
     let selected = e.detail.selected; //已做题还是全部试题
-    let donenum = e.detail.donenum;//已做的题数
+    let donenum = e.detail.donenum; //已做的题数
     let currentMidIndex = this.data.currentMidIndex; //当前试卷类型(章节练习、全镇模拟、核心密卷)
-    let types = this.getkemuIDByindex(currentIndex);//科目ID
-    let f_id = e.detail.f_id;//章节id
-    let all_nums = e.detail.all_nums;//点击章节的题数
-    let num_dan = e.detail.num_dan;//单选题数量
-    let num_duo = e.detail.num_duo;//多选题数量
-    let num_pan = e.detail.num_pan;//判断题数量
+    let types = this.getkemuIDByindex(currentIndex); //科目ID
+    let f_id = e.detail.f_id; //章节id
+    let all_nums = e.detail.all_nums; //点击章节的题数
+    let num_dan = e.detail.num_dan; //单选题数量
+    let num_duo = e.detail.num_duo; //多选题数量
+    let num_pan = e.detail.num_pan; //判断题数量
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum+"&num_dan="+num_dan+"&num_duo="+num_duo+"&num_pan="+num_pan,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan,
     })
   },
 
@@ -533,13 +585,24 @@ Page({
   },
 
   /**
-   * 导航到随机练习
+   * 导航到收藏
    */
-  GORandom:function(e){
+  GOmark:function(e){
     let index = e.currentTarget.dataset.index;
     let types = this.getkemuIDByindex(index); //科目id
     wx.navigateTo({
-      url: '/pages/shuati/random/random?types='+types,
+      url: '/pages/shuati/mark/mark?types=' + types,
+    })
+  },
+
+  /**
+   * 导航到随机练习
+   */
+  GORandom: function(e) {
+    let index = e.currentTarget.dataset.index;
+    let types = this.getkemuIDByindex(index); //科目id
+    wx.navigateTo({
+      url: '/pages/shuati/random/random?types=' + types,
     })
   },
 

@@ -6,8 +6,8 @@
   <view class="title">{{title}}</view>
 </view>
 
-<view class="container">
-  <swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" style="height:{{windowHeight-90}}rpx;" bindchange="sliderChange">
+<view wx:if="{{isLoaded && !hasNoShiti}}" class="container">
+  <swiper  duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" style="height:{{windowHeight-90}}rpx;" bindchange="sliderChange">
     <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
       <swiper-item>
         <scroll-view scroll-y style="height:{{windowHeight-100}}rpx;">
@@ -46,12 +46,17 @@
 <!-- 载入动画 -->
 <image wx:if="{{!isLoaded}}" class="loading-img" src="/images/loading/loading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
 
+<view wx:if = "{{hasNoShiti}}">
+<image  class ="hasNopage" src="/images/hasNopage/hasNopage.png"></image>
+<view class ="hasNoPage-title">当前没有收藏试题</view>
+</view>
+
 <!-- 答题板 -->
 <markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">
 </markAnswer>
 
 <!-- 底部正确错误个数统计条 -->
-<shuatiBottom px="{{px}}" all_nums = "10" id="shuatiBottom" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindnote="_note" bindjiaocheng="_jiaocheng">
+<shuatiBottom wx:if="{{isLoaded && !hasNoShiti}}" px="{{px}}" all_nums = "{{options.all_nums}}" id="shuatiBottom" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindnote="_note" bindjiaocheng="_jiaocheng">
 </shuatiBottom>
 
 <!-- 纠错板 -->

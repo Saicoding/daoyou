@@ -118,53 +118,71 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
 /**
  * 收藏题
  */
-function markOnload(options, px, circular, myFavorite, res, user, self) {
-  let shitiArray = res.data.shiti;
-  let username = user.username;
-  let LoginRandom = user.Login_random;
-  let zcode = user.zcode;
-
-  common.initShitiArrayDoneAnswer(shitiArray); //将试题的所有done_daan置空
-
-  common.setMarkedAll(shitiArray);
-
-  common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
-
+function markOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) {
+  let zcode = user.zcode == undefined ? '' : user.zcode;
   //得到swiper数组
+  let preShiti = undefined; //前一题
   let nextShiti = undefined; //后一题
-  let midShiti = shitiArray[0]; //中间题
+  let midShiti = shitiArray[px - 1]; //中间题
+
   let sliderShitiArray = [];
+  let lastSliderIndex = 0;
 
   common.initShiti(midShiti); //初始化试题对象
 
-  if (shitiArray.length != 1) {
-    nextShiti = shitiArray[1];
+  if (px != 1 && px != shitiArray.length) { //如果不是第一题也是不是最后一题
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti); //初始化试题对象
+    nextShiti = shitiArray[px];
     common.initShiti(nextShiti); //初始化试题对象
+  } else if (px == 1) { //如果是第一题
+    if (shitiArray.length != 1) {
+      nextShiti = shitiArray[px];
+      common.initShiti(nextShiti); //初始化试题对象
+    }
+  } else {
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti); //初始化试题对象
   }
 
-  circular = false //如果滑动后编号是1,或者最后一个就禁止循环滑动
-  myFavorite = midShiti.favorite;
+  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+  myFavorite = midShiti.myFavorite == undefined ? '0' : midShiti.myFavorite;
 
-  if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
-  sliderShitiArray[0] = midShiti;
+  if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
+    sliderShitiArray[0] = midShiti;
+    sliderShitiArray[1] = nextShiti;
+    sliderShitiArray[2] = preShiti;
+  } else if (px == 1) { //如果是第一题
+    if (shitiArray.length != 1) {
+      sliderShitiArray[0] = midShiti;
+      sliderShitiArray[1] = nextShiti;
+    } else {
+      sliderShitiArray[0] = midShiti;
+    }
+
+  } else { //如果是最后一题
+    sliderShitiArray[0] = preShiti;
+    sliderShitiArray[1] = midShiti;
+    lastSliderIndex = 1;
+    self.setData({
+      myCurrent: 1
+    })
+  }
 
   self.setData({
-    //设置过场动画
-    winH: wx.getSystemInfoSync().windowHeight,
-    opacity: 1,
+    options: options,
     px: px,
-
-    nums: shitiArray.length, //题数
-    shitiArray: shitiArray, //整节的试题数组
-    sliderShitiArray: sliderShitiArray, //滑动数组
+    user: user,
     circular: circular,
     myFavorite: myFavorite, //是否收藏
-    lastSliderIndex: 0, //默认滑动条一开始是0
-    isLoaded: true, //是否已经载入完毕,用于控制过场动画
-    user: user
-  });
+    nums: all_nums, //题数
+    pageall: pageall, //总页数
 
-  wx.hideLoading();
+    shitiArray: shitiArray, //整节的试题数组
+    sliderShitiArray: sliderShitiArray, //滑动数组
+    lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
+    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+  });
 }
 
 

@@ -50,7 +50,7 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1;
     }
 
-    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page+"&tishu=1", false, false, "", "", false, self).then((res) => {
+    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page, false, false, "", "", false, self).then((res) => {
 
       let result = res.data.data[0];
       let shitiArray = result.list;
@@ -645,11 +645,15 @@ Page({
    * 模板点击返回按钮
    */
   _toBack: function() {
+    wx.navigateBack({})
+  },
+
+  onUnload:function(){
     let pages = getCurrentPages();
     let prePage = pages[pages.length - 2];
     let doneAnswerArray = this.data.doneAnswerArray; //所有已答数组
     let user = wx.getStorageSync('user');
-    let zcode = user.zcode?user.zcode:'';
+    let zcode = user.zcode ? user.zcode : '';
     let tiku = prePage.data.tiku; //上个页面的题库对象
     let options = this.data.options;
     let currentIndex = prePage.data.currentIndex;
@@ -659,13 +663,13 @@ Page({
 
     //找到对应的题库
     let mytikuArray = tiku[zhangjieLoadedStr];
-    for (let i = 0; i < mytikuArray.length;i++){
+    for (let i = 0; i < mytikuArray.length; i++) {
       let mytiku = mytikuArray[i];
-      for(let j = 0;j<mytiku.list.length;j++){
+      for (let j = 0; j < mytiku.list.length; j++) {
         let jie = mytiku.list[j];
         let doneArray = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
-        console.log(doneArray + "||" + donenum)
-        if(jie.id == options.f_id){//找到对应章节
+
+        if (jie.id == options.f_id) {//找到对应章节
           jie.donenum = doneArray.length;
           jie.rateWidth = 490 * jie.donenum / parseInt(jie.all_num);
           jie.rightrate = this.tongji.data.rightRate;
@@ -674,14 +678,12 @@ Page({
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
           prePage.setData({
             zhangjies: mytikuArray,
-            tiku:tiku
+            tiku: tiku
           })
           break;
         }
       }
     }
-
-    wx.navigateBack({})
   },
 
   /**

@@ -33,7 +33,7 @@
 .restart{
   width:150rpx;
   height:50rpx;
-  background: linear-gradient(to right,#ffa060,#ff7516);
+  background: linear-gradient(to right,#5dd499,#01db6e);
   line-height: 50rpx;
   color:white;
   text-align: center;

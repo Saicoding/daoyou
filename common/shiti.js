@@ -545,8 +545,6 @@ function storeAnswerStatus(shiti, self) {
 function storeRandomAnswerStatus(shiti, self) {
   let options = self.data.options;
   let doneAnswerArray = self.data.doneAnswerArray
-  let user = self.data.user;
-  let zcode = user.zcode == undefined ? '' : user.zcode;
 
   let obj = {
     "id": shiti.id,

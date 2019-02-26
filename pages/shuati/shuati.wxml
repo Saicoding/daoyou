@@ -40,7 +40,7 @@
         </view>
       </view>
       <view class='t_right'>
-        <view class='ti_z3' bindtap="GOAnswerWrong">
+        <view data-index = "{{currentIndex}}" class='ti_z3'  bindtap="GOmark" hover-class='select1' hover-stay-time='500'>
           <image class="ti_img" src="/images/shua-3.png" mode="aspectFit"></image>
           <view class='t_text'>收藏试题</view>
         </view>

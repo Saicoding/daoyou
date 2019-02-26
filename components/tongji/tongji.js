@@ -30,7 +30,6 @@ Component({
     },
     //展示弹框
     showDialog() {
-      console.log('haha')
       this.setData({
         isShow: true
       })

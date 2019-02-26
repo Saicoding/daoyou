@@ -12,10 +12,18 @@ Component({
    */
   data: {
     types:[
-      "全部",
-      "单选",
-      "多选",
-      "判断"
+      { 
+        title: "全部"
+      },
+      {
+        title: "单选"
+      },
+      {
+        title: "多选"
+      },
+      {
+        title: "判断"
+      }
     ],
     currentIndex:0,
     num:0,
