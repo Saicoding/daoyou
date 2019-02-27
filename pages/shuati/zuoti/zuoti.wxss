@@ -4,7 +4,6 @@ page {
   background: #f4f7f9;
 }
 
-
 /* 自定义标题栏 */
 .container1 {
   position: fixed;

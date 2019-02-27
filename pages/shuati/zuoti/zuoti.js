@@ -162,6 +162,7 @@ Page({
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
+    let user = wx.getStorageSync('user');
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -188,7 +189,8 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    // common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
+    common.postAnswerToServer(user, shiti.beizhu,shiti.id, shiti.flag, shiti.done_daan, app, API_URL);
+
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
@@ -735,7 +737,7 @@ Page({
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.openid;
 
-            app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+            app.post(API_URL, "action=unifiedorder&token=" + token + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
               let status = res.data.status;
 

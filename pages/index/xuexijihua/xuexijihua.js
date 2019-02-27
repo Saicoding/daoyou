@@ -21,11 +21,31 @@ Page({
     })
   },
 
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    let self = this;
 
+    this.pindanSend = this.selectComponent("#pindanSend");
+    this.buyTaocan = this.selectComponent("#buyTaocan");
+
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        //最上面标题栏不同机型的高度不一样(单位PX)
+        let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowWidth: windowWidth,
+          windowHeight: windowHeight,
+          statusBarHeight: statusBarHeight
+        })
+      }
+    });
   },
 
   /**
@@ -34,7 +54,7 @@ Page({
   onShow: function () {
     let self = this;
     this.setData({
-      nodes:"网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容网页内容"
+      nodes:"<div style = 'text-align:center;font-size:14px;font-weight:bolder;margin-top:100px;'>网页内容</div>"
     })
     animate.tiaoAnimation(easeOutAnimation,self);
   },
@@ -52,22 +72,14 @@ Page({
    * 单独购买
    */
   buy:function(){
-    wx.showToast({
-      icon:'none',
-      title: '开发中',
-      duration:3000
-    })
+    this.buyTaocan.showDialog();
   },
 
   /**
    * 发起团购
    */
   GOtuangou:function(){
-    wx.showToast({
-      icon: 'none',
-      title: '开发中',
-      duration: 3000
-    })
+    this.pindanSend.showDialog();
   }
 
 })

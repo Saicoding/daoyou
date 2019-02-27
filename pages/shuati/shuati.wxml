@@ -7,7 +7,7 @@
   </view>
 
   <!-- 轮播图 -->
-  <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500" style="  opacity: {{opacity}}">
+  <swiper bindtap = "test" class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500" style="  opacity: {{opacity}}">
     <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
       <swiper-item>
         <image src="{{img.pic}}" class="slide-image" />
@@ -28,7 +28,7 @@
           <view class='t_text'>我的错题</view>
         </view>
       </view>
-      <view class='t_center'>
+      <view class='t_center' bindtap = "test1">
         <view class="t_center_text">{{bars[currentIndex].title3}}</view>
         <view class="t_center_pic">
           <view class="t_center_pic_text1">60</view>
@@ -78,7 +78,7 @@
           <image class="ti-title-icon" src="{{zhangjie.isFolder && !zhangjie.display?'/images/fold.png':'/images/unfold.png'}}"></image>
           <view class="ti-block-line" style="margin-left:30rpx;">
             <view class="ti-block-line1">
-              <view class="ti-block-line1-title wp">{{zhangjie.title}}</view>
+              <view class="ti-block-line1-title wp" >{{zhangjie.title}}</view>
               <view class="ti-block-line1-num">{{zhangjie.donenum}}/{{zhangjie.all_num}}</view>
             </view>
             <view class="ti-block-line2"></view>
@@ -149,3 +149,6 @@
 <!-- 弹窗 -->
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti"></goAnswerModel>
 <jiesuoti id = "jiesuoti" bindbuyAll = "_buyAll" windowHeight = "{{windowHeight}}"></jiesuoti>
+
+<!-- 测试分享成功弹窗 -->
+<shareSuccessModel id = "shareSuccessModel"></shareSuccessModel>

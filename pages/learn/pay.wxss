@@ -1,4 +1,12 @@
 /* pages/learn/pay.wxss */
-.topk { margin: 0 auto; margin-top: -70px; width: 94%; background: #fff; border-radius:10px; line-height: 30px; overflow: hidden ;-webkit-box-shadow: 0 3px 8px #eee;box-shadow: 0 3px 8px #eee; }
+page { background: #f7f7f7}
+.title { color: #222; font-size: 31rpx;}
+.topk { margin: 0 auto; margin-top: -70px; width: 94%; background: #fff; border-radius:10px; line-height: 30px; overflow: hidden ;-webkit-box-shadow: 0 4px 8px #eee;box-shadow: 0 4px 8px #eee; }
 .topk .hui text { margin-right: 15px;}
-.tishi { background: #faf9ff; padding: 4%;}
+.tishi { background: #faf9ff; padding: 4%; font-size:28rpx;line-height: 44rpx; }
+.tishi image { margin-right: 4px;width:26rpx; height:26rpx;  }
+.tishi .f13 {color: #666; margin-top:6px;  }
+.lv { color: #15b259}
+
+.tuijian { background: #fff8f5; padding:3%;line-height: 40rpx;}
+.tuijian image {margin-right: 4px;width:40rpx; height:40rpx; vertical-align: middle}

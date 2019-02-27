@@ -1,0 +1,60 @@
+/* components/errorRecovery/errorRecovery.wxss */
+
+.container {
+  width: 650rpx;
+  position: fixed;
+  top: 200rpx;
+  left: 50rpx;
+  z-index: 100;
+  background:white;
+  border-radius: 15rpx;
+  padding-bottom: 50rpx;
+}
+
+/* 头部 */
+
+.up {
+  width: 100%;
+  height: 60rpx;
+  line-height: 40rpx;
+  display: flex;
+  justify-content: center;
+  font-size:28rpx;
+  color:#09bb07;
+  margin-top:50rpx;
+}
+
+.up-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.mid{
+  width:100%;
+  color:#5e5e60;
+  text-align: center;
+  font-size:28rpx;
+}
+
+.down-btn{
+  width:80%;
+  height:90rpx;
+  line-height: 90rpx;
+  margin:0 auto;
+  text-align: center;
+  font-size:35rpx;
+  border-radius: 15rpx;
+  margin-top:30rpx;
+}
+
+.modal {
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  filter: Alpha(Opacity=60);
+  background-color: #000;
+  opacity: 0.9;
+  z-index: 99;
+}

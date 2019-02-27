@@ -8,7 +8,7 @@
   position: fixed;
   top: 0rpx;
   height: 50rpx;
-  background: linear-gradient(to right, rgb(255, 135, 139), rgb(255, 213, 214));
+  background: #ffd8d9;
 }
 
 .float-icon {
@@ -22,6 +22,46 @@
   font-size: 25rpx;
   color: #fd2f3b;
   line-height: 50rpx;
+}
+
+.block{
+  display: flex;
+  position: fixed;
+  width:100%;
+  height:100rpx;
+  line-height: 100rpx;
+  font-size:28rpx;
+  bottom:120rpx;
+  background: #fdf6ec;
+}
+
+.block-icon1{
+  position: relative;
+  width:60rpx;
+  height:60rpx;
+  border-radius: 60rpx;
+  margin-top:20rpx;
+  margin-left:50rpx;
+   z-index: 2;
+}
+
+.block-icon2-container{
+  position: relative;
+  width:60rpx;
+  height:60rpx;
+  border-radius: 60rpx;
+  background: white;
+  margin-top:20rpx;
+  left:-30rpx;
+  z-index: 1;
+}
+
+.block-icon2{
+  display: block;
+  width:40rpx;
+  height:40rpx;
+  margin-left:10rpx;
+  margin-top:10rpx;
 }
 
 /* 最下面 */

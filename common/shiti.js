@@ -874,9 +874,13 @@ function changeMultiShiti(done_daan, shiti) {
 /**
  * 向服务器提交做题结果
  */
-function postAnswerToServer(acode, username, id, flag, done_daan, app, API_URL) {
+function postAnswerToServer(user, beizhu, tid, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
-  app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {})
+  let token = user.token?user.token:"";
+  let zcode = user.zcode?user.zcode:"";
+
+  console.log("action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan)
+  app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {})
 }
 
 /**

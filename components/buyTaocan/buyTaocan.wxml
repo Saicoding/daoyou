@@ -1,0 +1,41 @@
+<!--components/Dialog/dialog.wxml-->
+
+<view wx:if="{{isShow}}" class="up" catchtap='stopBubbling'>
+  <view class ="up-close" bindtap = "closeAll">
+    <image class ="up-close-icon" src="/images/close.png"></image>
+  </view>
+
+  <view class ="up-text1">已选套餐:{{taocans[currentIndex].title}}</view>
+  <view class ="up-text2">团购价：<span style = "font-size:38rpx;color:#fd4f64;letter-spacing:3rpx;">¥{{taocans[currentIndex].price_tuan}}</span> 　　原价：¥{{taocans[currentIndex].price_old}}</view>
+
+  <view class ="up-text1">选择学习套餐</view>
+
+  <view wx:for = "{{taocans}}" wx:for-item = "taocan" wx:key = "t">
+    <view data-index="{{index}}" class ="taocan" bindtap = "changeTaocan" style = "background:{{index == currentIndex?'#1ccb64':'#f2f2f2'}};color:{{index == currentIndex?'white':'black'}};">{{taocan.title}}</view>
+  </view>
+
+  <view class ="up-text1" style = "margin-top:50rpx;">价格说明</view>
+
+  <view class ="info">{{taocans[currentIndex].info}}</view>
+
+  <view class ="up-btn" bindtap = "confirm">确定</view>
+</view>
+
+<view wx:if="{{isShow && downShow}}" class="down" catchtap='stopBubbling'>
+  <view class ="down-close" bindtap = "close">
+    <image class="down-close-icon" src="/images/close1.png"></image>
+  </view>
+
+  <view class ="down-mid">
+    把课程推荐给好友? 点击<span style = "color:#ff1111;font-weight:bolder">按钮</span>即可分享
+  </view>
+  <image class ="triggle" src="/images/dashed.png"></image>
+
+  <view class ="bottom-btn" bindtap = "_share" hover-class='select1' hover-stay-time='500'>
+    <image src="/images/wx.png" class ="bottom-btn-icon"></image>
+    <view >分享给您的好友</view>
+  </view>
+
+</view>
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank"></view>

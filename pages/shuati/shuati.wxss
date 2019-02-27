@@ -315,13 +315,13 @@ page {
 }
 
 .ti-block-line1-title {
-  width: 300rpx;
+  width: 400rpx;
   height: 60rpx;
   font-size:25rpx;
 }
 
 .ti-block-line1-num {
-  width: 200rpx;
+  width: 150rpx;
   height: 60rpx;
   text-align: right;
 }

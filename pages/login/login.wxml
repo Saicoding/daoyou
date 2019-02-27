@@ -1,4 +1,11 @@
 <!--pages/login/login.wxml-->
+<view class="container1" style="padding-top:{{statusBarHeight+10}}rpx;display:flex;">
+  <view class="back" hover-class='select1' hover-stay-time='500' bindtap="back" style="top:{{statusBarHeight+10}}rpx" bindtap="back">
+    <image class="back-icon" src="/images/back.png"></image>
+  </view>
+  <view class="title">{{options.title}}</view>
+</view>
+
 <view class='rel'>
   <image src="/images/denglu@3x.jpg" style='width:100%; height:auto' mode="widthFix"></image>
   <view class="title abs" wx:if="{{statu.code!=3}}">
@@ -50,11 +57,11 @@
 
   <!-- 快速登录 -->
   <view class="fastlogin">
-    <view bindtap="wxLogin" class='tac'>
-    <button open-type="getUserInfo" bindgetuserinfo="wxLogin" style='background:#fff'>
-    <image src="/images/weixin@3x.png"  style='width:50%' mode="widthFix"></image>
-    </button>
-      
+    <view class='tac'>
+      <button open-type="getUserInfo" bindgetuserinfo="wxLogin" style='background:#fff'>
+        <image src="/images/weixin@3x.png" style='width:50%' mode="widthFix"></image>
+      </button>
+
     </view>
   </view>
 </view>

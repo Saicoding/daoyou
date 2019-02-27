@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "goAnswerModel":"/components/goAnswerModel/goAnswerModel",
-    "jiesuoti":"/components/jiesuo/jiesuoti/jiesuoti"
+    "jiesuoti":"/components/jiesuo/jiesuoti/jiesuoti",
+    "shareSuccessModel": "/components/shareSuccessModel/shareSuccessModel"
   },
   "navigationStyle": "custom",
   "enablePullDownRefresh": false

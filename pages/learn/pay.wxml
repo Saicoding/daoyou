@@ -2,23 +2,30 @@
 <view style='background: #32d584; height:100px;'></view>
 <view class='topk'>
   <view style='padding:4%'>
-    <view class='f16'>{{title}}</view>
-    <view class='hui f12'>
+    <view class='title b'>{{title}}</view>
+    <view class='hui f13'>
       <text>课时：{{num}}</text>
       <text>主讲老师：{{name}}</text>
       <text>课程有效期：{{time}}</text>
     </view>
   </view>
   <view class='tishi' wx:if="{{danke}}">
-      <image src='/images/index/danger.png' style='width:15px; height:15px;'></image>特别提示：
-      <view>您购买的课程为<text class='lv'>单科</text>课程，<text class='lv'>不享受</text>第二年重学服务，无教材题库赠送，请确认后购买。</view>
+      <image src='/images/index/danger.png'></image>特别提示：
+      <view class='f13 hui2'>您购买的课程为<text class='lv'>单科</text>课程，<text class='lv'>不享受</text>第二年重学服务，无教材题库赠送，请确认后购买。</view>
   </view>
   <view class='tishi' wx:if="{{!danke}}">
-      <image src='/images/index/danger.png' style='width:15px; height:15px;'></image>特别提示：
-      <view>您购买的课程为<text class='lv'>单科</text>课程，<text class='lv'>不享受</text>第二年重学服务，无教材题库赠送，请确认后购买。</view>
+      <image src='/images/danger2.png'></image>该套餐额外赠送：
+      <view class='f13'>您购买的课程为<text class='lv'>单科</text>课程，<text class='lv'>不享受</text>第二年重学服务，无教材题库赠送，请确认后购买。</view>
   </view>
-  <view class='taocan' wx:if="{{danke}}">
-      <image src='/images/libao.png' class='fl' style='width:30px; height:30px;'></image><text class='f18'>优惠推荐</text>
-      <text style='color:#fb6d0b' class='f15'>购买导游考试【全陪学习套餐】劲省320元</text>
+  <view class='tuijian' wx:if="{{danke}}">
+      <image src='/images/libao.png'></image><text class='f15'>优惠推荐</text>
+      <text style='color:#fb6d0b;margin-left: 5px;' class='f13'>导游考试【全陪学习套餐】劲省320元</text>
   </view>
+  
+
 </view>
+
+<view class='ditiao'><text class='lab'>教材运费：</text><text class='hui'></text><text class='fr'></text></view>
+<view class='ditiao'><text class='lab'>优惠券：</text><text class='hui'></text><text class='fr'></text></view>
+<view class='ditiao'><text class='lab'>账户余额：</text><text class='hui'></text><text class='fr'></text></view>
+<view class='ditiao' wx:if="{{!danke}}"><text class='lab'>买家留言：</text><text class='hui'></text><text class='fr'></text></view>

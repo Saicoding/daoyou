@@ -4,11 +4,23 @@
     <rich-text nodes="{{nodes}}"></rich-text>
   </view>
 
-  <view class="float" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
+  <view class="float" style="top:{{(windowHeight-400)/2}}rpx;" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
     <image class="float-icon" src="/images/youhuiquan.png" style="margin-left:30rpx;margin-right:20rpx;"></image>
     <view class="float-text">您有1张100元的全部计划优惠券</view>
     <image class="float-icon" src="/images/hongbao.png" animation="{{tiaoData}}" style="margin-left:20rpx;"></image>
     <view class="float-text" style="margin-left:40rpx;">立即领取></view>
+  </view>
+
+  <!-- 快速参团 -->
+  <view class="block">
+    <image class="block-icon1" src="/images/avatar.png" ></image>
+    <view class ="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
+      <image class="block-icon2" src="/images/wenhao.png" ></image>
+    </view>
+    <view>CHEN的团
+      <span style="color:#f2810c;">只差一人</span>
+    </view>
+    <view style = "color:#f5902f;font-size:25rpx;margin-left:70rpx;">快速参团,立即拼成 <span style = "color:#f18508;font-weight:bolder;">></span> </view>
   </view>
 
   <view class="bottom">
@@ -19,7 +31,7 @@
     <view>
       <button open-type="contact" show-message-card="{{true}}" session-from="xuexijihua" session-from="weapp" class="bottom-item" bindtap="GOkefu" hover-class='select2' hover-stay-time='500'>
         <image class="bottom-item1-icon" src="/images/kefu.png" style=""></image>
-        <view class="bottom-item1-text" style = "margin-left:15rpx;">客服</view>
+        <view class="bottom-item1-text" style="margin-left:15rpx;">客服</view>
       </button>
     </view>
 
@@ -34,3 +46,6 @@
     </view>
   </view>
 </view>
+
+<pindanSend id="pindanSend"></pindanSend>
+<buyTaocan id="buyTaocan"></buyTaocan>

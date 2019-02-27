@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "pindanSend": "/components/pindanSend/pindanSend",
+    "buyTaocan": "/components/buyTaocan/buyTaocan"
+  }
 }

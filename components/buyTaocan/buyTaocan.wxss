@@ -1,0 +1,156 @@
+/* components/errorRecovery/errorRecovery.wxss */
+
+/* 头部 */
+
+.up {
+  bottom:0rpx ;
+  position: fixed;
+  z-index: 100;
+  width: 710rpx;
+  background:white;
+  padding:0rpx 20rpx 30rpx 20rpx;
+}
+
+.up-close{
+  width:80rpx;
+  height:80rpx;
+  float: right;
+  margin-right:-20rpx;
+}
+
+.up-close-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:20rpx;
+  margin-left:20rpx;
+}
+
+.up-text1{
+  clear: both;
+  width:100%;
+  height:60rpx;
+  line-height: 60rpx;
+  font-size:25rpx;
+  font-weight: bolder;
+}
+
+.up-text2{
+  font-size:25rpx;
+  color:#9d9d9d;
+  height:140rpx;
+  line-height: 120rpx;
+}
+
+.taocan{
+  width:380rpx;
+  height:60rpx;
+  line-height: 60rpx;
+  font-size:28rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  margin-top:30rpx;
+}
+
+.info{
+  font-size:25rpx;
+  color:#929292;
+  line-height:40rpx;
+}
+
+.up-btn{
+  width:88%;
+  height:90rpx;
+  margin:0 auto;
+  background: linear-gradient(to right,#00de6d,#01daa5);
+  line-height: 90rpx;
+  letter-spacing: 8rpx;
+  text-align: center;
+  color:white;
+  border-radius: 10rpx;
+  font-size:28rpx;
+  margin-top:50rpx;
+  box-shadow: 3rpx 3rpx 14rpx 5rpx rgba(0, 221, 133,0.3);
+}
+
+
+/* 下面部分 */
+.down{
+  bottom:0 ;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  background:white;
+  padding-bottom:50rpx;
+  box-shadow: 3rpx 3rpx 14rpx 5rpx rgba(15, 15, 15,0.1);
+}
+
+.down-close{
+  width:80rpx;
+  height:80rpx;
+  float: right;
+}
+
+.down-close-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:20rpx;
+  margin-left:20rpx;
+}
+
+/* 下面中间部分 */
+.down-mid{
+  clear: both;
+  width:620rpx;
+  height:120rpx;
+  line-height:120rpx;
+  font-size:25rpx;
+  color:#9a9a9a;
+  text-align: center;
+  border:2px dashed #ffdad0;
+  border-radius: 15rpx;
+  margin:0 auto;
+}
+
+.triggle{
+  position: relative;
+  left:355rpx;
+  top:-27rpx;
+  width:55rpx;
+  height:55rpx;
+}
+
+.bottom-btn{
+  display: flex;
+  justify-content: center;
+  width:610rpx;
+  height:90rpx;
+  line-height: 90rpx;
+  font-size:28rpx;
+  color:white;
+  background: linear-gradient(to right,#1edb78,#17d6a6);
+  margin:0 auto;
+  border-radius: 10rpx;
+  margin-top:-30rpx;
+}
+
+.bottom-btn-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:30rpx;
+}
+
+.modal {
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  filter: Alpha(Opacity=60);
+  background-color: #000;
+  opacity: 0.6;
+  z-index: 99;
+}
+
+.select1{
+  background: linear-gradient(to right,#7fcfa6,#43d4b0);
+}

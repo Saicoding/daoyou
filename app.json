@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/xuexijihua/xuexijihua",
     "pages/shuati/shuati",
     "pages/learn/pay",
     "pages/learn/daoyouci_list",
@@ -22,7 +23,6 @@
     "pages/user/news/news",
     "pages/shuati/zuoti/zuoti",
     "pages/index/catalogDetail/catalogDetail",
-    "pages/index/xuexijihua/xuexijihua",
     "pages/shuati/moni/moni",
     "pages/learn/daoyouci_info",
     "pages/shuati/random/random",

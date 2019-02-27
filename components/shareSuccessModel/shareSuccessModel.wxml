@@ -1,0 +1,22 @@
+<!--components/Dialog/dialog.wxml-->
+<view wx:if="{{isShow}}" class="container" catchtap='stopBubbling' style="top:{{(windowHeight-450)/2}}rpx;">
+  <view class="up">
+    <image src="/images/right.png" class="up-icon"></image>
+    <view style = "margin-left:10rpx;">分享成功</view>
+  </view>
+  <view class="mid">
+    再分享到
+    <span style="color:#e04e46;">2</span>个不同的微信群,
+    <span style="color:#e04e46;">拼成概率翻倍</span>
+  </view>
+
+  <view class="down-btn" style = "background:#e02e24;color:white;">
+    继续分享
+  </view>
+
+  <view class="down-btn" style = "background:white;color:black;border:1rpx solid #b9b9b9;">
+    查看我的课程订单
+  </view>
+</view>
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank"></view>

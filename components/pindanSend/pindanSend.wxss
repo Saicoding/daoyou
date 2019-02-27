@@ -1,0 +1,168 @@
+/* components/errorRecovery/errorRecovery.wxss */
+
+/* 头部 */
+
+.up {
+    top:0 ;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  background:white;
+  padding-bottom:30rpx;
+}
+
+.up-time{
+  width:200rpx;
+  height:50rpx;
+  line-height: 50rpx;
+  font-size:22rpx;
+  text-align: center;
+  margin:10rpx auto;
+  background:#f2f2f2;
+  border-radius: 8rpx;
+}
+
+.up-avatar{
+  display: flex;
+  justify-content: center;
+  margin-top:50rpx;
+}
+
+.up-avatar-pic{
+  width:90rpx;
+  height:90rpx;
+  border-radius: 90rpx;
+  border:3rpx solid #fec638;
+}
+
+.up-avatar-text{
+  width:70rpx;
+  height:35rpx;
+  line-height: 35rpx;
+  border-radius: 35rpx;
+  position: relative;
+  font-size:20rpx;
+  color:rgb(82, 82, 82);
+  background: #ffab33;
+  border:1rpx solid white;
+  text-align: center;
+  top:-110rpx;
+  left:-10rpx;
+}
+
+.up-text{
+  font-weight: bolder;
+  font-size:35rpx;
+  color:black;
+  text-align: center;
+}
+
+.btn,.btn1{
+  width:85%;
+  height:100rpx;
+  line-height: 100rpx;
+  border-radius: 10rpx;
+  color:white;
+  font-size:35rpx;
+  text-align: center;
+  margin:0 auto;
+  margin-top:30rpx;
+  margin-bottom:20rpx;
+}
+
+.btn{
+  background: linear-gradient(to right,#e02e24,#dd514a);
+}
+
+.btn1{
+  background: linear-gradient(to right,#16d6a5,#07e74a);
+}
+
+/* 下面部分 */
+.down{
+  bottom:0 ;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  background:white;
+  padding-bottom:50rpx;
+}
+
+.down-close{
+  width:80rpx;
+  height:80rpx;
+  float: right;
+}
+
+.down-close-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:20rpx;
+  margin-left:20rpx;
+}
+
+/* 下面中间部分 */
+.down-mid{
+  clear: both;
+  width:620rpx;
+  height:120rpx;
+  line-height:120rpx;
+  font-size:25rpx;
+  color:#9a9a9a;
+  text-align: center;
+  border:2px dashed #ffdad0;
+  border-radius: 15rpx;
+  margin:0 auto;
+}
+
+.triggle{
+  position: relative;
+  left:355rpx;
+  top:-27rpx;
+  width:55rpx;
+  height:55rpx;
+}
+
+.bottom-btn{
+  display: flex;
+  justify-content: center;
+  width:610rpx;
+  height:90rpx;
+  line-height: 90rpx;
+  font-size:28rpx;
+  color:white;
+  background: linear-gradient(to right,#1edb78,#17d6a6);
+  margin:0 auto;
+  border-radius: 10rpx;
+  margin-top:-30rpx;
+}
+
+.bottom-btn-icon{
+  width:40rpx;
+  height:40rpx;
+  margin-top:30rpx;
+}
+
+.modal {
+  position: fixed;
+  top: 0rpx;
+  left: 0rpx;
+  width: 100%;
+  height: 100%;
+  filter: Alpha(Opacity=60);
+  background-color: #000;
+  opacity: 0.6;
+  z-index: 99;
+}
+
+.select1{
+  background: linear-gradient(to right,#7fcfa6,#43d4b0);
+}
+
+.select2{
+  background: linear-gradient(to right,#d85d57,#d3b5b3);
+}
+
+.select3{
+  background: linear-gradient(to right,#d85d57,#d3b5b3);
+}

@@ -5,6 +5,27 @@
   margin: 30px auto;
 }
 
+/* 自定义标题栏 */
+.container1 {
+  position: fixed;
+  width: 100%;
+  z-index: 101;
+  top:0rpx;
+  height:80rpx;
+}
+
+.back {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
 .title {
   font-size: 28rpx;
   bottom: 0;
