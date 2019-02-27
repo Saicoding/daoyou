@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/xuexijihua/xuexijihua",
     "pages/shuati/shuati",
+    "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pay",
     "pages/learn/daoyouci_list",
     "pages/user/index",

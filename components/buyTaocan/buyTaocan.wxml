@@ -31,10 +31,10 @@
   </view>
   <image class ="triggle" src="/images/dashed.png"></image>
 
-  <view class ="bottom-btn" bindtap = "_share" hover-class='select1' hover-stay-time='500'>
+  <button open-type = "share" class ="bottom-btn"  hover-class='select1' hover-stay-time='500'>
     <image src="/images/wx.png" class ="bottom-btn-icon"></image>
-    <view >分享给您的好友</view>
-  </view>
+    <view style = "margin-left:10rpx;">分享给您的好友</view>
+  </button>
 
 </view>
 

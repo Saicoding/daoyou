@@ -47,5 +47,9 @@
   </view>
 </view>
 
-<pindanSend id="pindanSend"></pindanSend>
+<!-- 发起拼团 -->
+<pindanSend id="pindanSend" ></pindanSend>
+<!-- 购买套餐 -->
 <buyTaocan id="buyTaocan"></buyTaocan>
+<!-- 测试分享成功弹窗 -->
+<shareSuccessModel id = "shareSuccessModel" ></shareSuccessModel>

@@ -147,7 +147,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    let user = wx.getStorageSync('user'); //本地用户信息
+    console.log(user)
+    this.setData({
+      user: user
+    })
   },
 
   /**
@@ -315,8 +319,8 @@ Page({
               let isAnswer = shitiArray[i + (prePage - 1) * 10].isAnswer ? true : false;
               let done_daan = shitiArray[i + (prePage - 1) * 10].done_daan ? shitiArray[i + (prePage - 1) * 10].done_daan : '';
               shitiArray[i + (prePage - 1) * 10] = newWrongShitiArray[i];
-              shitiArray[i + (nextPage - 1) * 10].isAnswer = isAnswer;
-              shitiArray[i + (nextPage - 1) * 10].done_daan = done_daan;
+              shitiArray[i + (prePage - 1) * 10].isAnswer = isAnswer;
+              shitiArray[i + (prePage - 1) * 10].done_daan = done_daan;
             }
 
             self.setData({

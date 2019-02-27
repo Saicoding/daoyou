@@ -52,7 +52,7 @@ App({
               url: '/pages/pay/pay?product=' + product,
             })
           } else if (status == -5) { //重复登录
-            console.log('重复登录')
+
             if (self) { //如果传了这个参数
               self.setData({
                 isReLoad: true
@@ -75,7 +75,24 @@ App({
               icon: 'none',
               duration: 3000
             })
-          } else{
+          } else if (status < -2010) {//q
+            wx.clearStorageSync('user');//权限错误
+            if (self) { //如果传了这个参数
+              self.setData({
+                isReLoad: true
+              })
+            }
+            wx.navigateTo({
+              url: '/pages/login1/login1?url=' + pageUrl + '&ifGoPage=' + ifGoPage
+            })
+
+            wx.showToast({
+              icon:'none',
+              title: '登录已失效,请重新登录',
+              duration:3000
+            })
+
+          }  else{
             console.log(res)
             wx.showToast({
               icon: 'none',

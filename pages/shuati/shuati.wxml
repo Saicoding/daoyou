@@ -150,5 +150,3 @@
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti"></goAnswerModel>
 <jiesuoti id = "jiesuoti" bindbuyAll = "_buyAll" windowHeight = "{{windowHeight}}"></jiesuoti>
 
-<!-- 测试分享成功弹窗 -->
-<shareSuccessModel id = "shareSuccessModel"></shareSuccessModel>

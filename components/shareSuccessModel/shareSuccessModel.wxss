@@ -5,7 +5,7 @@
   position: fixed;
   top: 200rpx;
   left: 50rpx;
-  z-index: 100;
+  z-index: 200;
   background:white;
   border-radius: 15rpx;
   padding-bottom: 50rpx;
@@ -56,5 +56,5 @@
   filter: Alpha(Opacity=60);
   background-color: #000;
   opacity: 0.9;
-  z-index: 99;
+  z-index: 199;
 }
