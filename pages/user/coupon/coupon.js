@@ -1,17 +1,41 @@
 // pages/user/coupon/coupon.js
+const app = getApp()
+var API_URL = "https://xcx2.chinaplat.com/daoyou/";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    loaded: false,
+    user:"",
+    time2:"",
+    guoqi: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var user = wx.getStorageSync("user");
+    var time2 = this.dateAdd(user.yhq_time);
+    
+    var guoqi=false;
+    if (new Date(time2) < new Date()) { guoqi=true}
+    this.setData({
+     user:user,
+     time2:time2,
+     guoqi:guoqi,
+     loaded: true
+    })
+  },
+  dateAdd: function (startDate) {
+    startDate = new Date(startDate);
+    startDate = +startDate + 3000 * 60 * 60 * 24;
+    startDate = new Date(startDate);
+
+    var nextStartDate = startDate.getFullYear() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getDate() + " " + startDate.getHours() + ":"+ startDate.getMinutes() + ":" + startDate.getSeconds();
+    return nextStartDate;
 
   },
 

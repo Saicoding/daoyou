@@ -1,1 +1,4 @@
 /* pages/learn/pay.wxss */
+.topk { margin: 0 auto; margin-top: -70px; width: 94%; background: #fff; border-radius:10px; line-height: 30px; overflow: hidden ;-webkit-box-shadow: 0 3px 8px #eee;box-shadow: 0 3px 8px #eee; }
+.topk .hui text { margin-right: 15px;}
+.tishi { background: #faf9ff; padding: 4%;}

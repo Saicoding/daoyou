@@ -1,6 +1,8 @@
 .content { background: #f3f7fa; height: 100%;}
 .playbtn { position: absolute; top: -25px; right: 25px; width: 50px; height: 50px;}
-.cont_t { width: 90%; margin: 20px auto; padding: 3%; background: #fff;}
+.cont_t { width: 88%; margin:0 auto; margin-top: -50px; padding: 4%; background: #fff; line-height: 50rpx; border-radius:6px; }
+.cont_b {padding: 4%; background: #fff; line-height: 50rpx; margin-top: 20px;}
+
 .progress { background: #eee; border-radius:2px; height: 6px; overflow: hidden; }
 .progress_sub { background: #00c746; border-radius:6px; height: 6px; margin: 0; width: 0; }
 .bottomkk{
@@ -40,10 +42,12 @@
   line-height: 70rpx;
   margin-right:15rpx; float: right;
 }
-.pllist { width: 94%; padding:4% 3%; border-bottom: 1px #eee solid;}
-.plimg { width: 12%; border-radius:50%; float: left; }
+.pingjia {padding-bottom: 60px; margin-top: 20px;}
+.pllist { width: 94%; padding:4% 3%; border-bottom: 1px #eee solid; background: #fff; }
+.plimg { width: 40px; height: 40px; border-radius:50%; float: left; }
 .plcont { width: 85%;float: right;}
 .plcont .clear{ line-height: 35px;}
 .pltext { line-height: 24px; color: #555}
 .pltext2 { padding: 2%; background: #f4f7f9; }
 .pltext2 text { color: #64d56b}
+

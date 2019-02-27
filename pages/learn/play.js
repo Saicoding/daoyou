@@ -162,9 +162,14 @@ Page({
       var self = this;
 
       app.post(API_URL, "action=getCoursePL&cid=" + this.data.kcid + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
+        var page_all = res.data.data[0].page_all;
+        var page_now = res.data.data[0].page_now;
+        if (page_all == 0) { page_all = 2 }
+        if (page_now > page_all) { page_all = page_now }
+
         self.setData({
-          page_all: res.data.data[0].page_all,
-          page_now: res.data.data[0].page_now,
+          page_all: page_all,
+          page_now: page_now,
           pl: res.data.data[0].pllist
         })
 

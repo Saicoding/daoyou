@@ -565,7 +565,7 @@ Page({
   /**
    * 提交纠错
    */
-  _submit:function(){
+  _submit:function(e){
     let self = this;
     let user = wx.getStorageSync('user');
     if(user){//已经登录
@@ -575,8 +575,8 @@ Page({
       let px = self.data.px;
       let shitiArray = self.data.shitiArray;
       let shiti = shitiArray[px - 1];
-
-      app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token +"&zcode="+zcode, true, false, "提交中").then((res) => {
+     
+      app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token, true, false, "提交中").then((res) => {
         self.errorRecovery.hideDialog();
         wx.showToast({
           icon: 'none',
@@ -720,12 +720,78 @@ Page({
    * 购买解析包
    */
   _buyJiexi: function() {
-    this.jiesuo.hideDialog();
-    wx.showToast({
-      title: '购买解锁开发中',
-      icon: 'none',
-      duration: 3000
-    })
+    let user = wx.getStorageSync('user');
+    
+    if(user){//已登录
+      let token = user.token;
+      let zcode = user.zcode;
+      this.jiesuo.hideDialog();
+
+      // 登录
+      wx.login({
+        success: res => {
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          code = res.code;
+          app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+            let openid = res.data.openid;
+
+            app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+
+              let status = res.data.status;
+
+              if (status == 1) {
+                let timestamp = Date.parse(new Date());
+                timestamp = timestamp / 1000;
+                timestamp = timestamp.toString();
+                let nonceStr = "TEST";
+                let prepay_id = res.data.prepay_id;
+                let appId = "wxf90a298a65cfaca8";
+                let myPackage = "prepay_id=" + prepay_id;
+                let key = "e625b97ae82c3622af5f5a56d1118825";
+
+                let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
+                let paySign = md5.md5(str).toUpperCase();
+
+                let myObject = {
+                  'timeStamp': timestamp,
+                  'nonceStr': nonceStr,
+                  'package': myPackage,
+                  'paySign': paySign,
+                  'signType': "MD5",
+                  success: function (res) {
+                    if (res.errMsg == "requestPayment:ok") { //成功付款后
+                      app.post(API_URL, "action=buyshiti&token=" + token + "&zcode=" + zcode, true, false, "购买中", "", false, self).then(res => {
+                        let pages = getCurrentPages();
+                        let prevPage = pages[pages.length - 2]; //上一个页面
+                        prevPage.setData({
+                          buied: product
+                        })
+                        wx.navigateBack({
+                          delta: 2
+                        })
+                        wx.showToast({
+                          title: '购买成功',
+                          icon: 'none',
+                          duration: 3000
+                        })
+                      })
+                    }
+                  },
+                  fail: function (res) { }
+                }
+                wx.requestPayment(myObject)
+              }
+            })
+          })
+        }
+      })
+
+    }else{//未登录
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
+
   },
 
   /**

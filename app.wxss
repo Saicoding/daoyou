@@ -9,7 +9,14 @@ view,text,input,button,textarea,table{letter-spacing:0.6px;}
   height:35rpx;
   margin:200rpx auto;
 }
-
+/* 为空图片 */
+.hasNopage{
+  display: block;
+  width:300rpx;
+  height:300rpx;
+  margin: 0 auto;
+  margin-top:80rpx;
+}
 button::after {
   border: none;
 }

@@ -23,6 +23,7 @@ Page({
    */
   onLoad: function (options) {
     var val = options.val;
+    if(!val){val="北京"}
     this.setData({
       val: val
     });
@@ -55,8 +56,9 @@ Page({
   },
   info: function (e) {
     var id = e.currentTarget.dataset.id;
+    var img = e.currentTarget.dataset.img;
     wx.navigateTo({
-      url: 'daoyouci_info?id=' + id,
+      url: 'daoyouci_info?id=' + id+"&img="+img,
     })
   },
   /**

@@ -4,7 +4,7 @@
     <view class="up-item">
       <view class="up-item-num">10</view>
       <view class="up-item-bottom">
-        <view class="up-item-bottom-circle" style="background: radial-gradient(#f8776a,#f71e0a);"></view>
+        <view class="up-item-bottom-circle" style="background: #f8776a;"></view>
         <view class="up-item-bottom-text">未掌握</view>
       </view>
     </view>
@@ -12,7 +12,7 @@
     <view class="up-item">
       <view class="up-item-num">23</view>
       <view class="up-item-bottom">
-        <view class="up-item-bottom-circle" style="background: radial-gradient(#ffd43d,#fac400);"></view>
+        <view class="up-item-bottom-circle" style="background: #ffd43d;"></view>
         <view class="up-item-bottom-text">待强化</view>
       </view>
     </view>
@@ -20,7 +20,7 @@
     <view class="up-item">
       <view class="up-item-num">88</view>
       <view class="up-item-bottom">
-        <view class="up-item-bottom-circle" style="background: radial-gradient(#18ce61,#00f562);"></view>
+        <view class="up-item-bottom-circle" style="background:#18ce61;"></view>
         <view class="up-item-bottom-text">已掌握</view>
       </view>
     </view>

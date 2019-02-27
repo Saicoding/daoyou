@@ -202,12 +202,15 @@ Page({
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         let jiaonang = wx.getMenuButtonBoundingClientRect(); //胶囊位置及尺寸
 
+        let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
+
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
           statusBarHeight: statusBarHeight,
-          jiaonang: jiaonang
+          jiaonang: jiaonang,
+          fixedTop: fixedTop
         })
       }
     });
@@ -436,9 +439,9 @@ Page({
     let title = e.currentTarget.dataset.title; //点击的标题
     let f_id = e.currentTarget.dataset.f_id; //章节id
     let currentIndex = this.data.currentIndex;
+    let modelIndex = this.goAnswerModel.data.currentIndex;
     let typesid = this.getkemuIDByindex(currentIndex);
 
-    console.log(this.goAnswerModel.data.currentIndex)
     if (this.goAnswerModel.data.currentIndex != 0) {
       this.goAnswerModel.setData({
         num: num,
@@ -454,7 +457,7 @@ Page({
         let types = self.goAnswerModel.data.types;
 
         if (result.num_dan == 0) {
-          currentIndex = 0;
+          modelIndex = 0;
           types[1].none = true;
         } else {
           types[1].none = false;
@@ -462,14 +465,14 @@ Page({
 
         if (result.num_duo == 0) {
           types[2].none = true;
-          currentIndex = 0;
+          modelIndex = 0;
         } else {
           types[2].none = false;
         }
 
         if (result.num_pan == 0) {
           types[3].none = true;
-          currentIndex = 0;
+          modelIndex = 0;
         } else {
           types[3].none = false;
         }
@@ -479,7 +482,7 @@ Page({
           num_duo: result.num_duo,
           num_pan: result.num_pan,
           types: types,
-          currentIndex: currentIndex
+          currentIndex: modelIndex
         })
 
         self.goAnswerModel.setNum();
@@ -500,7 +503,7 @@ Page({
         let types = self.goAnswerModel.data.types;
 
         if (result.num_dan == 0) {
-          currentIndex = 0;
+          modelIndex = 0;
           types[1].none = true;
         } else {
           types[1].none = false;
@@ -508,24 +511,25 @@ Page({
 
         if (result.num_duo == 0) {
           types[2].none = true;
-          currentIndex = 0;
+          modelIndex = 0;
         } else {
           types[2].none = false;
         }
 
         if (result.num_pan == 0) {
           types[3].none = true;
-          currentIndex = 0;
+          modelIndex = 0;
         } else {
           types[3].none = false;
         }
+
 
         self.goAnswerModel.setData({
           num_dan: result.num_dan,
           num_duo: result.num_duo,
           num_pan: result.num_pan,
           types: types,
-          currentIndex: currentIndex
+          currentIndex: modelIndex
         })
 
       })
@@ -626,15 +630,13 @@ Page({
    */
   onPageScroll: function(e) {
     let self = this;
-    this.ti.select('.container').boundingClientRect()
+
     let windowWidth = this.data.windowWidth;
-    let windowHeight = this.data.windowHeight;
     let scrollTop = e.scrollTop * (750 / windowWidth);
-    let lastScrollTop = this.data.lastScrollTop; //上一次滑动的高度
     let opacity = this.data.opacity; //当前页面透明度
     let jiaonang = this.data.jiaonang; //胶囊高度
     let showBlock = null; //是否显示空白框
-    let unit = 1 / 100;
+    let unit = 1 / 200;
     let showTiBlock = this.data.showTiBlock;
 
     if (scrollTop > 200) { //滑动超过200时开始透明变色
@@ -643,34 +645,19 @@ Page({
       opacity = 1;
     }
 
-    let subHeight = (lastScrollTop - scrollTop) * 0.5; //高度差
-    let midHeight = this.data.midHeight + subHeight;
-
-    // if (containerHeight + subHeight < windowHeight + scrollTop){
-    //   midHeight = this.data.midHeight;
-    // }
-
-    let midHeight2 = midHeight < 0 ? 0 : midHeight; //中间组件的高度
-
-    let fixed = scrollTop > 432 ? "fixed" : "";
-
-    if (scrollTop > 432) {
-      showBlock = true;
+    if (scrollTop > 642) {
+      self.setData({
+        fixed: "fixed",
+        showBlock: true,
+        opacity: opacity
+      })
     } else {
-      showBlock = false;
-      showTiBlock = true;
+      self.setData({
+        fixed: "",
+        showBlock: false,
+        showTiBlock:true,
+        opacity: opacity
+      })
     }
-    let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
-
-    this.setData({
-      midHeight: midHeight,
-      midHeight2: midHeight2,
-      lastScrollTop: scrollTop,
-      fixed: fixed,
-      showBlock: showBlock,
-      showTiBlock: showTiBlock,
-      fixedTop: fixedTop,
-      opacity: opacity
-    })
   }
 })

@@ -16,7 +16,6 @@ Page({
     markAnswerItems: [], //设置一个空答题板数组
     doneAnswerArray: [], //已做答案数组
     checked: false, //选项框是否被选择
-
     isModelReal: false, //是不是真题或者押题
     isSubmit: false, //是否已提交答卷
     circular: true, //默认slwiper可以循环滚动

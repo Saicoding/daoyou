@@ -2,22 +2,26 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view wx:if="{{loaded}}" class="content">
 
-  <image src='{{topimg}}' mode='widthFix' class='topimg' style='width:100%'></image>
+  <image src='{{img}}' mode='widthFix' class='topimg' style='width:100%'></image>
   
   <view class='cont_t rel'>
-    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPlay' data-play='bofang' wx:if="{{play=='zanting'}}"></image>
-    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPause' data-play='zanting' wx:if="{{play=='bofang'}}"></image>
-    <view class='f16'>北京颐和园</view>
-    <view style='width:85%; margin-top: 20px' class='fl progress' bindtap='progress'>
+    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPlay' data-play='bofang' wx:if="{{play=='zanting'&&daoyouci.mp3!=''}}"></image>
+    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPause' data-play='zanting' wx:if="{{play=='bofang'&&daoyouci.mp3!=''}}"></image>
+    <view class='f16' style='margin-bottom: 20px'>{{daoyouci.title}}</view>
+    <view wx:if="{{daoyouci.mp3!=''}}">
+    <view style='width:85%;' class='fl progress' bindtap='progress'>
       <view class='progress_sub' style='width:{{timeon2/time2}}%' ></view>
     </view>
-    <text style='width:15%; margin-top: 12px' class='fr hui f12 tar' wx:if="{{!bofang}}">{{time}}</text>
-    <text style='width:15%; margin-top: 12px' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
-    <view class='clear'></view>
+    <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{!bofang}}">{{time}}</text>
+    <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
+    <view class='clear' style='height:10px;'></view>
+    </view>
+    <rich-text class='f13' nodes="{{daoyouci.content}}"></rich-text>
+  
   </view>
-  <view class='cont_b'>
-
-  </view>
+   <view class="cont_b">
+  <rich-text nodes="{{daoyouci.info}}" class=' f13'></rich-text>
+ </view>
   <view class="pingjia">
     <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
       <view class='pllist'>
@@ -37,7 +41,7 @@
   </view>
   <view class="bottomkk">
 
-    <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
+    <input focus='{{focus}}' cursor-spacing="14rpx" value="{{text}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
     <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
   </view>
 </view>

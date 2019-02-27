@@ -1,11 +1,18 @@
 // pages/learn/pay.js
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
+const app = getApp();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    danke:true,
+title:"2018导游资格考试全陪计划",
+num:"65",
+name:"陈龙",
+time:"2年",
   },
 
   /**
