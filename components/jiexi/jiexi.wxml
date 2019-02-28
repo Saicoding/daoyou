@@ -17,7 +17,7 @@
     <view wx:if="{{buy == '0'}}" class="suoding">
       <image class="suoding-icon" src="/images/suoding.png"></image>
       <view class="suoding-right">
-        <view class="suoding-right-line1">哎呦?解析不能看?{{level}}</view>
+        <view class="suoding-right-line1">哎呦?解析不能看?</view>
         <view class="suoding-right-line2" bindtap="_jiesuo" hover-class='select1' hover-stay-time='500'>立即解锁</view>
       </view>
 

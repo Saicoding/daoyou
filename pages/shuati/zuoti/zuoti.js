@@ -348,6 +348,7 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
+    console.log(midShiti)
     myFavorite = midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
@@ -762,6 +763,30 @@ Page({
   },
 
   /**
+ * 发表笔记
+ */
+  noteFabiao: function () {
+    let user = wx.getStorageSync('user');
+    let token = user.token;
+    let zcode = user.zcode;
+    let typesid = this.data.options.types;
+    let shitiArray = this.data.shitiArray;
+    let px = this.data.px;
+    let shiti = shitiArray[px];
+    let tid = shiti.id;
+    let content = this.data.noteText;
+    let beizhu = shiti.beizhu;
+
+    this.setData({
+      noteShow: true
+    })
+
+    app.post(API_URL,"action=saveMyNote&token="+token+"&zcode="+zcode+"&typesid="+typesid+"&tid="+tid+"&content="+content+"&beizhu="+beizhu,false,false,"","",false,self).then(res=>{
+
+    })
+  },
+
+  /**
    * 点击教程按钮
    */
   _jiaocheng: function(e) {
@@ -880,15 +905,6 @@ Page({
     let text = e.detail.value;
     this.setData({
       noteText: text
-    })
-  },
-
-  /**
-   * 发表笔记
-   */
-  noteFabiao: function() {
-    this.setData({
-      noteShow: true
     })
   }
 })
