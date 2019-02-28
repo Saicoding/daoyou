@@ -100,10 +100,12 @@ button::after {
 .abs {
   position: absolute;
 }
-
+.fix{ position: fixed}
 .hui {
   color: #999;
 }
+
+
 /* 文字超行省略号显示 */
 .wp {
   overflow: hidden;

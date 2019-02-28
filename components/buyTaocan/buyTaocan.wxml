@@ -18,7 +18,7 @@
 
   <view class ="info">{{taocans[currentIndex].info}}</view>
 
-  <view class ="up-btn" bindtap = "confirm">确定</view>
+  <view class ="up-btn" bindtap = "_confirm">确定</view>
 </view>
 
 <view wx:if="{{isShow && downShow}}" class="down" catchtap='stopBubbling'>

@@ -766,9 +766,14 @@ Page({
    * 导航到套餐页面
    */
   goPay: function() {
+    wx.navigateTo({
+      url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money
+    })
+  },
+  goPay2: function () {
 
     wx.navigateTo({
-      url: 'pay'
+      url: ''
     })
   }
 })

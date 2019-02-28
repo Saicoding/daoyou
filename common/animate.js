@@ -136,7 +136,7 @@ function tiaoAnimation(myAnimation,self){
       //导出动画到指定控件animation属性
       tiaoData: myAnimation.export()
     })
-  }.bind(this), 300)
+  }.bind(this), 700)
 }
 
 

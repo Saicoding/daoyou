@@ -68,7 +68,7 @@ Page({
     })
 
     // 请求banner图
-    app.post(API_URL,"action=getIndex_AD",false,false,"","").then(res=>{
+    app.post(API_URL, "action=getIndex_AD", false, false, "", "").then(res => {
       let banners = res.data.data;
       self.setData({
         banners: banners
@@ -114,10 +114,10 @@ Page({
     })
 
     if (user) { //如果已经登录
-      if(user.buy == 0){//未加入学习计划
+      if (user.buy == 0) { //未加入学习计划
         user.text = "你尚未加入学习计划,去加入>>";
         user.loginIcon = "/images/index/danger.png";
-      }else{
+      } else {
         user.text = "你已加入学习计划,快去学习吧!"
         user.loginIcon = "/images/index/vip.png";
       }
@@ -129,7 +129,7 @@ Page({
       user.Pic = '/images/avatar.png'
       user.Nickname = '未登录'
       user.loginIcon = "/images/index/login.png";
-      user.text  = "点此登录"
+      user.text = "点此登录"
       self.setData({
         user: user
       })
@@ -147,11 +147,11 @@ Page({
     let index = e.currentTarget.dataset.index; //页面标识
     let id = e.currentTarget.dataset.id
 
-    if(index <= 6){//点击除学习计划外
+    if (index <= 6) { //点击除学习计划外
       wx.navigateTo({
         url: '/pages/index/navigation/navigation?index=' + index,
       })
-    }else if(index == 7 ){//点击学习计划
+    } else if (index == 7) { //点击学习计划
       wx.navigateTo({
         url: '/pages/index/xuexijihua/xuexijihua',
       })
@@ -161,11 +161,11 @@ Page({
   /**
    * 导航到学习计划
    */
-  GOxuexijihua:function(e){
+  GOxuexijihua: function(e) {
     let user = this.data.user;
     let from = e.currentTarget.dataset.from;
 
-    if(user.buy ==0 || from == "banner"){
+    if (user.buy == 0 || from == "banner") {
       wx.navigateTo({
         url: '/pages/index/xuexijihua/xuexijihua',
       })
@@ -173,30 +173,49 @@ Page({
   },
 
   /**
+   * 点击“点此登录”或者“学习计划”等信息
+   */
+  tapInfo: function(e) {
+    let user = this.data.user;
+    switch (user.text) {
+      case "你尚未加入学习计划,去加入>>":
+        wx.navigateTo({
+          url: '/pages/index/xuexijihua/xuexijihua',
+        })
+        break;
+      case "点此登录":
+        wx.navigateTo({
+          url: '/pages/login/login',
+        })
+        break;
+    }
+  },
+
+  /**
    * 调起客户端扫码界面进行扫码
    */
-  scan:function(){
+  scan: function() {
     wx.scanCode({
-      success:function(e){
+      success: function(e) {
         let code = e.result.substring(6);
         let user = wx.getStorageSync('user');
-        if(!user){
+        if (!user) {
           wx.showToast({
             title: '',
-            icon:'none',
-            duration:'您还没有登录'
+            icon: 'none',
+            duration: '您还没有登录'
           })
         }
-        
-        app.post(API_URL,"action=APPLogin&zcode="+zcode+"&token="+token+"&t="+code,false,false,"","").then(res=>{
+
+        app.post(API_URL, "action=APPLogin&zcode=" + zcode + "&token=" + token + "&t=" + code, false, false, "", "").then(res => {
 
         })
       },
-      fail:function(){
+      fail: function() {
         wx.showToast({
-          icon:'none',
+          icon: 'none',
           title: '扫描失败',
-          duration:3000
+          duration: 3000
         })
       }
     })

@@ -97,13 +97,24 @@ Component({
     },
 
     //确定按钮点击
-    confirm:function(){
+    _confirm:function(){
       this.hideDialog();
-      wx.showToast({
-        title:'开发中',
-        icon:'none',
-        duration:3000
-      })
+      let currentIndex = this.data.currentIndex;
+      let money_zong = this.data.taocans[currentIndex].price_tuan;
+      let product = "";
+      switch (currentIndex){
+        case 0:
+          product = "基础套餐"
+        break;
+        case 1:
+          product = "冲刺套餐"
+          break;
+        case 2:
+          product = "豪华套餐"
+          break;
+      }
+      
+      this.triggerEvent('confirm', { 'money_zong': money_zong, 'product': product});
     },
 
     //改变套餐

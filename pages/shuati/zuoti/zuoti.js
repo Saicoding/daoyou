@@ -54,6 +54,7 @@ Page({
 
       let result = res.data.data[0];
       let shitiArray = result.list;
+      console.log(shitiArray)
       let all_nums = result.records;
 
       let pageall = result.page_all;

@@ -25,7 +25,7 @@
     <button open-type="contact" class='hui f14 fl zixun'>
       <image src="/images/course/icon_humanService_black@2x.png" class='fl'></image>咨询</button>
 
-    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">立即报名</view>
+    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">立即购买</view>
     <view wx:if="{{buy==1}}" class="purchased">已开通</view>
   </view>
   <view style='padding:4%;'>
@@ -44,7 +44,7 @@
       <navigator url='learn' open-type="switchTab" class='xk {{zi=="冲刺"?"on":""}}'>考前冲刺</navigator>
       <view class='clear' style='height:20rpx;'></view>
       <text class='hui mr10'>优惠</text>
-      <navigator url='' class='text hong'>2018导游全陪学习计划2折限量抢购 》</navigator>
+      <navigator url='../index/xuexijihua/xuexijihua' class='text hong'>购买导游考试【全陪学习套餐】劲省320元</navigator>
       <view class='clear' style='height:20rpx;'></view>
     </view>
   </view>
@@ -94,10 +94,7 @@
           <view class='clear'></view>
         </view>
       </view>
-
-
       <view class="bottomkk">
-
         <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
         <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
       </view>

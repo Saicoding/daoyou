@@ -1,7 +1,7 @@
 // pages/index/xuexijihua/xuexijihua.js
 let animate = require('../../../common/animate.js');
-let easeOutAnimation = animate.easeOutAnimation(300);
-let easeInAnimation = animate.easeInAnimation(300);
+let easeOutAnimation = animate.easeOutAnimation(700);
+let easeInAnimation = animate.easeInAnimation(700);
 
 Page({
 
@@ -104,5 +104,16 @@ Page({
       }
     }
   },
+
+  /**
+   * 购买套餐点击确定
+   */
+  _confirm:function(e){
+    let money_zong = e.detail.money_zong;
+    let product = e.detail.product;
+    wx.navigateTo({
+      url: '/pages/learn/pay?danke=false&money_zong=' + money_zong + '&product=' + product
+    })
+  }
 
 })
