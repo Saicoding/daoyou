@@ -68,6 +68,8 @@ Page({
   onLoad: function (options) {
     let self = this;
     let redirect = options.redirect == undefined ? "" : options.redirect; //是否直接转 测试
+    let showToast = options.showToast?true:false
+    let title = options.title ? options.title:"";
     let status = this.data.status;
     let url1=""; 
     let ifGoPage = "";
@@ -81,6 +83,14 @@ Page({
     }
     if (options.ifGoPage){
       this.setData({ ifGoPage: options.ifGoPage });
+    }
+
+    if (showToast){//如果有吐司要求
+      wx.showToast({
+        title: title,
+        duration:3000,
+        icon:'none'
+      })
     }
   },
 

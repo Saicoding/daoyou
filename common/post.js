@@ -75,7 +75,7 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
   })
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-  myFavorite = midShiti.myFavorite == undefined ? '0' : midShiti.myFavorite;
+  myFavorite = midShiti.favorite;
 
   if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;
@@ -146,7 +146,7 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
   }
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-  myFavorite = midShiti.myFavorite == undefined ? '0' : midShiti.myFavorite;
+  myFavorite = midShiti.favorite;
 
   if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;

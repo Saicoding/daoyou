@@ -1,5 +1,6 @@
 {
   "pages": [
+        "pages/index/index",
     "pages/shuati/shuati",
     "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pay",
@@ -7,7 +8,6 @@
     "pages/user/index",
     "pages/learn/learn",
     "pages/login/login",
-    "pages/index/index",
     "pages/learn/play",
     "pages/shuati/cuoti/cuoti",
     "pages/shuati/mynote/mynote",

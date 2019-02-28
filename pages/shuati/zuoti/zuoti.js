@@ -32,6 +32,7 @@ Page({
     let self = this;
     let user = wx.getStorageSync('user'); //本地用户信息
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
+    let token = user.token ==undefined?"":user.token
     let page = 1; //默认是第一页
     let pageArray = []; //页面缓存数组
     let circular = false;
@@ -50,11 +51,10 @@ Page({
       page = ((px - 1) - (px - 1) % 10) / 10 + 1;
     }
 
-    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page, false, false, "", "", false, self).then((res) => {
+    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page + "&zcode=" + zcode+"&token="+token, false, false, "", "", false, self).then((res) => {
 
       let result = res.data.data[0];
       let shitiArray = result.list;
-      console.log(shitiArray)
       let all_nums = result.records;
 
       let pageall = result.page_all;
@@ -128,6 +128,7 @@ Page({
     this.tongji = this.selectComponent('#tongji'); //统计面板
     this.jiaocheng = this.selectComponent('#jiaocheng'); //教程板
     this.jiesuo = this.selectComponent('#jiesuo'); //解锁板
+    this.shuatiBottom = this.selectComponent('#shuatiBottom'); //解锁板
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -148,8 +149,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let options = this.data.options;
     let user = wx.getStorageSync('user'); //本地用户信息
-    console.log(user)
+    let zcode = user.zcode?user.zcode:"";
+    wx.setStorage({
+      key: 'lastShuati' + zcode,
+      data: options
+    })
     this.setData({
       user: user
     })
@@ -163,11 +169,20 @@ Page({
     let px = self.data.px;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
+    let options = self.data.options;
+    let typesid = options.types;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
+
+    if (!user){
+      wx.navigateTo({
+        url: '/pages/login/login?showToast=true&title=您需要登录',
+      })
+      return;
+    }
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -194,7 +209,7 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(user, shiti.beizhu,shiti.id, shiti.flag, shiti.done_daan, app, API_URL);
+    common.postAnswerToServer(user, shiti.beizhu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
 
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
@@ -333,7 +348,7 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
-    myFavorite = midShiti.favorite == undefined ? '0' : midShiti.favorite;
+    myFavorite = midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
 
@@ -563,6 +578,34 @@ Page({
   },
 
   /**
+   * 切换收藏
+   */
+  _toogleMark:function(e){
+    let self  = this;
+    let user = wx.getStorageSync('user');
+    let shitiArray = self.data.shitiArray;//当前的所有试题数组
+    let px = self.data.px;//当前的试题编号
+    let shiti = shitiArray[px-1];//当前试题
+
+    if(user){
+      let zcode = user.zcode;
+      let token = user.token;
+      let beizhu = shiti.beizhu;
+      let t_id = shiti.id;
+      app.post(API_URL,"action=FavoriteShiti&zcode="+zcode+"&token="+token+"&beizhu="+beizhu+"&t_id="+t_id,false,false,"","",false,self).then(res=>{
+        self.shuatiBottom.setData({
+          isMark: !self.shuatiBottom.data.isMark
+        })
+      })
+    }else{
+
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
+  },
+
+  /**
    * 隐藏答题板
    */
   _hideMarkAnswer: function() {
@@ -656,16 +699,25 @@ Page({
   },
 
   onUnload:function(){
-    let pages = getCurrentPages();
-    let prePage = pages[pages.length - 2];
-    let doneAnswerArray = this.data.doneAnswerArray; //所有已答数组
     let user = wx.getStorageSync('user');
     let zcode = user.zcode ? user.zcode : '';
-    let tiku = prePage.data.tiku; //上个页面的题库对象
+    let pages = getCurrentPages();
+    let prePage = pages[pages.length - 2];
     let options = this.data.options;
-    let currentIndex = prePage.data.currentIndex;
-    let currentMidIndex = prePage.data.currentMidIndex;
+    let currentIndex = options.currentIndex;
+    let currentMidIndex = options.currentMidIndex;
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;//当前题库标识
+
+
+    let doneAnswerArray = this.data.doneAnswerArray; //所有已答数组
+    let tiku = prePage.data.tiku; //上个页面的题库对象
+    if(!tiku){
+      wx.setStorage({//设置数据有改变的题库编号
+        key: 'change' + zcode,
+        data: { currentIndex: currentIndex, currentMidIndex: currentMidIndex }
+      })
+      return
+    }
     let donenum = this.data.options.donenum;//进入页面时的已做题数
 
     //找到对应的题库
@@ -738,10 +790,10 @@ Page({
       wx.login({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          code = res.code;
+          let code = res.code;
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.openid;
-
+            console.log(res)
             app.post(API_URL, "action=unifiedorder&token=" + token + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
               let status = res.data.status;

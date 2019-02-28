@@ -67,9 +67,9 @@
 
   <!-- 刷题 & 看课 -->
   <view class="mid" style = "  margin-top: {{statusBarHeight+120}}rpx;">
-    <view class="mid-item">
-      <view class="mid-item-image icon1">继续刷题</view>
-      <view class="mid-item-title">概述</view>
+    <view class="mid-item" bindtap = "continiueShuati" hover-class='select2' hover-stay-time='500'>
+      <view class="mid-item-image icon1">{{midtext}}</view>
+      <view class="mid-item-title wp">{{midtitle}}</view>
       <image class="mid-item-bottom" src="/images/index/shuati.png"></image>
     </view>
     <view class="mid-item">

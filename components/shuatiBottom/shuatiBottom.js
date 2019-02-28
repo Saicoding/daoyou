@@ -31,9 +31,6 @@ Component({
   methods: {
     //切换是否收藏的状态
     _toogleMark: function () {
-      this.setData({
-        isMark: !this.data.isMark
-      })
       this.triggerEvent('toogleMark');
     },
     _toggleMarkAnswer: function () {

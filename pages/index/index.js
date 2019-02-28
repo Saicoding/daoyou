@@ -55,7 +55,11 @@ Page({
       "/images/index/item6.png",
       "/images/index/item7.png",
       "/images/index/item8.png"
-    ]
+    ],
+    midtext:"开始刷题",
+    midtitle:"暂无刷题记录",
+    ketext:"开始看课",
+    ketitle:"继续看课",
   },
 
   /**
@@ -107,7 +111,32 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
+    let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let first = this.data.first;
+
+    wx.getStorage({
+      key: 'lastShuati' + zcode,
+      success: function (res) {
+        let lastShuati = res.data;
+        self.setData({
+          midtext: "继续刷题",
+          midtitle:lastShuati.title,
+          lastShuati: lastShuati
+        })
+      },
+    })
+
+    wx.getStorage({
+      key: 'lastKe' + zcode,
+      success: function (res) {
+        let lastKe = res.data;
+        self.setData({
+          midtext: "继续看课",
+          midtitle: lastKe.title,
+          lastKe: lastKe
+        })
+      },
+    })
 
     this.setData({ //设置已经载入一次
       first: false
@@ -137,6 +166,22 @@ Page({
 
     if (first) { //如果第一次载入
 
+    }
+  },
+
+  /**
+   * 继续刷题
+   */
+  continiueShuati:function(){
+    let lastShuati = this.data.lastShuati;
+    if (lastShuati){//如果有最后一次刷题
+      wx.navigateTo({
+        url: '/pages/shuati/zuoti/zuoti?leibie=' + lastShuati.leibie + "&selected=" + lastShuati.selected + "&title=" + lastShuati.title + "&f_id=" + lastShuati.f_id + "&types=" + lastShuati.types + "&all_nums=" + lastShuati.all_nums + "&donenum=" + lastShuati.donenum + "&num_dan=" + lastShuati.num_dan + "&num_duo=" + lastShuati.num_duo + "&num_pan=" + lastShuati.num_pan + "&currentIndex=" + lastShuati.currentIndex + "&currentMidIndex=" + lastShuati.currentMidIndex
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/shuati/zuoti/zuoti?leibie=0&selected=false&title=概述&f_id=10420&types=239&all_nums=56&donenum=0&num_dan=24&num_duo=10&num_pan=22&currentIndex=0&currentMidIndex=0'
+      })
     }
   },
 
@@ -200,16 +245,26 @@ Page({
         let code = e.result.substring(6);
         let user = wx.getStorageSync('user');
         if (!user) {
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
+
           wx.showToast({
             title: '',
             icon: 'none',
             duration: '您还没有登录'
           })
+        }else{
+          let zcode = user.zcode;
+          let token = user.token;
+          app.post(API_URL, "action=APPLogin&zcode=" + zcode + "&token=" + token + "&t=" + code, false, false, "", "").then(res => {
+            wx.showToast({
+              title: '网页已登录成功!',
+              duration:4000,
+              icon:'none'
+            })
+          })
         }
-
-        app.post(API_URL, "action=APPLogin&zcode=" + zcode + "&token=" + token + "&t=" + code, false, false, "", "").then(res => {
-
-        })
       },
       fail: function() {
         wx.showToast({

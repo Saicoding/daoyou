@@ -52,6 +52,7 @@ Page({
     this.setData({
       currentIndex: currentIndex,
       currentMidIndex: currentMidIndex,
+      first: true
     })
 
     // 获取banner图,此请求适合放在onLoad周期函数中
@@ -73,11 +74,25 @@ Page({
     let zhangjieLoadedStrArray = []; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
 
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;
+    let user = wx.getStorageSync('user');
+    let zcode = user.zcode ? user.zcode : "";
+    let change = wx.getStorageSync('change' + zcode);
+
+    if (change) { //如果数据有改变就设置
+      types = self.getkemuIDByindex(parseInt(change.currentIndex)); //科目id
+
+      self.setData({
+        currentIndex: parseInt(change.currentIndex),
+        currentMidIndex: parseInt(change.currentMidIndex)
+      })
+      zhangjieLoadedStr = '' + change.currentIndex + change.currentMidIndex;
+      wx.removeStorageSync('change' + zcode);
+    }
 
     zhangjieLoadedStrArray.push(zhangjieLoadedStr);
 
     // 获取章节列表
-    if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
+    if (currentMidIndex == 0 ) { //默认目录是章节列表时才去请求
 
       app.post(API_URL, "action=getKeMuTestType&types=" + types, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
@@ -111,14 +126,6 @@ Page({
       })
     }
   },
-
-  /**
-   * 
-   */
-  test:function(){
-    this.shareSuccessModel.showDialog();
-  },
-
   /**
    * 初始化章节信息
    */
@@ -227,7 +234,61 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let self  =this;
+    let currentIndex = this.data.currentIndex;
+    let currentMidIndex = this.data.currentMidIndex;
+    let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;
+    let user = wx.getStorageSync('user');
+    let zcode = user.zcode ? user.zcode : "";
+    let first = this.data.first;
 
+    if (first) { //如果是首次渲染,说明onload已经更新数据
+      this.setData({
+        first:false
+      })
+    } else { //如果已被污染
+      let change = wx.getStorageSync('change' + zcode);
+      if (change) { //如果有更新数据
+        self.setData({
+          currentIndex: parseInt(change.currentIndex),
+          currentMidIndex: parseInt(change.currentMidIndex)
+        })
+        let zhangjieLoadedStr = '' + change.currentIndex + change.currentMidIndex;
+
+        let types = self.getkemuIDByindex(parseInt(change.currentIndex)); //科目id
+
+        let tiku = self.data.tiku; //声明所有题库，用于存储所有已载入题
+
+        self.setData({ //默认没有载入完毕
+          isLoaded: false
+        })
+
+        let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
+        let user = wx.getStorageSync('user');
+        let zcode = user.zcode ? user.zcode : "";
+
+        if (zhangjieLoadedStrArray.indexOf(zhangjieLoadedStr)!=-1){//如果不包含,就添加到数组
+          zhangjieLoadedStrArray.push(zhangjieLoadedStr);
+        }
+
+        app.post(API_URL, "action=getKeMuTestType&types=" + types, false, false, "", "").then(res => {
+          let zhangjies = res.data.data;
+
+          self.initZhangjie(zhangjies); //初始化章节信息
+
+          tiku[zhangjieLoadedStr] = zhangjies;
+          wx.removeStorageSync('change' + zcode);
+
+          self.setData({
+            zhangjies: zhangjies,
+            tiku: tiku,
+            zhangjieLoadedStrArray: zhangjieLoadedStrArray,
+            isLoaded: true,
+            first: false
+          })
+        })
+      }
+    }
   },
 
   /**
@@ -280,6 +341,9 @@ Page({
     let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
     let tiku = this.data.tiku;
 
+    console.log(zhangjieLoadedStrArray)
+    console.log(currentLoadedStr)
+    console.log(tiku)
     if (zhangjieLoadedStrArray.indexOf(currentLoadedStr) != -1) { //如果包含,就使用本地tiku数组
       this.setData({
         zhangjies: tiku[currentLoadedStr]
@@ -561,7 +625,7 @@ Page({
     let num_pan = e.detail.num_pan; //判断题数量
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex,
     })
   },
 
@@ -598,7 +662,7 @@ Page({
   /**
    * 导航到收藏
    */
-  GOmark:function(e){
+  GOmark: function(e) {
     let index = e.currentTarget.dataset.index;
     let types = this.getkemuIDByindex(index); //科目id
     wx.navigateTo({
@@ -662,7 +726,7 @@ Page({
       self.setData({
         fixed: "",
         showBlock: false,
-        showTiBlock:true,
+        showTiBlock: true,
         opacity: opacity
       })
     }

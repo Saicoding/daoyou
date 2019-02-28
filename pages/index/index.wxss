@@ -226,3 +226,7 @@
   background: rgba(0, 0, 0, 0.1);
   border-radius: 10rpx;
 }
+
+.select2 {
+  background: rgba(0, 0, 0, 0.1);
+}

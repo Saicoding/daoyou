@@ -496,6 +496,7 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
+  console.log("doneArray" + options.f_id + "0" + zcode)
   let all_answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
 
   all_answer_nums_array = all_answer_nums_array ? all_answer_nums_array : [];
@@ -874,13 +875,12 @@ function changeMultiShiti(done_daan, shiti) {
 /**
  * 向服务器提交做题结果
  */
-function postAnswerToServer(user, beizhu, tid, flag, done_daan, app, API_URL) {
+function postAnswerToServer(user, beizhu, tid, flag, done_daan, typesid,app, API_URL) {
   //向服务器提交做题结果
   let token = user.token?user.token:"";
   let zcode = user.zcode?user.zcode:"";
 
-  console.log("action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan)
-  app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {})
+  app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid, false).then((res) => {})
 }
 
 /**
