@@ -115,6 +115,10 @@
   line-height: 80rpx;
 }
 
+.difficulty-icons{
+  display: flex;
+}
+
 .difficulty-icon{
   width:24rpx;
   height:24rpx;

@@ -23,6 +23,20 @@ Component({
     beizhu:{
       type:String,
       value:""
+    },
+    level:{
+      type:String,
+      value:"",
+      observer: function (level) {
+        let levels = [];
+        for(let i = 0;i<parseInt(level);i++){
+          levels.push(1);
+        }
+
+        this.setData({
+          levels:levels
+        })
+      }
     }
   },
 
@@ -30,7 +44,7 @@ Component({
    * 组件的初始数据
    */
   data: {
- 
+    
   },
 
   /**

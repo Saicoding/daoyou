@@ -398,13 +398,10 @@ function setMarkAnswerItems(jie_answer_array, isModelReal, isSubmit, options, se
     if (parseInt(options.leibie) == parseInt(jie_answer_array[i].select) || parseInt(options.leibie)==0) { //如果当前选的类别和题型相同
 
       if (options.leibie == "2") {
-        console.log('类别是多选')
         px = jie_answer_array[i].px - parseInt(options.num_dan);
       } else if (options.leibie == "3") {
-        console.log('类别是判断')
         px = jie_answer_array[i].px - parseInt(options.num_dan) - parseInt(options.num_duo);
       } else if (options.leibie == "0" || options.leibie == "1"){
-        console.log('类别是单选或者全部')
         px = jie_answer_array[i].px;
       } 
 
@@ -496,7 +493,6 @@ function storeAnswerStatus(shiti, self) {
   let user = self.data.user;
   let zcode = user.zcode == undefined ? '' : user.zcode;
 
-  console.log("doneArray" + options.f_id + "0" + zcode)
   let all_answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
 
   all_answer_nums_array = all_answer_nums_array ? all_answer_nums_array : [];
@@ -749,7 +745,6 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       /**
        * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
        */
-      // console.log(answers.toString() + "||" + new_done_daan.toString())
       if (answers.toString() == new_done_daan.toString()) {
         flag = 0;
       } else {

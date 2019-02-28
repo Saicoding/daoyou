@@ -32,7 +32,7 @@
 
           </view>
           <!-- 解析 -->
-          <jiexi buy="{{user.TKflag}}" beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
+          <jiexi level = "{{shiti.level}}" buy="{{user.TKflag}}" beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
 
           <!-- 笔记 -->
           <view wx:if="{{noteShow}}" class="note">

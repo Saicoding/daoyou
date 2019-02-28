@@ -793,7 +793,6 @@ Page({
           let code = res.code;
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.openid;
-            console.log(res)
             app.post(API_URL, "action=unifiedorder&token=" + token + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
               let status = res.data.status;
