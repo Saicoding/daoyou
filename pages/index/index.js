@@ -114,6 +114,21 @@ Page({
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let first = this.data.first;
 
+    let myDate = new Date();//获取系统当前时间
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth() + 1;
+    let day = myDate.getDate();
+    myDate = "" + year + month + day;
+
+    wx.getStorage({//今日刷题数
+      key: "today" + myDate + zcode,
+      success: function(res) {
+        self.setData({
+          todayNum:res.data.length
+        })
+      },
+    })
+
     wx.getStorage({
       key: 'lastShuati' + zcode,
       success: function (res) {

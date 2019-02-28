@@ -495,6 +495,20 @@ function storeAnswerStatus(shiti, self) {
 
   let all_answer_nums_array = wx.getStorageSync("doneArray" + options.f_id + "0" + zcode);
 
+  let myDate = new Date();//获取系统当前时间
+  let year = myDate.getFullYear();
+  let month = myDate.getMonth() + 1;
+  let day = myDate.getDate();
+  myDate = ""+year + month + day;
+  
+  let todayDone = wx.getStorageSync("today" + myDate + zcode) ? wx.getStorageSync("today" + myDate + zcode):[];
+  todayDone.push(1);
+
+  wx.setStorage({
+    key: "today" + myDate + zcode,
+    data: todayDone
+  })
+
   all_answer_nums_array = all_answer_nums_array ? all_answer_nums_array : [];
 
   let px = 0;
