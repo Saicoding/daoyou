@@ -125,6 +125,33 @@ Page({
         })
       })
     }
+
+    //清除前一天的已刷题数缓存
+    let myDate = new Date();//获取系统当前时间
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth() + 1;
+    let day = myDate.getDate();
+    myDate = "" + year + month + day;//得到当前答题字符串
+
+    let str = "today" + myDate + zcode;
+    wx.getStorageInfo({
+      success: function (res) {
+        console.log(res)
+        for(let i = 0;i<res.keys.length;i++){
+          let key = res.keys[i];
+          if(key.indexOf('today')!=-1){
+            if (str != key){
+              wx.removeStorage({
+                key: key,
+                success: function(res) {
+                  console.log('清除前一天做题数缓存成功')
+                },
+              })
+            }
+          }
+        }
+      },
+    })
   },
   /**
    * 初始化章节信息
