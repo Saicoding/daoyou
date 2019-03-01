@@ -191,11 +191,11 @@ Page({
     let lastShuati = this.data.lastShuati;
     if (lastShuati){//如果有最后一次刷题
       wx.navigateTo({
-        url: '/pages/shuati/zuoti/zuoti?leibie=' + lastShuati.leibie + "&selected=" + lastShuati.selected + "&title=" + lastShuati.title + "&f_id=" + lastShuati.f_id + "&types=" + lastShuati.types + "&all_nums=" + lastShuati.all_nums + "&donenum=" + lastShuati.donenum + "&num_dan=" + lastShuati.num_dan + "&num_duo=" + lastShuati.num_duo + "&num_pan=" + lastShuati.num_pan + "&currentIndex=" + lastShuati.currentIndex + "&currentMidIndex=" + lastShuati.currentMidIndex
+        url: '/pages/shuati/zuoti/zuoti?leibie=' + lastShuati.leibie + "&selected=" + lastShuati.selected + "&title=" + lastShuati.title + "&f_id=" + lastShuati.f_id + "&types=" + lastShuati.types + "&all_nums=" + lastShuati.all_nums + "&donenum=" + lastShuati.donenum + "&num_dan=" + lastShuati.num_dan + "&num_duo=" + lastShuati.num_duo + "&num_pan=" + lastShuati.num_pan + "&currentIndex=" + lastShuati.currentIndex + "&currentMidIndex=" + lastShuati.currentMidIndex+"&from=shouye"
       })
     }else{
       wx.navigateTo({
-        url: '/pages/shuati/zuoti/zuoti?leibie=0&selected=false&title=概述&f_id=10420&types=239&all_nums=56&donenum=0&num_dan=24&num_duo=10&num_pan=22&currentIndex=0&currentMidIndex=0'
+        url: '/pages/shuati/zuoti/zuoti?leibie=0&selected=false&title=概述&f_id=10420&types=239&all_nums=56&donenum=0&num_dan=24&num_duo=10&num_pan=22&currentIndex=0&currentMidIndex=0&from=shouye'
       })
     }
   },

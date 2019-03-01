@@ -696,7 +696,14 @@ Page({
    * 模板点击返回按钮
    */
   _toBack: function() {
-    wx.navigateBack({})
+    let options = this.data.options;
+    if(options.from){//如果是来自首页
+      wx.switchTab({
+        url: '/pages/shuati/shuati',
+      })
+    }else{
+      wx.navigateBack({})
+    }
   },
 
   onUnload:function(){
