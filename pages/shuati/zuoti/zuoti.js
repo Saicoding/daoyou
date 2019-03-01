@@ -348,7 +348,6 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
-    console.log(midShiti)
     myFavorite = midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
@@ -773,19 +772,29 @@ Page({
  * 发表笔记
  */
   noteFabiao: function () {
+    let self = this;
     let user = wx.getStorageSync('user');
     let token = user.token;
     let zcode = user.zcode;
     let typesid = this.data.options.types;
     let shitiArray = this.data.shitiArray;
+    let sliderShitiArray = this.data.sliderShitiArray;
+    let lastSliderIndex = self.data.lastSliderIndex;
     let px = this.data.px;
-    let shiti = shitiArray[px];
+    let shiti = shitiArray[px-1];
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+    console.log(sliderShiti)
+
     let tid = shiti.id;
     let content = this.data.noteText;
     let beizhu = shiti.beizhu;
 
+    shiti.note = content;
+    sliderShiti.note = content;
+
     this.setData({
-      noteShow: true
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
     })
 
     app.post(API_URL,"action=saveMyNote&token="+token+"&zcode="+zcode+"&typesid="+typesid+"&tid="+tid+"&content="+content+"&beizhu="+beizhu,false,false,"","",false,self).then(res=>{

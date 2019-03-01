@@ -35,3 +35,7 @@ page{
   width:80rpx;
   text-align: center;
 }
+
+.select1{
+  background: rgba(0, 0, 0,0.1);
+}

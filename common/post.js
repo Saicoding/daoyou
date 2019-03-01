@@ -248,8 +248,134 @@ function wrongOnload(options, px, circular, myFavorite, res, user, requesttime, 
   wx.hideLoading();
 }
 
+/**
+ * 练习题
+ */
+function moniOnload(options, result, px, circular, user, page, all_nums, pageall, interval,isSubmit,self) {
+  let shitiArray = result.list;
+  let zcode = user.zcode == undefined ? '' : user.zcode;
+  //得到swiper数组
+  let preShiti = undefined; //前一题
+  let nextShiti = undefined; //后一题
+  let midShiti = shitiArray[px - 1]; //中间题
+
+  let sliderShitiArray = [];
+  let lastSliderIndex = 0;
+
+  common.initShiti(midShiti); //初始化试题对象
+
+  if (px != 1 && px != shitiArray.length) { //如果不是第一题也是不是最后一题
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti); //初始化试题对象
+    nextShiti = shitiArray[px];
+    common.initShiti(nextShiti); //初始化试题对象
+  } else if (px == 1) { //如果是第一题
+    if (shitiArray.length != 1) {
+      nextShiti = shitiArray[px];
+      common.initShiti(nextShiti); //初始化试题对象
+    }
+  } else {
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti); //初始化试题对象
+  }
+
+  //对是否是已答试题做处理
+  wx.getStorage({
+    key: "modelReal" + options.f_id + zcode,
+    success: function (res1) {
+      //根据章是否有子节所有已经回答的题
+      let doneAnswerArray = res1.data;
+
+      if (isSubmit == true) { //说明是已经是提交过答案的题
+        self.setData({
+          text: "重新评测",
+          isSubmit: true
+        })
+      }
+
+      doneAnswerArray = common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit, options, self); //设置答题板数组 
+      // common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+
+      //映射已答题目的已作答的答案到shitiArray
+      for (let i = 0; i < doneAnswerArray.length; i++) {
+        let doneAnswer = doneAnswerArray[i];
+
+        shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan; //设置已答试题的答案
+        shitiArray[doneAnswer.px - 1].isAnswer = true;
+      }
+
+      //先处理是否是已经回答的题,渲染3个
+      if (preShiti != undefined) common.processModelRealDoneAnswer(preShiti.done_daan, preShiti, self);
+      common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
+      if (nextShiti != undefined) common.processModelRealDoneAnswer(nextShiti.done_daan, nextShiti, self);
+
+      //根据已答试题库得到正确题数和错误题数
+      let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
+
+      //如果已答试题数目大于0才更新shiti
+      if (doneAnswerArray.length > 0) {
+        self.setData({
+          sliderShitiArray: sliderShitiArray,
+          doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
+          rightNum: rightAndWrongObj.rightNum,
+          wrongNum: rightAndWrongObj.wrongNum
+        })
+      }
+    },
+    fail: function () {
+      wx.setStorage({
+        key: "modelReal" + options.f_id + zcode,
+        data: [],
+      })
+    }
+  })
+
+  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+
+  if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
+    sliderShitiArray[0] = midShiti;
+    sliderShitiArray[1] = nextShiti;
+    sliderShitiArray[2] = preShiti;
+  } else if (px == 1) { //如果是第一题
+    if (shitiArray.length != 1) {
+      sliderShitiArray[0] = midShiti;
+      sliderShitiArray[1] = nextShiti;
+    } else {
+      sliderShitiArray[0] = midShiti;
+    }
+
+  } else { //如果是最后一题
+    sliderShitiArray[0] = preShiti;
+    sliderShitiArray[1] = midShiti;
+    lastSliderIndex = 1;
+    self.setData({
+      myCurrent: 1
+    })
+  }
+
+  self.setData({
+    id: options.f_id, //真题编号
+    times: options.times, //考试时间
+
+    interval: interval, //计时器
+    title: options.title, //标题
+    text: "立即交卷", //按钮文字
+    nums: options.nums, //题数
+    shitiArray: shitiArray, //整节的试题数组
+    px: px,
+    circular: circular, //是否循环
+    user: user,
+    first: false,
+    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+    sliderShitiArray: sliderShitiArray, //滑动数组
+    lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
+    isReLoad: false,
+  });
+}
+
 module.exports = {
   zuotiOnload: zuotiOnload,
   wrongOnload: wrongOnload,
-  markOnload: markOnload
+  markOnload: markOnload,
+  moniOnload: moniOnload
 }

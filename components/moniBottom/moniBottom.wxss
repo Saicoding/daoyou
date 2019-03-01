@@ -10,7 +10,7 @@
 }
 
 .bottom-block1 {
-  width: 320rpx;
+  width: 360rpx;
   height: 60rpx;
   line-height: 60rpx;
   border-radius: 60rpx;
@@ -19,7 +19,7 @@
   border: 1rpx solid #16d060;
   color: #16d060;
   font-size: 25rpx;
-  margin-left: 30rpx;
+  margin-left: 50rpx;
 }
 
 .bottom-icon {
@@ -36,7 +36,7 @@
   color: #c0c0c0;
   font-size: 25rpx;
   width: 188rpx;
-  margin-left: 40rpx;
+  margin-left: 180rpx;
 }
 
 .bottom-block3 {

@@ -40,6 +40,7 @@ Page({
     opacity: 1, //banner透明度
     showTiBlock: true, //题的占位框
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
+    jindu: 0, //当前做题进度
   },
 
   /**
@@ -76,6 +77,7 @@ Page({
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;
     let user = wx.getStorageSync('user');
     let zcode = user.zcode ? user.zcode : "";
+    let token = user.token ? user.token : "";
     let change = wx.getStorageSync('change' + zcode);
 
     if (change) { //如果数据有改变就设置
@@ -87,12 +89,25 @@ Page({
       })
       zhangjieLoadedStr = '' + change.currentIndex + change.currentMidIndex;
       wx.removeStorageSync('change' + zcode);
+      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+        let jindu = res.data.data[0].jindu;console.log(res)
+        self.setData({
+          jindu: jindu
+        })
+      })
+    } else { //得到做题进度
+      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+        let jindu = res.data.data[0].jindu;console.log(res)
+        self.setData({
+          jindu: jindu
+        })
+      })
     }
 
     zhangjieLoadedStrArray.push(zhangjieLoadedStr);
 
     // 获取章节列表
-    if (currentMidIndex == 0 ) { //默认目录是章节列表时才去请求
+    if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
 
       app.post(API_URL, "action=getKeMuTestType&types=" + types, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
@@ -114,7 +129,6 @@ Page({
 
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
-
         tiku[zhangjieLoadedStr] = zhangjies;
 
         self.setData({
@@ -127,20 +141,19 @@ Page({
     }
 
     //清除前一天的已刷题数缓存
-    let myDate = new Date();//获取系统当前时间
+    let myDate = new Date(); //获取系统当前时间
     let year = myDate.getFullYear();
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
-    myDate = "" + year + month + day;//得到当前答题字符串
+    myDate = "" + year + month + day; //得到当前答题字符串
 
     let str = "today" + myDate + zcode;
     wx.getStorageInfo({
-      success: function (res) {
-        console.log(res)
-        for(let i = 0;i<res.keys.length;i++){
+      success: function(res) {
+        for (let i = 0; i < res.keys.length; i++) {
           let key = res.keys[i];
-          if(key.indexOf('today')!=-1){
-            if (str != key){
+          if (key.indexOf('today') != -1) {
+            if (str != key) {
               wx.removeStorage({
                 key: key,
                 success: function(res) {
@@ -261,17 +274,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    let self  =this;
+    let self = this;
     let currentIndex = this.data.currentIndex;
     let currentMidIndex = this.data.currentMidIndex;
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;
     let user = wx.getStorageSync('user');
     let zcode = user.zcode ? user.zcode : "";
+    let token = user.token ? user.token : '';
     let first = this.data.first;
 
     if (first) { //如果是首次渲染,说明onload已经更新数据
       this.setData({
-        first:false
+        first: false
       })
     } else { //如果已被污染
       let change = wx.getStorageSync('change' + zcode);
@@ -289,12 +303,10 @@ Page({
         self.setData({ //默认没有载入完毕
           isLoaded: false
         })
+        //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
+        let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray;
 
-        let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
-        let user = wx.getStorageSync('user');
-        let zcode = user.zcode ? user.zcode : "";
-
-        if (zhangjieLoadedStrArray.indexOf(zhangjieLoadedStr)!=-1){//如果不包含,就添加到数组
+        if (zhangjieLoadedStrArray.indexOf(zhangjieLoadedStr) != -1) { //如果不包含,就添加到数组
           zhangjieLoadedStrArray.push(zhangjieLoadedStr);
         }
 
@@ -314,6 +326,22 @@ Page({
             first: false
           })
         })
+
+        //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+        app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+          let jindu = res.data.data[0].jindu;console.log(res)
+          self.setData({
+            jindu: jindu
+          })
+        })
+      } else { //如果没有数据更新,说明是正常返回的页面
+        let types = self.getkemuIDByindex(currentIndex); //科目id
+        app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+          let jindu = res.data.data[0].jindu;console.log(res)
+          self.setData({
+            jindu: jindu
+          })
+        })
       }
     }
   },
@@ -323,16 +351,24 @@ Page({
    */
   changeBar: function(e) {
     let self = this;
-    let type = e.currentTarget.dataset.type;
+    let type = e.currentTarget.dataset.type;//切换类型(1.点击科目,2.点击题型)
     let currentIndex = null;
     let currentMidIndex = null;
 
     if (type == 1) { //点击科目
       currentIndex = e.currentTarget.dataset.index; //点击的科目id
       currentMidIndex = self.data.currentMidIndex; //当前题型index
+
+      //********用户信息*******//
+      let user = wx.getStorageSync('user');
+      let zcode = user.zcode ? user.zcode : "";
+      let token = user.token ? user.token : '';
+      //***********************
+      
       self.setData({
         currentIndex: currentIndex
       })
+
       wx.setStorage({ //设置本地缓存
         key: 'currentIndex',
         data: currentIndex,
@@ -343,6 +379,16 @@ Page({
             duration: 3000
           })
         }
+      })
+
+      //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+      let types = self.getkemuIDByindex(currentIndex);
+      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+        let jindu = res.data.data[0].jindu;console.log(res)
+       
+        self.setData({
+          jindu: jindu
+        })
       })
     } else { //点击题型
       currentIndex = self.data.currentIndex; //点击的科目id
@@ -368,9 +414,6 @@ Page({
     let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
     let tiku = this.data.tiku;
 
-    console.log(zhangjieLoadedStrArray)
-    console.log(currentLoadedStr)
-    console.log(tiku)
     if (zhangjieLoadedStrArray.indexOf(currentLoadedStr) != -1) { //如果包含,就使用本地tiku数组
       this.setData({
         zhangjies: tiku[currentLoadedStr]
@@ -672,8 +715,10 @@ Page({
    * 导航到笔记页面
    */
   GOnote: function() {
+    let currentIndex = this.data.currentIndex;
+    let type = this.getkemuIDByindex(currentIndex);
     wx.navigateTo({
-      url: '/pages/shuati/mynote/mynote',
+      url: '/pages/shuati/mynote/mynote?typesid=' + type,
     })
   },
 
@@ -712,11 +757,15 @@ Page({
    * 导航到模拟
    */
   GOmoni: function(e) {
-    let free = e.currentTarget.dataset.free;
+    let buy = e.currentTarget.dataset.buy;
     let title = e.currentTarget.dataset.title;
-    if (free == '1') { //免费
+    let id = e.currentTarget.dataset.id;
+    let times = e.currentTarget.dataset.times;
+    let nums = e.currentTarget.dataset.nums;
+
+    if (buy == '1') { //免费
       wx.navigateTo({
-        url: '/pages/shuati/moni/moni?title=' + title,
+        url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums
       })
     } else { //不免费
       this.jiesuoti.showDialog();

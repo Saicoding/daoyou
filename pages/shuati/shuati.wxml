@@ -31,7 +31,7 @@
       <view class='t_center' bindtap = "test1">
         <view class="t_center_text">{{bars[currentIndex].title3}}</view>
         <view class="t_center_pic">
-          <view class="t_center_pic_text1">60</view>
+          <view class="t_center_pic_text1" style = "font-size:{{jindu.length>=5?60:80}}rpx">{{jindu == "0.00"?"0":jindu}}</view>
           <view class="t_center_pic_text2">%</view>
         </view>
         <view class="wave1">
@@ -122,7 +122,7 @@
     <!-- 全真模拟和核心密卷 -->
     <view wx:if="{{currentMidIndex !=0 &&isLoaded}}">
       <view wx:for="{{zhangjies}}" wx:for-item="moni" wx:key="m">
-        <view data-id="{{moni.ID}}" data-title = "{{moni.title}}" data-free = "{{moni.free}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
+        <view data-nums = "{{moni.nums}}" data-times="{{moni.time}}"  data-id="{{moni.ID}}" data-title = "{{moni.title}}" data-buy = "{{moni.buy}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
           <view class="item-line1">
             <image class="item-line1-icon" src="{{moni.buy=='1'?'/images/suo1.png':'/images/suo2.png'}}"></image>
             <view class="item-line1-text">{{moni.title}}</view>    

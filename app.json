@@ -1,6 +1,6 @@
 {
   "pages": [
-        "pages/index/index",
+    "pages/index/index",
     "pages/shuati/shuati",
     "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pay",

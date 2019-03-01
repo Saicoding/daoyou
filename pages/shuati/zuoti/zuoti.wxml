@@ -35,7 +35,7 @@
           <jiexi level = "{{shiti.level}}" buy="{{user.TKflag}}" beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
 
           <!-- 笔记 -->
-          <view wx:if="{{noteShow}}" class="note">
+          <view wx:if="{{shiti.note}}" class="note">
             <span style="font-weight:bold;color:#58c063;">我的笔记:</span>{{noteText}}
           </view>
         </scroll-view>
