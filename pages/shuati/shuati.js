@@ -50,6 +50,7 @@ Page({
     let self = this;
     let currentIndex = wx.getStorageSync('currentIndex') ? wx.getStorageSync('currentIndex') : 0; //如果有本地缓存就用本地缓存,没有就设置默认0
     let currentMidIndex = wx.getStorageSync('currentMidIndex') ? wx.getStorageSync('currentMidIndex') : 0; //当前试题种类(如果有本地缓存就用本地缓存,没有就设置默认0)
+
     this.setData({
       currentIndex: currentIndex,
       currentMidIndex: currentMidIndex,
@@ -89,19 +90,15 @@ Page({
       })
       zhangjieLoadedStr = '' + change.currentIndex + change.currentMidIndex;
       wx.removeStorageSync('change' + zcode);
-      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
-        let jindu = res.data.data[0].jindu;console.log(res)
-        self.setData({
-          jindu: jindu
-        })
-      })
+
+      //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+      self.getZuotiJindu(token, zcode, types, self);
+
     } else { //得到做题进度
-      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
-        let jindu = res.data.data[0].jindu;console.log(res)
-        self.setData({
-          jindu: jindu
-        })
-      })
+
+      //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+      self.getZuotiJindu(token, zcode, types, self);
+
     }
 
     zhangjieLoadedStrArray.push(zhangjieLoadedStr);
@@ -109,7 +106,7 @@ Page({
     // 获取章节列表
     if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
 
-      app.post(API_URL, "action=getKeMuTestType&types=" + types, false, false, "", "").then(res => {
+      app.post(API_URL, "action=getKeMuTestType&types=" + types + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
 
         self.initZhangjie(zhangjies); //初始化章节信息
@@ -127,7 +124,8 @@ Page({
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
 
-      app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys, false, false, "", "").then(res => {
+      app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys+"&token="+token+"&zcode="+zcode, false, false, "", "").then(res => {
+        console.log(res)
         let zhangjies = res.data.data;
         tiku[zhangjieLoadedStr] = zhangjies;
 
@@ -166,6 +164,19 @@ Page({
       },
     })
   },
+
+  /**
+   * 获取做题进度
+   */
+  getZuotiJindu: function(token, zcode, types, self) {
+    app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
+      let jindu = res.data.data[0].jindu;
+      self.setData({
+        jindu: jindu
+      })
+    })
+  },
+
   /**
    * 初始化章节信息
    */
@@ -246,6 +257,7 @@ Page({
 
     this.goAnswerModel = this.selectComponent("#goAnswerModel");
     this.jiesuoti = this.selectComponent("#jiesuoti");
+    this.modelAnswerModel = this.selectComponent('#modelAnswerModel');
     this.ti = wx.createSelectorQuery(); //题组件dom对象
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
@@ -312,9 +324,7 @@ Page({
 
         app.post(API_URL, "action=getKeMuTestType&types=" + types, false, false, "", "").then(res => {
           let zhangjies = res.data.data;
-
           self.initZhangjie(zhangjies); //初始化章节信息
-
           tiku[zhangjieLoadedStr] = zhangjies;
           wx.removeStorageSync('change' + zcode);
 
@@ -327,21 +337,15 @@ Page({
           })
         })
 
+
         //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
-        app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
-          let jindu = res.data.data[0].jindu;console.log(res)
-          self.setData({
-            jindu: jindu
-          })
-        })
+        self.getZuotiJindu(token, zcode, types, self);
+
       } else { //如果没有数据更新,说明是正常返回的页面
         let types = self.getkemuIDByindex(currentIndex); //科目id
-        app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
-          let jindu = res.data.data[0].jindu;console.log(res)
-          self.setData({
-            jindu: jindu
-          })
-        })
+
+        //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+        self.getZuotiJindu(token, zcode, types, self);
       }
     }
   },
@@ -351,7 +355,7 @@ Page({
    */
   changeBar: function(e) {
     let self = this;
-    let type = e.currentTarget.dataset.type;//切换类型(1.点击科目,2.点击题型)
+    let type = e.currentTarget.dataset.type; //切换类型(1.点击科目,2.点击题型)
     let currentIndex = null;
     let currentMidIndex = null;
 
@@ -364,7 +368,7 @@ Page({
       let zcode = user.zcode ? user.zcode : "";
       let token = user.token ? user.token : '';
       //***********************
-      
+
       self.setData({
         currentIndex: currentIndex
       })
@@ -383,13 +387,10 @@ Page({
 
       //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
       let types = self.getkemuIDByindex(currentIndex);
-      app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
-        let jindu = res.data.data[0].jindu;console.log(res)
-       
-        self.setData({
-          jindu: jindu
-        })
-      })
+
+      //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
+      self.getZuotiJindu(token, zcode, types, self);
+
     } else { //点击题型
       currentIndex = self.data.currentIndex; //点击的科目id
       currentMidIndex = e.currentTarget.dataset.index; //当前题型index
@@ -568,6 +569,45 @@ Page({
     }
   },
 
+  /**
+   * 展示模拟真题答题弹窗
+   */
+  showModelanswerModel: function(e) {
+    let buy = e.currentTarget.dataset.buy;
+    let title = e.currentTarget.dataset.title;
+    let id = e.currentTarget.dataset.id;
+    let time = e.currentTarget.dataset.time;
+    let nums = e.currentTarget.dataset.nums;
+    console.log(e)
+    let highScore = parseInt(e.currentTarget.dataset.highscore);
+    let maxScore = parseInt(e.currentTarget.dataset.maxscore);
+
+    if (buy == '1') { //免费
+      this.modelAnswerModel.showDialog(); //弹窗
+
+      let res = highScore / maxScore; //分数百分比
+      let color = null;
+      if (res < 0.6) { //不及格
+        color = "rgb(218, 0, 0);";
+      } else if (res >= 0.6 && res < 80) {
+        color = "rgb(223, 89, 0);";
+      } else {
+        color = "#1ccd75";
+      }
+
+      this.modelAnswerModel.setData({
+        nums: nums,
+        title: title,
+        time: time,
+        highScore: highScore,
+        maxScore: maxScore,
+        textColor: color,
+        id: id
+      })
+    } else { //不免费
+      this.jiesuoti.showDialog();
+    }
+  },
 
   /**
    * 答题弹窗提示
@@ -714,20 +754,12 @@ Page({
   /**
    * 导航到笔记页面
    */
-  GOnote: function() {
+  GOnoteAndErrList: function(e) {
     let currentIndex = this.data.currentIndex;
-    let type = this.getkemuIDByindex(currentIndex);
+    let type = e.currentTarget.dataset.type; //点击的类型('note'笔记 'err' 错题)
+    let typesid = this.getkemuIDByindex(currentIndex);
     wx.navigateTo({
-      url: '/pages/shuati/mynote/mynote?typesid=' + type,
-    })
-  },
-
-  /**
-   * 导航到错题按钮
-   */
-  GOcuoti: function() {
-    wx.navigateTo({
-      url: '/pages/shuati/cuoti/cuoti',
+      url: '/pages/shuati/noteAndErrList/noteAndErrList?typesid=' + typesid + "&type=" + type,
     })
   },
 
@@ -756,20 +788,19 @@ Page({
   /**
    * 导航到模拟
    */
-  GOmoni: function(e) {
-    let buy = e.currentTarget.dataset.buy;
-    let title = e.currentTarget.dataset.title;
-    let id = e.currentTarget.dataset.id;
-    let times = e.currentTarget.dataset.times;
-    let nums = e.currentTarget.dataset.nums;
+  _GOmoni: function(e) {
+    let title = e.detail.title;//标题
+    let id = e.detail.id;//id
+    let times = e.detail.times;//时间
+    let nums = e.detail.nums;//总数
+    let totalscore = e.detail.maxScore;//总分
+    let text_score = e.detail.highScore;//最高分
 
-    if (buy == '1') { //免费
-      wx.navigateTo({
-        url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums
-      })
-    } else { //不免费
-      this.jiesuoti.showDialog();
-    }
+    console.log(text_score)
+
+    wx.navigateTo({
+      url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums + "&totalscore=" + totalscore + "&text_score=" + text_score
+    })
   },
 
   /**

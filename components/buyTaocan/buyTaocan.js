@@ -15,29 +15,10 @@ Component({
    */
   data: {
     isShow: false,
-    downShow: true,
+    downShow: false,
     currentIndex:0,//当前套餐编号
-    taocans:[
-      {
-        title:"导游全陪学习计划套餐",
-        price_tuan:499,
-        price_old:599,
-        info:"贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!贼哇!"
-      },
-      {
-        title: "导游基础学习套餐",
-        price_tuan: 399,
-        price_old: 569,
-        info:"哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞哇塞"
-      },
-      {
-        title: "导游冲刺学习套餐",
-        price_tuan: 299,
-        price_old: 888,
-        info: "买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷买个佛冷"
-      },
-
-    ]
+    taocans:[],
+    buy:0
   },
 
   /**
@@ -101,22 +82,13 @@ Component({
       this.hideDialog();
       let currentIndex = this.data.currentIndex;
       let money_zong = this.data.taocans[currentIndex].price_tuan;
-      let product = "";
-      switch (currentIndex){
-        case 0:
-          product = "基础套餐"
-        break;
-        case 1:
-          product = "冲刺套餐"
-          break;
-        case 2:
-          product = "豪华套餐"
-          break;
-      }
-      
-      this.triggerEvent('confirm', { 'money_zong': money_zong, 'product': product});
+      let product = this.data.taocans[currentIndex].typesname;
+      let title = this.data.taocans[currentIndex].title;
+      let buy = this.data.taocans[currentIndex].buy;
+      let buy0 = this.data.taocans[0].buy;
+      this.triggerEvent('confirm', { 'money_zong': money_zong,'title':title, 'product': product, 'buy': buy, 'buy0': buy0});
     },
-
+   
     //改变套餐
     changeTaocan:function(e){
       let index = e.currentTarget.dataset.index;

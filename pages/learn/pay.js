@@ -10,11 +10,11 @@ Page({
   data: {
     id: "",
     danke: false,
-    title: "2018导游资格考试全陪计划",
+    title: "",
     product: "", //套餐类型（基础套餐、冲刺套餐、豪华套餐、题库-60、题库-108）
-    num: "65",
-    name: "陈龙",
-    time: "2年",
+    num: "",
+    name: "",
+    time: "1年",
     region: ['广东省', '广州市', '海珠区'],
     sh_name: "游客",
     sh_number: "13333333333",
@@ -27,14 +27,31 @@ Page({
     youhuiquan: "0",
     money_zong: "0",
     guoqi: false,
+
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.setNavigationBarTitle({//设置标题
+      title: '支付',
+    })
     var danke = options.danke;
-    var id = options.id;
-    var product = options.product;
+    var id = "";
+    var product = "kong";
+    var title = "";
+    var keshi = "";
+    var teacher = "";
+    title = options.title;
+    if (danke) {
+      id = options.id;
+      
+      keshi = options.keshi;
+      teacher = options.teacher;
+    } else {
+      product = options.product;
+    }
+
     var money_zong = options.money_zong;
     var mymoney = 0;
     var mymoney2 = 0;
@@ -52,21 +69,21 @@ Page({
         money_zong = money_zong - mymoney
       }
     }
-    
-      //判断优惠券是否存在、是否过期
-      var guoqi = false;
-      if (user.YHQ == 1) {
-        var time2 = this.dateAdd(user.yhq_time);
-        if (new Date(time2) < new Date()) {
-          guoqi = true;
-        } else {
-          if (money_zong != 0) {
-            money_zong = money_zong - 100
-          }
+
+    //判断优惠券是否存在、是否过期
+    var guoqi = false;
+    if (user.YHQ == 1) {
+      var time2 = this.dateAdd(user.yhq_time);
+      if (new Date(time2) < new Date()) {
+        guoqi = true;
+      } else {
+        if (money_zong != 0) {
+          money_zong = money_zong - 100
         }
       }
+    }
 
-   
+
     if (money_zong < 0) {
       money_zong = 0
     }
@@ -74,13 +91,21 @@ Page({
     this.setData({
       danke: danke,
       id: id,
-      product: product,
+      
       mymoney: mymoney,
       mymoney2: mymoney2,
+      title: title,
+      num: keshi,
+      name: teacher,
       youhuiquan: "0",
       guoqi: guoqi,
       money_zong: money_zong
     })
+    if (!danke) {
+    this.setData({
+      product: product
+      })
+    }
   },
   dateAdd: function(startDate) {
     startDate = new Date(startDate);
@@ -226,6 +251,15 @@ Page({
           icon: 'none',
           duration: 3000
         })
+
+        wx.setStorage({
+          key: 'user',
+          data: { Money: res.data.data[0].xuebi}
+        })
+        //进入我的课程页
+        wx.navigateTo({
+          url: '../user/course/list',
+        })
       })
     } else {
       //购买套餐
@@ -236,11 +270,22 @@ Page({
           icon: 'none',
           duration: 3000
         })
+        wx.setStorage({
+          key: 'user',
+          data: { Money: res.data.data[0].xuebi }
+        })
+        if (product =="豪华套餐"){
+          wx.navigateBack({});
+        }else{
+          //进入我的课程页
+          wx.navigateTo({
+            url: '../user/course/list',
+          })
+
+        }
       })
-
-
     }
-
+    
   },
   youhuiquan: function() {
     wx.navigateTo({

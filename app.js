@@ -10,7 +10,7 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function (url, data, ifShow, ifCanCancel, title, pageUrl, ifGoPage, self) {
+  post: function(url, data, ifShow, ifCanCancel, title, pageUrl, ifGoPage, self) {
 
     if (ifShow) {
       wx.showLoading({
@@ -36,12 +36,12 @@ App({
         header: {
           'content-type': 'application/x-www-form-urlencoded'
         },
-        success: function (res) { //服务器返回数据
-          if (ifShow) {//隐藏载入
+        success: function(res) { //服务器返回数据
+          if (ifShow) { //隐藏载入
             wx.hideLoading();
           }
           let status = res.data.status;
-          let message = res.data.message ? res.data.message:res.data.Message;
+          let message = res.data.message ? res.data.message : res.data.Message;
 
           if (status == 1) { //请求成功
             resolve(res);
@@ -51,16 +51,6 @@ App({
             wx.navigateTo({
               url: '/pages/pay/pay?product=' + product,
             })
-          } else if (status == -5) { //重复登录
-
-            if (self) { //如果传了这个参数
-              self.setData({
-                isReLoad: true
-              })
-            }
-            wx.navigateTo({
-              url: '/pages/login1/login1?url=' + pageUrl + '&ifGoPage=' + ifGoPage
-            })
           } else if (status == -101) { //没有试题
             console.log('没有试题')
             self.setData({
@@ -68,32 +58,21 @@ App({
               isLoaded: true,
               message: message
             })
-          } else if (status < 0) {
-            console.log(message)
-            wx.showToast({
-              title: message,
-              icon: 'none',
-              duration: 3000
-            })
-          } else if (status < -2010) {//q
-            wx.clearStorageSync('user');//权限错误
+
+          } else if (status == -2010) { //重复登录
+            wx.removeStorageSync('user'); 
             if (self) { //如果传了这个参数
               self.setData({
                 isReLoad: true
               })
             }
             wx.navigateTo({
-              url: '/pages/login1/login1?url=' + pageUrl + '&ifGoPage=' + ifGoPage
+              url: '/pages/login/login?url=' + pageUrl + '&ifGoPage=' + ifGoPage +"&showToast=true&title=登录已失效,请重新登录"
             })
 
-            wx.showToast({
-              icon:'none',
-              title: '登录已失效,请重新登录',
-              duration:3000
-            })
 
-          }  else{
-            console.log(res)
+          } else {
+            console.log(res);
             wx.showToast({
               icon: 'none',
               title: message,
@@ -101,15 +80,15 @@ App({
             })
           }
         },
-        error: function (e) {
+        error: function(e) {
           reject('网络出错');
         }
       })
     });
     return promise;
   },
-  
-  onLaunch: function () {
+
+  onLaunch: function() {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

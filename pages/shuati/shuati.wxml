@@ -19,11 +19,11 @@
     <!-- 上面部分 -->
     <view class='top'>
       <view class='t_left'>
-        <view class='ti_z1' bindtap="GOnote" hover-class='select1' hover-stay-time='500'>
+        <view data-type = "note" class='ti_z1' bindtap="GOnoteAndErrList" hover-class='select1' hover-stay-time='500'>
           <image class="ti_img" src="/images/shua-1.png" mode="aspectFit"></image>
           <view class='t_text'>我的笔记</view>
         </view>
-        <view class='ti_z2' bindtap="GOcuoti" hover-class='select1' hover-stay-time='500'>
+        <view data-type = "err" class='ti_z2' bindtap="GOnoteAndErrList" hover-class='select1' hover-stay-time='500'>
           <image class="ti_img" src="/images/shua-2.png" mode="aspectFit"></image>
           <view class='t_text'>我的错题</view>
         </view>
@@ -122,7 +122,7 @@
     <!-- 全真模拟和核心密卷 -->
     <view wx:if="{{currentMidIndex !=0 &&isLoaded}}">
       <view wx:for="{{zhangjies}}" wx:for-item="moni" wx:key="m">
-        <view data-nums = "{{moni.nums}}" data-times="{{moni.time}}"  data-id="{{moni.ID}}" data-title = "{{moni.title}}" data-buy = "{{moni.buy}}" class="item" bindtap="GOmoni" hover-class='select1' hover-stay-time='500'>
+        <view data-maxScore = "{{moni.MaxScore}}" data-highScore = "{{moni.HighScroe}}" data-nums = "{{moni.nums}}" data-time="{{moni.time}}"  data-id="{{moni.ID}}" data-title = "{{moni.title}}" data-buy = "{{moni.buy}}" class="item" bindtap="showModelanswerModel" hover-class='select1' hover-stay-time='500'>
           <view class="item-line1">
             <image class="item-line1-icon" src="{{moni.buy=='1'?'/images/suo1.png':'/images/suo2.png'}}"></image>
             <view class="item-line1-text">{{moni.title}}</view>    
@@ -147,6 +147,9 @@
 </view>
 
 <!-- 弹窗 -->
-<goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti"></goAnswerModel>
+<modelAnswerModel id="modelAnswerModel" bindGOmoni="_GOmoni" windowHeight = "{{windowHeight}}"></modelAnswerModel>
+
+<goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti" windowHeight = "{{windowHeight}}"></goAnswerModel>
+
 <jiesuoti id = "jiesuoti" bindbuyAll = "_buyAll" windowHeight = "{{windowHeight}}"></jiesuoti>
 

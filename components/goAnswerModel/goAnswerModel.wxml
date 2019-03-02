@@ -1,5 +1,5 @@
 <!--components/Dialog/dialog.wxml-->
-<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container">
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style = "top:{{(windowHeight-600)/2}}rpx">
   <view class="title">{{title}}</view>
   <view class="num">总数量：{{num}}</view>
   <view class="mid">

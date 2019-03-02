@@ -3,7 +3,6 @@
 .container {
   position: fixed;
   width: 630rpx;
-  top: 250rpx;
   left: 60rpx;
   z-index: 100;
   background: white;
@@ -22,12 +21,11 @@
 }
 
 .title {
-  width: 100%;
-  height: 80rpx;
-  line-height: 115rpx;
+  width: 590rpx;
   font-size: 32rpx;
   text-align: center;
   color: black;
+  padding:30rpx 20rpx 30rpx 20rpx;
 }
 
 .num {
@@ -52,8 +50,14 @@
 
 .mid-item {
   color: white;
-  width: 150rpx;
+  width: 180rpx;
   text-align: center;
+}
+
+.mid-line {
+  height: 50rpx;
+  border-left: 1rpx solid rgba(255, 255, 255, 0.6);
+  margin-top: 80rpx;
 }
 
 .mid-item-1 {
@@ -67,46 +71,12 @@
   margin-bottom: 40rpx;
 }
 
-/* 选项 */
-
-.selects {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 50rpx;
-}
-
-.select, .selectitem {
-  height: 40rpx;
-  text-align: center;
+.text {
   font-size: 25rpx;
-  line-height: 40rpx;
-}
-
-.select {
-  width: 187rpx;
-}
-
-.selectitem {
-  width: 90rpx;
-  border-radius: 40rpx;
-  margin-left: 30rpx;
-  margin: 0 auto;
-}
-
-/* 滑块 */
-
-.switch {
-  display: flex;
-  justify-content: center;
-  margin-top: 50rpx;
-}
-
-.switch-label {
-  width: 200rpx;
-  font-size: 28rpx;
   text-align: center;
-  height: 80rpx;
-  line-height: 60rpx;
+  height:90rpx;
+  line-height: 90rpx;
+  color:#929292;
 }
 
 .submit {
@@ -117,5 +87,4 @@
   font-size: 25rpx;
   height: 90rpx;
   line-height: 90rpx;
-  margin-top: 80rpx;
 }

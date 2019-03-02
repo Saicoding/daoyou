@@ -28,10 +28,7 @@ Component({
       type:String,
       value:"",
       observer: function (level) {
-        let levels = [];
-        for(let i = 0;i<parseInt(level);i++){
-          levels.push(1);
-        }
+        let levels = new Array(level);
 
         this.setData({
           levels:levels

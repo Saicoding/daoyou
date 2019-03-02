@@ -1,5 +1,6 @@
 <!--pages/index/xuexijihua/xuexijihua.wxml-->
-<view class="container">
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+<view hidden="{{!loaded}}" class="content">
   <view>
     <rich-text nodes="{{nodes}}"></rich-text>
   </view>

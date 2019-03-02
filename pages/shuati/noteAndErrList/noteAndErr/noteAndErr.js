@@ -1,9 +1,9 @@
 // pages/shuati/zuoti/zuoti.js
-let common = require('../../../common/shiti.js');
+let common = require('../../../../common/shiti.js');
 const app = getApp();
-let post = require('../../../common/post.js');
+let post = require('../../../../common/post.js');
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
-let time = require('../../../common/time.js');
+let time = require('../../../../common/time.js');
 
 Page({
 
@@ -28,31 +28,24 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     let self = this;
     let user = wx.getStorageSync('user'); //本地用户信息
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
-    let token = user.token ==undefined?"":user.token
+    let token = user.token == undefined ? "" : user.token
+    let typesid = options.typesid;//题归属的科目id
+    let title = encodeURIComponent(options.title);//题备注
+    console.log(title)
+
     let page = 1; //默认是第一页
     let pageArray = []; //页面缓存数组
     let circular = false;
     let myFavorite = 0;
+    let px = 1;
 
-    //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.f_id+options.leibie + zcode;
-
-    let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
-    let px = last_view.px; //最后一次浏览的题的编号
-
-    if (px == undefined) {
-      px = 1 //如果没有这个px说明这个章节首次访问
-      circular: false
-    } else {
-      page = ((px - 1) - (px - 1) % 10) / 10 + 1;
-    }
-
-    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page + "&zcode=" + zcode+"&token="+token, false, false, "", "", false, self).then((res) => {
-
+    console.log("action=getNoteErrList&typesid=" + typesid + "&title=" + title + "&page=1&zcode=" + zcode + "&token=" + token)
+    app.post(API_URL, "action=getNoteErrList&typesid=" + typesid + "&title=" + title + "&page=1&zcode=" + zcode + "&token=" + token, false, false, "", "", false, self).then((res) => {
+      console.log(res)
       let result = res.data.data[0];
       let shitiArray = result.list;
       let all_nums = result.records;
@@ -87,7 +80,7 @@ Page({
             shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
           }
 
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall,  self) //对数据进行处理和初始化
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进行处理和初始化
         })
       } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
         app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
@@ -102,13 +95,13 @@ Page({
           for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
             shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
           }
-          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall,  self) //对数据进
+          post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进
         })
       } else {
         self.setData({
           pageArray: pageArray
         })
-        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall,  self) //对数据进
+        post.zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, all_nums, pageall, self) //对数据进
       }
     })
 
@@ -120,7 +113,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer"); //答题板
@@ -131,7 +124,7 @@ Page({
     this.shuatiBottom = this.selectComponent('#shuatiBottom'); //解锁板
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function(res) { //转换窗口高度
+      success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
@@ -148,10 +141,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     let options = this.data.options;
     let user = wx.getStorageSync('user'); //本地用户信息
-    let zcode = user.zcode?user.zcode:"";
+    let zcode = user.zcode ? user.zcode : "";
     wx.setStorage({
       key: 'lastShuati' + zcode,
       data: options
@@ -164,7 +157,7 @@ Page({
   /**
    * 问题回答
    */
-  _answerSelect: function(e) {
+  _answerSelect: function (e) {
     let self = this;
     let px = self.data.px;
     let done_daan = "";
@@ -177,7 +170,7 @@ Page({
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
 
-    if (!user){
+    if (!user) {
       wx.navigateTo({
         url: '/pages/login/login?showToast=true&title=您需要登录',
       })
@@ -204,7 +197,7 @@ Page({
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
-      restart:false
+      restart: false
     })
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
@@ -221,7 +214,7 @@ Page({
   /**
    * 多选题选一个选项
    */
-  _checkVal: function(e) {
+  _checkVal: function (e) {
     let self = this;
     let done_daan = e.detail.done_daan.sort();
     let px = self.data.px;
@@ -249,7 +242,7 @@ Page({
   /**
    * slider改变事件
    */
-  sliderChange: function(e) {
+  sliderChange: function (e) {
     let source = e.detail.source;
     if (source != "touch") return;
 
@@ -441,7 +434,7 @@ Page({
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
-  _tapEvent: function(e) {
+  _tapEvent: function (e) {
     let self = this;
     let px = e.detail.px;
 
@@ -527,7 +520,7 @@ Page({
   /**
    * 得到新一组试题
    */
-  getNewShiti: function(options, page, midShiti, preShiti, nextShiti, px, current, circular) {
+  getNewShiti: function (options, page, midShiti, preShiti, nextShiti, px, current, circular) {
     let self = this;
     let shitiArray = self.data.shitiArray;
 
@@ -537,8 +530,8 @@ Page({
       common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
 
       for (let i = 0; i < newWrongShitiArray.length; i++) {
-        let isAnswer = shitiArray[i + (page - 1) * 10].isAnswer?true:false;
-        let done_daan = shitiArray[i + (page - 1) * 10].done_daan ? shitiArray[i + (page - 1) * 10].done_daan:'';
+        let isAnswer = shitiArray[i + (page - 1) * 10].isAnswer ? true : false;
+        let done_daan = shitiArray[i + (page - 1) * 10].done_daan ? shitiArray[i + (page - 1) * 10].done_daan : '';
         shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
         shitiArray[i + (page - 1) * 10].isAnswer = isAnswer;
         shitiArray[i + (page - 1) * 10].done_daan = done_daan;
@@ -564,7 +557,7 @@ Page({
   /**
    * 切换纠错面板
    */
-  _toggleErrorRecovery: function(e) {
+  _toggleErrorRecovery: function (e) {
     this.markAnswer.hideDialog();
     this.errorRecovery.toogleDialog();
   },
@@ -572,7 +565,7 @@ Page({
   /**
    * 切换答题板
    */
-  _toogleMarkAnswer: function() {
+  _toogleMarkAnswer: function () {
     this.errorRecovery.hideDialog();
     this.markAnswer.toogleDialog();
   },
@@ -580,24 +573,24 @@ Page({
   /**
    * 切换收藏
    */
-  _toogleMark:function(e){
-    let self  = this;
+  _toogleMark: function (e) {
+    let self = this;
     let user = wx.getStorageSync('user');
     let shitiArray = self.data.shitiArray;//当前的所有试题数组
     let px = self.data.px;//当前的试题编号
-    let shiti = shitiArray[px-1];//当前试题
+    let shiti = shitiArray[px - 1];//当前试题
 
-    if(user){
+    if (user) {
       let zcode = user.zcode;
       let token = user.token;
       let beizhu = shiti.beizhu;
       let t_id = shiti.id;
-      app.post(API_URL,"action=FavoriteShiti&zcode="+zcode+"&token="+token+"&beizhu="+beizhu+"&t_id="+t_id,false,false,"","",false,self).then(res=>{
+      app.post(API_URL, "action=FavoriteShiti&zcode=" + zcode + "&token=" + token + "&beizhu=" + beizhu + "&t_id=" + t_id, false, false, "", "", false, self).then(res => {
         self.shuatiBottom.setData({
           isMark: !self.shuatiBottom.data.isMark
         })
       })
-    }else{
+    } else {
 
       wx.navigateTo({
         url: '/pages/login/login',
@@ -608,24 +601,24 @@ Page({
   /**
    * 隐藏答题板
    */
-  _hideMarkAnswer: function() {
+  _hideMarkAnswer: function () {
     this.markAnswer.hideDialog();
   },
 
   /**
    * 提交纠错
    */
-  _submit:function(e){
+  _submit: function (e) {
     let self = this;
     let user = wx.getStorageSync('user');
-    if(user){//已经登录
+    if (user) {//已经登录
       let zcode = user.zcode;
       let token = user.token;
       let reason = e.detail.reason;
       let px = self.data.px;
       let shitiArray = self.data.shitiArray;
       let shiti = shitiArray[px - 1];
-     
+
       app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token, true, false, "提交中").then((res) => {
         self.errorRecovery.hideDialog();
         wx.showToast({
@@ -634,13 +627,13 @@ Page({
           duration: 3000
         })
       })
-    }else{//未登录
+    } else {//未登录
       wx.showModal({
         content: '您尚未登录,需要登录后才能提交反馈',
-        confirmText:'登录',
+        confirmText: '登录',
         confirmColor: '#32d584',
-        success:function(e){
-          if(e.confirm){
+        success: function (e) {
+          if (e.confirm) {
             wx.navigateTo({
               url: '/pages/login/login',
             })
@@ -648,13 +641,13 @@ Page({
         }
       })
     }
-  
+
   },
 
   /**
    * 重新开始练习
    */
-  _restart: function() {
+  _restart: function () {
     let self = this;
     self._hideMarkAnswer();
     common.lianxiRestart(self); //重新开始作答
@@ -663,19 +656,19 @@ Page({
   /**
    * 点击返回按钮，这时弹出统计页面model
    */
-  back: function() {
+  back: function () {
     let rightNum = this.data.rightNum;//正确数
     let wrongNum = this.data.wrongNum;//错误数
     let beginDonenum = this.data.options.donenum;//进入页面时的已做题数
     let doneAnswerArray = this.data.doneAnswerArray;//已做题数组
-    let rightRate = doneAnswerArray.length ==0 ? 0: ((rightNum / doneAnswerArray.length) * 100).toFixed(2);//正确率
+    let rightRate = doneAnswerArray.length == 0 ? 0 : ((rightNum / doneAnswerArray.length) * 100).toFixed(2);//正确率
     let donenum = doneAnswerArray.length - beginDonenum < 0 ? 0 : doneAnswerArray.length - beginDonenum;//本次做题数
 
     let all_nums = this.options.all_nums;//题总数
     let rateWidth = 600 * doneAnswerArray.length / parseInt(all_nums);//完成进度
     let beginTimestamp = this.data.beginTimestamp;//开始答题时的时间戳
     let timestamp = Date.parse(new Date());//当前是时间戳
-    let subSecond = (timestamp - beginTimestamp)/1000;//用时(秒数)
+    let subSecond = (timestamp - beginTimestamp) / 1000;//用时(秒数)
     let timeStr = time.formatTimeBySecond1(subSecond);//根据过去的秒数得到做题用时
 
     this.tongji.setData({
@@ -685,7 +678,7 @@ Page({
       undonenum: all_nums - doneAnswerArray.length,//未做题数
       wrongNum: wrongNum,//错误数
       rateWidth: rateWidth,
-      timeStr,timeStr
+      timeStr, timeStr
     })
 
     this.tongji.showDialog();
@@ -694,18 +687,18 @@ Page({
   /**
    * 模板点击返回按钮
    */
-  _toBack: function() {
+  _toBack: function () {
     let options = this.data.options;
-    if(options.from){//如果是来自首页
+    if (options.from) {//如果是来自首页
       wx.switchTab({
         url: '/pages/shuati/shuati',
       })
-    }else{
+    } else {
       wx.navigateBack({})
     }
   },
 
-  onUnload:function(){
+  onUnload: function () {
     let user = wx.getStorageSync('user');
     let zcode = user.zcode ? user.zcode : '';
     let pages = getCurrentPages();
@@ -718,7 +711,7 @@ Page({
 
     let doneAnswerArray = this.data.doneAnswerArray; //所有已答数组
     let tiku = prePage.data.tiku; //上个页面的题库对象
-    if(!tiku){
+    if (!tiku) {
       wx.setStorage({//设置数据有改变的题库编号
         key: 'change' + zcode,
         data: { currentIndex: currentIndex, currentMidIndex: currentMidIndex }
@@ -755,13 +748,13 @@ Page({
   /**
    * 点击笔记按钮
    */
-  _note: function() {
+  _note: function () {
     let self = this;
     this.setData({
       showbiji: true
     })
 
-    setTimeout(function() {
+    setTimeout(function () {
       self.setData({
         focus: true
       })
@@ -781,13 +774,13 @@ Page({
     let sliderShitiArray = this.data.sliderShitiArray;
     let lastSliderIndex = self.data.lastSliderIndex;
     let px = this.data.px;
-    let shiti = shitiArray[px-1];
+    let shiti = shitiArray[px - 1];
     let sliderShiti = sliderShitiArray[lastSliderIndex];
     console.log(sliderShiti)
 
     let tid = shiti.id;
     let content = this.data.noteText;
-    let beizhu = encodeURIComponent(shiti.beizhu);
+    let beizhu = shiti.beizhu;
 
     shiti.note = content;
     sliderShiti.note = content;
@@ -797,7 +790,7 @@ Page({
       sliderShitiArray: sliderShitiArray
     })
 
-    app.post(API_URL,"action=saveMyNote&token="+token+"&zcode="+zcode+"&typesid="+typesid+"&tid="+tid+"&content="+content+"&beizhu="+beizhu,false,false,"","",false,self).then(res=>{
+    app.post(API_URL, "action=saveMyNote&token=" + token + "&zcode=" + zcode + "&typesid=" + typesid + "&tid=" + tid + "&content=" + content + "&beizhu=" + beizhu, false, false, "", "", false, self).then(res => {
 
     })
   },
@@ -805,24 +798,24 @@ Page({
   /**
    * 点击教程按钮
    */
-  _jiaocheng: function(e) {
+  _jiaocheng: function (e) {
     this.jiaocheng.toogleShow();
   },
 
   /**
    * 点击解锁按钮
    */
-  _jiesuo: function(e) {
+  _jiesuo: function (e) {
     this.jiesuo.showDialog();
   },
 
   /**
    * 购买解析包
    */
-  _buyJiexi: function() {
+  _buyJiexi: function () {
     let user = wx.getStorageSync('user');
-    
-    if(user){//已登录
+
+    if (user) {//已登录
       let token = user.token;
       let zcode = user.zcode;
       this.jiesuo.hideDialog();
@@ -885,7 +878,7 @@ Page({
         }
       })
 
-    }else{//未登录
+    } else {//未登录
       wx.navigateTo({
         url: '/pages/login/login',
       })
@@ -896,7 +889,7 @@ Page({
   /**
    * 购买全部
    */
-  _buyAll: function() {
+  _buyAll: function () {
     this.jiesuo.hideDialog();
     wx.showToast({
       title: '购买全部课程开发中',
@@ -908,7 +901,7 @@ Page({
   /**
    * 笔记输入框失去焦点
    */
-  blur: function() {
+  blur: function () {
     this.setData({
       showbiji: false
     })
@@ -917,7 +910,7 @@ Page({
   /**
    * 笔记输入框输入文字
    */
-  textareaInput: function(e) {
+  textareaInput: function (e) {
     let text = e.detail.value;
     this.setData({
       noteText: text

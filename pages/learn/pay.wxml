@@ -3,7 +3,7 @@
 <view class='topk'>
   <view style='padding:4%'>
     <view class='title b'>{{title}}</view>
-    <view class='hui f13'>
+    <view class='hui f13' wx:if="{{danke}}">
       <text>课时：{{num}}</text>
       <text>主讲老师：{{name}}</text>
       <text>课程有效期：{{time}}</text>
@@ -37,7 +37,7 @@
       </view>
     </view>
     <view class='ditiao' bindtap='wxdizhi'>
-      <image src='/images/wx.png'  style='margin-right:10px;'></image>使用微信地址
+      <image src='/images/wx2.png'  style='margin-right:10px;'></image>使用微信地址
       <view class='fr hui f18'>
         <image src='/images/user/baoming_searchnext_13x13_@3x.png'></image>
       </view>
@@ -85,7 +85,7 @@
   <view class='bottom-price f14'>实付款：
     <text>￥{{money_zong}}</text>
   </view>
-  <view class='bottom-buy' bindtap='zhifu'>立即支付</view>
+  <view class='bottom-buy' bindtap='_submit'>立即支付</view>
 </view>
 <view class='bg' bindtap='close' wx:if="{{sh_show}}"></view>
 

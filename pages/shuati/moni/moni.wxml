@@ -6,18 +6,17 @@
         <scroll-view scroll-y style="height:{{windowHeight-115}}rpx;">
           <view style="border:1rpx solid #f4f7f9;">
             <!--单选题-->
-            <view style="margin-bottom:50rpx;" wx:if="{{shiti.leibie == '1'}}">
+            <view style="margin-bottom:50rpx;" wx:if="{{shiti.leibie == '1' || shiti.leibie == '3'}}">
               <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
             </view>
 
             <!--多选题-->
             <view style="margin-botoom:50rpx;" wx:if="{{shiti.leibie == '2'}}">
               <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
-              <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">查看解析</view>
             </view>
 
             <!-- 解析 -->
-            <jiexi level="{{shiti.level}}" buy="{{user.TKflag}}" beizhu="{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
+            <jiexi level="{{shiti.level}}" buy="{{user.TKflag}}" beizhu="{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{isSubmit}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
 
           </view>
         </scroll-view>
@@ -34,5 +33,5 @@
 </markAnswer>
 
 <!-- 底部正确错误个数统计条 -->
-<moniBottom hidden="{{!isLoaded}}" text="{{text}}" id="moniBottom" isMark="{{myFavorite}}" bindtoogleMark="_toogleMark" nums="{{nums}}" px="{{px}}" bindtoogleMarkAnswer="_toogleMarkAnswer" bindrestart="_restart">
+<moniBottom hidden="{{!isLoaded}}" text="{{text}}" id="moniBottom" isMark="{{myFavorite}}" bindtoogleMark="_toogleMark" nums="{{nums}}" px="{{px}}" bindtoogleMarkAnswer="_toogleMarkAnswer" bindrestart="_restart" bindsubmit="_submit" bindrestart="_restart">
 </moniBottom>

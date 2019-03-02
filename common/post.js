@@ -251,8 +251,7 @@ function wrongOnload(options, px, circular, myFavorite, res, user, requesttime, 
 /**
  * 练习题
  */
-function moniOnload(options, result, px, circular, user, page, all_nums, pageall, interval,isSubmit,self) {
-  let shitiArray = result.list;
+function moniOnload(options,shitiArray, result, px, circular, user, page, all_nums, pageall, interval,isSubmit,self) {
   let zcode = user.zcode == undefined ? '' : user.zcode;
   //得到swiper数组
   let preShiti = undefined; //前一题
@@ -293,8 +292,8 @@ function moniOnload(options, result, px, circular, user, page, all_nums, pageall
         })
       }
 
-      doneAnswerArray = common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit, options, self); //设置答题板数组 
-      // common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+      // doneAnswerArray = common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit, options, self); //设置答题板数组 
+      common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
       //映射已答题目的已作答的答案到shitiArray
       for (let i = 0; i < doneAnswerArray.length; i++) {
@@ -356,8 +355,11 @@ function moniOnload(options, result, px, circular, user, page, all_nums, pageall
   self.setData({
     id: options.f_id, //真题编号
     times: options.times, //考试时间
-
+    pageall:result.page_all,//总页数
     interval: interval, //计时器
+    result: result,//请求结果
+    totalscore: options.totalscore,//总分数
+    test_score: options.text_score,//最高分
     title: options.title, //标题
     text: "立即交卷", //按钮文字
     nums: options.nums, //题数

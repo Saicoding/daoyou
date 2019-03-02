@@ -34,6 +34,6 @@
     <view class="downline"></view>
 
     <!-- 最下面的字 -->
-    <view class="downtext">宪法基本知识>我国的国家制度</view>
+    <view class="downtext">{{beizhu}}</view>
   </view>
 </view>

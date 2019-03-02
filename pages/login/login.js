@@ -578,10 +578,11 @@ Page({
     wx.login({
       success: res => {
         let code = res.code;
+        console.log("action=getSessionKey&code=" + code)
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
-          let sesstion_key = res.data.sessionKey;
-          let openid = res.data.openid;
-
+          let sesstion_key = res.data.data[0].sessionKey;
+          let openid = res.data.data[0].openid;
+          console.log(res)
           wx.getUserInfo({
             success: function (res) {
               let wxid = ""; //openId
@@ -606,6 +607,9 @@ Page({
                 let user = res.data.list[0];
                 self.processSelectScholl(user, ifGoPage);
               })
+            },
+            fail:function(res1){
+              console.log(res1)
             }
           })
         })

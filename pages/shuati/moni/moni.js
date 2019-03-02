@@ -42,7 +42,7 @@ Page({
     this.setData({
       options: options,
       times: options.times, //考试时间
-      first: true,//首次载入
+      first: true, //首次载入
       text: "立即交卷", //按钮文字
     })
 
@@ -82,17 +82,17 @@ Page({
   onShow: function() {
     let self = this;
     let options = this.data.options;
-    console.log(options)
+
     let first = this.data.first;
     let isReLoad = this.data.isReLoad;
     let user = wx.getStorageSync('user');
 
-    if (first && user || isReLoad) {//首次登陆,并且登陆
+    if (first || isReLoad) { //首次登陆,并且登陆
 
       let zcode = user.zcode ? user.zcode : '';
       let token = user.token ? user.token : '';
 
-      let test_score = options.test_score;
+      let test_score = options.text_score;
       let page = 1; //默认是第一页
 
       let id = options.f_id;
@@ -115,11 +115,9 @@ Page({
         page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
-      app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", true, self).then((res) => {
-        
+      app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
         let result = res.data.data[0];
 
-        console.log(result)
         let shitiArray = result.list;
         let all_nums = options.nums;
 
@@ -132,8 +130,6 @@ Page({
         common.initNewWrongArrayDoneAnswer(shitiArray, page - 1); //将试题的所有done_daan置空
 
         shitiArray = common.initShitiArray(shitiArray, all_nums, page);
-
-        common.initMarkAnswer(all_nums, self); //初始化答题板数组
 
         //得到swiper数组
         let preShiti = undefined; //前一题
@@ -179,7 +175,7 @@ Page({
         }
 
         if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1) { //px为前半部分并且有上一页时，请求上一页
-          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + prepage, false, true, "", "", true, self).then((res) => {
+          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + prepage, false, true, "", "", false, self).then((res) => {
             pageArray.push(prepage);
 
             self.setData({
@@ -192,10 +188,10 @@ Page({
               shitiArray[i + (prepage - 1) * 10] = newWrongShitiArray[i];
             }
 
-            post.moniOnload(options, result, px, circular, user, page, all_nums, pageall, interval, isSubmit,self) //对数据进行处理和初始化
+            post.moniOnload(options, shitiArray,result, px, circular, user, page, all_nums, pageall, interval, isSubmit, self) //对数据进行处理和初始化
           })
         } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall) {
-          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + nextPage, false, true, "", "", true, self).then((res) => {
+          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + nextPage, false, true, "", "", false, self).then((res) => {
             pageArray.push(nextPage);
 
             self.setData({
@@ -204,37 +200,50 @@ Page({
 
             let newWrongShitiArray = res.data.data[0].list;
             common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
+
             for (let i = 0; i < newWrongShitiArray.length; i++) { //更新shitiArray
               shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
             }
-            post.moniOnload(options, result, px, circular, user, page, all_nums, pageall, interval, isSubmit, self) //对数据进
+            post.moniOnload(options, shitiArray,result, px, circular, user, page, all_nums, pageall, interval, isSubmit, self) //对数据进
           })
         } else {
           self.setData({
             pageArray: pageArray
           })
-          post.moniOnload(options, result, px, circular, user, page, all_nums, pageall, interval,isSubmit,self )//对数据进
+          post.moniOnload(options, shitiArray,result, px, circular, user, page, all_nums, pageall, interval, isSubmit, self) //对数据进
         }
-     
+
       })
     }
+
   },
 
   /**
-     * slider改变事件
-     */
-  sliderChange: function (e) {
-    let self = this;
-    let lastSliderIndex = self.data.lastSliderIndex;
-    let current = e.detail.current;
-    let source = e.detail.source;
-    if (source != "touch") return;
-    let px = self.data.px;
-    let direction = "";
-    let shitiArray = self.data.shitiArray;
-    let doneAnswerArray = self.data.doneAnswerArray;
-    let circular = self.data.circular;
+   * slider改变事件
+   */
+  sliderChange: function(e) {
 
+    //***********************定义参数***********************************/  */
+    let self = this;
+    let lastSliderIndex = self.data.lastSliderIndex; //上次滑块index
+    let options = self.data.options; //上个页面传过来的参数
+    let current = e.detail.current; //当前滑块index
+    let source = e.detail.source; //滑动方式（被动滑动还是主动）
+    if (source != "touch") return; //如果是被动滑动就不执行
+    let px = self.data.px; //当前试题编号
+    let direction = ""; //滑动方向
+    let shitiArray = self.data.shitiArray; //当前试题数组
+    let doneAnswerArray = self.data.doneAnswerArray; //已做数组
+    let circular = self.data.circular; //是否循环
+    let f_id = options.f_id; //题库id
+    // let user = self.data.user; //用户信息
+    let user = wx.getStorageSync('user');
+    let zcode = user.zcode == undefined ? '' : user.zcode;
+    let token = user.token == undefined?"":user.token;
+    let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
+    let pageall = self.data.pageall; //当前题库错题页总页数
+    //********************************************************************/  */
+    
     //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)) { //左滑
       direction = "左滑";
@@ -244,8 +253,69 @@ Page({
 
     if (direction == "左滑") {
       px++;
+      if (px % 10 >= 6) { //滑动到号大于7，这时判断有没有下一个page
+        let nextPage = ((px - 1) - (px - 1) % 10) / 10 + 2;
+        if (pageArray.indexOf(nextPage) == -1 && nextPage <= pageall) { //已渲染数组不包含下一页面
+          
+          pageArray.push(nextPage); //请求后就添加到已渲染数组
+          self.setData({
+            pageArray: pageArray,
+          })
+ 
+          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + f_id + "&page=" + nextPage, false, true, "", "", false, self).then((res) => {
+
+            let newWrongShitiArray = res.data.data[0].list;
+
+            common.initNewWrongArrayDoneAnswer(newWrongShitiArray, nextPage - 1); //将试题的所有done_daan置空
+
+            for (let i = 0; i < newWrongShitiArray.length; i++) {
+              let isAnswer = shitiArray[i + (nextPage - 1) * 10].isAnswer ? true : false;
+              let done_daan = shitiArray[i + (nextPage - 1) * 10].done_daan ? shitiArray[i + (nextPage - 1) * 10].done_daan : '';
+              shitiArray[i + (nextPage - 1) * 10] = newWrongShitiArray[i];
+              shitiArray[i + (nextPage - 1) * 10].isAnswer = isAnswer;
+              shitiArray[i + (nextPage - 1) * 10].done_daan = done_daan;
+            }
+
+            self.setData({
+              shitiArray: shitiArray,
+            })
+            wx.hideLoading();
+          })
+        }
+      }
     } else {
       px--;
+      if (px % 10 <= 4) { //滑动到小于等于3时，这时判断有没有上一个page
+
+        let prePage = ((px - 1) - (px - 1) % 10) / 10;
+
+        if (pageArray.indexOf(prePage) == -1 && prePage >= 1) { //已渲染数组不包含下一页面
+          pageArray.push(prePage); //请求后就添加到已渲染数组
+          self.setData({
+            pageArray: pageArray,
+          })
+
+          app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + f_id + "&page=" + prePage, false, true, "", "", false, self).then((res) => {
+
+            let newWrongShitiArray = res.data.data[0].list;
+
+            common.initNewWrongArrayDoneAnswer(newWrongShitiArray, prePage - 1); //将试题的所有done_daan置空
+
+            for (let i = 0; i < newWrongShitiArray.length; i++) {
+              let isAnswer = shitiArray[i + (prePage - 1) * 10].isAnswer ? true : false;
+              let done_daan = shitiArray[i + (prePage - 1) * 10].done_daan ? shitiArray[i + (prePage - 1) * 10].done_daan : '';
+              shitiArray[i + (prePage - 1) * 10] = newWrongShitiArray[i];
+              shitiArray[i + (prePage - 1) * 10].isAnswer = isAnswer;
+              shitiArray[i + (prePage - 1) * 10].done_daan = done_daan;
+            }
+
+            self.setData({
+              shitiArray: shitiArray,
+            })
+            wx.hideLoading();
+          })
+        }
+      }
     }
 
     let preShiti = undefined; //前一题
@@ -259,9 +329,17 @@ Page({
       if (px < shitiArray.length) { //如果还有下一题
         nextShiti = shitiArray[px];
         common.initShiti(nextShiti, self); //初始化试题对象
-
         //先处理是否是已经回答的题    
         common.processModelRealDoneAnswer(nextShiti.done_daan, nextShiti, self);
+      }
+      if (px + 1 < shitiArray.length) { //如果有下下题
+        if (shitiArray[px + 1].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
       }
       preShiti = shitiArray[px - 2]; //肯定会有上一题
     } else { //右滑
@@ -269,6 +347,15 @@ Page({
         preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
         common.processModelRealDoneAnswer(preShiti.done_daan, preShiti, self);
+      }
+      if (px > 2) { //如果有上上题
+        if (shitiArray[px - 3].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
       }
       nextShiti = shitiArray[px];
     }
@@ -316,9 +403,8 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       lastSliderIndex: current,
-      xiaotiCurrent: 0,
+      xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
       px: px,
-      shitiNum: shitiNum,
       checked: false
     })
   },
@@ -329,40 +415,32 @@ Page({
    */
   _answerSelect: function(e) {
     let self = this;
+
+    if (self.data.isSubmit) return
+
     let px = self.data.px;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
-    let currentShiti = sliderShitiArray[current]; //当前滑块试题
+    let currentShiti = sliderShitiArray[current];
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    done_daan = shiti.leibie != '2' ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
-    if (shiti.TX == 2 && shiti.selectAnswer == undefined) {
-      wx.showToast({
-        title: '还没有作答 !',
-        icon: 'none',
-      })
-      return;
-    }
-
-    if (shiti.isAnswer) return;
-
-    common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
-    common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, currentShiti, false); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, shiti, false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray
     })
 
-    // common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
-    // common.storeAnswerStatus(shiti, self); //存储答题状态
+    common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
-    common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
+    common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态(单个)
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
@@ -404,9 +482,9 @@ Page({
   },
 
   /**
- * 切换答题板
- */
-  _toogleMarkAnswer: function () {
+   * 切换答题板
+   */
+  _toogleMarkAnswer: function() {
     this.markAnswer.toogleDialog();
   },
 
@@ -414,15 +492,29 @@ Page({
    * 生命周期事件
    */
   onUnload: function(e) {
-    this.tongji.showDialog();
+    let self = this;
+    let isLoaded = self.data.isLoaded;
+    if (!isLoaded) return;
+
+    let user = wx.getStorageSync("user");
+    let zcode = user.zcode?user.zcode:"";
+
+    let moniBottom = self.moniBottom;
+
+    if (!self.data.isSubmit) {
+      let time = moniBottom.data.time;
+
+      let second = time.h * 3600 + time.m * 60 + time.s;
+
+      clearInterval(self.data.interval); //停止计时器
+
+      wx.setStorage({
+        key: 'last_time' + self.data.id + zcode,
+        data: second,
+      })
+    }
   },
 
-  /**
-   * 点击返回按钮，这时弹出统计页面model
-   */
-  back: function() {
-    this.tongji.showDialog();
-  },
 
   /**
    * 模板点击返回按钮
@@ -486,30 +578,258 @@ Page({
   },
 
   /**
-   * 笔记输入框失去焦点
+    * 答题板点击编号事件,设置当前题号为点击的题号
+    */
+  _tapEvent: function (e) {
+    let self = this;
+    let px = e.detail.px;
+
+    let shitiArray = self.data.shitiArray;
+    let options = self.data.options;
+
+    let user = self.data.user;
+    let zcode = user.zcode == undefined ? '' : user.zcode;
+
+    let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
+    let pageall = self.data.pageall; //当前题库错题页总页数
+
+    let current = self.data.lastSliderIndex; //当前swiper的index
+    let circular = self.data.circular;
+
+    //得到swiper数组
+    let preShiti = undefined; //前一题
+    let nextShiti = undefined; //后一题
+    let midShiti = shitiArray[px - 1]; //中间题
+
+    let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
+
+    let prepage = page - 1; //上一页
+    let nextPage = page + 1; //下一页
+
+    self._hideMarkAnswer(); //隐藏答题板
+
+    //如果渲染数组不包含当前页面
+    if (pageArray.indexOf(page) == -1) {
+      pageArray.push(page);
+      self.setData({
+        allLoaded: [], //设置正在载入的page个数 0 1 2 ，当个数为2时说明已经载入完毕
+        isLoaded: false,
+      })
+
+      if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果是页码的第一题,并且有上一页,并且不在已渲染数组中
+        pageArray.push(prepage);
+        self.setData({
+          pageArray: pageArray
+        })
+
+        self.getNewShiti(page, midShiti, preShiti, nextShiti, px, current, circular);
+        self.getNewShiti(prepage, midShiti, preShiti, nextShiti, px, current, circular);
+
+      } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { //如果是页码的最后一题,并且有下一页，并且不在已渲染数组中
+        pageArray.push(nextPage);
+        self.setData({
+          pageArray: pageArray
+        })
+
+        self.getNewShiti(page, midShiti, preShiti, nextShiti, px, current, circular);
+        self.getNewShiti(nextPage, midShiti, preShiti, nextShiti, px, current, circular);
+
+      } else {
+        self.setData({
+          pageArray: pageArray,
+          allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+        })
+        self.getNewShiti(page, midShiti, preShiti, nextShiti, px, current, circular);
+      }
+
+    } else if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果本页已经渲染，但上一页没有渲染
+      pageArray.push(prepage);
+      self.setData({
+        isLoaded: false,
+        pageArray: pageArray,
+        allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+      })
+      self.getNewShiti(prepage, midShiti, preShiti, nextShiti, px, current, circular);
+    } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { ////如果本页已经渲染，但上一页没有渲染
+      pageArray.push(nextPage);
+      self.setData({
+        isLoaded: false,
+        pageArray: pageArray,
+        allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
+      })
+      self.getNewShiti(nextPage, midShiti, preShiti, nextShiti, px, current, circular);
+    } else {
+      common.processTapModelRealAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
+    }
+  },
+
+  /**
+   * 得到新一组试题
    */
-  blur: function() {
-    this.setData({
-      showbiji: false
+  getNewShiti: function (page, midShiti, preShiti, nextShiti, px, current, circular) {
+    let self = this;
+    let shitiArray = self.data.shitiArray;
+    let f_id = self.data.id;//试卷id
+
+    //用户信息
+    let user = wx.getStorageSync('user');
+    let token = user.token?user.token:"";
+    let zcode = user.zcode?user.zcode:"";
+
+    app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + f_id + "&page=" + page, false, true, "", "", false, self).then((res) => {
+      let newWrongShitiArray = res.data.data[0].list;
+
+      common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
+
+      for (let i = 0; i < newWrongShitiArray.length; i++) {
+        let isAnswer = shitiArray[i + (page - 1) * 10].isAnswer ? true : false;
+        let done_daan = shitiArray[i + (page - 1) * 10].done_daan ? shitiArray[i + (page - 1) * 10].done_daan : '';
+        shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
+        shitiArray[i + (page - 1) * 10].isAnswer = isAnswer;
+        shitiArray[i + (page - 1) * 10].done_daan = done_daan;
+      }
+
+      let allLoaded = self.data.allLoaded;
+
+      if (allLoaded.length == 1) { //说明已经载入完毕一个
+        midShiti = shitiArray[px - 1];
+        common.processTapModelRealAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
+        allLoaded = [];
+      } else {
+        allLoaded.push(1);
+      }
+
+      self.setData({
+        allLoaded: allLoaded,
+        shitiArray: shitiArray
+      })
     })
   },
 
   /**
-   * 笔记输入框输入文字
+   * 隐藏答题板
    */
-  textareaInput: function(e) {
-    let text = e.detail.value;
-    this.setData({
-      noteText: text
-    })
+  _hideMarkAnswer: function () {
+    this.markAnswer.hideDialog();
   },
 
   /**
-   * 发表笔记
-   */
-  noteFabiao: function() {
-    this.setData({
-      noteShow: true
-    })
-  }
+  * 点击立即交卷后
+  */
+  _submit: function () {
+    let self = this;
+    let shitiArray = self.data.shitiArray; //所有试题
+    let id = self.data.id; //真题的id号
+    let doneAnswerArray = self.data.doneAnswerArray; //已经回答的试题
+    let times = self.data.times; //考试总时间
+    let totalscore = self.data.totalscore //总分
+    let allNums = self.data.nums; //题的总数
+    let rightNums = 0; //正确题数
+    let wrongNums = 0; //错误题数
+    let score = 0; //分数
+    let undone = 0; //未做题数
+    let time = self.moniBottom.data.time; //当前时间,对象格式
+    let gone_time = 0; //花费时间
+    let result = self.data.result;//试卷分数页数等信息
+    let danxuan_fen = parseFloat("0"+result.danxuan_fen);//单选分数
+    let duoxuan_fen = parseFloat("0" + result.duoxuan_fen);//多选分数
+    let panduan_fen = parseFloat("0" + result.panduan_fen);//判断分数
+    let user = wx.getStorageSync('user');
+    let zcode = user.zcode?user.zcode:"";
+    let token = user.token?user.token:"";
+
+
+    let doneUserAnswer = common.getDoneAnswers(shitiArray);
+
+    //得到花费的时间
+    gone_time = times * 60 - (time.h * 3600 + time.m * 60 + time.s);
+
+    //得到正确数和错误数
+    for (let i = 0; i < doneAnswerArray.length; i++) {
+      let doneAnswer = doneAnswerArray[i]; //单个已经回答的试题
+      let px = doneAnswer.px;
+
+      //计算正确与错误数
+      if (doneAnswer.isRight == 0) { //正确
+        rightNums += 1;
+      } else {
+        wrongNums += 1;
+      }
+
+      switch (doneAnswer.select) {
+        case "1"://单选
+          score += danxuan_fen;
+        break;
+        case "2"://多选
+          score += duoxuan_fen;
+          break;
+        case "3"://判断
+          score += panduan_fen;
+          break;
+      }
+    }
+
+    console.log(score)
+    clearInterval(self.data.interval); //停止计时
+
+    undone = allNums - rightNums - wrongNums; //计算出未做题数
+    //提交结果
+    app.post(API_URL, "action=saveTestResult" +
+      "&token=" + token +
+      "&zcode=" + zcode +
+      "&sjid=" + id +
+      "&testTime=" + gone_time +
+      "&testScore=" +score+
+      "&TrueTid=" + doneUserAnswer.TrueTid, true, true, "计算中").then((res) => {
+
+        if (score > self.data.test_score) { //如果比历史分数高就更新
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2]; //上一个页面
+          let modelList = prevPage.data.modelList;
+          for (let i = 0; i < modelList.length; i++) {
+            let model = modelList[i];
+            if (id == model.id) {
+              model.test_score = score;
+              prevPage.setData({
+                modelList: modelList
+              })
+            }
+          }
+        }
+
+        //设置已经提交
+        self.setData({
+          isSubmit: true,
+          text: "重新评测",
+        })
+        wx.setStorage({
+          key: 'modelRealIsSubmit' + self.data.id + zcode,
+          data: true,
+        })
+
+        //设置用时
+        wx.setStorage({
+          key: "last_gone_time" + self.data.id + zcode,
+          data: "用时" + time1.getGoneTimeStr(gone_time)
+        })
+        //设置答题板的显示文字
+        self.moniBottom.setData({ //设置时间显示为花费时间
+          timeStr: "用时" + time1.getGoneTimeStr(gone_time)
+        })
+
+        let jibai = res.data.data[0].jibai;
+        wx.navigateTo({
+          url: '/pages/shuati/moni/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone + "&totalscore=" + totalscore + "&id=" + id + "&gone_time=" + gone_time + "&jibai=" + jibai
+        })
+      })
+
+  },
+
+  /**
+ * 重新评测
+ */
+  _restart: function () {
+    let self = this;
+    common.restartModelReal(self);
+  },
 })

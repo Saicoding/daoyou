@@ -9,8 +9,7 @@
     "pages/learn/learn",
     "pages/login/login",
     "pages/learn/play",
-    "pages/shuati/cuoti/cuoti",
-    "pages/shuati/mynote/mynote",
+    "pages/shuati/noteAndErrList/noteAndErrList",
     "pages/shuati/tongji/tongji",
     "pages/user/message/edit",
     "pages/user/message/headimg/weCropper",
@@ -26,7 +25,9 @@
     "pages/shuati/moni/moni",
     "pages/learn/daoyouci_info",
     "pages/shuati/random/random",
-    "pages/shuati/mark/mark"
+    "pages/shuati/mark/mark",
+    "pages/shuati/noteAndErrList/noteAndErr/noteAndErr",
+    "pages/shuati/moni/modelRealScore/modelRealScore"
   ],
   "window": {
     "backgroundTextStyle": "light",

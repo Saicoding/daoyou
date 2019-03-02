@@ -9,7 +9,6 @@ let myanimation = animate.easeOutAnimation();
 let buttonClicked = false;
 let changeVideo = false; //是否是通过点击更换的video
 let changeType = false; //网络类型是否更改
-let currentTime = 1;
 
 let icon = { //图标高度宽度
   'width': 38,
@@ -27,19 +26,24 @@ Page({
     useFlux: false, //是否使用流量观看
     isWifi: true, //默认有wifi
     lastType: "first",
-    product: 'introduction',
+    product: 'option',
     pl: "",
     page_all: '2',
     page_now: '1',
-    text: ""
+    text: "",
+    infowidth:"",
+    //meuntop: "",//获取菜单高度
+    mybar:"",
+    playbackRate: 1,//播放速率  0.5、0.8、1.0、1.25、1.5
+    currentTime: 0//当前播放时间
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
     var kcid = options.kc_id;
     var renshu = options.renshu;
+    
     this.setData({
       kcid: kcid,
       renshu: renshu
@@ -53,7 +57,7 @@ Page({
   onReady: function() {
     let self = this;
     this.payDetail = this.selectComponent("#payDetail");
-    self.myVideo = wx.createVideoContext('myVideo');
+    //self.myVideo = wx.createVideoContext('myVideo');
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -74,7 +78,12 @@ Page({
 
     this.videoContext = wx.createVideoContext('myVideo')
   },
-
+  //改变视频速率
+  beisu: function (e) {
+    var beisu = e.currentTarget.dataset.su*1;
+    this.setData({ playbackRate: beisu });
+    this.videoContext.playbackRate(beisu)
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -90,16 +99,18 @@ Page({
     let img = "";
     let loaded = self.data.loaded;
     let px = 1;
-
-    self.videoContext = wx.createVideoContext('myVideo');
-
-
-    //let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
-    //let scroll = lastpx * 100 * windowWidth / 750;
-
-    // if (lastpx != "") {
-    //   px = lastpx;
-    // }
+    let user = wx.getStorageSync('user');
+    
+    //最后播放视频索引
+    let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
+    let scroll = lastpx * 100 * windowWidth / 750;
+    if (lastpx != "") {
+      px = lastpx.px;
+      //videoID 最后播放视频id
+      //initialTime 最后播放视频时间
+      let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
+      if (lasttime) { this.videoContext.seek(lasttime / 1000) }
+    }
 
     if (loaded == undefined) return;
 
@@ -108,12 +119,19 @@ Page({
 
       let files = res.data.data[0].files; //视频列表
       let currentVideo = files[px - 1];
-
+      
       let buy = res.data.data[0].buy; //是否已经开通
-      let kc_money = res.data.data[0].money; //价格  
-      var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/g;
-      var info3 = res.data.data[0].kc_info.match(srcReg) + "";
-      var info = info3.replace(/src=/i, "").replace(/[\'\"]?/g, "");
+      let kc_money = res.data.data[0].money; //价格 
+      if (res.data.data[0].kc_info) {
+        var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/g;
+        var info3 = res.data.data[0].kc_info.match(srcReg) + "";
+        var info = info3.replace(/src=/i, "").replace(/[\'\"]?/g, "");
+        var infowidth ="94"
+      }else{
+        var info = "/images/hasNopage/hasNopage.png"
+        var infowidth = "40"
+      }
+      
       self.initfiles(files, px)
       self.setData({
         files: files,
@@ -127,9 +145,18 @@ Page({
         kcid: kcid,
         px: px,
         buy: buy,
+        infowidth: infowidth
         //user: user,
         //scroll: scroll
-      })
+      });
+      // setTimeout(() => { //获取菜单高度
+      //   wx.createSelectorQuery().selectAll('.mybar').boundingClientRect(function (rect) {
+      //     var meuntop = rect[0].top;
+      //     self.setData({ meuntop: meuntop});
+      //   }).exec()
+      // }, 1000)
+
+
     })
 
 
@@ -137,25 +164,8 @@ Page({
     self.getPL();
 
   },
-  /**
-   * 初始化视频信息
-   */
-  initfiles: function(files, px) {
-    for (let i = 0; i < files.length; i++) {
-      let video = files[i];
-
-      video.show = true;
-
-      //处理时间
-      let length = Math.ceil(video.time_length);
-      let m = parseInt(length / 60);
-      let s = length % 60 < 10 ? '0' + length % 60 - 1 : length % 60 - 1;
-      video.time_length = m + '分' + s + '秒';
-
-
-    }
-  },
-
+  
+  
   getPL: function() {
     //获取评论列表
     if (this.data.page_now < this.data.page_all) {
@@ -196,7 +206,7 @@ Page({
     let self = this;
     
     let user = wx.getStorageSync('user');
-    console.log(user)
+   
     if (user) {
       let zcode = user.zcode;
       let token = user.token;
@@ -261,7 +271,7 @@ Page({
 
     let lastVideo = files[px - 1]; //上一个视频
     let videoID = lastVideo.id; //上一个视频id
-
+    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
     let currentVideo = files[index]; //点击的这个视频
 
     if (currentVideo.files == "") {
@@ -281,6 +291,7 @@ Page({
     }
 
     let playTime = 0;
+    let currentTime=self.data.currentTime;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
       playTime = currentTime - 10;
     } else if (currentTime > lastVideo.time_length - 10) {
@@ -288,22 +299,33 @@ Page({
     } else {
       playTime = 0;
     }
+    
+    console.log(lastVideo.time_length+"_"+currentTime+"_"+playTime)
 
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length; i++) {
+      if (i < playCourseArr.length - 1) {
+        playCourseStr += playCourseArr[i] + ",";
+      } else {
+        playCourseStr += playCourseArr[i];
+      }
+    }
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
 
-    let angle = currentTime / lastVideo.time_length * 2 * Math.PI;
+    //let angle = currentTime / lastVideo.time_length * 2 * Math.PI;
 
 
 
-    let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
+    //let currentAngle = currentVideo.lastViewLength / currentVideo.time_length * 2 * Math.PI;
 
 
 
-    currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
+    
 
-    if (currentTime >= currentVideo.length - 3) {
+    if (currentVideo.lastViewLength >= currentVideo.time_length - 3) {
       changeVideo = true;
       self.videoContext.stop();
       isPlaying = false;
@@ -313,6 +335,7 @@ Page({
       files: files,
       isPlaying: isPlaying,
       px: index + 1,
+      currentTime : currentVideo.lastViewLength //将当前播放时间置为该视频的播放进度
     })
     wx.pageScrollTo({
       scrollTop: 0
@@ -320,11 +343,27 @@ Page({
     let user = wx.getStorageSync('user');
     if (user) {
       let zcode = user.zcode;
-      //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+      let token = user.token;
+
+      wx.setStorage({
+        key: 'kesub' + kcid + "_" + videoID + "_" +zcode,
+        data: playTime,
+        success: function () {
+          console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
+        },
+        fail: function () {
+          console.log('存储失败')
+        }
+      })
+
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
     }
-
+    //videoID 缓存的视频id
+    //initialTime 缓存的视频时间
+    let hctime = wx.getStorageSync('kesub' + kcid + "_" + files[index].videoID + "_" + user.zcode);
+    if (hctime) { this.videoContext.seek(hctime / 1000) }
   },
-
+  
   /**
    * 视频缓冲时
    */
@@ -335,31 +374,31 @@ Page({
     })
   },
 
-
   /**
    * 播放进度改变时
    */
-  timeupdate: function(e) {
-    // let self = this;
-    // let px = self.data.px;
-    // let files = self.data.files;
-    // let video = files[px - 1];
+  timeupdate: function (e) {
+    let self = this;
+    let px = self.data.px;
+    let files = self.data.files;
+    let video = files[px - 1];
+
+    let m = parseInt(e.detail.currentTime / 60);
+    //let angle = currentTime / video.length * 2 * Math.PI;
+
+    if (video.playCourseArr[m]==0 ){
+      video.playCourseArr[m] = 1;
+    }
 
 
-    // currentTime = e.detail.currentTime; //当前播放进度(秒)
-
-    // let m = parseInt(currentTime / 60);
-    // let angle = currentTime / video.length * 2 * Math.PI;
-
-
-    // if (currentTime % 10 >= 0 && currentTime % 10 <= 1) {
-
-    //   self.setData({
-    //     files: files
-    //   })
-    // }
+    if (e.detail.currentTime % 10 >= 0 && e.detail.currentTime % 10 <= 1) {
+      //self.drawPlay(cv, angle, px - 1, files);
+      self.setData({
+        files: files,
+        currentTime: e.detail.currentTime
+      })
+    }
   },
-
   /**
    * 点击开始播放
    */
@@ -413,10 +452,9 @@ Page({
     if (px == files.length) return; //如果点击的是同一个视频就不做任何操作
 
     let lastVideo = files[px - 1]; //上一个视频
-
+    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
     let videoID = lastVideo.id; //视频id
 
-    //let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
 
     let currentVideo = files[px]; //当前视频
 
@@ -439,6 +477,7 @@ Page({
 
 
     let playTime = 0;
+    let currentTime = self.data.currentTime;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
       playTime = currentTime - 10;
     } else if (currentTime >= lastVideo.time_length - 10) {
@@ -449,12 +488,21 @@ Page({
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length; i++) {
+      if (i < playCourseArr.length - 1) {
+        playCourseStr += playCourseArr[i] + ",";
+      } else {
+        playCourseStr += playCourseArr[i];
+      }
+    }
 
+    let currentAngle = currentVideo.lastViewLength / currentVideo.time_length * 2 * Math.PI;
 
-    let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
+    
 
-    currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
-    if (currentTime >= currentVideo.length - 3) {
+    if (currentVideo.lastViewLength >= currentVideo.time_length - 3) {
       changeVideo = true;
       isPlaying = false;
     }
@@ -463,15 +511,27 @@ Page({
       files: files,
       isPlaying: isPlaying,
       px: px + 1,
+      currentTime : currentVideo.lastViewLength //将当前播放时间置为该视频的播放进度
     })
 
     let user = wx.getStorageSync('user');
     if (user) {
       let zcode = user.zcode;
-      //app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => {
-
-      //})
+      let token = user.token;
+      wx.setStorage({
+        key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
+        data: playTime,
+        success: function () {
+          console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
+        },
+        fail: function () {
+          console.log('存储失败')
+        }
+      })
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
     }
+
+
   },
 
   /**
@@ -511,9 +571,9 @@ Page({
     })
   },
 
-
+  
   /**
-   * 生命周期函数
+   * 生命周期函数--监听页面隐藏
    */
   onHide: function() {
     this.videoContext.pause();
@@ -523,12 +583,28 @@ Page({
     if (user != undefined) {
       let kcid = self.data.kcid;
       let px = self.data.px;
-      wx.setStorageSync('lastVideo' + kcid + user.username, px);
+      //wx.setStorageSync('lastVideo' + kcid + user.zcode, px);
+      let onVideo = files[px]; 
+      let videoID = onVideo.id; 
+      wx.setStorage({
+        key: 'lastVideo' + kcid + user.zcode,
+        data: {
+          px:px,
+          videoID: videoID
+        },
+        success: function () {
+          console.log('lastVideo' + kcid + user.zcode + "_" + px + "_" + videoID)
+        },
+        fail: function () {
+          console.log('存储失败')
+        }
+      })
+
     }
   },
 
   /**
-   * 生命周期函数
+   * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
     let self = this;
@@ -536,11 +612,25 @@ Page({
     let kcid = self.data.kcid;
     let px = self.data.px;
     let files = self.data.files; //当前所有视频
-    let lastVideo = files[px - 1]; //上一个视频
+    let lastVideo = files[px]; 
+    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
+    let videoID = lastVideo.orderid; 
 
-    let videoID = lastVideo.orderid; //视频id
+
+
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length; i++) {
+      if (i < playCourseArr.length - 1) {
+        playCourseStr += playCourseArr[i] + ",";
+      } else {
+        playCourseStr += playCourseArr[i];
+      }
+    }
+
 
     let playTime = 0;
+    let currentTime = self.data.currentTime;
     if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
       playTime = currentTime - 10;
     } else if (currentTime > lastVideo.time_length - 10) {
@@ -549,197 +639,117 @@ Page({
       playTime = 0;
     }
 
-
-    wx.setStorageSync('lastVideo' + kcid + user.username, px);
-
+  
+    wx.setStorage({
+      key: 'lastVideo' + kcid + user.zcode,
+      data: {
+        px: px,
+        videoID: videoID
+      },
+      success: function () {
+        console.log('lastVideo' + kcid + user.zcode + "_" + px + "_" + videoID)
+      },
+      fail: function () {
+        console.log('存储失败')
+      }
+    })
+    //wx.setStorageSync('lastVideo' + kcid + user.zcode, px);
+    
     clearInterval(self.data.interval);
     let user = wx.getStorageSync('user');
     if (user) {
       let zcode = user.zcode;
-      ////app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid, false, true, "").then((res) => { })
+      let token = user.token;
+      wx.setStorage({
+        key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
+        data: playTime,
+        success: function () {
+          console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
+        },
+        fail: function () {
+          console.log('存储失败')
+        }
+      })
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
     }
   },
-
-
   /**
-   * 开通课程
-   */
-  // buy: function (e) {
-  //   let self = this;
-  //   let kcid = self.data.kcid;
-  //   let px = self.data.px;
-  //   let product = self.data.kcid;
-  //   let code = "";
-  //   let user = wx.getStorageSync('user');
-  //   ; //用户登录随机值
-  //   let zcode = user.zcode; //客户端id号
+         * 初始化视频信息
+         */
+  initfiles: function (files, px) {
+    for (let i = 0; i < files.length; i++) {
+      let video = files[i];
+      video.show = true;
+      let flag = video.Flag;
 
-  //   // 登录
-  //   wx.login({
-  //     success: res => {
-  //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
-  //       code = res.code;
-  //       app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
-  //         let openid = res.data.openid;
-
-
-  //         app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
-
-  //           let status = res.data.status;
-  //           console.log(status)
-
-  //           if (status == 1) {
-  //             let timestamp = Date.parse(new Date());
-  //             timestamp = timestamp / 1000;
-  //             timestamp = timestamp.toString();
-  //             let nonceStr = "TEST";
-  //             let prepay_id = res.data.prepay_id;
-  //             let appId = "wxf90a298a65cfaca8";
-  //             let myPackage = "prepay_id=" + prepay_id;
-  //             let key = "e625b97ae82c3622af5f5a56d1118825";
-
-  //             let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-  //             let paySign = md5.md5(str).toUpperCase();
-
-  //             let myObject = {
-  //               'timeStamp': timestamp,
-  //               'nonceStr': nonceStr,
-  //               'package': myPackage,
-  //               'paySign': paySign,
-  //               'signType': "MD5",
-  //               success: function (res) {
-  //                 if (res.errMsg == "requestPayment:ok") { //成功付款后
-  //                   app.post(API_URL, "action=BuyTC&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
-
-  //                     wx.showToast({
-  //                       title: '开通成功',
-  //                       icon: 'none',
-  //                       duration: 3000
-  //                     })
-
-  //                     self.setData({
-  //                       loaded: false,
-  //                     })
-
-  //                     app.post(API_URL, "action=getCourseShow&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-
-  //                       let files = res.data.data[0].files; //视频列表
-  //                    
-  //                      
-  //                       self.setData({
-  //                         files: files,
-  //                         loaded: true,
-  //                       })
-  //                     })
-  //                   })
-  //                 }
-  //               },
-  //               fail: function (res) { }
-  //             }
-  //             wx.requestPayment(myObject)
-  //           }
-  //         })
-
-  //       })
-  //     }
-  //   })
-  // },
-  /**
-   * 弹出支付详细信息
-   */
-  showPayDetail: function(e) {
-
-    this.payDetail.showDialog();
-
+      //处理时间
+      let length = Math.ceil(video.time_length);
+      let m = parseInt(length / 60);
+      let s = length % 60 < 10 ? '0' + length % 60 - 1 : length % 60 - 1;
+      video.time = m + '分' + s + '秒';
+      video.playCourseArr=[];
+      //初始化已观看视频的时间数组
+      if (video.playCourseArr=="") { //如果是空数组，说明是首次观看
+        if (s !== "00") {
+          for (let i = 0; i < m + 1; i++) {
+            video.playCourseArr.push(0);
+          }
+        }
+      }
+    }
   },
-
   /**
-   * 提交支付
+   * 是否真正看完
    */
-  // _submit: function (e) {
-  //   let self = this;
+  ifEnd: function (video) {
+    let end = true;
+    if (video.playCourseArr){
+    for (let i = 0; i < video.playCourseArr.length; i++) {
+      let playCourse = video.playCourseArr[i];
+      if (playCourse == 0) {
+        end = false;
+        break;
+      }
+    }
+    return end;
+    }else{
+      end =false
+    }
+  },
+  //滚动屏幕时菜单浮动  有延迟  不好用
+  // onPageScroll: function (e) {
 
-  //   let product = e.detail.product;
-  //   let kcid = self.data.kcid;
-  //   let px = self.data.px;
-  //   let code = "";
-  //   let user = wx.getStorageSync('user');
-  //   ; //用户登录随机值
-  //   let zcode = user.zcode; //客户端id号
-
-  //   // 登录
-  //   wx.login({
-  //     success: res => {
-  //       // 发送 res.code 到后台换取 openId, sessionKey, unionId
-  //       code = res.code;
-  //       app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
-  //         let openid = res.data.openid;
-
-  //         app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
-
-  //           let status = res.data.status;
-
-  //           if (status == 1) {
-  //             let timestamp = Date.parse(new Date());
-  //             timestamp = timestamp / 1000;
-  //             timestamp = timestamp.toString();
-  //             let nonceStr = "TEST";
-  //             let prepay_id = res.data.prepay_id;
-  //             let appId = "wxf90a298a65cfaca8";
-  //             let myPackage = "prepay_id=" + prepay_id;
-  //             let key = "e625b97ae82c3622af5f5a56d1118825";
-
-  //             let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-  //             let paySign = md5.md5(str).toUpperCase();
-
-  //             let myObject = {
-  //               'timeStamp': timestamp,
-  //               'nonceStr': nonceStr,
-  //               'package': myPackage,
-  //               'paySign': paySign,
-  //               'signType': "MD5",
-  //               success: function (res) {
-  //                 if (res.errMsg == "requestPayment:ok") { //成功付款后
-  //                   app.post(API_URL, "action=BuyTC&zcode=" + zcode + "&product=" + product, true, false, "开通中").then((res) => {
-  //                     self.setData({ //设置已经开通
-  //                       buy: 1
-  //                     })
-  //                     wx.showToast({
-  //                       title: '开通成功',
-  //                       icon: 'none',
-  //                       duration: 3000
-  //                     })
-
-  //                     self.setData({
-  //                       loaded: false,
-  //                     })
-
-  //                     app.post(API_URL, "action=getCourseShow&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-  //                       let files = res.data.data[0].files; //视频列表
-
-
-  //                      
-
-  //                       self.setData({
-  //                         files: files,
-  //                         loaded: true,
-  //                       })
-  //                     })
-  //                   })
-  //                 }
-  //               },
-  //               fail: function (res) { }
-  //             }
-  //             wx.requestPayment(myObject)
-  //           }
-  //         })
-  //       })
-  //     }
-  //   })
+  //   if (e.scrollTop> this.data.meuntop){
+  //      this.setData({
+  //        mybar:"on"
+  //      })
+  //   }else{
+  //     this.setData({
+  //       mybar: ""
+  //     })
+  //   }
   // },
+  //滚动屏幕时出现返回顶部  有延迟  不好用
+  onPageScroll: function (e) {
+
+    if (e.scrollTop> 400){
+       this.setData({
+         mybar:"on"
+       })
+    }else{
+      this.setData({
+        mybar: ""
+      })
+    }
+  },
   /**
    * 改变产品时
    */
+  scrolltop: function (e) {
+    wx.pageScrollTo({
+      scrollTop: 0
+    })
+  },
   changeOption: function(e) {
     let self = this;
     let currentProduct = self.data.product; //当前种类
@@ -749,11 +759,11 @@ Page({
     let windowWidth = self.data.windowWidth; //窗口宽度
     let moveData = undefined; //动画
     if (product == "introduction") {
-      moveData = animate.moveX(easeOutAnimation, 0);
+      moveData = animate.moveX(easeOutAnimation, -250 * (windowWidth / 750));
     } else if (product == "option") {
-      moveData = animate.moveX(easeOutAnimation, 250 * (windowWidth / 750));
+      moveData = animate.moveX(easeOutAnimation, 0);
     } else {
-      moveData = animate.moveX(easeOutAnimation, 500 * (windowWidth / 750));
+      moveData = animate.moveX(easeOutAnimation, 250 * (windowWidth / 750));
     }
 
     self.setData({
@@ -767,13 +777,8 @@ Page({
    */
   goPay: function() {
     wx.navigateTo({
-      url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money
-    })
-  },
-  goPay2: function () {
-
-    wx.navigateTo({
-      url: ''
+      url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money + '&title=' + this.data.kc_name + '&keshi=' + this.data.files.length + '&teacher=' + this.data.teacher
     })
   }
+  
 })

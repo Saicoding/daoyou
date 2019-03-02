@@ -28,9 +28,9 @@
 .up-text1{
   clear: both;
   width:100%;
-  height:60rpx;
-  line-height: 60rpx;
-  font-size:25rpx;
+  height:40rpx;
+  line-height: 40rpx;
+  font-size:26rpx;
   font-weight: bolder;
 }
 
@@ -40,22 +40,25 @@
   height:140rpx;
   line-height: 120rpx;
 }
-
-.taocan{
+.taocanP {height: 60rpx;margin-top:30rpx; line-height: 60rpx;}
+.taocanP .taocan{
   width:380rpx;
   height:60rpx;
   line-height: 60rpx;
   font-size:28rpx;
   text-align: center;
   border-radius: 8rpx;
-  margin-top:30rpx;
+  float: left;
 }
+.taocanP text { font-size: 24rpx; color: #aaa; float: left; margin-left: 20px;}
+
 
 .info{
   font-size:25rpx;
-  color:#929292;
+  color:#999;
   line-height:40rpx;
 }
+.info view { margin-top: 6rpx;}
 
 .up-btn{
   width:88%;
@@ -68,7 +71,7 @@
   color:white;
   border-radius: 10rpx;
   font-size:28rpx;
-  margin-top:50rpx;
+  margin-top:40rpx;
   box-shadow: 3rpx 3rpx 14rpx 5rpx rgba(0, 221, 133,0.3);
 }
 

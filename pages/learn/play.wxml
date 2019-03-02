@@ -1,7 +1,6 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting"
-  custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
+<video bindtap="tooglePlay" id="myVideo" class='myVideo' controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
   
   <!-- <view class="unBuy" wx:if="{{buy==0}}">
     <image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
@@ -13,8 +12,17 @@
   </view>
 
 </video>
+
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
+  <!--倍速-->
+  
+  <view class='beisu {{playbackRate=="1.5"?"on":""}}' bindtap='beisu' data-su='1.5'>x1.5</view>
+  <view class='beisu {{playbackRate=="1.25"?"on":""}}' bindtap='beisu' data-su='1.25'>x1.25</view>
+  <view class='beisu {{playbackRate=="1.0"?"on":""}}' bindtap='beisu' data-su='1.0'>x1.0</view>
+  <view class='beisu {{playbackRate=="0.8"?"on":""}}' bindtap='beisu' data-su='0.8'>x0.8</view>
+  <text class='beisu tar' style='border:0'>速率：</text>
+  <view class='clear'></view>
   <!-- 视频 -->
   <view class="up-block" wx:if="{{product != 'pingjia'}}">
     <view class='kc_money'>
@@ -57,11 +65,11 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <scroll-view scroll-top="{{scroll}}" scroll-y style="height:{{windowHeight-90}}rpx; padding-bottom: 100rpx;" scroll-with-animation>
+  <view style="padding-bottom: 180rpx;">
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
 
-      <image style='width:94%' src='{{info}}' mode='widthFix'></image>
+      <image style='width:{{infowidth}}%' src='{{info}}' mode='widthFix'></image>
 
     </view>
 
@@ -72,7 +80,7 @@
 
           <view class="title-block">
             <view class="title">{{video.filesname}}</view>
-            <view class="view-time">{{video.time_length}}</view>
+            <view class="view-time">{{video.time}}</view>
           </view>
         </view>
       </view>
@@ -99,7 +107,7 @@
         <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
       </view>
     </view>
-  </scroll-view>
+  </view>
 
   <!-- bottom -->
   <!-- android -->
@@ -113,7 +121,6 @@
     <view class="bottom-buy" style="width:100%;">点此开通</view>
   </view> -->
 </view>
+<view class='scrolltop f12 hui {{mybar}}' bindtap='scrolltop'>top</view>
 
 
-<!-- 支付详细信息 -->
-<payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

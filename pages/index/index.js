@@ -78,6 +78,8 @@ Page({
         banners: banners
       })
     })
+
+
   },
 
   /**
@@ -182,6 +184,7 @@ Page({
     if (first) { //如果第一次载入
 
     }
+
   },
 
   /**

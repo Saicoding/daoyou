@@ -5,20 +5,25 @@
     <image class ="up-close-icon" src="/images/close.png"></image>
   </view>
 
-  <view class ="up-text1">已选套餐:{{taocans[currentIndex].title}}</view>
+  <view class ="up-text1"><text class="hui">已选套餐：</text>{{taocans[currentIndex].title}}</view>
   <view class ="up-text2">团购价：<span style = "font-size:38rpx;color:#fd4f64;letter-spacing:3rpx;">¥{{taocans[currentIndex].price_tuan}}</span> 　　原价：¥{{taocans[currentIndex].price_old}}</view>
 
   <view class ="up-text1">选择学习套餐</view>
 
-  <view wx:for = "{{taocans}}" wx:for-item = "taocan" wx:key = "t">
+  <view wx:for = "{{taocans}}" wx:for-item = "taocan" wx:key = "t" class='taocanP'>
     <view data-index="{{index}}" class ="taocan" bindtap = "changeTaocan" style = "background:{{index == currentIndex?'#1ccb64':'#f2f2f2'}};color:{{index == currentIndex?'white':'black'}};">{{taocan.title}}</view>
+    <text> {{taocan.num*13+160}}人已购买</text>
   </view>
 
-  <view class ="up-text1" style = "margin-top:50rpx;">价格说明</view>
+  <view class ="up-text1" style = "margin-top:40rpx;">价格说明</view>
 
-  <view class ="info">{{taocans[currentIndex].info}}</view>
+  <view class ="info">
+  <view wx:for="{{taocans[currentIndex].info}}" wx:for-item="info" wx:key="i">{{info}}</view>
+  
+  
+  </view>
 
-  <view class ="up-btn" bindtap = "_confirm">确定</view>
+  <view class ="up-btn {{taocans[currentIndex].buy==1?'hui':''}}" bindtap = "_confirm">确定</view>
 </view>
 
 <view wx:if="{{isShow && downShow}}" class="down" catchtap='stopBubbling'>
