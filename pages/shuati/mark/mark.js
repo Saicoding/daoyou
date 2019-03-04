@@ -81,11 +81,9 @@ Page({
       if (first) { //只允许载入一次
         let px = 1; //最后一次浏览的题的编号
         app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
-          console.log(res)
           let result = res.data.data[0];
           let shitiArray = result.list;
           let all_nums = parseInt(result.records_all);
-          console.log(all_nums)
           let beginTimestamp = Date.parse(new Date());
 
           if (shitiArray.length == 0) {
@@ -195,8 +193,6 @@ Page({
     common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
     common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
-    console.log(shiti.isAnswer)
-
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
@@ -287,7 +283,7 @@ Page({
             pageArray: pageArray,
           })
 
-          app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + nextPage, false, true, "", true, self).then((res) => {
+          app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + nextPage, false, false, "", "", false, self).then((res) => {
 
             let newWrongShitiArray = res.data.data[0].list;
 
@@ -320,7 +316,7 @@ Page({
             pageArray: pageArray,
           })
 
-          app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + prePage, false, true, "", true, self).then((res) => {
+          app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + prePage, false, false, "", "", false, self).then((res) => {
 
             let newWrongShitiArray = res.data.data[0].list;
 
@@ -443,8 +439,9 @@ Page({
     let shitiArray = self.data.shitiArray;
     let options = self.data.options;
 
-    let user = self.data.user;
+    let user = wx.getStorageSync('user');
     let zcode = user.zcode == undefined ? '' : user.zcode;
+    let token = user.token?user.token:'';
 
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数
@@ -478,8 +475,8 @@ Page({
           pageArray: pageArray
         })
 
-        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular);
-        self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular);
+        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular, zcode,token);
+        self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
 
       } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { //如果是页码的最后一题,并且有下一页，并且不在已渲染数组中
         pageArray.push(nextPage);
@@ -487,15 +484,15 @@ Page({
           pageArray: pageArray
         })
 
-        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular);
-        self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular);
+        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
+        self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
 
       } else {
         self.setData({
           pageArray: pageArray,
           allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
         })
-        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular);
+        self.getNewShiti(options, page, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
       }
 
     } else if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果本页已经渲染，但上一页没有渲染
@@ -505,7 +502,7 @@ Page({
         pageArray: pageArray,
         allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
       })
-      self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular);
+      self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
     } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { ////如果本页已经渲染，但上一页没有渲染
       pageArray.push(nextPage);
       self.setData({
@@ -513,7 +510,7 @@ Page({
         pageArray: pageArray,
         allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
       })
-      self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular);
+      self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular, zcode, token);
     } else {
       common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
     }
@@ -522,11 +519,11 @@ Page({
   /**
    * 得到新一组试题
    */
-  getNewShiti: function(options, page, midShiti, preShiti, nextShiti, px, current, circular) {
+  getNewShiti: function (options, page, midShiti, preShiti, nextShiti, px, current, circular, zcode, token) {
     let self = this;
     let shitiArray = self.data.shitiArray;
+    app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
 
-    app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page, false, false, "", true, self).then((res) => {
       let newWrongShitiArray = res.data.data[0].list;
 
       common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
@@ -822,5 +819,21 @@ Page({
     this.setData({
       noteShow: true
     })
+  },
+  /**
+ * 导航到学习计划
+ */
+  _GOxuexijihua: function () {
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
+   * 显示错题
+   */
+  _viewWrong: function () {
+    this.tongji.hideDialog();
+    this.markAnswer.showDialog();
   }
 })

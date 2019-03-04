@@ -165,7 +165,22 @@ Component({
     //点击开始刷题按钮
     _GOzuoti:function(e){
       this.hideDialog();
-      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum,num_dan:this.data.num_dan,num_duo:this.data.num_duo,num_pan:this.data.num_pan});//传三个参数,1.当前选择的题型(全部、单选、多选、判断).2.已做的题还是未做的题(默认是未做的题).3.章节id 
+      /**
+       * 参数说明：
+       * 1.currentSelectIndex:当前选择的题型类别(全选、单选、多选、判断)；
+       * 2.selected：选择全部还是未做的题
+       * 3.f_id：点击的节id
+       * 4.title:点击的节标题
+       * 5.all_nums:该节题数
+       * 6.donenum:已做题数
+       * 7.num_dan:单选题数
+       * 8.num_duo:多选题数
+       * 9.num_pan:判断题数
+       * 10.zhangIdx:点击的章index
+       * 11.jieIdx:点击的节index
+       */
+
+      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum,num_dan:this.data.num_dan,num_duo:this.data.num_duo,num_pan:this.data.num_pan,zhangIdx:this.data.zhangIdx,jieIdx:this.data.jieIdx});
     }
   }
 

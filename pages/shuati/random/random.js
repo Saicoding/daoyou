@@ -44,7 +44,6 @@ Page({
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&leibie=0&random=1", false, false, "", "", false, self).then((res) => {
       let result = res.data.data[0];
       let shitiArray = result.list;
-      console.log(shitiArray)
       let all_nums = 10;
 
       let pageall = 1;
@@ -502,14 +501,12 @@ Page({
     //如果渲染数组不包含当前页面
     if (pageArray.indexOf(page) == -1) {
       pageArray.push(page);
-      console.log('一');
       self.setData({
         allLoaded: [], //设置正在载入的page个数 0 1 2 ，当个数为2时说明已经载入完毕
         isLoaded: false,
       })
 
       if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果是页码的第一题,并且有上一页,并且不在已渲染数组中
-        console.log('二');
         pageArray.push(prepage);
         self.setData({
           pageArray: pageArray
@@ -519,7 +516,6 @@ Page({
         self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular);
 
       } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { //如果是页码的最后一题,并且有下一页，并且不在已渲染数组中
-        console.log('三');
         pageArray.push(nextPage);
         self.setData({
           pageArray: pageArray
@@ -529,7 +525,6 @@ Page({
         self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular);
 
       } else {
-        console.log('四');
         self.setData({
           pageArray: pageArray,
           allLoaded: [1], //设置正在载入的page个数 0 1 2,只请求一个页面，这时把allLoaded长度直接设为1
@@ -539,7 +534,6 @@ Page({
 
     } else if (px % 10 >= 1 && px % 10 <= 4 && prepage >= 1 && pageArray.indexOf(prepage) == -1) { //如果本页已经渲染，但上一页没有渲染
       pageArray.push(prepage);
-      console.log('五');
       self.setData({
         isLoaded: false,
         pageArray: pageArray,
@@ -547,7 +541,6 @@ Page({
       })
       self.getNewShiti(options, prepage, midShiti, preShiti, nextShiti, px, current, circular);
     } else if ((px % 10 >= 6 || px % 10 == 0) && nextPage <= pageall && pageArray.indexOf(nextPage) == -1) { ////如果本页已经渲染，但上一页没有渲染
-      console.log('六');
       pageArray.push(nextPage);
       self.setData({
         isLoaded: false,
@@ -556,7 +549,6 @@ Page({
       })
       self.getNewShiti(options, nextPage, midShiti, preShiti, nextShiti, px, current, circular);
     } else {
-      console.log('七');
       common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
     }
   },
@@ -569,7 +561,6 @@ Page({
     let shitiArray = self.data.shitiArray;
 
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page, false, false, "", true, self).then((res) => {
-      console.log(res)
       let newWrongShitiArray = res.data.data[0].list;
 
       common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
@@ -718,13 +709,11 @@ Page({
           jie.donenum += doneAnswerArray.length - donenum;
           jie.donenum = this.data.restart ? 0 : jie.donenum;
           jie.rateWidth = 490 * jie.donenum / parseInt(jie.all_num);
-          console.log(doneAnswerArray.length + "||" + donenum)
           mytiku.donenum += doneAnswerArray.length - donenum;
           if (this.data.restart) {
             mytiku.donenum = 0;
           }
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
-          console.log(mytikuArray)
           prePage.setData({
             zhangjies: mytikuArray,
             tiku: tiku

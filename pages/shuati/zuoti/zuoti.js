@@ -724,6 +724,8 @@ Page({
     let options = this.data.options;
     let currentIndex = options.currentIndex;
     let currentMidIndex = options.currentMidIndex;
+    let zhangIdx = options.zhangIdx;
+    let jieIdx = options.jieIdx;
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;//当前题库标识
 
 
@@ -732,7 +734,7 @@ Page({
     if(!tiku){
       wx.setStorage({//设置数据有改变的题库编号
         key: 'change' + zcode,
-        data: { currentIndex: currentIndex, currentMidIndex: currentMidIndex }
+        data: { currentIndex: currentIndex, currentMidIndex: currentMidIndex, zhangIdx: zhangIdx, jieIdx: jieIdx}
       })
       return
     }

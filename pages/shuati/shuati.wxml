@@ -87,7 +87,7 @@
 
           <view class="ti-block-shu"></view>
 
-          <view data-f_id = "{{zhangjie.id}}" style="height:90rpx;width:90rpx;"  data-rightRate="{{zhangjie.rightrate}}" data-doneNum="{{zhangjie.donenum}}" data-num="{{zhangjie.all_num}}" data-title="{{zhangjie.title}}" catchtap="showAnswerModel">
+          <view data-f_id = "{{zhangjie.id}}" style="height:90rpx;width:90rpx;"  data-rightRate="{{zhangjie.rightrate}}" data-doneNum="{{zhangjie.donenum}}" data-num="{{zhangjie.all_num}}" data-title="{{zhangjie.title}}" >
             <image class="ti-block-answer" src="/images/answer.png"></image>
           </view>
         </view>
@@ -96,11 +96,11 @@
         <!-- 节 -->
         <view class="jie"  animation="{{!zhangjie.isFolder?zhangjie.spreadData:zhangjie.folderData}}" >
           <view wx:for="{{zhangjie.list}}" wx:for-item="jie" wx:key="j" wx:for-index="jieIdx">
-            <view  data-f_id="{{jie.id}}" data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel" >
+            <view data-zhangidx = "{{zhangIdx}}" data-jieidx = "{{jieIdx}}"  data-f_id="{{jie.id}}" data-rightRate="{{jie.rightrate}}" data-doneNum="{{jie.donenum}}" data-num="{{jie.all_num}}" data-title="{{jie.title}}" class="ti-block" bindtap="showAnswerModel" hover-class='select1' hover-stay-time='500' >
               <image class="jie-dot" src="/images/dot.png"></image>
               <view class="ti-block-line" style="margin-left:40rpx;">
                 <view class="ti-block-line1">
-                  <view class="ti-block-line1-title wp">{{jie.title}}</view>
+                  <view class="ti-block-line1-title wp" style = "color:{{jie.selected?'rgb(233, 73, 10);':jie.donenum == jie.all_num?'rgb(165, 165, 165);':'black'}}">{{jie.title}}</view>
                   <view class="ti-block-line1-num">{{jie.donenum}}/{{jie.all_num}}</view>
                 </view>
                 <view class="ti-block-line2"></view>

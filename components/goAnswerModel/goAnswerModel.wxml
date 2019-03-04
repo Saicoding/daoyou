@@ -26,11 +26,11 @@
 
   <!-- 滑块 -->
   <view class="switch">
-    <view class="switch-label" style="color:{{selected?'#36d787':'#e0e0e0'}}">已做的题</view>
+    <view class="switch-label" style="color:{{selected?'#36d787':'#e0e0e0'}}">全部</view>
     <view class="switch-container">
       <switch class="switch-body" checked bindchange="switchChange"></switch>
     </view>
-    <view class="switch-label" style="color:{{!selected?'#36d787':'#e0e0e0'}}">未做的题</view>
+    <view class="switch-label" style="color:{{!selected?'#36d787':'#e0e0e0'}}">继续做题</view>
   </view>
 
   <!-- 开始刷题 -->

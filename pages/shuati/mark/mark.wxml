@@ -64,7 +64,7 @@
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
 
 <!-- 点击返回按钮后的统计面板 -->
-<tongji id="tongji" statusBarHeight="{{statusBarHeight}}" bindtoBack="_toBack"></tongji>
+<tongji id="tongji" statusBarHeight="{{statusBarHeight}}" bindtoBack="_toBack" bindviewWrong = "_viewWrong" bindGOxuexijihua = "_GOxuexijihua"></tongji>
 
 <!-- 笔记输入框 -->
 <view wx:if="{{showbiji}}" class="biji">

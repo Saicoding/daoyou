@@ -83,7 +83,6 @@ Page({
 
     if (change) { //如果数据有改变就设置
       types = self.getkemuIDByindex(parseInt(change.currentIndex)); //科目id
-
       self.setData({
         currentIndex: parseInt(change.currentIndex),
         currentMidIndex: parseInt(change.currentMidIndex)
@@ -123,9 +122,7 @@ Page({
 
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
-      console.log("action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode)
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys+"&token="+token+"&zcode="+zcode, false, false, "", "").then(res => {
-        console.log(res)
         let zhangjies = res.data.data;
         tiku[zhangjieLoadedStr] = zhangjies;
 
@@ -169,7 +166,6 @@ Page({
    * 获取做题进度
    */
   getZuotiJindu: function(token, zcode, types, self) {
-    console.log("action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types)
     app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
       let jindu = res.data.data[0].jindu;
       self.setData({
@@ -304,10 +300,8 @@ Page({
         first: false
       })
     } else { //如果已被污染
-      console.log(1)
       let change = wx.getStorageSync('change' + zcode);
       if (change) { //如果有更新数据
-        let change = wx.removeStorageSync('change' + zcode);
         self.setData({
           currentIndex: parseInt(change.currentIndex),
           currentMidIndex: parseInt(change.currentMidIndex)
@@ -334,6 +328,8 @@ Page({
           tiku[zhangjieLoadedStr] = zhangjies;
           wx.removeStorageSync('change' + zcode);
 
+          
+
           self.setData({
             zhangjies: zhangjies,
             tiku: tiku,
@@ -348,7 +344,6 @@ Page({
         self.getZuotiJindu(token, zcode, types, self);
 
       } else { //如果没有数据更新,说明是正常返回的页面
-        console.log(3)
         let types = self.getkemuIDByindex(currentIndex); //科目id
         //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
         self.getZuotiJindu(token, zcode, types, self);
@@ -618,12 +613,16 @@ Page({
    * 答题弹窗提示
    */
   showAnswerModel: function(e) {
+    console.log(e)
     let self = this;
     let num = e.currentTarget.dataset.num; //总题数
     let donenum = e.currentTarget.dataset.donenum; //已答数目
     let rightrate = e.currentTarget.dataset.rightrate; //正确率
     let title = e.currentTarget.dataset.title; //点击的标题
     let f_id = e.currentTarget.dataset.f_id; //章节id
+    let zhangIdx = e.currentTarget.dataset.zhangidx;//章的idx
+    let jieIdx = e.currentTarget.dataset.jieidx;//章的idx
+
     let currentIndex = this.data.currentIndex;
     let modelIndex = this.goAnswerModel.data.currentIndex;
     let typesid = this.getkemuIDByindex(currentIndex);
@@ -634,7 +633,9 @@ Page({
         donenum: donenum,
         rightrate: rightrate,
         title: title,
-        f_id: f_id
+        f_id: f_id,
+        zhangIdx: zhangIdx,
+        jieIdx: jieIdx
       })
 
       this.goAnswerModel.showDialog();
@@ -668,7 +669,9 @@ Page({
           num_duo: result.num_duo,
           num_pan: result.num_pan,
           types: types,
-          currentIndex: modelIndex
+          currentIndex: modelIndex,
+          zhangIdx: zhangIdx,
+          jieIdx: jieIdx
         })
 
         self.goAnswerModel.setNum();
@@ -709,13 +712,14 @@ Page({
           types[3].none = false;
         }
 
-
         self.goAnswerModel.setData({
           num_dan: result.num_dan,
           num_duo: result.num_duo,
           num_pan: result.num_pan,
           types: types,
-          currentIndex: modelIndex
+          currentIndex: modelIndex,
+          zhangIdx: zhangIdx,
+          jieIdx: jieIdx
         })
 
       })
@@ -738,9 +742,25 @@ Page({
     let num_dan = e.detail.num_dan; //单选题数量
     let num_duo = e.detail.num_duo; //多选题数量
     let num_pan = e.detail.num_pan; //判断题数量
+    let zhangIdx = e.detail.zhangIdx;//点击的章index
+    let jieIdx = e.detail.jieIdx;//点击的节index
+    let lastZhangeIdx = this.data.lastZhangeIdx ? this.data.lastZhangeIdx:0;
+    let lastJieIdx = this.data.lastJieIdx ? this.data.lastJieIdx:0;
+    let zhangjies = this.data.zhangjies;//当前科目所有章节
+
+    console.log(zhangIdx, lastZhangeIdx, jieIdx, lastJieIdx)
+    if (!(zhangIdx == lastZhangeIdx && jieIdx ==lastJieIdx)){//点击了不同章节
+      zhangjies[lastZhangeIdx].list[lastJieIdx].selected = false;
+      zhangjies[zhangIdx].list[jieIdx].selected = true;
+      this.setData({
+        lastZhangeIdx: zhangIdx,
+        lastJieIdx: jieIdx,
+        zhangjies: zhangjies
+      })
+    }
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex + "&zhangIdx=" + zhangIdx +"&jieIdx="+jieIdx,
     })
   },
 
@@ -800,8 +820,6 @@ Page({
     let nums = e.detail.nums;//总数
     let totalscore = e.detail.maxScore;//总分
     let text_score = e.detail.highScore;//最高分
-
-    console.log(text_score)
 
     wx.navigateTo({
       url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums + "&totalscore=" + totalscore + "&text_score=" + text_score
