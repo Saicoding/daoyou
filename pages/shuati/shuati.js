@@ -169,6 +169,7 @@ Page({
    * 获取做题进度
    */
   getZuotiJindu: function(token, zcode, types, self) {
+    console.log("action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types)
     app.post(API_URL, "action=getTiJindu&token=" + token + "&zcode=" + zcode + "&typesid=" + types, false, false, "", "", false, self).then(res => {
       let jindu = res.data.data[0].jindu;
       self.setData({
@@ -300,8 +301,10 @@ Page({
         first: false
       })
     } else { //如果已被污染
+      console.log(1)
       let change = wx.getStorageSync('change' + zcode);
       if (change) { //如果有更新数据
+        let change = wx.removeStorageSync('change' + zcode);
         self.setData({
           currentIndex: parseInt(change.currentIndex),
           currentMidIndex: parseInt(change.currentMidIndex)
@@ -342,8 +345,8 @@ Page({
         self.getZuotiJindu(token, zcode, types, self);
 
       } else { //如果没有数据更新,说明是正常返回的页面
+        console.log(3)
         let types = self.getkemuIDByindex(currentIndex); //科目id
-
         //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
         self.getZuotiJindu(token, zcode, types, self);
       }
@@ -578,7 +581,6 @@ Page({
     let id = e.currentTarget.dataset.id;
     let time = e.currentTarget.dataset.time;
     let nums = e.currentTarget.dataset.nums;
-    console.log(e)
     let highScore = parseInt(e.currentTarget.dataset.highscore);
     let maxScore = parseInt(e.currentTarget.dataset.maxscore);
 

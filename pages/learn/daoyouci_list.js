@@ -34,6 +34,7 @@ Page({
   getList: function () {
     var that = this;
     if (this.data.page_now < this.data.page_all){
+      that.setData({ loadingMore:true});
     app.post(API_URL, "action=getDaoyouciList&page=" + (this.data.page_now*1+1) + "&province=" + this.data.val, false, false, "", "", "", self).then(res => {
 
       let newcourse = res.data.data[0].list;

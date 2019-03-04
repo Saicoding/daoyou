@@ -90,9 +90,11 @@ Page({
    */
   GOnoteAndErr:function(e){
     let typesid = this.data.options.typesid;
+    let type = this.data.options.type;
     let title =  e.currentTarget.dataset.title;
+
     wx.navigateTo({
-      url: '/pages/shuati/noteAndErrList/noteAndErr/noteAndErr?title=' + title + "&typesid=" + typesid,
+      url: '/pages/shuati/noteAndErrList/noteAndErr/noteAndErr?title=' + title + "&typesid=" + typesid + "&type=" + type,
     })
   },
 

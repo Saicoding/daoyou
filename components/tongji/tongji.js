@@ -49,6 +49,20 @@ Component({
     },
 
     /**
+     * 查看错题
+     */
+    _viewWrong:function(){
+      this.triggerEvent('viewWrong');
+    },
+
+    /**
+     * 导航到学习计划
+     */
+    _GOxuexijihua:function(){
+      this.triggerEvent('GOxuexijihua');
+    },
+
+    /**
      * 点击继续做题按钮
      */
     jixuzuoti:function(){

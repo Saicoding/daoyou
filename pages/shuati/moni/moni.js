@@ -717,6 +717,7 @@ Page({
   * 点击立即交卷后
   */
   _submit: function () {
+
     let self = this;
     let shitiArray = self.data.shitiArray; //所有试题
     let id = self.data.id; //真题的id号
@@ -758,18 +759,14 @@ Page({
 
       switch (doneAnswer.select) {
         case "1"://单选
-          score += danxuan_fen;
-        break;
+          score += !doneAnswer.isRight?danxuan_fen:0;
         case "2"://多选
-          score += duoxuan_fen;
-          break;
+          score += !doneAnswer.isRight?duoxuan_fen:0;
         case "3"://判断
-          score += panduan_fen;
-          break;
+          score += !doneAnswer.isRight?panduan_fen:0;
       }
     }
 
-    console.log(score)
     clearInterval(self.data.interval); //停止计时
 
     undone = allNums - rightNums - wrongNums; //计算出未做题数

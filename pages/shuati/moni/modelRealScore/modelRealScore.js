@@ -33,9 +33,7 @@ Page({
     let timeStr = time.getGoneTimeStr(gone_time);//时间字符串
 
     let textColor = null;//显示及格状态的文字
-    console.log(score)
-    console.log(totalscore)
-    console.log(score / totalscore)
+
     if (score / totalscore < 0.3) {//不及格
       ifGood = '糟糕透了!';
       textColor = "red";

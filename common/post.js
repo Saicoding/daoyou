@@ -177,7 +177,7 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
     myFavorite: myFavorite, //是否收藏
     nums: all_nums, //题数
     pageall: pageall, //总页数
-
+    T: options.type == "note" ? 'test_notes' : 'test_ErrorShiti',//请求数据的参数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray, //滑动数组
     lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0

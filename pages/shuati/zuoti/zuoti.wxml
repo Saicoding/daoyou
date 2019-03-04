@@ -36,7 +36,7 @@
 
           <!-- 笔记 -->
           <view wx:if="{{shiti.note}}" class="note">
-            <span style="font-weight:bold;color:#58c063;">我的笔记:</span>{{noteText}}
+            <span style="font-weight:bold;color:#58c063;">我的笔记:</span>{{shiti.note}}
           </view>
         </scroll-view>
       </swiper-item>

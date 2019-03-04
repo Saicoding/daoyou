@@ -1,4 +1,4 @@
-// components/jiesuo/jiesuo.js
+
 Component({
   /**
    * 组件的属性列表
@@ -6,7 +6,8 @@ Component({
   properties: {
     windowHeight: {
       type: Number,
-      value: 1333
+      value: 1333,
+      
     }
   },
 

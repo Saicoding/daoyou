@@ -15,7 +15,8 @@ Component({
    */
   data: {
     isShow: false,
-    downShow:true
+    downShow:true,
+    user:""
   },
 
   /**
@@ -59,32 +60,15 @@ Component({
       })
     },
 
-    //点击分享按钮
-    share:function(){
-      wx.showToast({
-        title: '开发中',
-        icon:'none',
-        duration:3000
-      })
-    },
-    //邀请好友拼单
-    yaoqingpindan:function(){
-      this.hideDialog();
-      wx.showToast({
-        title: '开发中',
-        icon:'none',
-        duration:3000
-      })
-    },
 
     //得到海报
     getHaibao:function(){
-      this.hideDialog();
-      wx.showToast({
-        title: '生成海报开发中',
-        icon: 'none',
-        duration: 3000
+    //this.hideDialog();
+      wx.showShareMenu({
+        withShareTicket: true
       })
     }
+
+    
   },
 })

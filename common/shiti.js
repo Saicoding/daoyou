@@ -1,4 +1,4 @@
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/daoyou'; //接口地址
 let myTime = require('time.js');
 const app = getApp();
 /**
@@ -785,7 +785,7 @@ function postAnswerToServer(user, beizhu, tid, flag, done_daan, typesid, app, AP
   let token = user.token ? user.token : "";
   let zcode = user.zcode ? user.zcode : "";
   beizhu = encodeURIComponent(beizhu);
-  console.log("action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid)
+
   app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid, false).then((res) => {})
 }
 
@@ -980,11 +980,12 @@ function lianxiRestart(self) {
 function initShitiArrayDoneAnswer(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     shitiArray[i].px = i + 1; //设置每个试题的px号
-    switch (shitiArray[i].TX) {
-      case 1:
+    switch (shitiArray[i].leibie) {
+      case '1':
+      case '3':
         shitiArray[i].done_daan = "";
         break;
-      case 2:
+      case '2':
         shitiArray[i].done_daan = [];
         break;
     }
@@ -1010,14 +1011,9 @@ function restartModelReal(self) {
     markAnswerItems: []
   })
 
-  initModelRealMarkAnswer(shitiArray.length, self); //初始化答题板数组
+  initModelRealMarkAnswer(shitiArray, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync("modelReal" + self.data.id + zcode);
-
-  //根据章是否有字节的结构来
-  answer_nums_array = [];
-
-  wx.setStorageSync("modelReal" + self.data.id + zcode, answer_nums_array); //重置已答数组
+  wx.setStorageSync("modelReal" + self.data.id + zcode, []); //重置已答数组
 
   storeModelRealLastShiti(1, self)
 
@@ -1026,16 +1022,18 @@ function restartModelReal(self) {
       isLoaded: false
     })
 
-    app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
+    app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=1" , false, true, "", "", false, self).then((res) => {
+      let result = res.data.data[0];
       pageArray.push(1);
 
-      let shitiArray1 = res.data.shiti;
-      let all_nums = res.data.all_nums;
-      console.log(all_nums)
+      let shitiArray1 = result.list;
+      let all_nums = result.records_all;
+
       initNewWrongArrayDoneAnswer(shitiArray1, 0); //将试题的所有done_daan置空
       shitiArray = initShitiArray(shitiArray1, all_nums, 1);
 
-      console.log(shitiArray)
+      clearInterval(self.data.interval); //停止计时
+      startWatch(self.data.times * 60, self); //重新开始计时
 
       //得到swiper数组
       let nextShiti = undefined; //后一题
@@ -1044,14 +1042,10 @@ function restartModelReal(self) {
 
       initShiti(midShiti, self); //初始化试题对象
 
-      console.log(midShiti)
-
       if (shitiArray.length != 1) {
         nextShiti = shitiArray1[1];
         initShiti(nextShiti, self); //初始化试题对象
       }
-
-      let myFavorite = midShiti.favorite;
 
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
@@ -1062,7 +1056,6 @@ function restartModelReal(self) {
         sliderShitiArray: sliderShitiArray, //滑动数组
         shitiArray: shitiArray1, //整节的试题数组
         doneAnswerArray: [], //已做答案数组
-        myFavorite: myFavorite,
         circular: false,
         pageArray: pageArray,
         lastSliderIndex: 0, //默认滑动条一开始是0
@@ -1070,14 +1063,12 @@ function restartModelReal(self) {
         px: 1,
         rightNum: 0, //正确答案数
         wrongNum: 0, //错误答案数
+        isSubmit:false,
+        checked: false,
+        text: "立即交卷"
       })
     })
   } else {
-    if (tid == "5") { //如果是问答题
-      initWenda(shitiArray);
-    } else if (tid == "99") { //如果是材料题
-      initCailiao(shitiArray);
-    }
 
     //得到swiper数组
     let nextShiti = undefined; //后一题
@@ -1099,12 +1090,14 @@ function restartModelReal(self) {
       sliderShitiArray[1] = nextShiti;
     }
 
-    let myFavorite = midShiti.favorite;
+    console.log()
+
+    clearInterval(self.data.interval); //停止计时
+    startWatch(self.data.times * 60, self); //重新开始计时
 
     self.setData({
       myCurrent: 0,
       shitiArray: shitiArray,
-      myFavorite: myFavorite,
       doneAnswerArray: [], //已做答案数组
       rightNum: 0, //正确答案数
       wrongNum: 0, //错误答案数
@@ -1112,27 +1105,18 @@ function restartModelReal(self) {
       sliderShitiArray: sliderShitiArray,
       px: 1,
       circular: false,
+      isSubmit:false,
+        checked: false,
+    text: "立即交卷"
     })
   }
 
-  // let answer_nums_array = wx.getStorageSync("modelReal" + self.data.id + zcode); //将已答答案置空
-  // wx.setStorage({
-  //   key:  "modelReal" + self.data.id + zcode,
-  //   data: [],
-  // })
-  // wx.setStorage({
-  //   key:  "modelRealIsSubmit" + self.data.id + zcode,
-  //   data: false,
-  // })
+  wx.setStorage({
+    key: "modelRealIsSubmit" + self.data.id + zcode,
+    data: false,
+  })
 
-  // self.setData({
-  //   shiti: self.data.shitiArray[0],
-  //   doneAnswerArray: [], //已做答案数组
-  //   shitiArray: shitiArray,
-  //   isSubmit: false,
-  //   checked: false,
-  //   text: "立即交卷"
-  // })
+
 }
 
 /**
@@ -1285,9 +1269,6 @@ function processTapModelRealAnswer(midShiti, preShiti, nextShiti, px, current, c
     current = 1;
     myCurrent = 1;
   }
-
-  console.log(sliderShitiArray)
-
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
