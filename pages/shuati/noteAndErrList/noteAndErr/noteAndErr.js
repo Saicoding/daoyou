@@ -666,6 +666,9 @@ Page({
     let beginDonenum = 0; //进入页面时的已做题数
     let doneAnswerArray = this.data.doneAnswerArray; //已做题数组
     let rightRate = doneAnswerArray.length == 0 ? 0 : ((rightNum / doneAnswerArray.length) * 100).toFixed(2); //正确率
+    if (this.data.options.currentIndex == 5) {//面试题
+      rightRate = 0;
+    }
     let donenum = doneAnswerArray.length //本次做题数
 
     let all_nums = this.data.nums; //题总数

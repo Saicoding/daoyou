@@ -584,6 +584,7 @@ function storeAnswerArray(shiti, self) {
 function changeSelectStatus(done_daan, shiti, ifSubmit) {
   let srcs = shiti.srcs; //选项前的图标对象
   let flag = 0; //初始化正确还是错误
+  console.log(shiti.leibie)
 
   switch (shiti.leibie) {
     case '1':
@@ -629,7 +630,6 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
       break;
 
     case '5':
-
       shiti.done_daan = done_daan; //已经做的选择
       shiti.isAnswer = true;
       flag = 0;
@@ -710,7 +710,6 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
  * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(done_daan, shiti, self) {
-  console.log(done_daan)
   if (done_daan != "" && done_daan != undefined) {
     changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
     shiti.isAnswer = true;

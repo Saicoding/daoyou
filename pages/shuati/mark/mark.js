@@ -19,7 +19,7 @@ Page({
     isModelReal: false, //是不是真题或者押题
     isSubmit: false, //是否已提交答卷
     circular: true, //默认slwiper可以循环滚动
-    myFavorite: 0, //默认收藏按钮是0
+    myFavorite: 1, //默认收藏按钮是1
     isHasShiti: true, //是否有试题
     isLoaded: false, //默认没有载入完毕
   },
@@ -46,6 +46,7 @@ Page({
     this.tongji = this.selectComponent('#tongji'); //统计面板
     this.jiaocheng = this.selectComponent('#jiaocheng'); //教程板
     this.jiesuo = this.selectComponent('#jiesuo'); //解锁板
+    this.shuatiBottom = this.selectComponent('#shuatiBottom'); //解锁板
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -73,16 +74,18 @@ Page({
     let page = 1; //默认是第一页
     let pageArray = []; //页面缓存数组
     let circular = false;
-    let myFavorite = 0;
+    let myFavorite = 1;
     if (user) {
       let zcode = user.zcode; //缓存标识
       let token = user.token;
       if (first) { //只允许载入一次
         let px = 1; //最后一次浏览的题的编号
         app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
+          console.log(res)
           let result = res.data.data[0];
           let shitiArray = result.list;
-          let all_nums = result.records_all;
+          let all_nums = parseInt(result.records_all);
+          console.log(all_nums)
           let beginTimestamp = Date.parse(new Date());
 
           if (shitiArray.length == 0) {
@@ -171,7 +174,13 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    done_daan = shiti.leibie == '1' || shiti.leibie == '3' ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
+      done_daan = e.detail.done_daan;
+    } else if (shiti.leibie == '2') {//多选
+      done_daan = shiti.selectAnswer;
+    } else {//面试
+      done_daan = "mianshi";
+    }
 
     if (shiti.leibie == '2' && shiti.selectAnswer == undefined) {
       wx.showToast({
@@ -185,6 +194,8 @@ Page({
 
     common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
     common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
+
+    console.log(shiti.isAnswer)
 
     this.setData({
       shitiArray: shitiArray,
@@ -242,7 +253,7 @@ Page({
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
 
-    let myFavorite = 0;
+    let myFavorite = 1;
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数
 
@@ -332,7 +343,7 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
-    myFavorite = midShiti.favorite == undefined ? '0' : midShiti.favorite;
+    myFavorite = midShiti.favorite == undefined ? '1' : midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
 
@@ -562,6 +573,35 @@ Page({
   },
 
   /**
+     * 切换收藏
+     */
+  _toogleMark: function (e) {
+    let self = this;
+    let user = wx.getStorageSync('user');
+    let shitiArray = self.data.shitiArray;//当前的所有试题数组
+    let px = self.data.px;//当前的试题编号
+    let shiti = shitiArray[px - 1];//当前试题
+
+    if (user) {
+      let zcode = user.zcode;
+      let token = user.token;
+      let beizhu = shiti.beizhu;
+      let t_id = shiti.id;
+      app.post(API_URL, "action=FavoriteShiti&zcode=" + zcode + "&token=" + token + "&beizhu=" + beizhu + "&t_id=" + t_id, false, false, "", "", false, self).then(res => {
+        let shuatiBottom = this.selectComponent('#shuatiBottom'); //解锁板
+        shuatiBottom.setData({
+          isMark: !shuatiBottom.data.isMark
+        })
+      })
+    } else {
+
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
+  },
+
+  /**
    * 隐藏答题板
    */
   _hideMarkAnswer: function() {
@@ -632,7 +672,6 @@ Page({
       let donenum = doneAnswerArray.length - beginDonenum < 0 ? 0 : doneAnswerArray.length - beginDonenum; //本次做题数
 
       let all_nums = this.data.nums; //题总数
-      console.log(all_nums)
       let rateWidth = 600 * doneAnswerArray.length / parseInt(all_nums); //完成进度
       let beginTimestamp = this.data.beginTimestamp; //开始答题时的时间戳
       let timestamp = Date.parse(new Date()); //当前是时间戳

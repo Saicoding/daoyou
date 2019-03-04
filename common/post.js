@@ -149,7 +149,7 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
   }
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-  myFavorite = midShiti.favorite;
+  myFavorite = midShiti.favorite ? midShiti.favorite:'1';
 
   if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;
@@ -171,6 +171,8 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
       myCurrent: 1
     })
   }
+
+  console.log(sliderShitiArray)
 
   self.setData({
     options: options,

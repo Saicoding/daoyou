@@ -44,6 +44,7 @@ Page({
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&leibie=0&random=1", false, false, "", "", false, self).then((res) => {
       let result = res.data.data[0];
       let shitiArray = result.list;
+      console.log(shitiArray)
       let all_nums = 10;
 
       let pageall = 1;
@@ -117,6 +118,7 @@ Page({
     this.tongji = this.selectComponent('#tongji'); //统计面板
     this.jiaocheng = this.selectComponent('#jiaocheng'); //教程板
     this.jiesuo = this.selectComponent('#jiesuo'); //解锁板
+    this.shuatiBottom = this.selectComponent('#shuatiBottom'); //解锁板
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -155,7 +157,13 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    done_daan = shiti.leibie == '1' || shiti.leibie == '3' ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
+      done_daan = e.detail.done_daan;
+    } else if (shiti.leibie == '2') {//多选
+      done_daan = shiti.selectAnswer;
+    } else {//面试
+      done_daan = "mianshi";
+    }
 
     if (shiti.leibie == '2' && shiti.selectAnswer == undefined) {
       wx.showToast({
@@ -605,6 +613,34 @@ Page({
   _toogleMarkAnswer: function() {
     this.errorRecovery.hideDialog();
     this.markAnswer.toogleDialog();
+  },
+
+  /**
+   * 切换收藏
+   */
+  _toogleMark: function (e) {
+    let self = this;
+    let user = wx.getStorageSync('user');
+    let shitiArray = self.data.shitiArray; //当前的所有试题数组
+    let px = self.data.px; //当前的试题编号
+    let shiti = shitiArray[px - 1]; //当前试题
+
+    if (user) {
+      let zcode = user.zcode;
+      let token = user.token;
+      let beizhu = shiti.beizhu;
+      let t_id = shiti.id;
+      app.post(API_URL, "action=FavoriteShiti&zcode=" + zcode + "&token=" + token + "&beizhu=" + beizhu + "&t_id=" + t_id, false, false, "", "", false, self).then(res => {
+        self.shuatiBottom.setData({
+          isMark: !self.shuatiBottom.data.isMark
+        })
+      })
+    } else {
+
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
   },
 
   /**
