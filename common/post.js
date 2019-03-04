@@ -37,6 +37,7 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
     success: function(res1) {
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = res1.data;
+      console.log(doneAnswerArray)
       doneAnswerArray = common.setMarkAnswerItems(doneAnswerArray, self.data.isModelReal, self.data.isSubmit,options ,self); //设置答题板数组 
       console.log(doneAnswerArray)
 
@@ -53,6 +54,8 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
         shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan; //设置已答试题的答案
         shitiArray[doneAnswer.px - 1].isAnswer = true;
       }
+
+      console.log(shitiArray)
 
       //先处理是否是已经回答的题,渲染3个
       if (preShiti != undefined) common.processDoneAnswer(preShiti.done_daan, preShiti, self);

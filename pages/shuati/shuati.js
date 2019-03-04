@@ -123,7 +123,7 @@ Page({
 
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
-
+      console.log("action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode)
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys+"&token="+token+"&zcode="+zcode, false, false, "", "").then(res => {
         console.log(res)
         let zhangjies = res.data.data;
@@ -211,6 +211,9 @@ Page({
             }
 
             jie.rightrate = ((rightNum / doneArray.length) * 100).toFixed(2);
+            if(this.data.currentIndex == 4){
+              jie.rightrate = 0;
+            }
           }
         } else {
           jie.donenum = 0;

@@ -52,7 +52,7 @@ Page({
     }
 
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page + "&zcode=" + zcode+"&token="+token, false, false, "", "", false, self).then((res) => {
-
+      console.log(res)
       let result = res.data.data[0];
       let shitiArray = result.list;
       let all_nums = result.records;
@@ -186,7 +186,13 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    done_daan = shiti.leibie == '1' || shiti.leibie == '3' ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    if (shiti.leibie == '1' || shiti.leibie == '3'){//单选和判断
+      done_daan = e.detail.done_daan;
+    } else if (shiti.leibie == '2'){//多选
+      done_daan = shiti.selectAnswer;
+    }else{//面试
+      done_daan = "mianshi";
+    }
 
     if (shiti.leibie == '2' && shiti.selectAnswer == undefined) {
       wx.showToast({
@@ -270,6 +276,7 @@ Page({
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
+
     let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
 
@@ -669,6 +676,10 @@ Page({
     let beginDonenum = this.data.options.donenum;//进入页面时的已做题数
     let doneAnswerArray = this.data.doneAnswerArray;//已做题数组
     let rightRate = doneAnswerArray.length ==0 ? 0: ((rightNum / doneAnswerArray.length) * 100).toFixed(2);//正确率
+    if (this.data.options.currentIndex == 5){//面试题
+      rightRate = 0;
+    }
+
     let donenum = doneAnswerArray.length - beginDonenum < 0 ? 0 : doneAnswerArray.length - beginDonenum;//本次做题数
 
     let all_nums = this.options.all_nums;//题总数
@@ -739,6 +750,9 @@ Page({
           jie.donenum = doneArray.length;
           jie.rateWidth = 490 * jie.donenum / parseInt(jie.all_num);
           jie.rightrate = this.tongji.data.rightRate;
+          if (currentIndex == 4){
+            jie.rightrate = 0;
+          }
           mytiku.donenum += doneAnswerArray.length - donenum;
 
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
@@ -922,5 +936,22 @@ Page({
     this.setData({
       noteText: text
     })
+  },
+
+  /**
+ * 导航到学习计划
+ */
+  _GOxuexijihua: function () {
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
+   * 显示错题
+   */
+  _viewWrong: function () {
+    this.tongji.hideDialog();
+    this.markAnswer.showDialog();
   }
 })

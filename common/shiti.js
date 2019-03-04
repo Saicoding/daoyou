@@ -430,7 +430,7 @@ function storeAnswerStatus(shiti, self) {
   myDate = "" + year + month + day; //得到当前答题字符串
 
   let todayDone = wx.getStorageSync("today" + myDate + zcode) ? wx.getStorageSync("today" + myDate + zcode) : [];
-  todayDone.push(1);
+  todayDone.push(1);//今日做题数量
 
   wx.setStorage({
     key: "today" + myDate + zcode,
@@ -443,6 +443,7 @@ function storeAnswerStatus(shiti, self) {
 
   switch (options.leibie) {
     case '0': //所有题
+    case '5': //面试题
       px = shiti.px;
       break;
     case '1': //单选题
@@ -627,8 +628,11 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
       shiti.isAnswer = true;
       break;
 
-    case 3:
+    case '5':
+
+      shiti.done_daan = done_daan; //已经做的选择
       shiti.isAnswer = true;
+      flag = 0;
       break;
   }
   shiti.flag = flag; //答案是否正确
@@ -706,6 +710,7 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
  * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(done_daan, shiti, self) {
+  console.log(done_daan)
   if (done_daan != "" && done_daan != undefined) {
     changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
     shiti.isAnswer = true;

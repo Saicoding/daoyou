@@ -30,7 +30,7 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      title:'随机练习'
+      title: '随机练习'
     })
     let self = this;
     let user = wx.getStorageSync('user'); //本地用户信息
@@ -196,7 +196,7 @@ Page({
       checked: false, //选项框是否被选择
       circular: true, //默认slwiper可以循环滚动
       isLoaded: false,
-      myCurrent:0,
+      myCurrent: 0,
       myFavorite: 0, //默认收藏按钮是0
     })
 
@@ -654,7 +654,7 @@ Page({
 
     // this.tongji.showDialog();
     wx.navigateBack({
-      
+
     })
   },
 
@@ -781,5 +781,22 @@ Page({
     this.setData({
       noteShow: true
     })
+  },
+
+  /**
+   * 导航到学习计划
+   */
+  _GOxuexijihua: function() {
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
+   * 显示错题
+   */
+  _viewWrong: function() {
+    this.tongji.hideDialog();
+    this.markAnswer.showDialog();
   }
 })

@@ -170,7 +170,13 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    done_daan = shiti.leibie == '1' || shiti.leibie == '3' ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
+      done_daan = e.detail.done_daan;
+    } else if (shiti.leibie == '2') {//多选
+      done_daan = shiti.selectAnswer;
+    } else {//面试
+      done_daan = "mianshi";
+    }
 
     if (shiti.leibie == '2' && shiti.selectAnswer == undefined) {
       wx.showToast({

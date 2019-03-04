@@ -39,8 +39,8 @@
 
   <view style="width:100%;height:10rpx;background:#f2f2f2;margin-top:40rpx;"></view>
 
-  <view class="down" bindtap = "_GOxuexijihua" hover-class='select1' hover-stay-time='500'>
-    <view class="down-item">
+  <view class="down" >
+    <view class="down-item" bindtap = "_GOxuexijihua" hover-class='select1' hover-stay-time='500'>
       <image class="down-item-icon" src="/images/xuexijihua.png"></image>
       <view class="down-item-right">
         <view class="down-item-text" style="line-height:45rpx;">学习计划</view>
