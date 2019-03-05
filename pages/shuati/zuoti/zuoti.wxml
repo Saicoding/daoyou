@@ -15,7 +15,7 @@
           <view style="border:1rpx solid #f4f7f9;">
             <!--单选题-->
             <view style="margin-bottom:50rpx;" wx:if="{{shiti.leibie == 1 || shiti.leibie ==3}}">
-              <singleSelect  shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
+              <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
             </view>
 
             <!--多选题-->

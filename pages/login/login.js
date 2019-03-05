@@ -405,6 +405,7 @@ Page({
           key: 'user',
           data: user,
           success: function () {
+           
             wx.navigateBack({})
 
             if (ifGoPage == "true") {

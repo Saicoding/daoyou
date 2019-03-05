@@ -138,9 +138,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
-      this._answerSelect(undefined);
-    }
 
   },
 
@@ -151,41 +148,16 @@ Page({
     let self = this;
     let px = self.data.px;
     let done_daan = "";
-
-    let huidiaoDaan = null;
-
-    if (e == undefined) {//回调回来的  
-      huidiaoDaan = self.data.huidiaoDaan;
-    } else {
-      huidiaoDaan = e.detail.done_daan ? e.detail.done_daan : '';
-    }
-
     let shitiArray = self.data.shitiArray;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
-    let user = wx.getStorageSync('user');
-    let typesid = this.data.options.types;
-
-    this.setData({
-      huidiaoDaan: huidiaoDaan
-    })
-
-    if (!user) {
-      self.setData({
-        isSingin: true
-      })
-      wx.navigateTo({
-        url: '/pages/login/login?showToast=true&title=您需要登录',
-      })
-      return
-    }
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
     if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
-      done_daan = huidiaoDaan;
+      done_daan = e.detail.done_daan;
     } else if (shiti.leibie == '2') {//多选
       done_daan = shiti.selectAnswer;
     } else {//面试
@@ -208,20 +180,16 @@ Page({
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
-      restart: false,
-      isReLoad: false,
-      isSingin: false
+      restart: false
     })
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-
-    common.postAnswerToServer(user, shiti.beizhu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
 
     common.storeRandomAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
 
-    common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
+    common.ifRandomDoneAll(shitiArray, self.data.doneAnswerArray, this.aginCallback); //判断是不是所有题已经做完
   },
 
   /**

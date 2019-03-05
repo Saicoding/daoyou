@@ -78,9 +78,6 @@ Page({
     if (user) {
       let zcode = user.zcode; //缓存标识
       let token = user.token;
-      if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
-        this._answerSelect(undefined);
-      }
       if (first) { //只允许载入一次
         let px = 1; //最后一次浏览的题的编号
         app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
@@ -167,41 +164,16 @@ Page({
     let self = this;
     let px = self.data.px;
     let done_daan = "";
-
-    let huidiaoDaan = null;
-
-    if (e == undefined) {//回调回来的  
-      huidiaoDaan = self.data.huidiaoDaan;
-    } else {
-      huidiaoDaan = e.detail.done_daan ? e.detail.done_daan : '';
-    }
-
     let shitiArray = self.data.shitiArray;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
-    let user = wx.getStorageSync('user');
-    let typesid = this.data.options.types;
-
-    this.setData({
-      huidiaoDaan: huidiaoDaan
-    })
-
-    if (!user) {
-      self.setData({
-        isSingin: true
-      })
-      wx.navigateTo({
-        url: '/pages/login/login?showToast=true&title=您需要登录',
-      })
-      return
-    }
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
     if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
-      done_daan = huidiaoDaan;
+      done_daan = e.detail.done_daan;
     } else if (shiti.leibie == '2') {//多选
       done_daan = shiti.selectAnswer;
     } else {//面试
@@ -224,15 +196,12 @@ Page({
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
-      restart: false,
-      isReLoad: false,
-      isSingin: false
+      restart: false
     })
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(user, shiti.beizhu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
-
+    // common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
     common.storeRandomAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态

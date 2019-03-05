@@ -484,12 +484,8 @@ Page({
     let tiku = this.data.tiku;
 
     if (zhangjieLoadedStrArray.indexOf(currentLoadedStr) != -1) { //如果包含,就使用本地tiku数组
-      self.setData({
-        isLoaded: false
-      })
       this.setData({
-        zhangjies: tiku[currentLoadedStr],
-        isLoaded: true
+        zhangjies: tiku[currentLoadedStr]
       })
     } else {
       let types = self.getkemuIDByindex(currentIndex); //科目id

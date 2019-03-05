@@ -12,7 +12,6 @@
   z-index: 101;
   top:0rpx;
   height:80rpx;
-  padding-top:50rpx;
 }
 
 .back {
