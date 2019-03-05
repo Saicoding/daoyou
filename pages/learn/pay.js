@@ -52,22 +52,29 @@ Page({
       product = options.product;
     }
 
-    var money_zong = options.money_zong;
+    var money_zong = Number(options.money_zong);
     var mymoney = 0;
     var mymoney2 = 0;
     var youhuiquan = 0;
 
     //判断账户余额
     var user = wx.getStorageSync("user");
-    if (user.Money) {
+    if (user) {
       mymoney = user.Money * 1;
       if (mymoney >= money_zong) {
         mymoney2 = "-" + money_zong;
-        money_zong = 0
+        //money_zong = 0
+        money_zong =0.01  //下单测试
       } else {
         mymoney2 = "-" + mymoney;
-        money_zong = money_zong - mymoney
+       // money_zong = money_zong - mymoney
+       money_zong =0.01  //下单测试
       }
+    }else{
+      wx.navigateTo({
+        url: '../login/login',
+      })
+
     }
 
     //判断优惠券是否存在、是否过期
@@ -87,7 +94,7 @@ Page({
     if (money_zong < 0) {
       money_zong = 0
     }
-    money_zong = money_zong.toFixed(2);
+    money_zong = Number(money_zong).toFixed(2);
     this.setData({
       danke: danke,
       id: id,
@@ -191,9 +198,9 @@ Page({
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           code = res.code;
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
-            let openid = res.data.openid;
+            let openid = res.data.data[0].openid;
 
-            app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
+            app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
 
               let status = res.data.status;
 
@@ -202,7 +209,7 @@ Page({
                 timestamp = timestamp / 1000;
                 timestamp = timestamp.toString();
                 let nonceStr = "TEST";
-                let prepay_id = res.data.prepay_id;
+                let prepay_id = res.data.data[0].prepay_id;
                 let appId = "wx274bc5c5c5ce0434";
                 let myPackage = "prepay_id=" + prepay_id;
                 let key = "e625b97ae82c3622af5f5a56d1118825";

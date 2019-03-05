@@ -5,6 +5,9 @@
 
 .progress { background: #eee; border-radius:2px; height: 6px; overflow: hidden; }
 .progress_sub { background: #00c746; border-radius:6px; height: 6px; margin: 0; width: 0; }
+.infos { height:200rpx; overflow: hidden; display: block; }
+.infos.on { height: auto}
+.infos_btn { font-size: 24rpx; margin-top: 10px; text-align: right; color: #00c746}
 .bottomkk{
   width:100%;
   height:100rpx;

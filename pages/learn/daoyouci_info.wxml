@@ -16,11 +16,11 @@
     <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
     <view class='clear' style='height:10px;'></view>
     </view>
-    <rich-text class='f13' nodes="{{daoyouci.content}}"></rich-text>
-  
+    <rich-text class='f13 infos {{infos=="show"?"on":""}}' nodes="{{daoyouci.info}}"></rich-text>
+    <view bindtap='infos' class='infos_btn'>{{infos=='show'?'收起':'查看全文'}}</view>
   </view>
    <view class="cont_b">
-  <rich-text nodes="{{daoyouci.info}}" class=' f13'></rich-text>
+  <rich-text nodes="{{daoyouci.content}}" class=' f13'></rich-text>
  </view>
   <view class="pingjia">
     <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>

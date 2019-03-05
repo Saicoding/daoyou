@@ -608,18 +608,18 @@ Page({
   /**
    * 提交纠错
    */
-  _submit: function() {
+  _submit: function(e) {
     let self = this;
     let user = wx.getStorageSync('user');
     if (user) { //已经登录
       let zcode = user.zcode;
       let token = user.token;
-      let reason = e.detail.reason;
+      let reason = encodeURIComponent(e.detail.reason);
       let px = self.data.px;
       let shitiArray = self.data.shitiArray;
       let shiti = shitiArray[px - 1];
 
-      app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token + "&zcode=" + zcode, true, false, "提交中").then((res) => {
+      app.post(API_URL, "action=jiuCuo&content=" + reason + "&zcode=" + zcode + "&tid=" + shiti.id + "&token=" + token, true, false, "提交中").then((res) => {
         self.errorRecovery.hideDialog();
         wx.showToast({
           icon: 'none',

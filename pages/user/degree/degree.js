@@ -1,7 +1,7 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
 
 
-const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 const app = getApp();
 
 // start雷达图初始化数据
@@ -24,13 +24,8 @@ Page({
    */
   data: {
     stepText: 5,
-    chanelArray: [
-      ["政策法规", "20"],
-      ["导游业务", "20"],
-      ["全国导游基础", "80"],
-      ["地方导游基础", "20"],
-      ["服务能力", "60"]
-    ],
+    zong: 0.00,
+    chanelArray: [["政策与法律法规","0.00"], ["地方导游基础知识","0.00"], ["导游业务","0.00"], ["全国导游基础知识","0.00"], ["导游面试","0.00" ]],
     loaded: false,
   
     startYear: 2018,
@@ -45,10 +40,16 @@ Page({
     //获取是否有登录权限
     let self = this;
     let user = wx.getStorageSync('user');
+    if(user){
     self.setData({
       user: user
     })
+    }else{
+    wx.navigateTo({
+      url: '/login/login',
+    })
 
+    }
   },
 
   onReady: function () {
@@ -67,36 +68,33 @@ Page({
     });
   },
 
-  getStudyRate(user, kmid, date_j) {
+  getStudyRate() {
     let self = this;
     self.drawRadar(self.data.chanelArray)
       self.setData({
         loaded: true
-       
       })
-    // let str = encodeURI("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
+    
+    app.post(API_URL, "action=getZhangwoInfo&zcode=" + this.data.user.zcode + "&token=" + this.data.user.token, false, false, "").then((res) => {
+    
+      let chanelArray = self.data.chanelArray;
+      let rate = res.data.data[0];
+      chanelArray[0][1] = rate.政策与法律法规;
+      chanelArray[1][1] = rate.地方导游基础知识;
+      chanelArray[2][1] = rate.导游业务;
+      chanelArray[3][1] = rate.全国导游基础知识;
+      chanelArray[4][1] = rate.导游面试;
 
-    // console.log("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
-
-    // app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j, false, false, "").then((res) => {
-    //   console.log(res)
-    //   let chanelArray = self.data.chanelArray;
-    //   let rate = res.data.data[0];
-    //   chanelArray[0][1] = rate.zhangjie;
-    //   chanelArray[1][1] = rate.shijuan;
-    //   chanelArray[2][1] = rate.shipin;
-    //   chanelArray[3][1] = rate.miji;
-    //   chanelArray[4][1] = rate.kaodian;
-
-    //   //雷达图
-    //   self.drawRadar(chanelArray)
-    //   self.setData({
-    //     loaded: true,
-    //     chanelArray: chanelArray
-    //   })
-    //})
+      //雷达图
+      self.drawRadar(chanelArray)
+      self.setData({
+        loaded: true,
+        zong: rate.总掌握度,
+        chanelArray: chanelArray
+      })
+    })
   },
-
+  
   /**
    * 在返回页面的时候
    */

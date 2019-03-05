@@ -10,7 +10,6 @@
     <view class="wifi-text2">继续观看会耗费通用流量</view>
     <view bindtap='continueWatch' class="wifi-button">继续观看</view>
   </view>
-
 </video>
 
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>

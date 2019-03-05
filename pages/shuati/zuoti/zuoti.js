@@ -44,7 +44,8 @@ Page({
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号
 
-    if (px == undefined) {
+    console.log(options.selected)
+    if (px == undefined || options.selected == 'true') {//如果没有设置px或者选择的题型是全部
       px = 1 //如果没有这个px说明这个章节首次访问
       circular: false
     } else {
@@ -680,7 +681,13 @@ Page({
       rightRate = 0;
     }
 
-    let donenum = doneAnswerArray.length - beginDonenum < 0 ? 0 : doneAnswerArray.length - beginDonenum;//本次做题数
+    let donenum
+    if (this.data.options.selected == 'true'){
+      donenum = doneAnswerArray.length;
+    }else{
+      donenum = doneAnswerArray.length - beginDonenum < 0 ? 0 : doneAnswerArray.length - beginDonenum;//本次做题数
+    }
+    
 
     let all_nums = this.options.all_nums;//题总数
     let rateWidth = 600 * doneAnswerArray.length / parseInt(all_nums);//完成进度
@@ -727,8 +734,7 @@ Page({
     let zhangIdx = options.zhangIdx;
     let jieIdx = options.jieIdx;
     let zhangjieLoadedStr = '' + currentIndex + currentMidIndex;//当前题库标识
-
-
+    let lastDoneAnswerArray = this.data.lastDoneAnswerArray ? this.data.lastDoneAnswerArray:[];//刚进入页面时的已做数量
     let doneAnswerArray = this.data.doneAnswerArray; //所有已答数组
     let tiku = prePage.data.tiku; //上个页面的题库对象
     if(!tiku){
@@ -738,6 +744,7 @@ Page({
       })
       return
     }
+
     let donenum = this.data.options.donenum;//进入页面时的已做题数
 
     //找到对应的题库
@@ -755,7 +762,24 @@ Page({
           if (currentIndex == 4){
             jie.rightrate = 0;
           }
-          mytiku.donenum += doneAnswerArray.length - donenum;
+
+          if (options.selected == 'true'){
+            let hash = [];
+            let newArray = lastDoneAnswerArray.concat(doneAnswerArray);//新已做数组和旧已做数组相连
+
+            for (let i = 0; i < newArray.length; i++) {
+              for (var j = i + 1; j < newArray.length; j++) {
+                if (newArray[i].id == newArray[j].id) {
+                  ++i;
+                }
+              }
+              hash.push(newArray[i]);
+            }
+            console.log(hash)
+            mytiku.donenum += hash.length - lastDoneAnswerArray.length;
+          }else{
+            mytiku.donenum += doneAnswerArray.length - donenum;
+          }
 
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
           prePage.setData({

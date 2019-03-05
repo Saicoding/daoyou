@@ -1,11 +1,11 @@
 <!-- 轮播图 -->
-<navigator url='pay' wx:if="{{barUrls.length==1}}">
+<navigator url='../index/xuexijihua/xuexijihua' wx:if="{{barUrls.length==1}}">
   <image src="{{barUrls}}" class="slide-image" mode='widthFix' />
 </navigator>
 <swiper wx:if="{{barUrls.length>1}}" indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300">
   <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
     <swiper-item>
-      <navigator url='pay'>
+      <navigator url='../index/xuexijihua/xuexijihua'>
         <image src="{{img}}" class="slide-image" mode='widthFix' />
       </navigator>
     </swiper-item>

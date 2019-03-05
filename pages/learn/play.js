@@ -100,23 +100,16 @@ Page({
     let loaded = self.data.loaded;
     let px = 1;
     let user = wx.getStorageSync('user');
+   
+    let zcode = user.zcode; //客户端id号
+    let token = user.token;
     
-    //最后播放视频索引
-    let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
-    let scroll = lastpx * 100 * windowWidth / 750;
-    if (lastpx != "") {
-      px = lastpx.px;
-      //videoID 最后播放视频id
-      //initialTime 最后播放视频时间
-      let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
-      if (lasttime) { this.videoContext.seek(lasttime / 1000) }
-    }
 
     if (loaded == undefined) return;
 
     loaded = false;
-    app.post(API_URL, "action=getCourseShow&cid=" + kcid, false, false, "", "").then((res) => {
-
+    app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", "", self).then((res) => {
+      console.log(res.data)
       let files = res.data.data[0].files; //视频列表
       let currentVideo = files[px - 1];
       
@@ -156,7 +149,16 @@ Page({
       //   }).exec()
       // }, 1000)
 
-
+      //最后播放视频索引
+      let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
+      let scroll = lastpx * 100 * windowWidth / 750;
+      if (lastpx != "") {
+        px = lastpx.px;
+        //videoID 最后播放视频id
+        //initialTime 最后播放视频时间
+        let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
+        if (lasttime) { this.videoContext.seek(lasttime / 1000) }
+      }
     })
 
 
@@ -640,26 +642,31 @@ Page({
     }
 
   
-    wx.setStorage({
-      key: 'lastVideo' + kcid + user.zcode,
-      data: {
-        px: px,
-        videoID: videoID
-      },
-      success: function () {
-        console.log('lastVideo' + kcid + user.zcode + "_" + px + "_" + videoID)
-      },
-      fail: function () {
-        console.log('存储失败')
-      }
-    })
+    
     //wx.setStorageSync('lastVideo' + kcid + user.zcode, px);
     
     clearInterval(self.data.interval);
     let user = wx.getStorageSync('user');
     if (user) {
+
+
       let zcode = user.zcode;
       let token = user.token;
+      wx.setStorage({
+        key: 'lastVideo' + kcid + zcode,
+        data: {
+          px: px,
+          videoID: videoID
+        },
+        success: function () {
+          console.log('lastVideo' + kcid + zcode + "_" + px + "_" + videoID)
+        },
+        fail: function () {
+          console.log('存储失败')
+        }
+      })
+
+
       wx.setStorage({
         key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
         data: playTime,

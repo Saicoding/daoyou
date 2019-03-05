@@ -4,11 +4,11 @@
 
     <view class="pic-container">
 
-      <image class="pic" src="/images/avatar.png" mode="aspectFit"></image>
+      <image class="pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}" mode="aspectFit"></image>
       <view>我的总掌握度：
-        <text class='fr f16'>30%</text>
+        <text class='fr f16'>{{zong}}%</text>
       </view>
-      <progress percent="40" stroke-width="6" border-radius="4" />
+      <progress percent="{{zong}}" stroke-width="6" border-radius="4" />
     </view>
 
 

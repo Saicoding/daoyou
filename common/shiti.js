@@ -457,6 +457,19 @@ function storeAnswerStatus(shiti, self) {
       break;
   }
 
+  let has = false;
+  for (let i = 0; i < all_answer_nums_array.length;i++){//先判断已答数组中是否有该题
+    let answer = all_answer_nums_array[i];
+    if (answer.id == shiti.id){
+      has = true;
+      answer.done_daan = shiti.done_daan;
+      answer.select = shiti.leibie;
+      answer.isRight = shiti.flag;
+      answer.px = px;
+      break;
+    }
+  }
+
   let obj = {
     "id": shiti.id,
     "done_daan": shiti.done_daan,
@@ -464,11 +477,17 @@ function storeAnswerStatus(shiti, self) {
     "isRight": shiti.flag,
     "px": px
   }
-  //根据章是否有字节的结构来
-  all_answer_nums_array.push(obj);
 
-  doneAnswerArray.push(obj) //存储已经做题的状态
+  if(has){
+    doneAnswerArray.push(obj) //存储已经做题的状态
+  }else{
+    //根据章是否有字节的结构来
+    all_answer_nums_array.push(obj);
+    doneAnswerArray.push(obj) //存储已经做题的状态
+  }
 
+  console.log(doneAnswerArray)
+  console.log(all_answer_nums_array)
   self.setData({
     doneAnswerArray: doneAnswerArray
   })
@@ -584,7 +603,6 @@ function storeAnswerArray(shiti, self) {
 function changeSelectStatus(done_daan, shiti, ifSubmit) {
   let srcs = shiti.srcs; //选项前的图标对象
   let flag = 0; //初始化正确还是错误
-  console.log(shiti.leibie)
 
   switch (shiti.leibie) {
     case '1':

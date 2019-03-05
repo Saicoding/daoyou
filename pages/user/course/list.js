@@ -86,7 +86,7 @@ Page({
     }
     self.setData({ //正在载入
       showLoadingGif: true,
-      loadingText: "载入更多列表 ..."
+      loadingText: "正在载入..."
     })
 
     this.getlist()

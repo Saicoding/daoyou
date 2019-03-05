@@ -129,7 +129,7 @@
   border-radius:5rpx;
 }
 .purchased{
-  background: #eee;
+  background: #eee; color: #999
 }
 .scrolltop { width: 60rpx; height: 60rpx; text-align: center; line-height: 60rpx; border: 1px #eee solid; border-radius:4rpx;  position: fixed; bottom: 100px; right: 10px; z-index: 10; background: #f7f8f9;  display: none}
 .scrolltop.on { display: block}

@@ -25,7 +25,8 @@ Page({
     pl: "",
     page_all: '2',
     page_now: '1',
-    text: ""
+    text: "",
+    infos:"hide"
   },
 
   /**
@@ -113,7 +114,17 @@ Page({
     s = (s.length == 1) ? '0' + s : s;
     return h + ':' + s;
   },
+  infos: function () {
+    if (this.data.infos=="hide"){
+      this.setData({ infos: "show"})
+    }else{
+      this.setData({ infos: "hide" })
+      wx.pageScrollTo({
+        scrollTop: 0
+      })
+    }
 
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
