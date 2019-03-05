@@ -109,7 +109,7 @@
 
               <view class="ti-block-shu"></view>
               <view style="height:90rpx;width:90rpx;">
-                <image class="ti-block-answer" src="/images/answer.png"></image>
+                <image class="ti-block-answer" style = "{{jie.selected?'width:90rpx;height:90rpx;margin-top:0rpx;margin-left:0rpx;':'width:50rpx;height:50rpx;margin-top:10rpx;margin-left:20rpx;'}}"  src="{{jie.selected?'/images/answer.gif':'/images/answer.png'}}"></image>
               </view>
             </view>
 

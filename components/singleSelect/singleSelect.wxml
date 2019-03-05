@@ -6,28 +6,28 @@
   <radio-group class="radio-group" bindchange="_answerSelect" >
     <label>
       <radio hidden value="A" checked="{{checked}}" />
-      <view class="imgAndText">
+      <view class="imgAndText"   hover-class='select1' hover-stay-time='300'>
         <image class="icon" src="{{shiti.srcs.A}}" mode="aspectFit"></image>
         <view class="answer-text">{{shiti.option_A}}</view>
       </view>
     </label>
-    <label>
+    <label >
       <radio hidden value="B" checked="{{checked}}" />
-      <view class="imgAndText">
+      <view class="imgAndText"  hover-class='select1' hover-stay-time='300'>
         <image src="{{shiti.srcs.B}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_B}}</view>
       </view>
     </label>
-    <label wx:if = "{{shiti.option_C}}">
+    <label wx:if = "{{shiti.option_C}}" >
       <radio hidden value="C" checked="{{checked}}" />
-      <view class="imgAndText" >
+      <view class="imgAndText"  hover-class='select1' hover-stay-time='300'>
         <image src="{{shiti.srcs.C}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_C}}</view>
       </view>
     </label>
     <label wx:if = "{{shiti.option_D}}">
       <radio hidden value="D" checked="{{checked}}" />
-      <view class="imgAndText">
+      <view class="imgAndText"   hover-class='select1' hover-stay-time='300'>
         <image src="{{shiti.srcs.D}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_D}}</view>
       </view>

@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html?tdsourcetag=s_pcqq_aiomsg/"></web-view> -->
   <!-- 最上面的自定义标题栏 -->
   <view class="up">
     <!-- 扫描图标 -->
