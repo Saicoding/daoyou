@@ -116,11 +116,11 @@ Page({
         page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
-      console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page)
       app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
         let result = res.data.data[0];
 
         let shitiArray = result.list;
+
         let all_nums = options.nums;
 
         let pageall = result.page_all;
@@ -153,6 +153,8 @@ Page({
           preShiti = shitiArray[px - 2];
           common.initShiti(preShiti, self); //初始化试题对象
         }
+
+        console.log(midShiti)
 
         circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
@@ -452,6 +454,7 @@ Page({
    */
   _checkVal: function(e) {
     let self = this;
+    if (self.data.isSubmit) return
     let done_daan = e.detail.done_daan.sort();
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
@@ -461,18 +464,32 @@ Page({
     let currentShiti = sliderShitiArray[current];
 
     let shiti = shitiArray[px - 1];
+    console.log(shiti.answer)
     //初始化多选的checked值
     // common.initMultiSelectChecked(shiti);
     common.initMultiSelectChecked(currentShiti);
     //遍历这个答案，根据答案设置shiti的checked属性
 
     done_daan = common.changeShitiChecked(done_daan, currentShiti);
-    common.changeMultiShiti(done_daan, currentShiti);
-    common.changeMultiShiti(done_daan, shiti);
+
     this.setData({
       sliderShitiArray: sliderShitiArray,
       shitiArray: shitiArray
     })
+
+    common.changeModelRealSelectStatus(done_daan, currentShiti, false); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, shiti, false); //改变试题状态
+
+    this.setData({
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
+    })
+
+    common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
+
+    common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态(单个)
+
+    common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
 
   /**

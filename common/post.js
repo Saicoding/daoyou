@@ -312,6 +312,7 @@ function moniOnload(options, shitiArray, result, px, circular, user, page, all_n
       //先处理是否是已经回答的题,渲染3个
       if (preShiti != undefined) common.processModelRealDoneAnswer(preShiti.done_daan, preShiti, self);
       common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
+
       if (nextShiti != undefined) common.processModelRealDoneAnswer(nextShiti.done_daan, nextShiti, self);
 
       //根据已答试题库得到正确题数和错误题数

@@ -22,11 +22,11 @@ function initShiti(shiti) {
   } else if (leibie == '2') { //多选
     shiti.tx = "多选题"
     shiti.srcs = { //定义初始图片对象(多选)
-      "A": "/images/A-M.png",
-      "B": "/images/B-M.png",
-      "C": "/images/C-M.png",
-      "D": "/images/D-M.png",
-      "E": "/images/E-M.png"
+      "A": "/images/AM.png",
+      "B": "/images/BM.png",
+      "C": "/images/CM.png",
+      "D": "/images/DM.png",
+      "E": "/images/EM.png"
     };
     shiti.A_checked = false;
     shiti.B_checked = false;
@@ -233,11 +233,11 @@ function initMultiSelectChecked(shiti) {
  */
 function initMultiShitiSrcs(shiti) {
   shiti.srcs = { //定义初始图片对象(多选)
-    "A": "/images/A-M.png",
-    "B": "/images/B-M.png",
-    "C": "/images/C-M.png",
-    "D": "/images/D-M.png",
-    "E": "/images/E-M.png"
+    "A": "/images/AM.png",
+    "B": "/images/BM.png",
+    "C": "/images/CM.png",
+    "D": "/images/DM.png",
+    "E": "/images/EM.png"
   };
 }
 
@@ -662,11 +662,11 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
 function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
   if (shiti.leibie == "2") {
     shiti.srcs = { //初始图片对象(多选)
-      "A": "/images/A_M.png",
-      "B": "/images/B_M.png",
-      "C": "/images/C_M.png",
-      "D": "/images/D_M.png",
-      "E": "/images/E_M.png",
+      "A": "/images/AM.png",
+      "B": "/images/BM.png",
+      "C": "/images/CM.png",
+      "D": "/images/DM.png",
+      "E": "/images/EM.png",
     };
   } else if (shiti.leibie == "1" || shiti.leibie == "3") {
     shiti.srcs = { //初始图片对象()
