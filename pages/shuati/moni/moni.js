@@ -56,6 +56,7 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer"); //答题板
     this.moniBottom = this.selectComponent('#moniBottom'); //最下面的bar
+    this.jiesuo = this.selectComponent('#jiesuo'); //解锁板
 
     this.moniBottom.setData({
       time: time1.getTime(self.data.times)
@@ -115,6 +116,7 @@ Page({
         page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
+      console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page)
       app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
         let result = res.data.data[0];
 
@@ -717,7 +719,6 @@ Page({
   * 点击立即交卷后
   */
   _submit: function () {
-
     let self = this;
     let shitiArray = self.data.shitiArray; //所有试题
     let id = self.data.id; //真题的id号

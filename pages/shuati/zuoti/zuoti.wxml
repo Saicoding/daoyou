@@ -67,9 +67,9 @@
     <view class="biji-line1-text" bindtap="blur">取消</view>
     <view class="biji-line1-text" bindtap="noteFabiao">发表</view>
   </view>
-  <textarea class="biji-textarea" bindinput="textareaInput" placeholder-style='font-size:25rpx;' placeholder='请输入内容...' cursor-spacing="120rpx" fixed="{{true}}" focus="{{focus}}" auto-focus="{{true}}" maxlength="140" bindblur="blur"></textarea>
+  <textarea class="biji-textarea" bindinput="textareaInput" placeholder-style='font-size:25rpx;' placeholder='请输入内容...' cursor-spacing="120rpx" fixed="{{true}}" focus="{{focus}}" auto-focus="{{true}}" maxlength="140" ></textarea>
 </view>
-<view wx:if="{{showbiji}}" class="model"></view>
+<view wx:if="{{showbiji}}" class="model" bindtap='blur'></view>
 
 <!-- 教程 -->
 <jiaocheng id="jiaocheng" title = "{{options.title}}" videoid = "{{options.videoid}}"></jiaocheng>

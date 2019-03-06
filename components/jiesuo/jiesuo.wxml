@@ -1,5 +1,5 @@
 <!--components/Dialog/dialog.wxml-->
-<view wx:if="{{isShow}}" class="container" catchtap='stopBubbling' style = "top:{{(windowHeight-900)/2}}rpx;">
+<view wx:if="{{isShow}}" class="container" catchtap='stopBubbling' style = "top:{{(windowHeight-1000)/2}}rpx;">
   <view class="up">
     <view class="up-line"></view>
     <view class="up-text">解锁题库套餐</view>

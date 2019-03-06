@@ -844,7 +844,6 @@ Page({
     let px = this.data.px;
     let shiti = shitiArray[px-1];
     let sliderShiti = sliderShitiArray[lastSliderIndex];
-    console.log(sliderShiti)
 
     let tid = shiti.id;
     let content = this.data.noteText;
@@ -855,7 +854,8 @@ Page({
 
     this.setData({
       shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray
+      sliderShitiArray: sliderShitiArray,
+      showbiji:false
     })
 
     app.post(API_URL,"action=saveMyNote&token="+token+"&zcode="+zcode+"&typesid="+typesid+"&tid="+tid+"&content="+content+"&beizhu="+beizhu,false,false,"","",false,self).then(res=>{

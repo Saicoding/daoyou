@@ -35,3 +35,6 @@
 <!-- 底部正确错误个数统计条 -->
 <moniBottom hidden="{{!isLoaded}}" text="{{text}}" id="moniBottom" isMark="{{myFavorite}}" bindtoogleMark="_toogleMark" nums="{{nums}}" px="{{px}}" bindtoogleMarkAnswer="_toogleMarkAnswer" bindrestart="_restart" bindsubmit="_submit" bindrestart="_restart">
 </moniBottom>
+
+<!-- 解锁 -->
+<jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuyAll = "_buyAll" bindbuyJiexi = "_buyJiexi"></jiesuo>

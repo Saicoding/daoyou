@@ -1,4 +1,4 @@
-const API_URL = 'https://xcx2.chinaplat.com/daoyou'; //接口地址
+const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 let myTime = require('time.js');
 const app = getApp();
 /**
@@ -1044,6 +1044,7 @@ function restartModelReal(self) {
       isLoaded: false
     })
 
+    console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=1")
     app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=1" , false, true, "", "", false, self).then((res) => {
       let result = res.data.data[0];
       pageArray.push(1);
@@ -1072,11 +1073,13 @@ function restartModelReal(self) {
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
 
+      console.log(shitiArray)
+
       self.setData({
         myCurrent: 0,
         pageArray: [1],
         sliderShitiArray: sliderShitiArray, //滑动数组
-        shitiArray: shitiArray1, //整节的试题数组
+        shitiArray: shitiArray, //整节的试题数组
         doneAnswerArray: [], //已做答案数组
         circular: false,
         pageArray: pageArray,
@@ -1111,8 +1114,6 @@ function restartModelReal(self) {
       nextShiti.isAnswer = false;
       sliderShitiArray[1] = nextShiti;
     }
-
-    console.log()
 
     clearInterval(self.data.interval); //停止计时
     startWatch(self.data.times * 60, self); //重新开始计时
