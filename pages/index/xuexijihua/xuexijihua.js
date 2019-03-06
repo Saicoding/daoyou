@@ -18,7 +18,8 @@ Page({
     webind: 0,
     web: [],
     mine: 'false',
-    userimg: ""
+    userimg: "",
+    webheight:0
   },
 
   /**
@@ -163,6 +164,12 @@ Page({
         })
       }
     });
+    //web高度
+    let webheight = (this.data.windowHeight * 1)-110;
+    this.setData({
+      webheight: webheight
+
+    })
   },
 
   /**

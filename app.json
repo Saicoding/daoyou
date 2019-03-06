@@ -19,7 +19,6 @@
     "pages/user/coupon/coupon",
     "pages/logs/logs",
     "pages/index/navigation/navigation",
-    "pages/user/news/news",
     "pages/shuati/zuoti/zuoti",
     "pages/index/catalogDetail/catalogDetail",
     "pages/shuati/moni/moni",
@@ -27,7 +26,8 @@
     "pages/shuati/random/random",
     "pages/shuati/mark/mark",
     "pages/shuati/noteAndErrList/noteAndErr/noteAndErr",
-    "pages/shuati/moni/modelRealScore/modelRealScore"
+    "pages/shuati/moni/modelRealScore/modelRealScore",
+    "pages/user/message/news"
   ],
   "window": {
     "backgroundTextStyle": "light",

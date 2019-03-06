@@ -14,7 +14,7 @@ Page({
     openId: '', //用户唯一标识  
     unionId: '',
     encryptedData: '',
-    
+    news_num:0
   },
 
   /**
@@ -22,13 +22,27 @@ Page({
    */
   onLoad: function (options) {
     let user = wx.getStorageSync('user');
+    let that=this;
     if (user) {
+      let zcode = user.zcode;
+      let token = user.token;
+
       this.setData({ user: user })
+      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, true, false, "", "", true, self).then((res) => {
+        var news_num=res.data.data[0].nums;
+that.setData({
+  news_num: news_num
+})
+      })
+
+
     } else {
       wx.navigateTo({
         url: '../login/login',
       })
     }
+    
+
   },
 
   /**

@@ -1,0 +1,51 @@
+/* pages/mine/message/message.wxss */
+
+.body-container {
+  padding: 40rpx 0;
+}
+.block {
+  width: 100%;
+  border-bottom: 1rpx solid #ebebeb;
+  overflow: hidden; padding: 25rpx 40rpx; background: #fff;
+}
+
+.left-dot, .mytext {
+  float: left;
+}
+
+.left-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 20rpx;
+  margin-top: 15rpx;
+}
+.hui { color: #aaa}
+.mytext {
+  font-size: 30rpx;
+  color: black;
+  margin-left: 30rpx;
+  width: 88%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.right-img {
+  width: 18rpx;
+  height: 18rpx;
+  margin-top: 32rpx;
+  float: right
+}
+
+.time {
+  line-height:30rpx;
+  margin-top: 15rpx;
+}
+
+.detail {
+  clear: both;
+  font-size: 25rpx;
+  padding:10px 50rpx;
+ 
+  line-height: 50rpx;
+}

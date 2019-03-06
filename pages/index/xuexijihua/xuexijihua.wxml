@@ -2,7 +2,9 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
   
-  <web-view src="{{web[0]}}" class='web-view'></web-view>
+  <web-view src="{{web[0]}}" class='web-view' style='height:{{webheight}}px'></web-view>
+  <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html" class='web-view' style='height:{{webheight}}px'></web-view> -->
+
   <!-- <view class="float" style="top:{{(windowHeight-400)/2}}rpx;" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
     <image class="float-icon" src="/images/youhuiquan.png" style="margin-left:30rpx;margin-right:20rpx;"></image>
     <view class="float-text">您有1张100元的全部计划优惠券</view>

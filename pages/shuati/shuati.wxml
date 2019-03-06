@@ -87,8 +87,9 @@
 
           <view class="ti-block-shu"></view>
 
-          <view data-f_id = "{{zhangjie.id}}" style="height:90rpx;width:90rpx;"  data-rightRate="{{zhangjie.rightrate}}" data-doneNum="{{zhangjie.donenum}}" data-num="{{zhangjie.all_num}}" data-title="{{zhangjie.title}}" >
-            <image class="ti-block-answer" src="/images/answer.png"></image>
+          <view class= "ti-block-right">
+            <view class ="ti-block-right-rate" style = "color:{{zhangjie.rightrate >=60 ?'#32d584':'#f98b01'}}">{{zhangjie.rightrate}}</view>
+            <image class="ti-block-right-icon" src="{{zhangjie.rightrate >=60 ? '/images/rate.png':'/images/rate1.png'}}"></image>
           </view>
         </view>
         <view wx:if="{{!zhangjie.isFolder}}" class="jie-border"></view>
@@ -109,7 +110,7 @@
 
               <view class="ti-block-shu"></view>
               <view style="height:90rpx;width:90rpx;">
-                <image class="ti-block-answer" src="/images/answer.png"></image>
+                <image class="ti-block-answer" style = "{{jie.selected?'width:60rpx;height:60rpx;margin-top:5rpx;margin-left:15rpx;':'width:50rpx;height:50rpx;margin-top:10rpx;margin-left:20rpx;'}}"  src="{{jie.selected?'/images/answer.gif':'/images/answer.png'}}"></image>
               </view>
             </view>
 
@@ -152,4 +153,3 @@
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti" windowHeight = "{{windowHeight}}"></goAnswerModel>
 
 <jiesuoti id = "jiesuoti" bindbuyAll = "_buyAll" windowHeight = "{{windowHeight}}"></jiesuoti>
-

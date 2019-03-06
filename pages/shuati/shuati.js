@@ -240,7 +240,7 @@ Page({
           zhangjie.donenum += doneArray.length;
           let rightNum = 0;
 
-          jie.rateWidth = 490 * (jie.donenum / parseInt(jie.all_num));
+          jie.rateWidth = 470 * (jie.donenum / parseInt(jie.all_num));
           // 计算正确率
           for (let k = 0; k < doneArray.length; k++) {
             let done = doneArray[k];
@@ -262,7 +262,7 @@ Page({
         }
       }
 
-      zhangjie.rateWidth = 490 * zhangjie.donenum / parseInt(zhangjie.all_num); //绿条宽度
+      zhangjie.rateWidth = 470 * zhangjie.donenum / parseInt(zhangjie.all_num); //绿条宽度
       zhangjie.rightrate = zhangjie.donenum == 0 ? 0 : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 

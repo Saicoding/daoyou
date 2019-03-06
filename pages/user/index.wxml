@@ -48,12 +48,13 @@
 
     <view class="line">
       <view class="block">
-        <navigator url='news/news'>
+        <navigator url='message/news'>
         <view class="mytext fl">
           我的消息
         </view>
         <view class='fr hui'>></view>
-        <view class='hong fr'>0条</view>
+        <view class='hong fr'>{{news_num}}条</view>
+        <view class='clear'></view>
         </navigator>
       </view>
     </view>
@@ -65,6 +66,7 @@
         </view>
         <view class='fr hui'>></view>
         <view class='hui fr'>100元</view>
+        <view class='clear'></view>
         </navigator>
       </view>
     </view>
