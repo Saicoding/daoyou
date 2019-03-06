@@ -2,7 +2,7 @@
 
 .container {
   position: fixed;
-  bottom: 0rpx;
+  bottom: -10rpx;
   z-index: 100;
 }
 

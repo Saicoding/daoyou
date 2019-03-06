@@ -178,9 +178,10 @@ Component({
        * 9.num_pan:判断题数
        * 10.zhangIdx:点击的章index
        * 11.jieIdx:点击的节index
+       * 12.videoid:点击的教程id
        */
-
-      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum,num_dan:this.data.num_dan,num_duo:this.data.num_duo,num_pan:this.data.num_pan,zhangIdx:this.data.zhangIdx,jieIdx:this.data.jieIdx});
+      console.log(this.data.videoid)
+      this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum, num_dan: this.data.num_dan, num_duo: this.data.num_duo, num_pan: this.data.num_pan, zhangIdx: this.data.zhangIdx, jieIdx: this.data.jieIdx, videoid:this.data.videoid});
     }
   }
 

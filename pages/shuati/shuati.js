@@ -96,7 +96,6 @@ Page({
 
       //****获取做题进度百分比,因为onshow事件可能改变currentIndex值,所以要在最新获取currentIndex值的地方使用接口//
       self.getZuotiJindu(token, zcode, types, self);
-
     }
 
     zhangjieLoadedStrArray.push(zhangjieLoadedStr);
@@ -105,7 +104,9 @@ Page({
     if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
 
       app.post(API_URL, "action=getKeMuTestType&types=" + types + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
+
         let zhangjies = res.data.data;
+        console.log(zhangjies)
 
 
         self.initZhangjie(zhangjies); //初始化章节信息
@@ -145,6 +146,7 @@ Page({
 
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
+
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
         tiku[zhangjieLoadedStr] = zhangjies;
@@ -263,7 +265,8 @@ Page({
       }
 
       zhangjie.rateWidth = 470 * zhangjie.donenum / parseInt(zhangjie.all_num); //绿条宽度
-      zhangjie.rightrate = zhangjie.donenum == 0 ? 0 : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
+      zhangjie.rate = (zhangjie.donenum / parseInt(zhangjie.all_num)*100).toFixed(2);//完成比例
+      zhangjie.rightrate = zhangjie.donenum == 0 ? '0.00' : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 
   },
@@ -484,8 +487,12 @@ Page({
     let tiku = this.data.tiku;
 
     if (zhangjieLoadedStrArray.indexOf(currentLoadedStr) != -1) { //如果包含,就使用本地tiku数组
+      self.setData({
+        isLoaded: false
+      })
       this.setData({
-        zhangjies: tiku[currentLoadedStr]
+        zhangjies: tiku[currentLoadedStr],
+        isLoaded: true
       })
     } else {
       let types = self.getkemuIDByindex(currentIndex); //科目id
@@ -665,6 +672,7 @@ Page({
     let f_id = e.currentTarget.dataset.f_id; //章节id
     let zhangIdx = e.currentTarget.dataset.zhangidx; //章的idx
     let jieIdx = e.currentTarget.dataset.jieidx; //章的idx
+    let videoid = e.currentTarget.dataset.videoid;//教程id
 
     let currentIndex = this.data.currentIndex;
     let modelIndex = this.goAnswerModel.data.currentIndex;
@@ -678,7 +686,8 @@ Page({
         title: title,
         f_id: f_id,
         zhangIdx: zhangIdx,
-        jieIdx: jieIdx
+        jieIdx: jieIdx,
+        videoid: videoid,
       })
 
       this.goAnswerModel.showDialog();
@@ -725,7 +734,8 @@ Page({
         donenum: donenum,
         rightrate: rightrate,
         title: title,
-        f_id: f_id
+        f_id: f_id,
+        videoid: videoid
       })
 
       this.goAnswerModel.showDialog();
@@ -782,6 +792,7 @@ Page({
     let types = this.getkemuIDByindex(currentIndex); //科目ID
     let f_id = e.detail.f_id; //章节id
     let all_nums = e.detail.all_nums; //点击章节的题数
+    let videoid = e.detail.videoid;//教程id
     let num_dan = e.detail.num_dan; //单选题数量
     let num_duo = e.detail.num_duo; //多选题数量
     let num_pan = e.detail.num_pan; //判断题数量
@@ -791,7 +802,6 @@ Page({
     let lastJieIdx = this.data.lastJieIdx ? this.data.lastJieIdx : 0;
     let zhangjies = this.data.zhangjies; //当前科目所有章节
 
-    console.log(zhangIdx, lastZhangeIdx, jieIdx, lastJieIdx)
     if (!(zhangIdx == lastZhangeIdx && jieIdx == lastJieIdx)) { //点击了不同章节
       zhangjies[lastZhangeIdx].list[lastJieIdx].selected = false;
       zhangjies[zhangIdx].list[jieIdx].selected = true;
@@ -803,7 +813,7 @@ Page({
     }
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex + "&zhangIdx=" + zhangIdx + "&jieIdx=" + jieIdx,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex + "&zhangIdx=" + zhangIdx + "&jieIdx=" + jieIdx+"&videoid="+videoid,
     })
   },
 

@@ -72,7 +72,7 @@
 <view wx:if="{{showbiji}}" class="model"></view>
 
 <!-- 教程 -->
-<jiaocheng id="jiaocheng"></jiaocheng>
+<jiaocheng id="jiaocheng" title = "{{options.title}}" videoid = "{{options.videoid}}"></jiaocheng>
 
 <!-- 解锁 -->
 <jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuyAll = "_buyAll" bindbuyJiexi = "_buyJiexi"></jiesuo>

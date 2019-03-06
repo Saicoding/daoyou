@@ -144,8 +144,8 @@
   width:520rpx;
   margin:0 auto;
 }
-.beisu { width: 4em; text-align: center; border: 1px #eee solid; font-size:22rpx;border-radius:4px; line-height: 38rpx; color: #999; margin-right: 10px; float: right; margin-top: 5px;}
-.beisu.on { background: rgba(255, 153, 0, 0.678); color: #fff; border: 1px rgb(252, 177, 65) solid;  }
+.beisu { width: 4em; text-align: center; border: 1px #eee solid;background: rgba(255, 255, 255, 0.8);  font-size:22rpx;border-radius:4px; line-height: 38rpx; color: #999; margin-right: 10px; float: right; margin-top: 5px;}
+.beisu.on { background: rgba(255, 153, 0, 0.8); color: #fff; border: 1px rgb(252, 177, 65) solid;  }
 .title1{
   display:float;
   float:left;
@@ -176,7 +176,7 @@
 
 .video-block{
   width:100%;
-  
+ 
 }
 
 
@@ -219,12 +219,20 @@
   margin-left:60rpx;
   margin-top:32rpx;
 }
+.select { color:#66d68e}
 
 .title-block{
-  width:94%; margin: 0 auto; border-bottom: 1px #eee solid;
-  padding: 25rpx 0;
+  width:94%; margin: 0 auto; border-bottom: 2px #eee solid;
+  padding: 25rpx 0; position: relative;
 }
+.title-block-img {
+ position: absolute; right: 0; top: 8px;
 
+}
+.title-block-tiao{
+  position: absolute; bottom: -2px; border-bottom: 2px #66d68e solid;
+
+}
 
 .title{
   font-size:28rpx;
@@ -241,9 +249,6 @@
   margin-top:20rpx;
 }
 
-.select{
-  background: rgb(231, 231, 231);
-}
 
 .bottomkk{
   width:100%;

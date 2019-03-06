@@ -44,7 +44,6 @@ Page({
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号
 
-    console.log(options.selected)
     if (px == undefined || options.selected == 'true') {//如果没有设置px或者选择的题型是全部
       px = 1 //如果没有这个px说明这个章节首次访问
       circular: false
@@ -150,15 +149,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let self = this;
     let options = this.data.options;
     let user = wx.getStorageSync('user'); //本地用户信息
-    let zcode = user.zcode?user.zcode:"";
+    let zcode = user.zcode ? user.zcode : "";
+
+    if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
+      self._answerSelect(undefined);
+    }
+
     wx.setStorage({
       key: 'lastShuati' + zcode,
       data: options
-    })
-    this.setData({
-      user: user
     })
   },
 
@@ -169,6 +171,14 @@ Page({
     let self = this;
     let px = self.data.px;
     let done_daan = "";
+    let huidiaoDaan = null;
+
+    if (e == undefined) {//回调回来的  
+      huidiaoDaan = self.data.huidiaoDaan;
+    } else {
+      huidiaoDaan = e.detail.done_daan ? e.detail.done_daan : '';
+    }
+
     let shitiArray = self.data.shitiArray;
     let options = self.data.options;
     let typesid = options.types;
@@ -178,20 +188,27 @@ Page({
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
 
-    if (!user){
+    this.setData({
+      huidiaoDaan: huidiaoDaan
+    })
+
+    if (!user) {
+      self.setData({
+        isSingin: true
+      })
       wx.navigateTo({
         url: '/pages/login/login?showToast=true&title=您需要登录',
       })
-      return;
+      return
     }
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    if (shiti.leibie == '1' || shiti.leibie == '3'){//单选和判断
-      done_daan = e.detail.done_daan;
-    } else if (shiti.leibie == '2'){//多选
+    if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
+      done_daan = huidiaoDaan;
+    } else if (shiti.leibie == '2') {//多选
       done_daan = shiti.selectAnswer;
-    }else{//面试
+    } else {//面试
       done_daan = "mianshi";
     }
 
@@ -211,12 +228,14 @@ Page({
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
-      restart:false
+      restart: false,
+      isReLoad: false,
+      isSingin: false
     })
 
-    common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-
     common.postAnswerToServer(user, shiti.beizhu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
+
+    common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
@@ -775,12 +794,14 @@ Page({
               }
               hash.push(newArray[i]);
             }
-            console.log(hash)
+      
             mytiku.donenum += hash.length - lastDoneAnswerArray.length;
           }else{
             mytiku.donenum += doneAnswerArray.length - donenum;
           }
-
+          console.log(mytiku.donenum)
+          mytiku.rightrate = mytiku.donenum == 0 ? '0.00' : ((mytiku.rightNum / mytiku.donenum) * 100).toFixed(2);
+          mytiku.rate = (mytiku.donenum / parseInt(mytiku.all_num)*100).toFixed(2);
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);
           prePage.setData({
             zhangjies: mytikuArray,

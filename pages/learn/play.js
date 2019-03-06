@@ -32,6 +32,8 @@ Page({
     page_now: '1',
     text: "",
     infowidth:"",
+    
+    beisuP:"",//全屏倍速样式
     //meuntop: "",//获取菜单高度
     mybar:"",
     playbackRate: 1,//播放速率  0.5、0.8、1.0、1.25、1.5
@@ -77,12 +79,26 @@ Page({
     });
 
     this.videoContext = wx.createVideoContext('myVideo')
+   
   },
   //改变视频速率
   beisu: function (e) {
     var beisu = e.currentTarget.dataset.su*1;
     this.setData({ playbackRate: beisu });
-    this.videoContext.playbackRate(beisu)
+    this.videoContext.playbackRate(beisu);
+    this.videoContext.play();
+  },
+  quan:function(){
+    if (this.data.beisuP==""){
+    this.setData({
+      beisuP:"on"
+    })
+    }else{
+      this.setData({
+        beisuP: ""
+      })
+    }
+
   },
   /**
    * 生命周期函数--监听页面显示
@@ -109,7 +125,7 @@ Page({
 
     loaded = false;
     app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", "", self).then((res) => {
-      console.log(res.data)
+     
       let files = res.data.data[0].files; //视频列表
       let currentVideo = files[px - 1];
       
@@ -188,7 +204,7 @@ Page({
       })
     }
   },
-
+  
   /**
    * 输入文字
    */
@@ -337,6 +353,7 @@ Page({
       files: files,
       isPlaying: isPlaying,
       px: index + 1,
+      
       currentTime : currentVideo.lastViewLength //将当前播放时间置为该视频的播放进度
     })
     wx.pageScrollTo({

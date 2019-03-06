@@ -71,6 +71,29 @@ App({
             })
 
 
+          } else if (status == -404) { //没有对应视频教程
+            if (self) { //如果传了这个参数
+              wx.showToast({
+                icon: 'none',
+                title: message,
+                duration: 3000
+              })
+              self.setData({
+                hasNoVideo: true,
+                first:false
+              })
+            }
+
+          } else if (status == -201) { //没有对应视频教程
+            if (self) { //如果传了这个参数
+              self.setData({
+                notBuy: true,//设置成没有购买
+                first: false,
+                show:true,
+                showPrompt:true//显示购买信息
+              })
+            }
+
           } else {
             console.log(res);
             wx.showToast({

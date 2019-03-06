@@ -1,13 +1,16 @@
 .mycontainer {
   background: #f4f7f9;
-  width: 94%;
+  width: 100%;
   margin: 0 auto;
 }
 
 .question {
+  width:690rpx;
   font-size: 32rpx;
   line-height: 42rpx;
   margin-top: 10rpx;
+  padding-left:30rpx;
+  padding-right:30rpx;
 }
 
 .question-type {
@@ -55,4 +58,8 @@
   width: 543rpx;
   margin-top: -5rpx;
   vertical-align: top;
+}
+
+.select1{
+  background: rgba(75, 75, 75,0.1);
 }

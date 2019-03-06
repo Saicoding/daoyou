@@ -1,6 +1,6 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id="myVideo" class='myVideo' controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
+<video bindtap="tooglePlay" id="myVideo" class='myVideo' controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindfullscreenchange="quan" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
   
   <!-- <view class="unBuy" wx:if="{{buy==0}}">
     <image class="video-icon" src="/images/course/ypad_btn_answers_play@2x.png" />
@@ -10,18 +10,21 @@
     <view class="wifi-text2">继续观看会耗费通用流量</view>
     <view bindtap='continueWatch' class="wifi-button">继续观看</view>
   </view>
+
+  <!--倍速-->
+  <view wx:if="{{beisuP=='on'}}">
+    <view class='beisu {{playbackRate=="1.5"?"on":""}}' bindtap='beisu' data-su='1.5'>x1.5</view>
+    <view class='beisu {{playbackRate=="1.25"?"on":""}}' bindtap='beisu' data-su='1.25'>x1.25</view>
+    <view class='beisu {{playbackRate=="1.0"?"on":""}}' bindtap='beisu' data-su='1.0'>x1.0</view>
+    <view class='beisu {{playbackRate=="0.8"?"on":""}}' bindtap='beisu' data-su='0.8'>x0.8</view>
+    <text class='beisu tar' style='border:0'>速率：</text>
+    <view class='clear'></view>
+  </view>
 </video>
 
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
-  <!--倍速-->
   
-  <view class='beisu {{playbackRate=="1.5"?"on":""}}' bindtap='beisu' data-su='1.5'>x1.5</view>
-  <view class='beisu {{playbackRate=="1.25"?"on":""}}' bindtap='beisu' data-su='1.25'>x1.25</view>
-  <view class='beisu {{playbackRate=="1.0"?"on":""}}' bindtap='beisu' data-su='1.0'>x1.0</view>
-  <view class='beisu {{playbackRate=="0.8"?"on":""}}' bindtap='beisu' data-su='0.8'>x0.8</view>
-  <text class='beisu tar' style='border:0'>速率：</text>
-  <view class='clear'></view>
   <!-- 视频 -->
   <view class="up-block" wx:if="{{product != 'pingjia'}}">
     <view class='kc_money'>
@@ -35,7 +38,18 @@
     <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">立即购买</view>
     <view wx:if="{{buy==1}}" class="purchased">已开通</view>
   </view>
+
+  <view wx:if="{{beisuP==''}}">
+    <view class='beisu {{playbackRate=="1.5"?"on":""}}' bindtap='beisu' data-su='1.5'>x1.5</view>
+    <view class='beisu {{playbackRate=="1.25"?"on":""}}' bindtap='beisu' data-su='1.25'>x1.25</view>
+    <view class='beisu {{playbackRate=="1.0"?"on":""}}' bindtap='beisu' data-su='1.0'>x1.0</view>
+    <view class='beisu {{playbackRate=="0.8"?"on":""}}' bindtap='beisu' data-su='0.8'>x0.8</view>
+    <text class='beisu tar' style='border:0'>速率：</text>
+    <view class='clear'></view>
+    </view>
   <view style='padding:4%;'>
+    
+
     <view class='f20 b'>
       {{kc_name}}
     </view>
@@ -75,12 +89,17 @@
     <!-- 目录信息 -->
     <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{files}}" wx:for-item='video' wx:key='v'>
-        <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
+        <view data-index="{{index}}" class="video-block {{(px-1)==index?'select':''}}" bindtap='changeVideo'>
 
           <view class="title-block">
             <view class="title">{{video.filesname}}</view>
             <view class="view-time">{{video.time}}</view>
+            <image style='{{(px-1)==index?"height:44rpx;width:44rpx;":"height:34rpx;width:34rpx;"}}' class='title-block-img' src='/images/course/{{(px-1)==index?"play.gif":"bo@2x.png"}}'></image>
+
+            <view wx:if="{{(px-1)==index}}" class='title-block-tiao' style='width:{{(currentTime/video.time_length)*100}}%'></view>
+            <view wx:if="{{(px-1)!=index}}" class='title-block-tiao' style='width:{{(video.lastViewLength/video.time_length)*100}}%'></view>
           </view>
+
         </view>
       </view>
     </view>

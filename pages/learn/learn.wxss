@@ -1,5 +1,6 @@
+.navigator-hover {min-height: 300rpx}
 .slide-image {
-  width: 100%; max-height: 400rpx;min-height: 300rpx;
+  width: 100%; max-height: 400rpx;min-height: 300rpx
 }
 
 /* 四个按钮 */
