@@ -9,7 +9,7 @@
   <view class='jiexi'>
     <view class="jiexi-top">
       <view class="jiexi-top-left">答案： {{answer}}</view>
-      <view class="jiexi-top-right" bindtap="_toggleErrorRecovery">题目纠错</view>
+      <view class="jiexi-top-right" bindtap="_toggleErrorRecovery" hover-class='select1' hover-stay-time='500'>题目纠错</view>
     </view>
     <view wx:if="{{buy == '1'}}" class="jiexi-text2">
       <span style="color:#21c867;">宝典秘籍：</span>{{jiexi}}</view>

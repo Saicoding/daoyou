@@ -14,5 +14,5 @@
   </view>
 </view>
 
-<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank" animation= "{{aniModel}}">
 </view>

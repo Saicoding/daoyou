@@ -1,5 +1,9 @@
 // pages/shuati/zuoti/zuoti.js
 let common = require('../../../common/shiti.js');
+let animate = require('../../../common/animate.js');
+let opaEastout = animate.opacityOutAnimation(1500);
+let opaEastin = animate.opacityInAnimation(1500);
+
 const app = getApp();
 let post = require('../../../common/post.js');
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
@@ -602,6 +606,23 @@ Page({
   _toogleMarkAnswer: function() {
     this.errorRecovery.hideDialog();
     this.markAnswer.toogleDialog();
+
+    // if (this.markAnswer.data.isShow) {
+    //   let ani = animate.opacityAnimation(opaEastout, 1);
+    //   let aniModel = animate.opacityAnimation(opaEastout, 0.3);
+    //   console.log(ani)
+    //   this.markAnswer.setData({
+    //     showAnimate: ani,
+    //     aniModel: aniModel
+    //   })
+    // } else {
+    //   let ani = animate.opacityAnimation(opaEastin, 0);
+    //   let aniModel = animate.opacityAnimation(opaEastout, 0);
+    //   this.markAnswer.setData({
+    //     showAnimate: ani,
+    //     aniModel: aniModel
+    //   })
+    // }
   },
 
   /**

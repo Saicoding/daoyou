@@ -89,6 +89,8 @@ Page({
     let self = this;
 
     this.bindPhoneModel = this.selectComponent("#bindPhoneModel");
+    this.rili = this.selectComponent("#rili");
+    this.hongbao = this.selectComponent("#hongbao");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -292,5 +294,19 @@ Page({
         })
       }
     })
+  },
+
+  /**
+   * 打开打卡页面
+   */
+  attendance:function(){
+    let user = wx.getStorageSync('user');
+    if(user){
+      this.rili.showDialog();
+    } else{
+      wx.navigateTo({
+        url: '/pages/login/login?showToast=您还没有登录',
+      })
+    }
   }
 })

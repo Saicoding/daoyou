@@ -1,0 +1,57 @@
+<!--components/Dialog/dialog.wxml-->
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style="top:{{(windowHeight-900)/2}}rpx">
+  <view class="close" bindtap = "hideDialog">
+    <image class="close-icon" src="/images/close2.png"></image>
+  </view>
+  <view class="rili">{{SignDays}}
+    <span style="font-size:20rpx;font-weight:normal">天</span>
+  </view>
+  <view class="content">
+    <view class="content-text">
+      <view>已坚持</view>
+      <view style="margin-left:250rpx;">签到　</view>
+    </view>
+
+    <view style="text-align:center;font-size:28rpx;height:70rpx;line-height:70rpx;">距离导游资格证考试还有
+      <span style="color:#4cd32b;">{{ksDate}}</span> 天</view>
+
+    <view class="headpics">
+      <image class="headpics-icon" src="{{headPic}}" wx:for="{{SignHeadImgs}}" wx:for-item="headPic" wx:key="p">
+      </image>
+    </view>
+
+    <view style="color:#9c9c9c;text-align:center;font-size:28rpx;height:120rpx;line-height:120rpx;"> <span style = "color:#f4a006;">{{SignNums?SignNums:0}}</span> 位同学今日已签到</view>
+
+    <view class="mid-line"></view>
+    <view class ="swiper-container">
+      <swiper class="swiper" display-multiple-items="5" circular = "{{true}}" duration = "200" current = "{{current}}">
+        <block wx:for="{{qiandaos}}" wx:for-item="qiandao" wx:key="q">
+          <swiper-item>
+            <view class="qiandao-item">
+              <view class="qiandao-item-up" style = "background:url({{index < SignDays?icons[0]:icons[1]}});background-size:95rpx 112rpx;">
+                <view class='qiandao-item-up-text'>+{{qiandao.jifen}}</view>
+                <view class="qiandao-item-up-icon">积分</view>
+              </view>
+              <view class="qiandao-item-mid">
+                <view class="qiandao-item-mid-line" style = "opacity:{{index == 0?0:1}}"></view>
+                <view class="qiandao-item-mid-circle" style = " background: radial-gradient({{index<SignDays?'#50bc57 40%, #84d186 30%, #84d186 30%':'#d8d8d8 40%, #f3f3f3 30%, #f1f1f1 30%'}}); ">
+                </view>
+                <view class="qiandao-item-mid-line" style = "opacity:{{index == qiandaos.length-1?0:1}}"></view>
+              </view>
+              <view class="qiandao-item-down" style = "color:{{index < SignDays?'black':'#cfcfcf'}}">{{index+1}}天</view>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+
+    <view class ="btn" bindtap = "getHaibao" hover-class='select1' hover-stay-time='500'>
+      生成学习打卡海报
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{isShow}}" class="modal" catchtap="tapBlank">
+</view>
+
+<daka windowHeight = "{{windowHeight}}" id="daka"></daka>

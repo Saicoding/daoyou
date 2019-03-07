@@ -486,8 +486,6 @@ function storeAnswerStatus(shiti, self) {
     doneAnswerArray.push(obj) //存储已经做题的状态
   }
 
-  console.log(doneAnswerArray)
-  console.log(all_answer_nums_array)
   self.setData({
     doneAnswerArray: doneAnswerArray
   })
@@ -1044,7 +1042,6 @@ function restartModelReal(self) {
       isLoaded: false
     })
 
-    console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=1")
     app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=1" , false, true, "", "", false, self).then((res) => {
       let result = res.data.data[0];
       pageArray.push(1);
@@ -1072,8 +1069,6 @@ function restartModelReal(self) {
 
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
-
-      console.log(shitiArray)
 
       self.setData({
         myCurrent: 0,

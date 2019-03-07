@@ -46,7 +46,7 @@
   <!-- 确定按钮 -->
   <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
 
-  <view wx:if="{{submit_disabled}}" class="submit">{{statu.confirm_text}}</view>
+  <view wx:if="{{submit_disabled}}" class="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
 
   <!-- 快速登录 -->
   <view class="line">
@@ -55,13 +55,11 @@
     <view class="line-border" style="margin-left:30rpx;"></view>
   </view>
 
-  <!-- 快速登录 -->
-  <view class="fastlogin">
-    <view class='tac'>
-      <button open-type="getUserInfo" bindgetuserinfo="wxLogin" style='background:#fff'>
-        <image src="/images/weixin@3x.png" style='width:50%' mode="widthFix"></image>
-      </button>
 
-    </view>
-  </view>
+  <!-- 快捷登录 -->
+  <button open-type="getUserInfo" bindgetuserinfo="wxLogin" class="fastlogin" hover-class='select3' hover-stay-time='500'>
+    <image class="fastlogin-icon" src="/images/wx3.png"></image>
+    <view class="fastlogin-text">微信登录</view>
+  </button>
+
 </view>

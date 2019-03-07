@@ -1,0 +1,32 @@
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit">
+</image>
+
+<view wx:if="{{loaded}}" class="content">
+  <view class='tar bgfff'>
+    <view  class=' fr f14'>待分享，差 <text class='hong'>1</text>人</view >
+    <view class='clear'></view>
+  </view>
+  <view class="block info" bindtap="watch">
+    <image src="{{img}}" class="img" mode='widthFix' />
+
+    <view class="right-block">
+      <!-- 标题 -->
+      <view class="title f15">{{title}}</view>
+      <view class='hui f12'>已有{{num*13+160}}人成功购买本套餐</view>
+      <view class='height10'></view>
+      <view class='hong'>￥{{price_tuan}}
+        <text class='f12 hui'> 拼单省100元</text>
+      </view>
+    </view>
+    <view class='clear'></view>
+
+  </view>
+
+  <view class='tar bgfff f14'>实付:￥499.00 <text class='f12 hui'>（免运费）</text></view>
+  <view class='tar bgfff'>
+    <button open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
+      邀请好友拼单
+    </button>
+    <view class='clear'></view>
+  </view>
+</view>

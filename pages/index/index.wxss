@@ -230,3 +230,7 @@
 .select2 {
   background: rgba(0, 0, 0, 0.1);
 }
+
+.select3{
+  opacity: 0.3;
+}

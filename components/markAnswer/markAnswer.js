@@ -1,4 +1,8 @@
 // components/markAnswer/markAnswer.js
+let animate = require('../../common/animate.js');
+let opaEastout = animate.opacityOutAnimation(1500);
+let opaEastin = animate.opacityInAnimation(1500);
+
 Component({
   options: {
     multipleSlots: true // 在组件定义时的选项中启用多slot支持

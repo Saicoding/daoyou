@@ -183,6 +183,7 @@ Page({
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
     let typesid = this.data.options.types;
+    console.log(options)
 
     this.setData({
       huidiaoDaan: huidiaoDaan

@@ -5,7 +5,6 @@ function easeOutAnimation(duration){
     timingFunction: "ease-out",
     transformOrigin: "50%,50%"
   })
-
   return myAnimation;
 }
 
@@ -19,6 +18,47 @@ function easeInAnimation(duration) {
 
   return myAnimation;
 }
+
+/**
+ * 透明度动画
+ */
+function opacityOutAnimation(duration) {
+  let myAnimation = wx.createAnimation({
+    duration: duration,
+    delay: 1000,
+    timingFunction: "ease-out",
+    transformOrigin: "50%,50%"
+  })
+  return myAnimation;
+}
+
+/**
+ * 透明度动画
+ */
+
+function opacityInAnimation(duration) {
+  let myAnimation = wx.createAnimation({
+    duration: duration,
+    delay: 1000,
+    timingFunction: "ease-in",
+    transformOrigin: "50%,50%"
+  })
+
+  return myAnimation;
+}
+
+
+/**
+ * 透明度动画
+ */
+function opacityAnimation(myAnimation, num) {
+  myAnimation.opacity(num).step({
+    duration:1000
+  });
+
+  return myAnimation.export();
+}
+
 
 
 function foldAnimation(myAnimation,max,min){
@@ -151,5 +191,8 @@ module.exports = {
   questionSpreadAnimation: questionSpreadAnimation,
   blockFoldAnimation: blockFoldAnimation,
   blockSpreadAnimation: blockSpreadAnimation,
-  tiaoAnimation: tiaoAnimation
+  tiaoAnimation: tiaoAnimation,
+  opacityOutAnimation: opacityOutAnimation,
+  opacityInAnimation: opacityInAnimation,
+  opacityAnimation: opacityAnimation
 }

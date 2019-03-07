@@ -1,9 +1,10 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/user/degree/degree",
     "pages/user/course/list",
-    "pages/index/xuexijihua/xuexijihua",
+    
     "pages/learn/learn",
     "pages/learn/pay",
     "pages/shuati/shuati",
@@ -27,7 +28,10 @@
     "pages/shuati/mark/mark",
     "pages/shuati/noteAndErrList/noteAndErr/noteAndErr",
     "pages/shuati/moni/modelRealScore/modelRealScore",
-    "pages/user/message/news"
+    "pages/user/message/news",
+    "pages/user/course/pindan_list",
+    "pages/learn/pindan",
+    "pages/index/xuexijihua/xuexijihua"
   ],
   "window": {
     "backgroundTextStyle": "light",

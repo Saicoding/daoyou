@@ -2,7 +2,7 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
   
-  <web-view src="{{web[0]}}" class='web-view' style='height:{{webheight}}px'></web-view>
+  <!-- <web-view src="{{web[0]}}" class='web-view'></web-view> -->
   <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html" class='web-view' style='height:{{webheight}}px'></web-view> -->
 
   <!-- <view class="float" style="top:{{(windowHeight-400)/2}}rpx;" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
@@ -12,8 +12,10 @@
     <view class="float-text" style="margin-left:40rpx;">立即领取></view>
   </view> -->
 
-  <!-- 快速参团 -->
+
+  <!-- 快速参团 //"HeadPic":"http://www.chinaplat.com/user/UserHeadImg/10013.jpg","NickName":"","EndTime":"2019/3/9 17:05:42","Id":"22"-->
   <view class="block" wx:if="mine=='false'" bindtap="GOtuangou">
+    <view wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i">
     <image class="block-icon1" src="{{userimg==''?'/images/avatar.png':userimg}}" ></image>
     <view class ="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
       <image class="block-icon2" src="/images/wenhao.png" ></image>
@@ -22,6 +24,20 @@
       <span style="color:#f2810c;">只差一人</span>
     </view>
     <view style = "color:#f5902f;font-size:25rpx;margin-right:30rpx; float:right">快速参团,立即拼成 <span style = "color:#f18508;font-weight:bolder;">></span> </view>
+    </view>
+  </view>
+
+  <view  wx:if="mine=='false'" >
+    <view class="block" wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i" data-id="{{list.Id}}" bindtap="GOtuangou">
+      <image class="block-icon1" src="{{list.HeadPic?list.HeadPic:'/images/avatar.png'}}" ></image>
+      <view class ="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
+        <image class="block-icon2" src="/images/wenhao.png" ></image>
+      </view>
+      <view><text class='username'>{{list.NickName?"list.NickName":"游客"}}</text>的团
+        <span style="color:#f2810c;">只差一人</span>
+      </view>
+      <view style = "color:#f5902f;font-size:24rpx;margin-right:30rpx; float:right">快速参团<span style = "color:#f18508;font-weight:bolder;">></span> </view>
+    </view>
   </view>
 
   <view class="bottom">

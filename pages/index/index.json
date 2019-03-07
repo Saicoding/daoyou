@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "bindPhoneModel":"/components/bindPhoneModel/bindPhoneModel"
+    "bindPhoneModel":"/components/bindPhoneModel/bindPhoneModel",
+    "rili": "/components/rili/rili",
+    "hongbao": "/components/hongbao/hongbao"
   },
   "navigationStyle": "custom",
   "enablePullDownRefresh": false

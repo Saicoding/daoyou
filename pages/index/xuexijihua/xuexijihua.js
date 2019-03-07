@@ -19,7 +19,7 @@ Page({
     web: [],
     mine: 'false',
     userimg: "",
-    webheight:0
+    pindan_list:""
   },
 
   /**
@@ -47,6 +47,7 @@ Page({
           username: username
         })
       }
+      //获取套餐包列表
       app.post(API_URL, "action=getCourseBao&token=" + user.token + '&zcode=' + user.zcode, false, false, "", "").then((res) => {
         var list = res.data.data[0].list;
         that.setData({
@@ -136,6 +137,15 @@ Page({
       })
 
     }
+
+    app.post(API_URL, "action=getTuangouList", false, false, "", "").then((res) => {
+      var list = res.data.data[0];
+      
+      that.setData({
+        pindan_list: list
+      })
+
+    })
   },
 
 
@@ -164,12 +174,7 @@ Page({
         })
       }
     });
-    //web高度
-    let webheight = (this.data.windowHeight * 1)-110;
-    this.setData({
-      webheight: webheight
-
-    })
+   
   },
 
   /**
@@ -203,9 +208,17 @@ Page({
   /**
    * 发起团购
    */
-  GOtuangou: function() {
+  GOtuangou: function(e) {
     var user = wx.getStorageSync("user");
-    console.log(user)
+    var id = e.currentTarget.dataset.id;
+    if(id){
+
+      //带着id
+    }else{
+      id=""
+    }
+
+
     if (user) {
       let buy = this.buyTaocan.data.taocans[0].buy;
 

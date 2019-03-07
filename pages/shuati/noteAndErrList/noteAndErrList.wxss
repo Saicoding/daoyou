@@ -30,6 +30,10 @@ page{
   padding-left:30rpx;
 }
 
+.ti-text{
+  width:600rpx;
+}
+
 .ti-num{
   color:#1fca6a;
   width:80rpx;

@@ -27,29 +27,32 @@ Page({
     youhuiquan: "0",
     money_zong: "0",
     guoqi: false,
-
+    tuan_id: "" //团购id 发起时没有
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.setNavigationBarTitle({//设置标题
+    wx.setNavigationBarTitle({ //设置标题
       title: '支付',
     })
     var danke = options.danke;
+
     var id = "";
     var product = "kong";
     var title = "";
     var keshi = "";
     var teacher = "";
+    var tuan_id = ""; //团购id 发起时没有
     title = options.title;
     if (danke) {
       id = options.id;
-      
+
       keshi = options.keshi;
       teacher = options.teacher;
     } else {
-      product = options.product;
+      product = options.product; //套餐名称
+      tuan_id = options.tuan_id; //团购id 发起时没有
     }
 
     var money_zong = Number(options.money_zong);
@@ -64,13 +67,13 @@ Page({
       if (mymoney >= money_zong) {
         mymoney2 = "-" + money_zong;
         //money_zong = 0
-        money_zong =0.01  //下单测试
+        money_zong = 0.01 //下单测试
       } else {
         mymoney2 = "-" + mymoney;
-       // money_zong = money_zong - mymoney
-       money_zong =0.01  //下单测试
+        // money_zong = money_zong - mymoney
+        money_zong = 0.01 //下单测试
       }
-    }else{
+    } else {
       wx.navigateTo({
         url: '../login/login',
       })
@@ -98,7 +101,7 @@ Page({
     this.setData({
       danke: danke,
       id: id,
-      
+
       mymoney: mymoney,
       mymoney2: mymoney2,
       title: title,
@@ -109,8 +112,8 @@ Page({
       money_zong: money_zong
     })
     if (!danke) {
-    this.setData({
-      product: product
+      this.setData({
+        product: product
       })
     }
   },
@@ -158,7 +161,12 @@ Page({
     var token = user.token;
     var zcode = user.zcode;
     var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
-    app.post(API_URL, "action=saveDyAdress&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&uname=" + this.data.sh_name + "&beizhu=" + this.data.sh_beizhu, false, false, "", "", "", self).then(res => {
+    // tname	string	是	真实姓名（邮寄资料用）
+    // mobile	string	是	电话（邮寄资料用）
+    // address	string	是	地址（邮寄资料用）
+    // tuan_id
+
+    app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
 
       this.setData({
         dizhiList: this.data.region[0] + " " + this.data.region[1] + " " + this.data.region[2] + "," + this.data.sh_dizhi,
@@ -245,7 +253,7 @@ Page({
     let self = this;
     let code = "";
     let user = wx.getStorageSync('user');
-    let Login_random = user.Login_random; //用户登录随机值
+
     let zcode = user.zcode; //客户端id号
     let token = user.token;
     let product = this.data.product;
@@ -261,7 +269,9 @@ Page({
 
         wx.setStorage({
           key: 'user',
-          data: { Money: res.data.data[0].xuebi}
+          data: {
+            Money: res.data.data[0].xuebi
+          }
         })
         //进入我的课程页
         wx.navigateTo({
@@ -269,30 +279,50 @@ Page({
         })
       })
     } else {
-      //购买套餐
-      app.post(API_URL, "action=buyCourseBao&token=" + token + "&zcode=" + zcode + "&types=" + product + "&jiaocai=1", true, false, "购买中").then((res) => {
+      //发起拼单
 
-        wx.showToast({
-          title: '购买成功',
-          icon: 'none',
-          duration: 3000
-        })
-        wx.setStorage({
-          key: 'user',
-          data: { Money: res.data.data[0].xuebi }
-        })
-        if (product =="豪华套餐"){
-          wx.navigateBack({});
-        }else{
-          //进入我的课程页
-          wx.navigateTo({
-            url: '../user/course/list',
-          })
+      var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
+      // tname	string	是	真实姓名（邮寄资料用）
+      // mobile	string	是	电话（邮寄资料用）
+      // address	string	是	地址（邮寄资料用）
+      // tuan_id
 
-        }
-      })
+      app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
+
+        console.log(res);
+        wx.navigateTo({ //进入拼单页
+          url: "/learn/pindan?tuan_id="
+        });
+
+      });
+
+
+
+      //购买套餐  先注释，拼单成功再购买
+      // app.post(API_URL, "action=buyCourseBao&token=" + token + "&zcode=" + zcode + "&types=" + product + "&jiaocai=1", true, false, "购买中").then((res) => {
+
+      //   wx.showToast({
+      //     title: '购买成功',
+      //     icon: 'none',
+      //     duration: 3000
+      //   })
+      //   wx.setStorage({
+      //     key: 'user',
+      //     data: { Money: res.data.data[0].xuebi }
+      //   })
+      //   if (product =="豪华套餐"){
+      //     wx.navigateBack({});
+
+      //   }else{
+      //     //进入我的课程页
+      //     wx.navigateTo({
+      //       url: '../user/course/list',
+      //     })
+
+      //   }
+      // })
     }
-    
+
   },
   youhuiquan: function() {
     wx.navigateTo({

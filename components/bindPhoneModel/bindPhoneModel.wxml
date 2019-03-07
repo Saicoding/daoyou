@@ -1,5 +1,5 @@
 <!--components/Dialog/dialog.wxml-->
-<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container">
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style = "top:{{(windowHeight-600)/2}}rpx">
   <view style="width:100%;" bindtap='close'>
     <image class="pic" src="/images/bindphone.png"></image>
   </view>

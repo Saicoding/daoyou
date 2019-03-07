@@ -164,7 +164,7 @@ Page({
 
     let shitiArray = self.data.shitiArray;
     let options = self.data.options;
-    let typesid = options.types;
+    let typesid = options.typesid;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
@@ -776,7 +776,13 @@ Page({
    * 点击教程按钮
    */
   _jiaocheng: function(e) {
-    this.jiaocheng.toogleShow();
+    let type = this.data.options.type;
+    let title = type == 'note'?'笔记模式':'错题模式'
+    wx.showToast({
+      title: '在'+title+'中没有教程信息',
+      icon:'none',
+      duration:3000
+    })
   },
 
   /**

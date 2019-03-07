@@ -6,7 +6,7 @@ Component({
   properties: {
     windowHeight: {
       type: Number,
-      value: 1333,
+      value: 1333
     }
   },
 
@@ -14,7 +14,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    text:'获取验证码'
+ 
   },
 
   /**
@@ -39,20 +39,14 @@ Component({
         isShow: !this.data.isShow
       })
     },
-    //阻止事件冒泡
-    stopBubbling: function (e) { },
-
     //点击了空地,让蒙版消失
     tapBlank: function (e) {
-      return;
-      // this.setData({
-      //   isShow: false
-      // })
+      this.setData({
+        isShow: false
+      })
     },
-
-    //关闭
-    close:function(){
-      this.hideDialog();
-    }
+    //阻止事件冒泡
+    stopBubbling: function (e) { },
   }
+
 })

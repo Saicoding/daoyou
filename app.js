@@ -63,7 +63,8 @@ App({
             wx.removeStorageSync('user'); 
             if (self) { //如果传了这个参数
               self.setData({
-                isReLoad: true
+                isReLoad: true,
+                isShow:false
               })
             }
             wx.navigateTo({
@@ -85,6 +86,7 @@ App({
             }
 
           } else if (status == -201) { //没有对应视频教程
+            console.log(message)
             if (self) { //如果传了这个参数
               self.setData({
                 notBuy: true,//设置成没有购买

@@ -23,3 +23,7 @@
   margin-top:20rpx;
   margin-left:20rpx;
 }
+
+.select1{
+  background: rgba(90, 90, 90,0.1);
+}

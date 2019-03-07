@@ -31,8 +31,8 @@
           <view class="info-up-jihua-text">{{user.text}}</view>
         </view>
       </view>
-      <!-- 日期图片 -->
-      <view class="info-up-date">30</view>
+      <!-- 打卡 -->
+      <view class="info-up-date" bindtap = "attendance" hover-class='select3' hover-stay-time='500'>打卡</view>
     </view>
 
     <!-- 个人信息下面部分 -->
@@ -105,4 +105,8 @@
 </view>
 
 <!-- 弹窗 -->
-<bindPhoneModel id="bindPhoneModel"></bindPhoneModel>
+<bindPhoneModel windowHeight = "{{windowHeight}}" id="bindPhoneModel"></bindPhoneModel>
+
+<!-- 打卡 -->
+<rili windowHeight = "{{windowHeight}}" id="rili"></rili>
+<hongbao windowHeight = "{{windowHeight}}" id="hongbao"></hongbao>

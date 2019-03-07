@@ -1,0 +1,55 @@
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit">
+</image>
+
+<view wx:if="{{loaded}}" class="content">
+
+  <view class="block" bindtap="watch">
+    <image src="{{img}}" class="img" mode='widthFix' />
+
+    <view class="right-block">
+      <!-- 标题 -->
+      <view class="title f16">{{title}}</view>
+      <view class='hui f12'>已有{{num*13+160}}人成功购买本套餐</view>
+      <view class='height10'></view>
+      <view class='hong'>￥{{price_tuan}}
+        <text class='f12 hui'> 拼单省100元</text>
+      </view>
+    </view>
+    <view class='clear'></view>
+    <view class='tishi info'>
+      <image src='/images/danger2.png'></image>该套餐额外赠送：
+      <view class='f13'>1.2019新版教材，2.面试指导课，3.各省指导词。</view>
+    </view>
+  </view>
+  <view class="up">
+   
+    <!-- 头像 -->
+    <view class="up-avatar">
+      <view>
+        <image class="up-avatar-pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}"></image>
+        <view class="up-avatar-text">拼主</view>
+      </view>
+      <view style="margin-left:40rpx;">
+        <image src="/images/wenhao.png" class="up-avatar-pic"></image>
+      </view>
+    </view>
+    <!-- 文字信息 -->
+    <view class="up-text">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">88:88.88</text>后结束</view>
+
+    <!-- 邀请按钮 -->
+    <button open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
+      邀请好友拼单
+    </button>
+    <view class='tac hui f14'>
+      <navigator>查看课程详情</navigator>
+    </view>
+
+  </view>
+
+  <view class="info">
+    <view wx:for="{{infos}}" wx:for-item="infos" wx:key="i">{{infos}}</view>
+  </view>
+
+
+
+</view>

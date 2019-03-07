@@ -7,7 +7,6 @@ Component({
     windowHeight: {
       type: Number,
       value: 1333,
-      
     }
   },
 
