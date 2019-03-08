@@ -18,7 +18,7 @@ page {background: #f2f2f2;}
 .ditiao image.fr { margin-left: 8px}
 .liuyan { width:70%;display: block; float: left; line-height: 50rpx; height: 100rpx; }
 .ditiao2 { background: #fff; padding: 4%; line-height: 46rpx;}
-
+.btn.huise {background: linear-gradient(to right,#ccc,#d2d3d5);}
 .bottom {
   position: fixed;
   bottom: 0rpx;
@@ -102,11 +102,11 @@ page {background: #f2f2f2;}
 }
 
 .right-block{
-   width:60%; float:right;
+   width:57%; float:right;
 }
 
 .img{
-  width:37%; max-height: 190rpx;
+  width:40%; max-height: 190rpx;
 }
 .loading-block {
   width: 100%;
@@ -151,4 +151,29 @@ page {background: #f2f2f2;}
 .bgfff { background: #fff; padding:10px 4%; border-bottom:1px #eee solid }
 .btn{
   background: linear-gradient(to right,#7fcfa6,#55ebc5); width: 33%; font-size: 26rpx; color: #fff; float: right
+}
+.block-icon1{
+  position: relative;
+  width:60rpx;
+  height:60rpx;
+  border-radius: 60rpx;
+   z-index: 2;
+}
+
+.block-icon2-container{
+  position: relative;
+  width:60rpx;
+  height:60rpx;
+  border-radius: 60rpx;
+  background: white;
+  left:-30rpx;
+  z-index: 1;
+}
+
+.block-icon2{
+  display: block;
+  width:40rpx;
+  height:40rpx;
+  margin-left:10rpx;
+  margin-top:10rpx;
 }

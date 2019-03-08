@@ -1,4 +1,4 @@
-<!-- 轮播图 -->
+﻿<!-- 轮播图 -->
 <navigator url='../index/xuexijihua/xuexijihua' wx:if="{{barUrls.length==1}}">
   <image src="{{barUrls}}" class="slide-image" mode='widthFix' />
 </navigator>
@@ -22,7 +22,7 @@
 
 </scroll-view>
 
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
 
 <view wx:if="{{loaded}}" class="content">
   <view wx:if="{{!daoyouci}}" wx:for="{{videoList}}" wx:for-item="video" wx:key="v">

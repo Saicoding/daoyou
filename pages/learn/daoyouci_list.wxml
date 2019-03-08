@@ -1,4 +1,4 @@
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+﻿<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
 <view wx:if="{{loaded}}" class="content">
   <view wx:for="{{list}}" wx:for-item="list" wx:key="i" class='list' data-img='{{list.pic}}' data-id='{{list.id}}' bindtap='info'>
     <view class='listimg'>

@@ -17,41 +17,53 @@ Page({
     product: "", //基础套餐、冲刺套餐、豪华套餐
     webind: 0,
     web: [],
-    mine: 'false',
-    userimg: "",
-    pindan_list:""
+    mine: true, //确认身份
+    tuan_id:"", //团购id，如果是好友进来的id存在
+    pindan_list:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var userid = options.userid;
-    var userimg = options.userimg;
-    var username = options.username;
+    
     var that = this;
     wx.setNavigationBarTitle({ //设置标题
       title: '学习计划',
+    });
+    var mine = options.mine;
+    
+    if (mine){
+      that.setData({
+        mine: mine
+      })
+    }
+    var tuan_id = options.tuan_id;
+    if (tuan_id) {
+      that.setData({
+        tuan_id: tuan_id
+      })
+    }
+
+    //拼单列表
+    app.post(API_URL, "action=getTuangouList", false, false, "", "").then((res) => {
+      var list = res.data.data[0];
+      if (list.length==undefined){
+        list=[list]
+      }
+      that.setData({
+        pindan_list:list
+      })
     })
     var user = wx.getStorageSync("user")
     if (user) {
       
-      if (userid) {
-        if (userid == user.zcode) {
-          that.setData({
-            mine: 'true'
-          })
-        }
-        that.setData({
-          userimg: userimg,
-          username: username
-        })
-      }
       //获取套餐包列表
       app.post(API_URL, "action=getCourseBao&token=" + user.token + '&zcode=' + user.zcode, false, false, "", "").then((res) => {
         var list = res.data.data[0].list;
         that.setData({
           loaded: true,
+          list: list,
           web: [list[0].url, list[1].url, list[2].url]
         })
         that.pindanSend.setData({
@@ -96,7 +108,8 @@ Page({
       app.post(API_URL, "action=getCourseBao", false, false, "", "").then((res) => {
         var list = res.data.data[0].list;
         that.setData({
-          loaded: true
+          loaded: true,
+          list: list,
         })
         that.buyTaocan.setData({
           taocans: [{
@@ -138,14 +151,7 @@ Page({
 
     }
 
-    app.post(API_URL, "action=getTuangouList", false, false, "", "").then((res) => {
-      var list = res.data.data[0];
-      
-      that.setData({
-        pindan_list: list
-      })
-
-    })
+    
   },
 
 
@@ -210,27 +216,19 @@ Page({
    */
   GOtuangou: function(e) {
     var user = wx.getStorageSync("user");
-    var id = e.currentTarget.dataset.id;
-    if(id){
-
-      //带着id
-    }else{
-      id=""
-    }
-
-
+    //拼团id 要么与随机网友拼单  要么与邀请我的好友拼单， 要么发起拼单
+    var tuan_id = e.currentTarget.dataset.id;
+    if (tuan_id) { tuan_id = tuan_id } else { tuan_id = this.data.tuan_id}
     if (user) {
       let buy = this.buyTaocan.data.taocans[0].buy;
-
+      //登陆并且未购买
       if (buy == 0) {
-
-
         let money_zong = this.buyTaocan.data.taocans[0].price_tuan;
         let product = this.buyTaocan.data.taocans[0].typesname;
         let title = this.buyTaocan.data.taocans[0].title;
 
         wx.navigateTo({
-          url: '/pages/learn/pay?danke=&title=' + title + '&money_zong=' + (money_zong - 100) + '&product=' + product
+          url: '/pages/learn/pay?danke=&title=' + title + '&money_zong=' + (money_zong - 50) + '&product=' + product + '&tuan_id=' + tuan_id
         })
         wx.showLoading({
           title: '正在跳转',
@@ -241,6 +239,7 @@ Page({
         }, 3000)
 
       } else {
+        //登陆并且已购买
         wx.showToast({
           title: '您已经购买本套餐',
           icon: 'none',
@@ -271,8 +270,8 @@ Page({
       });
     return {
       title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
-      path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
-      imageUrl: '/images/denglu@3x.jpg',
+      path: '', //这里设定都是以"/page"开头,并拼接好传递的参数
+      imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
       success: (res) => {
         console.log('转发成功')
       },

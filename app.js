@@ -46,10 +46,11 @@ App({
           if (status == 1) { //请求成功
             resolve(res);
           } else if (status == -2) { //没有权限
-            let product = res.data.taocan;
-
-            wx.navigateTo({
-              url: '/pages/pay/pay?product=' + product,
+            console.log(res);
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 3000
             })
           } else if (status == -101) { //没有试题
             console.log('没有试题')
@@ -60,15 +61,17 @@ App({
             })
 
           } else if (status == -2010) { //重复登录
-            wx.removeStorageSync('user'); 
+            wx.removeStorageSync('user');
+            console.log(message)
             if (self) { //如果传了这个参数
               self.setData({
                 isReLoad: true,
-                isShow:false
+                isShow: false,
+                isDaka:true
               })
             }
             wx.navigateTo({
-              url: '/pages/login/login?url=' + pageUrl + '&ifGoPage=' + ifGoPage +"&showToast=true&title=登录已失效,请重新登录"
+              url: '/pages/login/login?url=' + pageUrl + '&ifGoPage=' + ifGoPage + "&showToast=true&title=登录已失效,请重新登录"
             })
 
 
@@ -81,18 +84,18 @@ App({
               })
               self.setData({
                 hasNoVideo: true,
-                first:false
+                first: false
               })
             }
 
           } else if (status == -201) { //没有对应视频教程
-            console.log(message)
             if (self) { //如果传了这个参数
+
               self.setData({
-                notBuy: true,//设置成没有购买
+                notBuy: true, //设置成没有购买
                 first: false,
-                show:true,
-                showPrompt:true//显示购买信息
+                show: true,
+                showPrompt: true //显示购买信息
               })
             }
 

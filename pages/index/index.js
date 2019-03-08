@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
+let newAni = require('../../common/newAnimate.js');
 
 Page({
   data: {
@@ -56,10 +57,10 @@ Page({
       "/images/index/item7.png",
       "/images/index/item8.png"
     ],
-    midtext:"开始刷题",
-    midtitle:"暂无刷题记录",
-    ketext:"开始看课",
-    ketitle:"继续看课",
+    midtext: "开始刷题",
+    midtitle: "暂无刷题记录",
+    ketext: "开始看课",
+    ketitle: "继续看课",
   },
 
   /**
@@ -90,7 +91,7 @@ Page({
 
     this.bindPhoneModel = this.selectComponent("#bindPhoneModel");
     this.rili = this.selectComponent("#rili");
-    this.hongbao = this.selectComponent("#hongbao");
+    this.haibao = this.selectComponent("#haibao");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -118,28 +119,76 @@ Page({
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let first = this.data.first;
 
-    let myDate = new Date();//获取系统当前时间
+    let dakaToday = wx.getStorage({
+      key: 'user',
+      success: function(res) {
+        let obj = {
+          transformOrigin: '10% 10% 0',
+          delay: 0,
+          duration: 1000,
+        }
+
+        let obj2 = {
+          transformOrigin: '50% 50% 0',
+          delay: 0,
+          duration: 2000,
+        }
+
+        let dakaAnimate = null;
+        let next = true;
+        dakaAnimate = newAni.rate2(obj2, 360);
+        self.setData({
+          dakaAnimate: dakaAnimate
+        })
+
+        let interval = setInterval(res => {
+          let num = Math.round(Math.random()); 
+          if (num == 0) {
+            dakaAnimate = newAni.rate1(obj, 40);
+          } else {
+            dakaAnimate = newAni.rate2(obj2, 360);
+          }
+          self.setData({
+            dakaAnimate: dakaAnimate
+          })
+        }, 5000);
+
+        self.setData({
+          interval: interval
+        })
+
+      },
+    })
+
+    if (this.rili) { //如果有弹出日历信息
+      let isDaka = this.rili.data.isDaka; //是否是重复登录后回来的
+      if (isDaka) {
+        this.rili.showDialog();
+      }
+    }
+
+    let myDate = new Date(); //获取系统当前时间
     let year = myDate.getFullYear();
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     myDate = "" + year + month + day;
 
-    wx.getStorage({//今日刷题数
+    wx.getStorage({ //今日刷题数
       key: "today" + myDate + zcode,
       success: function(res) {
         self.setData({
-          todayNum:res.data.length
+          todayNum: res.data.length
         })
       },
     })
 
     wx.getStorage({
       key: 'lastShuati' + zcode,
-      success: function (res) {
+      success: function(res) {
         let lastShuati = res.data;
         self.setData({
           midtext: "继续刷题",
-          midtitle:lastShuati.title,
+          midtitle: lastShuati.title,
           lastShuati: lastShuati
         })
       },
@@ -147,7 +196,7 @@ Page({
 
     wx.getStorage({
       key: 'lastKe' + zcode,
-      success: function (res) {
+      success: function(res) {
         let lastKe = res.data;
         self.setData({
           midtext: "继续看课",
@@ -183,22 +232,29 @@ Page({
       })
     }
 
-    if (first) { //如果第一次载入
-
-    }
-
+  },
+  /**
+ * 创建海报
+ */
+  _createHaibao: function (e) {
+    let SignDays = e.detail.SignDays;
+    wx.showLoading({
+      title: '生成中',
+    })
+    console.log(e)
+    this.haibao.draw(SignDays);
   },
 
   /**
    * 继续刷题
    */
-  continiueShuati:function(){
+  continiueShuati: function() {
     let lastShuati = this.data.lastShuati;
-    if (lastShuati){//如果有最后一次刷题
+    if (lastShuati) { //如果有最后一次刷题
       wx.navigateTo({
-        url: '/pages/shuati/zuoti/zuoti?leibie=' + lastShuati.leibie + "&selected=" + lastShuati.selected + "&title=" + lastShuati.title + "&f_id=" + lastShuati.f_id + "&types=" + lastShuati.types + "&all_nums=" + lastShuati.all_nums + "&donenum=" + lastShuati.donenum + "&num_dan=" + lastShuati.num_dan + "&num_duo=" + lastShuati.num_duo + "&num_pan=" + lastShuati.num_pan + "&currentIndex=" + lastShuati.currentIndex + "&currentMidIndex=" + lastShuati.currentMidIndex + "&from=shouye" + "&zhangIdx=" + lastShuati.zhangIdx+"&jieIdx="+lastShuati.jieIdx
+        url: '/pages/shuati/zuoti/zuoti?leibie=' + lastShuati.leibie + "&selected=" + lastShuati.selected + "&title=" + lastShuati.title + "&f_id=" + lastShuati.f_id + "&types=" + lastShuati.types + "&all_nums=" + lastShuati.all_nums + "&donenum=" + lastShuati.donenum + "&num_dan=" + lastShuati.num_dan + "&num_duo=" + lastShuati.num_duo + "&num_pan=" + lastShuati.num_pan + "&currentIndex=" + lastShuati.currentIndex + "&currentMidIndex=" + lastShuati.currentMidIndex + "&from=shouye" + "&zhangIdx=" + lastShuati.zhangIdx + "&jieIdx=" + lastShuati.jieIdx
       })
-    }else{
+    } else {
       wx.navigateTo({
         url: '/pages/shuati/zuoti/zuoti?leibie=0&selected=false&title=概述&f_id=10420&types=239&all_nums=56&donenum=0&num_dan=24&num_duo=10&num_pan=22&currentIndex=0&currentMidIndex=0&from=shouye&zhangIdx=0&jieIdx=0'
       })
@@ -260,28 +316,23 @@ Page({
    * 调起客户端扫码界面进行扫码
    */
   scan: function() {
+    console.log('haha')
     wx.scanCode({
       success: function(e) {
         let code = e.result.substring(6);
         let user = wx.getStorageSync('user');
         if (!user) {
           wx.navigateTo({
-            url: '/pages/login/login',
+            url: '/pages/login/login?showToast=true&title=您还没有登录',
           })
-
-          wx.showToast({
-            title: '',
-            icon: 'none',
-            duration: '您还没有登录'
-          })
-        }else{
+        } else {
           let zcode = user.zcode;
           let token = user.token;
           app.post(API_URL, "action=APPLogin&zcode=" + zcode + "&token=" + token + "&t=" + code, false, false, "", "").then(res => {
             wx.showToast({
               title: '网页已登录成功!',
-              duration:4000,
-              icon:'none'
+              duration: 4000,
+              icon: 'none'
             })
           })
         }
@@ -299,14 +350,14 @@ Page({
   /**
    * 打开打卡页面
    */
-  attendance:function(){
+  attendance: function(e) {
     let user = wx.getStorageSync('user');
-    if(user){
+    if (user) {
       this.rili.showDialog();
-    } else{
+    } else {
       wx.navigateTo({
-        url: '/pages/login/login?showToast=您还没有登录',
+        url: '/pages/login/login?showToast=true&title=您还没有登录',
       })
     }
-  }
+  },
 })

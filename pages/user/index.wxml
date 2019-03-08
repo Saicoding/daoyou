@@ -45,7 +45,18 @@
       </view>
     </view>
 
-
+    <view class="line">
+      <view class="block">
+        <navigator url='../user/course/pindan_list'>
+        <view class="mytext fl">
+          我的拼单
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hong fr'></view>
+        <view class='clear'></view>
+        </navigator>
+      </view>
+    </view>
     <view class="line">
       <view class="block">
         <navigator url='message/news'>

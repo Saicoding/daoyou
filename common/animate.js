@@ -15,9 +15,10 @@ function easeInAnimation(duration) {
     timingFunction: "ease-in",
     transformOrigin: "50%,50%"
   })
-
   return myAnimation;
 }
+
+
 
 /**
  * 透明度动画
@@ -178,6 +179,7 @@ function tiaoAnimation(myAnimation,self){
     })
   }.bind(this), 700)
 }
+//**************************************新版动画************************************************** */
 
 
 module.exports = {

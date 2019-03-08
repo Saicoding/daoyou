@@ -1,7 +1,6 @@
 // pages/learn/pindan.js
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 const app = getApp();
-
 Page({
 
   /**
@@ -9,50 +8,145 @@ Page({
    */
   data: {
     loaded: false,
+    ifShare: false,//是否分享
+    mine:true,//此页面是否是自己分享的
+    img: "",//分享出去的头像，只有被点击才存在
+    user:"",//判断是否登录
     tuan_id: "",
-    video: ""
+    video: "",
+    maxtime: "",
+    endtime:0,
+    tuanzhuImg: "",//拼主头像
+    pin_img: "",//已拼网友头像
+    guoqi:false,//是否过期
+    isHiddenLoading: true,
+    isHiddenToast: true,
+    dataList: {},
+    countDownDay: 0,
+    countDownHour: 0,
+    countDownMinute: 0,
+    countDownSecond: 0,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let tuan_id = options.tuan_id;
+    wx.setNavigationBarTitle({ //设置标题
+      title: '全陪套餐拼单中……',
+    })
+    //let tuan_id = options.tuan_id;
+    let tuan_id = 23;
+    if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
+    let img = options.img; //分享出去的头像，只有被点击才存在
+    if(img){
+      this.setData({
+        mine:false,
+        img:img
+      })
+
+    }
     var user = wx.getStorageSync("user");
     var token = "";
     var zcode = "";
     if (user) {
       this.setData({
-        user: user
+        user: user,
+        tuan_id: tuan_id
       })
       token = user.token;
       zcode = user.zcode;
-    } else {
+    }
+    let that = this;
+    app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
+
+      var list = res.data.data[0];
+      //日期转化时间戳
+      var time = Date.parse(new Date(list.endtime)) / 1000;
+     
+     
+      that.setData({
+        title: list.title,
+        price_tuan: list.money,
+        endtime: time,
+        tuanzhuImg: list.tuanzhuImg,
+        pin_img: list.pin_img,
+        loaded: true,
+      })
+    
+      that.time();
+    });
+    
+    
+  },
+  time:function(){
+    var totalSecond = this.data.endtime- (Date.parse(new Date()) / 1000);
+
+    var interval = setInterval(function () {
+      // 秒数
+      var second = totalSecond;
+
+      // 天数位
+      var day = Math.floor(second / 3600 / 24);
+      var dayStr = day.toString();
+      if (dayStr.length == 1) dayStr = '0' + dayStr;
+
+      // 小时位
+      var hr = Math.floor((second - day * 3600 * 24) / 3600);
+      var hrStr = hr.toString();
+      if (hrStr.length == 1) hrStr = '0' + hrStr;
+
+      // 分钟位
+      var min = Math.floor((second - day * 3600 * 24 - hr * 3600) / 60);
+      var minStr = min.toString();
+      if (minStr.length == 1) minStr = '0' + minStr;
+
+      // 秒位
+      var sec = second - day * 3600 * 24 - hr * 3600 - min * 60;
+      var secStr = sec.toString();
+      if (secStr.length == 1) secStr = '0' + secStr;
+
+      this.setData({
+        countDownDay: dayStr,
+        countDownHour: hrStr,
+        countDownMinute: minStr,
+        countDownSecond: secStr,
+      });
+      totalSecond--;
+      if (totalSecond < 0) {
+        clearInterval(interval);
+        wx.showToast({
+          title: '拼单已结束',
+          icon: 'none',
+          duration: 2000
+        })
+        
+        this.setData({
+          guoqi:true,
+          countDownDay: '00',
+          countDownHour: '00',
+          countDownMinute: '00',
+          countDownSecond: '00',
+        });
+      }
+    }.bind(this), 1000);
+  },
+
+  pindan:function(){
+    var user= wx.getStorageSync("user");
+    if(user){
+      wx.navigateTo({
+        url: 'pay?tuan_id=' + tuan_id,
+      })
+    }else{
       wx.navigateTo({
         url: '/login/login',
       })
+
     }
-    let that = this;
-    app.post(API_URL, "action=getCourseBao&token=" + user.token + '&zcode=' + user.zcode, false, false, "", "").then((res) => {
-      var list = res.data.data[0].list;
-      that.setData({
-
-        title: list[0].biecheng,
-        price_tuan: list[0].money,
-        num: list[0].buy_nums,
-        typesname: list[0].typesname,
-        url: list[0].url,
-        buy: list[0].buy,
-        img: "http://www.chinaplat.com/CourseImg/IMG-20160414/217_156_20160414133690609060.jpg",
-        infos: ['适用于期望一次通关拿证考生。包含内容：', '① 笔试四科基础精讲、习题提升、考前冲刺视频课程，共计12门，预计230课时。', '② 章节习题+10套全真模拟+3套核心密卷。', ' 额外赠送：', '① 2019新版教材   ② 面试指导课  ③ 各省导游词 ', '邮寄教材'],
-        loaded: true,
-      })
-    });
-
-
 
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -64,7 +158,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (this.data.ifShare==true){
+      wx.navigateTo({
+        url: '../user/course/pindan_list',
+      })
+    }
   },
 
   /**
@@ -99,6 +197,23 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    var user = wx.getStorageSync("user");
+    if (user) {
+      this.setData({
+        ifShare: true
+      });
+      var img = '/images/avatar.png';
+      if (user.Pic) { img = user.Pic}
+    return {
+      title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
+      path: '/pages/learn/pindan?tuan_id=' + tuan_id + '&img=' + img,
+      imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
+      }
+    } else {
+      wx.navigateTo({
+        url: '../login/login',
+      })
 
+    }
   }
 })

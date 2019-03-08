@@ -1,8 +1,9 @@
-<!--pages/index/xuexijihua/xuexijihua.wxml-->
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+﻿<!--pages/index/xuexijihua/xuexijihua.wxml-->
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
-  
+
   <!-- <web-view src="{{web[0]}}" class='web-view'></web-view> -->
+
   <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html" class='web-view' style='height:{{webheight}}px'></web-view> -->
 
   <!-- <view class="float" style="top:{{(windowHeight-400)/2}}rpx;" bindtap="getYouhui" hover-class='select1' hover-stay-time='500'>
@@ -14,30 +15,23 @@
 
 
   <!-- 快速参团 //"HeadPic":"http://www.chinaplat.com/user/UserHeadImg/10013.jpg","NickName":"","EndTime":"2019/3/9 17:05:42","Id":"22"-->
-  <view class="block" wx:if="mine=='false'" bindtap="GOtuangou">
-    <view wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i">
-    <image class="block-icon1" src="{{userimg==''?'/images/avatar.png':userimg}}" ></image>
-    <view class ="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
-      <image class="block-icon2" src="/images/wenhao.png" ></image>
-    </view>
-    <view><text class='username'>{{username}}</text>的团
-      <span style="color:#f2810c;">只差一人</span>
-    </view>
-    <view style = "color:#f5902f;font-size:25rpx;margin-right:30rpx; float:right">快速参团,立即拼成 <span style = "color:#f18508;font-weight:bolder;">></span> </view>
-    </view>
-  </view>
-
-  <view  wx:if="mine=='false'" >
-    <view class="block" wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i" data-id="{{list.Id}}" bindtap="GOtuangou">
-      <image class="block-icon1" src="{{list.HeadPic?list.HeadPic:'/images/avatar.png'}}" ></image>
-      <view class ="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
-        <image class="block-icon2" src="/images/wenhao.png" ></image>
-      </view>
-      <view><text class='username'>{{list.NickName?"list.NickName":"游客"}}</text>的团
-        <span style="color:#f2810c;">只差一人</span>
-      </view>
-      <view style = "color:#f5902f;font-size:24rpx;margin-right:30rpx; float:right">快速参团<span style = "color:#f18508;font-weight:bolder;">></span> </view>
-    </view>
+  
+  <view wx:if="mine=='false'&&pindan_list!=''" class="block">
+    <swiper vertical="true" autoplay="true" interval="5000" duration="200"  >
+      <block wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i">
+        <swiper-item>
+          <view data-id="{{list.Id}}" bindtap="GOtuangou" style='width:100%; height:100%'>
+            <image class="block-icon1" src="{{list.HeadPic?list.HeadPic:'/images/avatar.png'}}"></image>
+            <view class="block-icon2-container" style="border:1rpx dashed rgb(187, 187, 187);">
+              <image class="block-icon2" src="/images/wenhao.png"></image>
+            </view>
+            <text class='username'>{{list.NickName?"list.NickName":"游客"}}</text>的团
+            <span style="color:#f2810c;">只差一人</span>
+            <span style="color:#f2810c; margin-right:20rpx;" class="fr">快速参团 ></span>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
   </view>
 
   <view class="bottom">
@@ -53,20 +47,20 @@
     </view>
 
     <view class="bottom-item2 " bindtap="buy" hover-class='select3' hover-stay-time='500'>
-      <view class="bottom-item2-line1">¥ 599</view>
+      <view class="bottom-item2-line1">¥ {{list[0].money}}</view>
       <view class="bottom-item2-line2">单独购买</view>
     </view>
 
     <view class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
-      <view class="bottom-item2-line1">¥ 499</view>
-      <view class="bottom-item2-line2">发起团购</view>
+      <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
+      <view class="bottom-item2-line2">{{tuan_id?"与TA拼单":"发起团购"}}</view>
     </view>
   </view>
 </view>
 
 <!-- 发起拼团 -->
-<pindanSend id="pindanSend" ></pindanSend>
+<pindanSend id="pindanSend"></pindanSend>
 <!-- 购买套餐 -->
-<buyTaocan id="buyTaocan" bindconfirm = "_confirm"></buyTaocan>
+<buyTaocan id="buyTaocan" bindconfirm="_confirm"></buyTaocan>
 <!-- 测试分享成功弹窗 -->
-<shareSuccessModel id = "shareSuccessModel" ></shareSuccessModel>
+<shareSuccessModel id="shareSuccessModel"></shareSuccessModel>

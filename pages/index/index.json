@@ -2,7 +2,7 @@
   "usingComponents": {
     "bindPhoneModel":"/components/bindPhoneModel/bindPhoneModel",
     "rili": "/components/rili/rili",
-    "hongbao": "/components/hongbao/hongbao"
+    "haibao": "/components/haibao/haibao"
   },
   "navigationStyle": "custom",
   "enablePullDownRefresh": false

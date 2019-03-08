@@ -8,6 +8,17 @@
       <text>主讲老师：{{name}}</text>
       <text>课程有效期：{{time}}</text>
     </view>
+    基础套餐、冲刺套餐、豪华套餐
+    <view class='hui f13' wx:if="{{!danke&&product=='豪华套餐'}}">
+    全套视频课程+全套教材+全套题库,两年超长课程保质期
+    </view>
+    <view class='hui f13' wx:if="{{!danke&&product=='基础套餐'}}">
+    全套视频课程+全套教材+全套题库,两年超长课程保质期
+    </view>
+    <view class='hui f13' wx:if="{{!danke&&product=='豪华套餐'}}">
+    全套视频课程+全套教材+全套题库,两年超长课程保质期
+    </view>
+
   </view>
   <view class='tishi' wx:if="{{danke}}">
     <image src='/images/index/danger.png'></image>特别提示：
@@ -44,16 +55,17 @@
     </view>
   </view>
   <view wx:if="{{dizhiok}}" class='ditiao2'>
-    <image src='/images/dizhi.png' style='width:35rpx; height:38rpx;margin-top:56rpx; margin-right:10px;' class='fl'></image>
+    <image src='/images/dizhi.png' style='width:35rpx; height:38rpx;margin-top:10rpx; margin-right:20rpx;' class='fl'></image>
     <view style='width:80%' class='fl'>
       <text class='f15 b'>{{sh_name}} </text>
       <text class='f12'>{{sh_number}}</text>
       <view class='f12' style='color:#666'>{{dizhiList}}</view>
+      <view class='f12' style='color:#666'>备注：{{sh_beizhu}}</view>
     </view>
     <image src='/images/user/baoming_searchnext_13x13_@3x.png' style='width:35rpx; height:35rpx;margin-top:36rpx;' class='fr'></image>
-    <view class='clear'></view>
+    <view class='clear' style='height:3px;'></view>
   </view>
-  <image src='/images/tiao.png' class='abs' style='width:100%; height:6rpx; bottom:-3px; left:0'></image>
+  <image src='/images/tiao.png' class='abs' style='width:100%; height:6rpx; bottom:0px; left:0'></image>
 </view>
 
 <view class='ditiao'>
@@ -76,10 +88,6 @@
   <image src='/images/user/baoming_searchnext_13x13_@3x.png' style='width:30rpx; height:30rpx;margin-top:35rpx;' class='fr'></image>
   <text class='fr orange'>{{mymoney2}}</text>
 </view>
-<view class='ditiao' wx:if="{{!danke}}">
-  <text class='lab'>买家留言：</text>
-  <input class='liuyan' placeholder='留下您的留言备注'></input>
-</view>
 
 <view class='bottom'>
   <view class='bottom-price f14'>实付款：
@@ -97,11 +105,11 @@
   <image class='close' src='/images/close.png' bindtap='close'></image>
   <view class='ditiao'>
     <text class='lab'>收货人：</text>
-    <input class='liuyan' placeholder='留下您的姓名' bindtap='sh_name'></input>
+    <input class='liuyan' placeholder='留下您的姓名' bindinput='sh_name'></input>
   </view>
   <view class='ditiao'>
     <text class='lab'>手机号码：</text>
-    <input class='liuyan' placeholder='请填写11位手机号码' bindtap='sh_number' maxlength='11'></input>
+    <input class='liuyan' placeholder='请填写11位手机号码' bindinput='sh_number' maxlength='11'></input>
   </view>
   <view class='ditiao'>
     <text class='lab'>地址选择：</text>
@@ -113,7 +121,11 @@
   </view>
   <view class='ditiao'>
     <text class='lab'>详细地址：</text>
-    <input class='liuyan' placeholder='留下您的详细地址' bindtap='sh_dizhi'></input>
+    <input class='liuyan' placeholder='留下您的详细地址' bindinput='sh_dizhi'></input>
+  </view>
+  <view class='ditiao'>
+    <text class='lab'>备注留言：</text>
+    <input class='liuyan' placeholder='留下您的备注留言' bindinput='sh_beizhu'></input>
   </view>
   <view class='dizhibtn' bindtap='dizhibtn'>保存</view>
 </view>

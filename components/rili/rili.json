@@ -1,6 +1,6 @@
 {
   "component": true,
   "usingComponents": {
-     "daka": "/components/daka/daka"
+    "daka": "/components/daka/daka"
   }
 }

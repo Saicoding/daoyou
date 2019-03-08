@@ -1,5 +1,5 @@
-<!--pages/user/degree/degree.wxml-->
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+﻿<!--pages/user/degree/degree.wxml-->
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
 <view wx:if="{{loaded}}" class="content">
 
 <view class='rel' wx:if="{{user.YHQ==1}}">

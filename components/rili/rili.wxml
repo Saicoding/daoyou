@@ -45,7 +45,7 @@
       </swiper>
     </view>
 
-    <view class ="btn" bindtap = "getHaibao" hover-class='select1' hover-stay-time='500'>
+    <view class ="btn" bindtap = "_createHaibao" hover-class='select1' hover-stay-time='500'>
       生成学习打卡海报
     </view>
   </view>
@@ -55,3 +55,4 @@
 </view>
 
 <daka windowHeight = "{{windowHeight}}" id="daka"></daka>
+

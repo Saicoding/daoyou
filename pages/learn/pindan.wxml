@@ -1,55 +1,71 @@
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit">
+﻿<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit">
 </image>
 
 <view wx:if="{{loaded}}" class="content">
 
   <view class="block" bindtap="watch">
-    <image src="{{img}}" class="img" mode='widthFix' />
+   
+    <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>
+    <image src="http://www.chinaplat.com/daoyou/images/quanpei.jpg" class="img" mode='widthFix' />
 
     <view class="right-block">
       <!-- 标题 -->
-      <view class="title f16">{{title}}</view>
-      <view class='hui f12'>已有{{num*13+160}}人成功购买本套餐</view>
-      <view class='height10'></view>
-      <view class='hong'>￥{{price_tuan}}
-        <text class='f12 hui'> 拼单省100元</text>
+      <view class="title f14">{{title}}</view>
+      <view class='hong'>￥{{price_tuan/100-50}}
+        <text class='f12 hui'> 拼单省50元</text>
       </view>
+      
     </view>
     <view class='clear'></view>
+    </navigator>
+  
+    
     <view class='tishi info'>
-      <image src='/images/danger2.png'></image>该套餐额外赠送：
-      <view class='f13'>1.2019新版教材，2.面试指导课，3.各省指导词。</view>
+      <image src='/images/danger2.png'></image>该套餐包含：<view>全套视频课程+全套教材+全套题库,两年超长课程保质期</view>
     </view>
   </view>
   <view class="up">
    
     <!-- 头像 -->
-    <view class="up-avatar">
+    <view class="up-avatar" wx:if="{{mine==true}}">
       <view>
         <image class="up-avatar-pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}"></image>
         <view class="up-avatar-text">拼主</view>
       </view>
-      <view style="margin-left:40rpx;">
+      <view style="margin-left:30rpx;">
         <image src="/images/wenhao.png" class="up-avatar-pic"></image>
       </view>
     </view>
-    <!-- 文字信息 -->
-    <view class="up-text">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">88:88.88</text>后结束</view>
+    <view class="up-avatar" wx:if="{{mine==false}}">
+      <view>
+        <image class="up-avatar-pic" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
+        <view class="up-avatar-text">拼主</view>
+      </view>
+      <view style="margin-left:30rpx;">
+        <image  src="{{user?user.Pic:'/images/wenhao.png'}}" class="up-avatar-pic"></image>
+      </view>
+    </view>
+    <view class="up-text">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
 
     <!-- 邀请按钮 -->
-    <button open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
+    <button open-type="share" wx:if="{{mine==true&&guoqi==false}}" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>
-    <view class='tac hui f14'>
-      <navigator>查看课程详情</navigator>
+
+    <view wx:if="{{mine==false&&guoqi==false}}" bindtap='pindan' class='btn' hover-class='select1' hover-stay-time='500'>
+      与他一起拼单
     </view>
-
+    <view wx:if="{{guoqi==true}}" class='btn huise' >
+      拼单已结束
+    </view>
+    
+    <view class='tac hui f14'>
+      <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>查看课程详情</navigator>
+    </view>
+    
   </view>
 
-  <view class="info">
-    <view wx:for="{{infos}}" wx:for-item="infos" wx:key="i">{{infos}}</view>
-  </view>
-
+  
 
 
 </view>

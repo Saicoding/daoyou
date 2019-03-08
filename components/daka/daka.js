@@ -1,4 +1,6 @@
 // components/errorRecovery/errorRecovery.js
+let newAni = require('../../common/newAnimate.js');
+
 Component({
   /**
    * 组件的属性列表
@@ -29,9 +31,20 @@ Component({
     },
     //展示弹框
     showDialog() {
+      let self = this;
+      let obj = {
+        
+      }
+      let bigAnimate = newAni.big1(obj,1.5);
       this.setData({
-        isShow: true
+        isShow: true,
       })
+
+      setTimeout(function(){
+        self.setData({
+          bigAnimate: bigAnimate
+        })
+      },100)
     },
     //toogle展示
     toogleDialog() {
@@ -47,6 +60,7 @@ Component({
     },
     //阻止事件冒泡
     stopBubbling: function (e) { },
+
   }
 
 })

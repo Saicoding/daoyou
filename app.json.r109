@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/user/degree/degree",
     "pages/user/course/list",
@@ -30,6 +31,7 @@
     "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pindan",
     "pages/user/course/pindan_list"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -122,6 +122,18 @@ function leftTime2(t){
 }
 
 /**
+ * 得到日期
+ */
+function getDateToday(){
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth()+1;
+  let day = date.getDate();
+
+  return year+'/'+month+'/'+day;
+}
+
+/**
  * 根据剩余秒数得到时间对象
  */
 function getTimeObj(t) {
@@ -147,5 +159,6 @@ module.exports = {
   leftTime: leftTime,
   leftTime2: leftTime2,
   getTimeObj: getTimeObj,
-  formatTimeBySecond1: formatTimeBySecond1
+  formatTimeBySecond1: formatTimeBySecond1,
+  getDateToday: getDateToday
 }

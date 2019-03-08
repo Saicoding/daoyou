@@ -1,0 +1,11 @@
+<!--components/Dialog/dialog.wxml-->
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style="top:{{(windowHeight-1200)/2}}rpx">
+  <view class="close" bindtap="hideDialog">
+    <image class="close-icon" src="/images/close2.png"></image>
+  </view>
+  <image class ='pic' src="{{imageUrl}}"></image>
+</view>
+
+<view wx:if="{{isShow}}" class="modal" catchtap="tapBlank"></view>
+
+<canvas  class="mycanvas" canvas-id="mycanvas"/>
