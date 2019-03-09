@@ -60,7 +60,7 @@ Page({
     midtext: "开始刷题",
     midtitle: "暂无刷题记录",
     ketext: "开始看课",
-    ketitle: "继续看课",
+    ketitle: "暂无看课记录",
   },
 
   /**
@@ -160,16 +160,21 @@ Page({
       },
     })
 
+
     wx.getStorage({
-      key: 'lastKe' + zcode,
+      key: 'lastkesub' + zcode,
       success: function(res) {
         let lastKe = res.data;
+        console.log(res)
         self.setData({
-          midtext: "继续看课",
-          midtitle: lastKe.title,
+          ketext: "继续看课",
+          ketitle: lastKe.options.title,
           lastKe: lastKe
         })
       },
+      fail:function(res){
+        console.log('无看课记录')
+      }
     })
 
     this.setData({ //设置已经载入一次
@@ -263,6 +268,22 @@ Page({
     } else {
       wx.navigateTo({
         url: '/pages/shuati/zuoti/zuoti?leibie=0&selected=false&title=概述&f_id=10420&types=239&all_nums=56&donenum=0&num_dan=24&num_duo=10&num_pan=22&currentIndex=0&currentMidIndex=0&from=shouye&zhangIdx=0&jieIdx=0'
+      })
+    }
+  },
+
+  /**
+   * 继续看课
+   */
+  continiueKanke:function(){
+    let lastKe = this.data.lastKe.options;
+    if (lastKe) { //如果有最后一次刷题
+      wx.navigateTo({
+        url: '/pages/learn/play?title=' + lastKe.title + "&renshu=" + lastKe.renshu + "&types=" + lastKe.types + "&clickIndex=" + lastKe.clickIndex + "&kc_id=" + lastKe.kc_id+"&fromIndex=true"
+      })
+    } else {
+      wx.navigateTo({
+        url: '/pages/learn/play?title=141920&renshu=6267&types=笔试&clickIndex=0&kc_id=141920&fromIndex=true'
       })
     }
   },

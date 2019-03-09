@@ -72,9 +72,9 @@
       <view class="mid-item-title wp">{{midtitle}}</view>
       <image class="mid-item-bottom" src="/images/index/shuati.png"></image>
     </view>
-    <view class="mid-item">
-      <view class="mid-item-image icon2">继续看课</view>
-      <view class="mid-item-title">暂无观看记录</view>
+    <view class="mid-item" bindtap = "continiueKanke" hover-class='select2' hover-stay-time='500'>
+      <view class="mid-item-image icon2">{{ketext}}</view>
+      <view class="mid-item-title">{{ketitle}}</view>
 
       <image class="mid-item-bottom" src="/images/index/kanke.png"></image>
     </view>

@@ -66,8 +66,12 @@ Page({
   watch: function (e) {
     var kc_id = e.currentTarget.dataset.kc_id;
     var renshu = e.currentTarget.dataset.renshu;
+    let index = e.currentTarget.dataset.index;
+    let types = this.data.types;
+    let title = e.currentTarget.dataset.title;
+
     wx.navigateTo({
-      url: 'play?kc_id=' + kc_id + '&renshu=' + renshu,
+      url: 'play?kc_id=' + kc_id + '&renshu=' + renshu + '&types=' + types + "&index=" + index+'&title='+title,
     })
   },
   //切换菜单

@@ -1,4 +1,4 @@
-﻿<!-- 轮播图 -->
+<!-- 轮播图 -->
 <navigator url='../index/xuexijihua/xuexijihua' wx:if="{{barUrls.length==1}}">
   <image src="{{barUrls}}" class="slide-image" mode='widthFix' />
 </navigator>
@@ -27,7 +27,7 @@
 <view wx:if="{{loaded}}" class="content">
   <view wx:if="{{!daoyouci}}" wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
     <!-- 一项 -->
-    <view class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch">
+    <view data-title="{{video.cname}}" data-index = "{{index}}" class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch" hover-class='select1' hover-stay-time='500'>
       <image src="{{video.pic}}" class="img" mode='widthFix' />
 
       <view class="right-block">

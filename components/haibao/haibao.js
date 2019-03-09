@@ -109,10 +109,8 @@ Component({
               wx.getImageInfo({
                 src: res.tempFilePath,
                 success:function(res3){
-                  console.log(res3)
                   let width = res3.width;
-                  let height = res3.height;
-                  
+                  let height = res3.height;                  
 
                   context.drawImage(res.tempFilePath, 0, 0, 600, 820);
 
@@ -219,7 +217,7 @@ Component({
         fail(e){
           wx.showModal({
             title: '提示',
-            content: '拒绝授权可能会影响部分功能使用，请删除小程序或设置授权',
+            content: '您拒绝授权,图片无法存储,请删除小程序或设置授权',
             confirmText: '去设置',
             success: res => {
               if (res.confirm) {
