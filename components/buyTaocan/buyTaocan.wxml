@@ -23,7 +23,8 @@
   
   </view>
 
-  <view class ="up-btn {{taocans[currentIndex].buy==1?'hui':''}}" bindtap = "_confirm">确定</view>
+  <view wx:if="{{taocans[currentIndex].buy!='0'}}" class="up-btn hui" >已支付</view>
+  <view wx:if="{{taocans[currentIndex].buy=='0'}}" class="up-btn" bindtap="_confirm">确定</view>
 </view>
 
 <view wx:if="{{isShow && downShow}}" class="down" catchtap='stopBubbling'>

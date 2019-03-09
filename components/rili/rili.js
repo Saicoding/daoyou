@@ -66,19 +66,19 @@ Component({
       this.initQiandao();
 
       app.post(API_URL, "action=QianDao&zcode=" + zcode + "&token=" + token, false, false, "", "", false, self).then(res => {
-        console.log(res)
+
         let result = res.data.data[0];
-        let SignDays = result.SignDays;
-        SignDays = 10;
+        let SignDays = result.SignDays;//连续签到
         let SignHeadImgs = result.SignHeadImg;
         let SignNums = result.SignNums;
         let SendJifen = result.SendJifen;
         let current = SignDays - 3 <= 0 ? 0 : SignDays - 3;
+        console.log(result)
 
-        if (!SendJifen) {
+        if (SendJifen) {
           this.daka = this.selectComponent("#daka");
           this.daka.setData({
-            jifen: 8
+            jifen: SendJifen
           })
           this.daka.showDialog();
         }

@@ -51,10 +51,15 @@
       <view class="bottom-item2-line2">单独购买</view>
     </view>
 
-    <view class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
+    <view wx:if="{{list[0].buy=='0'}}" class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
       <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
       <view class="bottom-item2-line2">{{tuan_id?"与TA拼单":"发起团购"}}</view>
     </view>
+    <view wx:if="{{list[0].buy!='0'}}" class="bottom-item3">
+      <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
+      <view class="bottom-item2-line2">您已支付</view>
+    </view>
+
   </view>
 </view>
 

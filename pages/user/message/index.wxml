@@ -1,74 +1,91 @@
-<view class="mycontainer">
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+
+<view wx:if="{{loaded}}" class="mycontainer">
+
+  <view class="line">
+    <view class="block" bindtap="GOavatarUpload">
+
+      <view class="mytext fl">
+        头像
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>
+        <image class="pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}" mode="aspectFit"></image>
+      </view>
+
+    </view>
+  </view>
+  <view class="line">
+    <view class="block" data-info="{{userInfo.Nicename?userInfo.Nicename:'游客'}}" data-inputtype="text" data-title="昵称" data-placeholder="请输入您的昵称" bindtap="showModel">
+      <view class="mytext fl">
+        昵称
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{userInfo.Nicename?userInfo.Nicename:"游客"}}</view>
+    </view>
+  </view>
+  <view class="line">
+    <view class="block">
+
+      <view class="mytext fl">
+        账号
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{user.username}}</view>
+
+    </view>
+  </view>
+
+  <view class="line">
+    <view class="block" data-info="{{userInfo.Sex?userInfo.Sex:'保密'}}" data-title="性别" bindtap="showSingleSelect">
+
+      <view class="mytext fl">
+        性别
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{userInfo.Sex?userInfo.Sex:"保密"}}</view>
+
+    </view>
+  </view>
+  <view class="line">
+    <view class="block" data-info="{{userInfo.Address}}" data-title="地址" data-inputtype="text" data-placeholder="请输入您的邮寄地址" bindtap="showModel">
+
+      <view class="mytext fl">
+        资料邮寄地址
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{userInfo.Address?userInfo.Address:"未设置"}}</view>
+
+    </view>
+  </view>
+
+  <view class="line">
+    <view class="block" data-info="{{userInfo.Mobile}}" data-inputtype="number" data-title="手机号" bindtap="showModel" data-placeholder="请输入您的手机号">
+
+      <view class="mytext fl">
+        手机号码
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{userInfo.Mobile?userInfo.Mobile:userInfo.username}}</view>
+
+    </view>
+  </view>
+  <view class="line">
+    <view class="block" data-info="{{userInfo.Email}}" data-title="邮箱" data-inputtype="text" data-placeholder="请输入您的邮箱" bindtap="showModel">
+
+      <view class="mytext fl">
+        E-mail
+      </view>
+      <view class='fr hui'>></view>
+      <view class='hui fr'>{{userInfo.Email?userInfo.Email:"未设置"}}</view>
+
+    </view>
+  </view>
 
 
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          头像
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'>
-          <image class="pic" src="/images/avatar.png" mode="aspectFit"></image>
-        </view>
-      </navigator>
-    </view>
-  </view>
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          昵称
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'>臭不要脸的管子</view>
-      </navigator>
-    </view>
-  </view>
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          账号
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'></view>
-      </navigator>
-    </view>
-  </view>
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          资料邮寄地址
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'></view>
-      </navigator>
-    </view>
-  </view>
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          修改登陆密码
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'></view>
-      </navigator>
-    </view>
-  </view>
-  <view class="line">
-    <view class="block">
-      <navigator>
-        <view class="mytext fl">
-          绑定手机
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'>13312345678</view>
-      </navigator>
-    </view>
-  </view>
-  <button bindtap='logout' class='btn'>退出当前账号</button>
-
+  <button bindtap='save' class='btn'>确认保存</button>
+  <!-- 带有输入框的弹框 -->
+  <myinput id="myinput" title="{{title}}" placeholder="{{placeholder}}" bindinputText="_inputText" bindconfirm="_confirm" bindcancel="_cancel"></myinput>
+  <!-- 单选框 -->
+  <singleSelect id="singleSelect" bindchangeSelect="_changeSelect"></singleSelect>
 </view>

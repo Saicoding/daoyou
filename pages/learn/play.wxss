@@ -118,7 +118,7 @@
   background: #fc7b03;
 }
 
-.zixun {width:28%; background:none; border-right:2px #ddd solid; height:44rpx; line-height: 44rpx; margin-top:18rpx;}
+.zixun {width:28%; background:none; border-radius:0;  border-right:2px #ddd solid; height:44rpx; line-height: 44rpx; margin-top:18rpx;}
 .zixun image{width:46rpx; height:44rpx;}
 
 .youhui,.purchased{
@@ -131,7 +131,7 @@
 .purchased{
   background: #eee; color: #999
 }
-.scrolltop { width: 60rpx; height: 60rpx; text-align: center; line-height: 60rpx; border: 1px #eee solid; border-radius:4rpx;  position: fixed; bottom: 100px; right: 10px; z-index: 10; background: #f7f8f9;  display: none}
+.scrolltop { width: 60rpx; height: 60rpx; text-align: center; line-height: 60rpx; border: 1px #eee solid; border-radius:4rpx;  position: fixed; bottom: 100px; right: 10px; z-index: 10; background: #f7f8f9; -webkit-box-shadow: 0 0 6px 1px #ddd;box-shadow: 0 0 6px 1px #ddd;  display: none}
 .scrolltop.on { display: block}
 .mybar{
   border-top: 20rpx solid #f8f8f8; background: #fff;

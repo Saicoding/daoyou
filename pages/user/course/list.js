@@ -36,12 +36,16 @@ Page({
   
   getlist: function(){
     let self = this;
-    if (this.data.user != "") {
-
+    var user = wx.getStorageSync("user");
+    var token = "";
+    var zcode = "";
+    if (user) {
+      token = user.token;
+      zcode = user.zcode;
       if (this.data.page_all > this.data.page_now) {
         this.setData({ loadingMore: true });
         
-        app.post(API_URL, "action=getBuyCourse&token=" + this.data.user.token + "&zcode=" + this.data.user.zcode + "&page=" + (this.data.page_now * 1 + 1), false, false, "", "", "", self).then((res) => {
+        app.post(API_URL, "action=getBuyCourse&token=" + token + "&zcode=" + zcode + "&page=" + (this.data.page_now * 1 + 1), false, false, "", "", "", self).then((res) => {
           
           let videoList = res.data.data[0].Course;
           let videoLists = self.data.videoList.concat(videoList);

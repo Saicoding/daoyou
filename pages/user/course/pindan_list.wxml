@@ -1,10 +1,14 @@
 ﻿<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit">
 </image>
 <view wx:if="{{loaded}}" class="content">
-  <view class='tar bgfff'>
+  <view class='tar bgfff' wx:if="{{pin_img==''}}">
     <view class=' fr f14'>待分享，差
       <text class='hong'>1</text>人，
       <text class="hong">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
+    <view class='clear'></view>
+  </view>
+  <view class='tar bgfff' wx:if="{{pin_img!=''}}">
+    拼单已结束
     <view class='clear'></view>
   </view>
   <view class="block info" bindtap="watch">

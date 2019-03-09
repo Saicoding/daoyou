@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "myinput": "/components/myinput/myinput",
+    "singleSelect": "/components/singleSelect2/singleSelect"
+  },
+  "enablePullDownRefresh": false
 }

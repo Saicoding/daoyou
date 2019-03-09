@@ -1,6 +1,6 @@
 // components/errorRecovery/errorRecovery.js
 let newAni = require('../../common/newAnimate.js');
-let time  = require('../../common/time.js');
+let time = require('../../common/time.js');
 const app = getApp()
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 
@@ -13,15 +13,15 @@ Component({
       type: Number,
       value: 1333
     },
-    windowWidth:{
-      type:Number,
-      value:300
+    windowWidth: {
+      type: Number,
+      value: 300
     }
   },
 
   lifetimes: {
     attached() {
-    
+
     },
     detached() {
       console.log('haha')
@@ -60,37 +60,36 @@ Component({
       })
     },
     //点击了空地,让蒙版消失
-    tapBlank: function (e) {
+    tapBlank: function(e) {
       this.setData({
         isShow: false
       })
     },
     //阻止事件冒泡
-    stopBubbling: function (e) { },
+    stopBubbling: function(e) {},
 
     //开始绘图
-    draw: function (num){
+    draw: function(num) {
       let self = this;
-      let num2 =100;
-
+      let num2 = 189;
+      //绘制背景
+      let context = wx.createCanvasContext('mycanvas', this);
       let windowWidth = this.data.windowWidth;
       let user = wx.getStorageSync('user');
-      let nickname = user.Nickname ? user.Nickname:'';
+      let nickname = user.Nickname ? user.Nickname : '';
       let mypic = user.Pic;
 
       self.setData({
-        isShow:true
+        isShow: true
       })
-      //绘制背景
-      let context = wx.createCanvasContext('mycanvas', this);
 
       //下载头像
       wx.downloadFile({
         url: mypic,
         success: (res) => {
-            self.setData({
-              headPic: res.tempFilePath
-            })
+          self.setData({
+            headPic: res.tempFilePath
+          })
         }
       })
 
@@ -98,90 +97,127 @@ Component({
       wx.showLoading({
         title: '生成中',
       })
-      app.post(API_URL, "action=getSignPic",false,false,"","",false,self).then(res=>{
-        let picUrl = res.data.data[0];//从服务器获取背景图
-        //画背景
+      app.post(API_URL, "action=getSignPic", false, false, "", "", false, self).then(res => {
+        let picUrl = res.data.data[0]; //从服务器获取背景图
+        //画背景,下载网络图片
         wx.downloadFile({
           url: picUrl,
           success: (res) => {
             console.log(res)
             if (res.statusCode === 200) {
-              
-              context.drawImage(res.tempFilePath, 0, 0, 905 * windowWidth / 750, 1237 * windowWidth / 750);
-              context.draw();
+              //得到图片信息
+              wx.getImageInfo({
+                src: res.tempFilePath,
+                success:function(res3){
+                  console.log(res3)
+                  let width = res3.width;
+                  let height = res3.height;
+                  
 
-              //画日期
-              context.setFontSize(40 * windowWidth / 750);
-              context.setFillStyle('white');
-              context.fillText(time.getDateToday(), 80 * windowWidth / 750, 180 * windowWidth / 750);
-              //画'我在导游考试通连续学习多少天'
-              context.setFontSize(40 * windowWidth / 750);
-              context.fillText('我在导游考试通', 70 * windowWidth / 750, 300 * windowWidth / 750);
-              context.fillText('连续学习第', 70 * windowWidth / 750, 370 * windowWidth / 750);
-              context.setFillStyle('#06b034');
-              context.fillText(num, 270 * windowWidth / 750, 370 * windowWidth / 750);
-              context.setFillStyle('white');
-              let sub = 0;
-              if(num < 10){
-                sub = 25
-              }else if(num > 99){
-                sub = -25
-              }
-              context.fillText('天', (330-sub) * windowWidth / 750, 370 * windowWidth / 750);
-              // 画昵称
-              context.setFontSize(45 * windowWidth / 750);
-              context.setFillStyle('black');
-              context.fillText(nickname, 70 * windowWidth / 750, 1100 * windowWidth / 750);
-              context.setFontSize(40 * windowWidth / 750);
-              context.setFillStyle('#979797');
-              context.fillText("在导游考试通累计学习", 70 * windowWidth / 750, 1160 * windowWidth / 750);
-              context.setFillStyle('#06b034');
-              context.fillText(num2, 465 * windowWidth / 750, 1160 * windowWidth / 750);
-  
-              let sub2 = 0;
-              if (num2 < 10) {
-                sub = 25
-              } else if (num2 > 99) {
-                sub2 = -25
-              }
-              context.setFillStyle('#979797');
-              context.fillText('天', (525 - sub2) * windowWidth / 750, 1160 * windowWidth / 750);
+                  context.drawImage(res.tempFilePath, 0, 0, 600, 820);
 
-              context.arc(120 * windowWidth / 750, 1150 * windowWidth / 750, 50 * windowWidth / 750, 0, 2 * Math.PI) //画出圆
-              context.strokeStyle = "red";
-              context.clip(); //裁剪上面的圆形
-              context.drawImage(self.data.headPic, 70 * windowWidth / 750, 1100 * windowWidth / 750, 100, 100); // 在刚刚裁剪的园上画图
-              context.draw(true);
+                  //画日期
+                  context.setFontSize(25);
+                  context.setFillStyle('white');
+                  context.fillText(time.getDateToday(), 50 , 120 );
+                  //画'我在导游考试通连续学习多少天'
+                  context.setFontSize(25);
+                  context.setFillStyle('white');
+                  context.fillText('我在导游考试通', 40 , 200 );
+                  context.fillText('连续学习第', 40 , 230);
 
-              //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
-              setTimeout(function () {
-                wx.canvasToTempFilePath({
-                  canvasId: 'mycanvas',
-                  success: function (res) {
-                    let tempFilePath = res.tempFilePath;
-                    self.setData({
-                      imageUrl: tempFilePath,
-                      isShow: true
-                    })
+                  context.setFillStyle('#1fcd74');
 
-                    wx.hideLoading();
-                  },
-                  fail: function (res) {
-                    wx.hideLoading();
-                    console.log('haha')
-                    self.setData({
-                      isShow: true
-                    });
+                  context.fillText(num, 170, 230);
+
+                  context.setFillStyle('white');
+                  let sub = 0;
+                  if (num < 10) {
+                    sub = 15
+                  } else if (num > 99) {
+                    sub = -15
                   }
-                }, self);
-              }, 100);
+                  context.fillText('天', (210 - sub) , 230 );
+                  // 画昵称
+                  context.setFontSize(30);
+                  context.setFillStyle('black');
+                  context.fillText(nickname, 40 , 750);
+                  context.setFontSize(25);
+                  context.setFillStyle('#979797');
+                  context.fillText("在导游考试通累计学习", 40,790);
+                  context.setFillStyle('#06b034');
+                  context.fillText(num2, 290, 790 );
+
+                  let sub2 = 0;
+                  if (num2 < 10) {
+                    sub = 15
+                  } else if (num2 > 99) {
+                    sub2 = -15
+                  }
+                  context.setFillStyle('#979797');
+                  context.fillText('天', (327 - sub2), 790 );
+
+                  // 画头像
+                  context.arc(90,650,50, 0, 2 * Math.PI) //画出圆
+                  context.strokeStyle = "red";
+                  context.clip(); //裁剪上面的圆形
+                  context.drawImage(self.data.headPic,40,600,100,100); // 在刚刚裁剪的园上画图
+                  context.draw(true,function(res){
+                    wx.canvasToTempFilePath({
+                      canvasId: 'mycanvas',
+                      success: function (res) {
+                        let tempFilePath = res.tempFilePath;
+                        self.setData({
+                          imageUrl: tempFilePath,
+                          isShow: true
+                        })
+
+                        wx.hideLoading();
+                      },
+                      fail: function (res) {
+                        wx.hideLoading();
+                        console.log('haha')
+                        self.setData({
+                          isShow: true
+                        });
+                      }
+                    }, self);
+                  });
+                }
+              })  
             }
           }
         })
       })
-    }
-
-
-  }
+    },
+    /**
+     * 保存到相册
+     */
+    baocun: function() {
+      var that = this
+      wx.saveImageToPhotosAlbum({
+        filePath: that.data.imageUrl,
+        success(res) {
+          wx.showModal({
+            content: '图片已保存到相册，赶紧晒一下吧~',
+            showCancel: false,
+            confirmText: '好的',
+            confirmColor: '#333',
+            success: function(res) {
+              if (res.confirm) {
+                /* 该隐藏的隐藏 */
+                that.setData({
+                  isShow: false
+                })
+              }
+            },
+            fail: function(res) {
+              console.log('出错')
+            }
+          })
+        }
+      })
+    },
+  },
 
 })

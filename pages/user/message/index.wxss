@@ -27,7 +27,7 @@
 .block {
   height: 100rpx;
   width: 100%;
-  border-bottom: 1rpx solid #ebebeb;
+  border-bottom: 1rpx solid #f4f5f6;
   line-height: 100rpx; clear: both; overflow: hidden; color: #555
 }
 .hong { color: #fc551e}
