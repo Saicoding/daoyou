@@ -33,7 +33,6 @@ Component({
     showDialog() {
       let self = this;
       let obj = {
-        
       }
       let bigAnimate = newAni.big1(obj,1.5);
       this.setData({

@@ -116,6 +116,14 @@
   text-align: center;
 }
 
+.qiandao-item-up-text1{
+  color:white;
+  font-size:23rpx;
+  height:160rpx;
+  line-height: 160rpx;
+  text-align: center;
+}
+
 .qiandao-item-up-icon{
   text-align: center;
   color:white;

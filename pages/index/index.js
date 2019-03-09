@@ -119,46 +119,21 @@ Page({
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let first = this.data.first;
 
-    let dakaToday = wx.getStorage({
-      key: 'user',
-      success: function(res) {
-        let obj = {
-          transformOrigin: '10% 10% 0',
-          delay: 0,
-          duration: 1000,
-        }
+    let todayDaka= wx.getStorageSync('todayDaka'+zcode);
+    let myDate = new Date(); //获取系统当前时间
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth() + 1;
+    let day = myDate.getDate();
+    let interval = this.data.interval;
 
-        let obj2 = {
-          transformOrigin: '50% 50% 0',
-          delay: 0,
-          duration: 2000,
-        }
+    myDate = "" + year + month + day; //得到当前答题字符串
 
-        let dakaAnimate = null;
-        let next = true;
-        dakaAnimate = newAni.rate2(obj2, 360);
-        self.setData({
-          dakaAnimate: dakaAnimate
-        })
-
-        let interval = setInterval(res => {
-          let num = Math.round(Math.random()); 
-          if (num == 0) {
-            dakaAnimate = newAni.rate1(obj, 40);
-          } else {
-            dakaAnimate = newAni.rate2(obj2, 360);
-          }
-          self.setData({
-            dakaAnimate: dakaAnimate
-          })
-        }, 5000);
-
-        self.setData({
-          interval: interval
-        })
-
-      },
-    })
+    console.log(todayDaka)
+    console.log(myDate + "mydate")
+    if (todayDaka != myDate && !interval) {
+      console.log('haha')
+      self.riliAnimate();//日历动画
+    }
 
     if (this.rili) { //如果有弹出日历信息
       let isDaka = this.rili.data.isDaka; //是否是重复登录后回来的
@@ -166,12 +141,6 @@ Page({
         this.rili.showDialog();
       }
     }
-
-    let myDate = new Date(); //获取系统当前时间
-    let year = myDate.getFullYear();
-    let month = myDate.getMonth() + 1;
-    let day = myDate.getDate();
-    myDate = "" + year + month + day;
 
     wx.getStorage({ //今日刷题数
       key: "today" + myDate + zcode,
@@ -233,6 +202,48 @@ Page({
     }
 
   },
+  /**
+   * 日历动画
+   */
+  riliAnimate: function(){
+    let self = this;
+    let obj = {
+      transformOrigin: '10% 10% 0',
+      delay: 0,
+      duration: 1000,
+    }
+
+    let obj2 = {
+      transformOrigin: '50% 50% 0',
+      delay: 0,
+      duration: 2000,
+    }
+
+    let dakaAnimate = null;
+    let next = true;
+    dakaAnimate = newAni.rate2(obj2, 360);
+    self.setData({
+      dakaAnimate: dakaAnimate
+    })
+
+    let interval = setInterval(res => {
+      let num = Math.round(Math.random());
+      if (num == 0) {
+        dakaAnimate = newAni.rate1(obj, 40);
+      } else {
+        dakaAnimate = newAni.rate2(obj2, 360);
+      }
+      self.setData({
+        dakaAnimate: dakaAnimate
+      })
+    }, 5000);
+    console.log(interval)
+
+    self.setData({
+      interval: interval
+    })
+  },
+
   /**
  * 创建海报
  */
@@ -350,10 +361,11 @@ Page({
   /**
    * 打开打卡页面
    */
-  attendance: function(e) {
+  attendance: function() {
     let user = wx.getStorageSync('user');
+    let self =this;
     if (user) {
-      this.rili.showDialog();
+      this.rili.showDialog(self);
     } else {
       wx.navigateTo({
         url: '/pages/login/login?showToast=true&title=您还没有登录',
