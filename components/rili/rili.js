@@ -209,7 +209,7 @@ Component({
       this.setData({
         isShow: false
       })
-      console.log(this.data.SignDays)
+
       self.triggerEvent("createHaibao", { SignDays: this.data.SignDays});
     }
   }

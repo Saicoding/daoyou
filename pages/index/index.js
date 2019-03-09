@@ -128,10 +128,7 @@ Page({
 
     myDate = "" + year + month + day; //得到当前答题字符串
 
-    console.log(todayDaka)
-    console.log(myDate + "mydate")
     if (todayDaka != myDate && !interval) {
-      console.log('haha')
       self.riliAnimate();//日历动画
     }
 
@@ -237,7 +234,6 @@ Page({
         dakaAnimate: dakaAnimate
       })
     }, 5000);
-    console.log(interval)
 
     self.setData({
       interval: interval
@@ -252,7 +248,6 @@ Page({
     wx.showLoading({
       title: '生成中',
     })
-    console.log(e)
     this.haibao.draw(SignDays);
   },
 
@@ -327,7 +322,6 @@ Page({
    * 调起客户端扫码界面进行扫码
    */
   scan: function() {
-    console.log('haha')
     wx.scanCode({
       success: function(e) {
         let code = e.result.substring(6);

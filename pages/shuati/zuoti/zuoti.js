@@ -56,7 +56,6 @@ Page({
     }
 
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page + "&zcode=" + zcode+"&token="+token, false, false, "", "", false, self).then((res) => {
-      console.log(res)
       let result = res.data.data[0];
       let shitiArray = result.list;
       let all_nums = result.records;
@@ -606,23 +605,6 @@ Page({
   _toogleMarkAnswer: function() {
     this.errorRecovery.hideDialog();
     this.markAnswer.toogleDialog();
-
-    // if (this.markAnswer.data.isShow) {
-    //   let ani = animate.opacityAnimation(opaEastout, 1);
-    //   let aniModel = animate.opacityAnimation(opaEastout, 0.3);
-    //   console.log(ani)
-    //   this.markAnswer.setData({
-    //     showAnimate: ani,
-    //     aniModel: aniModel
-    //   })
-    // } else {
-    //   let ani = animate.opacityAnimation(opaEastin, 0);
-    //   let aniModel = animate.opacityAnimation(opaEastout, 0);
-    //   this.markAnswer.setData({
-    //     showAnimate: ani,
-    //     aniModel: aniModel
-    //   })
-    // }
   },
 
   /**
@@ -820,7 +802,7 @@ Page({
           }else{
             mytiku.donenum += doneAnswerArray.length - donenum;
           }
-          console.log(mytiku.donenum)
+
           mytiku.rightrate = mytiku.donenum == 0 ? '0.00' : ((mytiku.rightNum / mytiku.donenum) * 100).toFixed(2);
           mytiku.rate = (mytiku.donenum / parseInt(mytiku.all_num)*100).toFixed(2);
           mytiku.rateWidth = 490 * mytiku.donenum / parseInt(mytiku.all_num);

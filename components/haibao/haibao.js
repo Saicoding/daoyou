@@ -215,7 +215,22 @@ Component({
               console.log('出错')
             }
           })
+        },
+        fail(e){
+          wx.showModal({
+            title: '提示',
+            content: '拒绝授权可能会影响部分功能使用，请删除小程序或设置授权',
+            confirmText: '去设置',
+            success: res => {
+              if (res.confirm) {
+                wx.openSetting({
+
+                })
+              }
+            }
+          })
         }
+
       })
     },
   },

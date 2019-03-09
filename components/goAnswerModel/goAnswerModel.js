@@ -180,7 +180,6 @@ Component({
        * 11.jieIdx:点击的节index
        * 12.videoid:点击的教程id
        */
-      console.log(this.data.selected)
       this.triggerEvent('GOzuoti', { currentSelectIndex: this.data.currentIndex, selected: this.data.selected == undefined ? false : this.data.selected, f_id: this.data.f_id, title: this.data.title, all_nums: this.data.num, donenum: this.data.donenum, num_dan: this.data.num_dan, num_duo: this.data.num_duo, num_pan: this.data.num_pan, zhangIdx: this.data.zhangIdx, jieIdx: this.data.jieIdx, videoid:this.data.videoid});
     }
   }

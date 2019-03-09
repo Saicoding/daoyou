@@ -106,8 +106,6 @@ Page({
       app.post(API_URL, "action=getKeMuTestType&types=" + types + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
 
         let zhangjies = res.data.data;
-        console.log(zhangjies)
-
 
         self.initZhangjie(zhangjies); //初始化章节信息
 
