@@ -10,6 +10,10 @@ page {
   width: 100%;
 }
 
+.imgLoading{
+  margin-top: 136rpx;
+}
+
 .bars {
   position: fixed;
   display: flex;

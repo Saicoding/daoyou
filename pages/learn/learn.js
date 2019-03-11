@@ -161,6 +161,7 @@ Page({
     var val = e.currentTarget.dataset.val;
       this.setData({
         types: val,
+        nomore: false,
         current: parseInt(val)
       })
 
@@ -174,7 +175,8 @@ Page({
     let current = e.detail.current;
     let source = e.detail.source;
     this.setData({
-      types: current.toString()
+      types: current.toString(), 
+      nomore:false
     })
     if (source == 'touch'){//手动滑动
       if(current!=3){
@@ -191,36 +193,10 @@ Page({
     })
   },
 
-  //页面滚动
-  onPageScroll: function(e) {
-    let self = this;
-    let windowWidth = this.data.windowWidth;
-    let scrollTop = e.scrollTop * (750 / windowWidth);
-    let fixedTop = this.data.fixedTop;
-    let opacity = this.data.opacity; //当前页面透明度
-    let jiaonang = this.data.jiaonang; //胶囊高度
-    let showBlock = null; //是否显示空白框
-    let unit = 1 / 290;
-
-    if (scrollTop > 10) { //滑动超过200时开始透明变色
-      opacity = 1 - (scrollTop - 10) * unit;
-    } else {
-      opacity = 1;
-    }
-
-    if (scrollTop > 300 - fixedTop) {
-      console.log('jjd')
-      self.setData({
-        fixed: "fixed",
-        opacity: opacity,
-        showBlock: true,
-      })
-    } else {
-      self.setData({
-        fixed: "",
-        opacity: opacity,
-        showBlock: false
-      })
-    }
+  //滚动条滚动到底部
+  scrolltolower:function(e){
+    this.setData({
+      nomore:true
+    })
   }
 })

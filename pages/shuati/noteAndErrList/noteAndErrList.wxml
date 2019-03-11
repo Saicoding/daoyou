@@ -10,4 +10,4 @@
   </view>
 </view>
 
-<image wx:if="{{!isLoaded}}" class ="loading-img" src="/images/loading/loading.gif"></image>
+<image wx:if="{{!isLoaded}}" class ="loading-img" src="/images/imgLoading.gif"></image>

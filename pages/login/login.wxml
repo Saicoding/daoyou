@@ -6,8 +6,11 @@
   <view class="title">{{options.title}}</view>
 </view>
 
+  <view style = "width:100%;height:{{statusBarHeight}}">
+  </view>
+
 <view class='rel'>
-  <image src="/images/denglu@3x.jpg" style='width:100%; height:auto' mode="widthFix"></image>
+  <image src="/images/denglu@3x.jpg" style='width:100%; height:689rpx;' mode="widthFix"></image>
   <view class="title abs" wx:if="{{statu.code!=3}}">
     <view class="title_sub {{statu.code==0?'on':''}}" data-statu="0" bindtap="changeLoginType">登陆</view>
     <view class="title_sub {{statu.code==2?'on':''}}" data-statu="2" bindtap="changeLoginType">注册</view>

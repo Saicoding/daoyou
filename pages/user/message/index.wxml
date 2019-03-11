@@ -1,10 +1,9 @@
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/timg.gif" mode="aspectFit"></image>
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
 
 <view wx:if="{{loaded}}" class="mycontainer">
 
-  <view class="line">
-    <view class="block" bindtap="GOavatarUpload" style='padding:5px 0'>
-
+  <view class="line" bindtap="GOavatarUpload" hover-class='select1' hover-stay-time='500'>
+    <view class="block"  style='padding:5px 0'>
       <view class="mytext fl">
         头像
       </view>
@@ -12,7 +11,6 @@
       <view class='hui fr'>
         <image class="pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}" mode="aspectFit"></image>
       </view>
-
     </view>
   </view>
   <view class="line">
@@ -30,7 +28,6 @@
       <view class="mytext fl">
         账号
       </view>
-      <view class='fr hui'>></view>
       <view class='hui fr'>{{user.username}}</view>
 
     </view>

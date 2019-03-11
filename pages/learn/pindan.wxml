@@ -1,4 +1,4 @@
-﻿<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit">
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit">
 </image>
 
 <view wx:if="{{loaded}}" class="content">

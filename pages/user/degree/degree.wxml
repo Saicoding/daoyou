@@ -1,4 +1,4 @@
-﻿<view class="mycontainer">
+<view class="mycontainer">
   <view class="up rel">
     <image class="up-backimg1" src="/images/background.jpg"></image>
 
@@ -24,6 +24,6 @@
     <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
   </view>
   <view wx:if="{{!loaded}}">
-    <image class="loading-img" src="/images/loading/loading.gif" mode="aspectFit" style="margin-top:100rpx;"></image>
+    <image class="loading-img" src="/images/imgLoading.gif" mode="aspectFit" style="margin-top:100rpx;"></image>
   </view>
 </view>

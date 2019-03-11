@@ -122,7 +122,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
 
-    wx.clearStorage();
+    // wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({

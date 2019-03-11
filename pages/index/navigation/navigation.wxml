@@ -25,7 +25,7 @@
         <image class ="hasNopage" src="/images/hasNopage/hasNopage.png"></image>
         <view class ="hasNopage-text">没有相关信息</view>
     </view>
-    <image class ="loading-img" wx:if="{{!isLoaded}}" src = "/images/loading/loading.gif" style="margin-top:200rpx;"></image>
+    <image class ="loading-img" wx:if="{{!isLoaded}}" src = "/images/imgLoading.gif" style="margin-top:200rpx;"></image>
   </scroll-view>
 
   <!-- 最下面的目录 -->

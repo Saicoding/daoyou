@@ -5,8 +5,8 @@ view,text,input,button,textarea,table{letter-spacing:0.6px;}
 /* 载入动画 */
 .loading-img{
   display: block;
-  width:35rpx;
-  height:35rpx;
+  width:70rpx;
+  height:70rpx;
   margin:200rpx auto;
 }
 /* 为空图片 */

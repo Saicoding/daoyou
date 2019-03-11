@@ -2,122 +2,114 @@
   <!-- 最上面 -->
   <view class="up">
     <view class="nickname">
-      <view class='f15'>{{user.Nickname}}</view>
+      <view class='f15' >{{user.Nickname}}</view>
       <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
     </view>
     <view class="nickname2">
       <navigator url='message/index'>
-      <view class='fr' style='height: 150rpx;line-height: 150rpx; color:#fff;'>></view>
-      <image class="pic fr" src="{{user.Pic}}" mode="widthFit"></image>
+        <view class='fr' style='height: 150rpx;line-height: 150rpx; color:#fff;'>></view>
+        <image class="pic fr" src="{{user.Pic}}" mode="widthFit"></image>
       </navigator>
     </view>
     <view class='clear'></view>
   </view>
   <view class='sankuai'>
     <view class='sub'>
-    <navigator url='course/list'>
-    <image src='../../images/user/wodekcheng@3x.png' mode='aspectFit'></image>
-    <view>我的课程</view>
-    </navigator>
+      <navigator url='course/list'>
+        <image src='../../images/user/wodekcheng@3x.png' mode='aspectFit'></image>
+        <view>我的课程</view>
+      </navigator>
     </view>
-    <view class='sub' >
-    <navigator url="learn/learn">
-    <image src='../../images/user/zhuanqin@3x.png' mode='aspectFit'></image>
-    <view>边学边赚</view>
-    </navigator>
+    <view class='sub'>
+      <navigator url="learn/learn">
+        <image src='../../images/user/zhuanqin@3x.png' mode='aspectFit'></image>
+        <view>边学边赚</view>
+      </navigator>
     </view>
-    <view class='sub' >
-    <navigator url="degree/degree">
-    <image src='../../images/user/zhangwo@3x.png' mode='aspectFit'></image>
-    <view>掌握情况</view>
-    </navigator>
+    <view class='sub'>
+      <navigator url="degree/degree">
+        <image src='../../images/user/zhangwo@3x.png' mode='aspectFit'></image>
+        <view>掌握情况</view>
+      </navigator>
     </view>
     <view class='clear'></view>
   </view>
-  <view class="mycontainer">
-    <view class="line">
+
+<view style = "border:1rpx solid white;">
+  <scroll-view scroll-y class="mycontainer" style="height:{{windowHeight-statusBarHeight-445}}rpx;border:1rpx solid white;">
+    <view class="line" hover-class="select1" hover-stay-time="500">
       <view class="block">
-        <navigator>
         <view class="mytext fl">
           账户余额
         </view>
-        <view class='fr hui'>></view>
         <view class='fr hong'>{{user.Money}}元</view>
-        </navigator>
       </view>
     </view>
 
-    <view class="line">
+    <view class="line" bindtap="GOpindan" hover-class="select1" hover-stay-time="500">
       <view class="block">
-        <navigator url='../user/course/pindan_list'>
         <view class="mytext fl">
           我的拼单
         </view>
         <view class='fr hui'>></view>
         <view class='hong fr'></view>
         <view class='clear'></view>
-        </navigator>
       </view>
     </view>
-    <view class="line">
+    <view class="line" bindtap="GOnews" hover-class="select1" hover-stay-time="500">
       <view class="block">
-        <navigator url='message/news'>
         <view class="mytext fl">
           我的消息
         </view>
         <view class='fr hui'>></view>
         <view class='hong fr'>{{news_num}}条</view>
         <view class='clear'></view>
-        </navigator>
       </view>
     </view>
-    <view class="line">
+    <view class="line" bindtap="GOcoupon" hover-class="select1" hover-stay-time="500">
       <view class="block">
-        <navigator url="coupon/coupon">
         <view class="mytext fl">
           我的优惠券
         </view>
         <view class='fr hui'>></view>
         <view class='hui fr'>100元</view>
         <view class='clear'></view>
-        </navigator>
       </view>
     </view>
-    
-    <view class="line">
+
+    <view class="line" hover-class="select1" hover-stay-time="500">
       <view class="block">
         <button open-type="contact">
-        <view class="mytext fl">
-          在线咨询
-        </view>
-        <view class='fr hui'>></view>
-        <view class='hui fr'>周一至周六 09：00~17：30</view>
+          <view class="mytext fl">
+            在线咨询
+          </view>
+          <view class='fr hui'>></view>
+          <view class='hui fr'>周一至周六 09：00~17：30</view>
         </button>
       </view>
     </view>
-    <view class="line">
+    <view class="line" hover-class="select1" hover-stay-time="500">
       <view class="block" bindtap='calling' data-tel='4006456114'>
-       
+
         <view class="mytext fl">
           客服热线
         </view>
         <view class='fr hui'>></view>
         <view class='hui fr'>周一至周六 09：00~17：30</view>
-       
+
       </view>
     </view>
-    <view class="line">
+    <view class="line" bindtap="GOpwd" hover-class="select1" hover-stay-time="500">
       <view class="block">
-        <navigator url='message/pwd'>
         <view class="mytext fl">
           修改密码
         </view>
         <view class='fr hui'>></view>
         <view class='hong fr'></view>
         <view class='clear'></view>
-        </navigator>
       </view>
     </view>
     <view class="submit" bindtap="logout" hover-class='select2' hover-stay-time='500'>退出登陆</view>
+  </scroll-view>
   </view>
 </view>

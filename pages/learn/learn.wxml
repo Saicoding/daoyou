@@ -1,6 +1,5 @@
 <!-- 轮播图 -->
 <!-- 最上面的占位框 -->
-<view></view>
 <swiper indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300" class="swiper">
   <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
     <swiper-item wx:if="{{barUrls}}">
@@ -15,11 +14,6 @@
   </swiper-item>
 </swiper>
 
-<!-- 占位背景 -->
-<view class="blank" style="height:{{jiaonang.top+jiaonang.height}}px;opacity:{{1-opacity}}"></view>
-<!-- 占位块 -->
-<view wx:if="{{showBlock}}" style="width:100%;height:80rpx;"></view>
-
 <view class="title1" style="top:{{jiaonang.top+(jiaonang.height-30*windowWidth/750)/2}}:px;opacity:{{1-opacity}}" animation="{{titleAnimate}}">每天学习一小时</view>
 
 <view class="bars {{fixed}}" style="top:{{fixedTop}}rpx;">
@@ -30,9 +24,9 @@
 
 </view>
 
-<swiper indicator-dots="{{false}}" autoplay="{{false}}" interval="3000" duration="300" current="{{current}}" bindchange = "changeSwiper" style = "height:{{windowHeight-380}}rpx;">
+<swiper indicator-dots="{{false}}" autoplay="{{false}}" interval="3000" duration="300" current="{{current}}" bindchange = "changeSwiper" style = "height:{{windowHeight-380}}rpx;" circular>
   <swiper-item   wx:for="{{loadedList}}" wx:for-item="videoList" wx:key="l">
-    <scroll-view wx:if="{{videoList.loaded}}" scroll-y style = "height:{{windowHeight-380}}rpx;" >
+    <scroll-view wx:if="{{videoList.loaded}}" scroll-y style = "height:{{windowHeight-380}}rpx;" bindscrolltolower="scrolltolower">
     <view  wx:for="{{videoList.list}}" wx:for-item="video" wx:key="v" >
       <!-- 一项 -->
       <view data-title="{{video.cname}}" data-index="{{index}}" class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch" hover-class='select1' hover-stay-time='500'>
@@ -67,9 +61,10 @@
         <view class='clear'></view>
       </view>
     </view>
+    <view wx:if="{{nomore}}" style = "font-size:22rpx;color:rgb(192, 192, 192);width:100%;height:80rpx;line-height:80rpx;text-align:center;">---------------嘿嘿,没有了------------</view>
     </scroll-view>
 
-    <image wx:if="{{!videoList.loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
+    <image wx:if="{{!videoList.loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
   </swiper-item>
   <swiper-item style="padding-left:10rpx;">
    <scroll-view scroll-y style = "height:{{windowHeight-380}}rpx;" >
@@ -85,6 +80,7 @@
     <view class='diqu' wx:for="{{diqus[4]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i" hover-class='select1' hover-stay-time='500'>{{item}}</view>
     <view class='title_ci'>X-Z </view>
     <view class='diqu' wx:for="{{diqus[5]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i" hover-class='select1' hover-stay-time='500'>{{item}}</view>
+    <view style = "width:100%;height:30rpx;"></view>
     </scroll-view>
   </swiper-item>
 </swiper>

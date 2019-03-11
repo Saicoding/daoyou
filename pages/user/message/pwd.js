@@ -209,6 +209,7 @@ Page({
             duration: 2000
           })
           setTimeout(function() {
+            wx.navigateBack({})
 
             wx.navigateTo({
               url: '../../login/login',

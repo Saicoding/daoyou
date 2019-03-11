@@ -3,4 +3,4 @@
   <rich-text nodes="{{nodes}}"></rich-text>
 </view>
 
-<image wx:if="{{!isLoaded}}" src="/images/loading/loading.gif" class="loading-img" style="margin-top:200rpx;"></image>
+<image wx:if="{{!isLoaded}}" src="/images/imgLoading.gif" class="loading-img" style="margin-top:200rpx;"></image>

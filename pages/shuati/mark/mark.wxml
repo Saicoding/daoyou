@@ -45,7 +45,7 @@
   </swiper>
 </view>
 <!-- 载入动画 -->
-<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/loading/loading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
+<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/imgLoading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
 
 <view wx:if = "{{hasNoShiti}}">
 <image  class ="hasNopage" src="/images/hasNopage/hasNopage.png"></image>

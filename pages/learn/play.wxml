@@ -1,4 +1,4 @@
-﻿<!--pages/video/videoDetail/videoDetail.wxml-->
+<!--pages/video/videoDetail/videoDetail.wxml-->
 
 <video bindtap="tooglePlay" id="myVideo" class='myVideo' controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindfullscreenchange="quan" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
   
@@ -22,7 +22,7 @@
   </view>
 </video>
 
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
 <view hidden="{{!loaded}}" class="content">
   
   <!-- 视频 -->
