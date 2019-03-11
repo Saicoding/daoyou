@@ -24,7 +24,20 @@ Page({
     diqu: "北京",
     daoyouci: false,
     opacity: 1, //banner透明度
-    loadedList: []
+    loadedList: [
+      {
+        loaded:false,
+        list:null
+      },
+      {
+        loaded: false,
+        list: null
+      },
+      {
+        loaded: false,
+        list: null
+      }
+    ]//已载入数组
   },
 
   /**
@@ -74,30 +87,22 @@ Page({
     wx.getStorage({
       key: 'lastkesub' + zcode,
       success: function(res) {
-        console.log(res)
         let lastKe = res.data.options;
-        if (self.data.types != "导游词") {
+        console.log(lastKe)
           self.setData({
-            types: lastKe.index,
+            types: lastKe.types,
+            current: parseInt(lastKe.types)
           })
-          self.getCourse(lastKe.index)
-        } else {
-          self.setData({
-            daoyouci: true,
-            loaded: true,
-          })
+        if (lastKe.types != '3'){
+          console.log('haha')
+          console.log(lastKe.types)
+          self.getCourse(lastKe.types)
         }
+
 
       },
       fail: function(res) {
-        if (self.data.types != "导游词") {
-          self.getCourse('0')
-        } else {
-          self.setData({
-            daoyouci: true,
-            loaded: true,
-          })
-        }
+        self.getCourse('0')
       }
     })
 
@@ -106,32 +111,21 @@ Page({
   getCourse: function(index) {
     let self = this;
     let loadedList = self.data.loadedList; //已载入列表数组
-
     console.log(loadedList)
-    if (loadedList[index]) { //说明已经载入过
-      this.setData({ //先设置还没有载入
-        loaded: false
-      });
-      self.setData({
-        videoList: loadedList[index],
-        loaded: true,
-        daoyouci: false,
-      });
-    } else { //如果没有载入过
-      this.setData({
-        loaded: false,
-        daoyouci: false,
-      });
 
+    console.log(loadedList[parseInt(index)])
+    if (loadedList[parseInt(index)].list) { //说明已经载入过
+
+    } else { //如果没有载入
       let types = "";
-      switch (index) {
-        case "0":
+      switch (parseInt(index)) {
+        case 0 :
           types = '笔试';
           break;
-        case "1":
+        case 1:
           types = '面试';
           break;
-        case "2":
+        case 2:
           types = '导考套餐';
           break;
       }
@@ -139,11 +133,13 @@ Page({
       console.log("action=getCourseList&types=" + types)
       app.post(API_URL, "action=getCourseList&types=" + types, false, false, "", "", "", self).then(res => {
         let newcourse = res.data.data[0].list;
-        loadedList[index] = newcourse;
+        loadedList[parseInt(index)].list = newcourse;
+        loadedList[parseInt(index)].loaded = true;//该章节载入结束
+        console.log(loadedList)
+        console.log(parseInt(index))
         self.setData({
-          videoList: newcourse,
-          loaded: true,
-          loadedList: loadedList
+          loadedList: loadedList,
+          current:parseInt(index)
         });
       });
     }
@@ -163,25 +159,30 @@ Page({
   //切换菜单
   getList: function(e) {
     var val = e.currentTarget.dataset.val;
+      this.setData({
+        types: val,
+        current: parseInt(val)
+      })
 
-    if (this.data.types != val) {
-      this.setData({
-        types: val,
-        daoyouci: false
-      })
-      this.getCourse(val)
+    if (val !='3'){
+      this.getCourse(val);
     }
   },
-  //导游词菜单
-  getList2: function(e) {
-    var val = e.currentTarget.dataset.val;
-    if (this.data.types != val) {
-      this.setData({
-        types: val,
-        daoyouci: true
-      })
+
+  //改变编号
+  changeSwiper:function(e){
+    let current = e.detail.current;
+    let source = e.detail.source;
+    this.setData({
+      types: current.toString()
+    })
+    if (source == 'touch'){//手动滑动
+      if(current!=3){
+        this.getCourse(current);
+      }
     }
   },
+
   //点击导游词
   diqu: function(e) {
     var val = e.currentTarget.dataset.diqu;

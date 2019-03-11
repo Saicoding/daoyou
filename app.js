@@ -11,7 +11,6 @@ App({
    * @return {Promise}    promise 返回promise供后续操作
    */
   post: function(url, data, ifShow, ifCanCancel, title, pageUrl, ifGoPage, self) {
-
     if (ifShow) {
       wx.showLoading({
         title: title,
@@ -71,7 +70,7 @@ App({
               })
             }
             wx.navigateTo({
-              url: '/pages/login/login?url=' + pageUrl + '&ifGoPage=' + ifGoPage + "&showToast=true&title=登录已失效,请重新登录"
+              url: '/pages/login/login?showToast=true&title=登录已失效,请重新登录'
             })
 
 
@@ -123,7 +122,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
 
-    // wx.clearStorage();
+    wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({
