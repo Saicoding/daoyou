@@ -22,6 +22,16 @@
   z-index:99; 
 }
 
+.title1{
+  position: fixed;
+  top:50rpx;
+  color:white;
+  font-size:30rpx;
+  z-index:99; 
+  width:500rpx;
+  left:250rpx;
+}
+
 
 /* 四个按钮 */
 

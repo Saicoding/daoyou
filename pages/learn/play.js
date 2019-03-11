@@ -666,16 +666,6 @@ Page({
       let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
       let videoID = lastVideo.orderid;
 
-      let playCourseArr = lastVideo.playCourseArr;
-      let playCourseStr = "";
-      for (let i = 0; i < playCourseArr.length; i++) {
-        if (i < playCourseArr.length - 1) {
-          playCourseStr += playCourseArr[i] + ",";
-        } else {
-          playCourseStr += playCourseArr[i];
-        }
-      }
-
       let playTime = 0;
       let currentTime = self.data.currentTime;
       if (currentTime > 10 && currentTime < lastVideo.time_length - 10) { //播放时间)
@@ -730,13 +720,13 @@ Page({
             options: options
           },
         })
-        app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+        // app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
 
-        if(self.data.options.fromIndex == 'true'){
-          wx.switchTab({
-            url:'/pages/learn/learn'
-          })
-        }
+        // if(self.data.options.fromIndex == 'true'){
+        //   wx.switchTab({
+        //     url:'/pages/learn/learn'
+        //   })
+        // }
       }
     }
   },

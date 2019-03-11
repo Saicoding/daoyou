@@ -20,11 +20,13 @@
     <!-- 占位块 -->
   <view wx:if="{{showBlock}}" style = "width:100%;height:80rpx;"></view>
 
-<view class="bars {{fixed}}" style = "top:{{fixedTop}}rpx;">
-  <view class="bars-huodong {{types=='笔试'?'on':''}}" data-val='笔试' bindtap='getList'>笔试</view>
-  <view class="bars-huodong {{types=='面试'?'on':''}}" data-val='面试' bindtap='getList'>面试</view>
+  <view class ="title1" style = "top:{{jiaonang.top+(jiaonang.height-30*windowWidth/750)/2}}:px;opacity:{{1-opacity}}" animation = "{{titleAnimate}}">每天学习一小时</view>
 
-  <view class="bars-huodong {{types=='导考套餐'?'on':''}}" data-val='导考套餐' bindtap='getList'>讲座</view>
+<view class="bars {{fixed}}" style = "top:{{fixedTop}}rpx;">
+  <view class="bars-huodong {{types=='0'?'on':''}}" data-val='0' bindtap='getList'>笔试</view>
+  <view class="bars-huodong {{types=='1'?'on':''}}" data-val='1' bindtap='getList'>面试</view>
+
+  <view class="bars-huodong {{types=='2'?'on':''}}" data-val='2' bindtap='getList'>讲座</view>
 
   <view class="bars-huodong {{types=='导游词'?'on':''}}" data-val='导游词' bindtap='getList2' style='margin-right: 4%;'>导游词</view>
 
