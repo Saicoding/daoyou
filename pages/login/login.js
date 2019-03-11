@@ -108,6 +108,7 @@ Page({
   onReady: function () {
     let self = this;
     //获得dialog组件
+    this.bindPhoneModel = this.selectComponent("#bindPhoneModel");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
@@ -534,9 +535,9 @@ Page({
     }
 
     if (code == identifyCode && code != undefined) { //如果相等
-      //开始登录
+      
       pwd = md5.md5(pwd).toLowerCase();
-      app.post(API_URL, "action=GetPwd&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "修改密码中...").then((res) => {
+      app.post("https://xcx2.chinaplat.com/", "action=GetPwd&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "修改密码中...").then((res) => {
         if (res.data.status == '1') {
           self.setData({
             statu: status[0],
@@ -603,10 +604,19 @@ Page({
               let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
               let url = self.data.url; //需要导航的url
 
-              app.post(API_URL, "action=LoginWx&unionId=" + unionid + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, false, false, "").then((res) => {
+              console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + openid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
+              app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + openid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex +"&mobile=&pwd=&code=", false, false, "").then((res) => {
                 let user = res.data.list[0];
-                self.processSelectScholl(user, ifGoPage);
+                console.log(user)
               })
+
+              // //监测微信是否有新号
+              // app.post(API_URL, "action=ChkUnionId&unionid=" + unionid,false,false,"").then(res=>{
+              //   if(res == "未绑定"){
+              //     self.bindPhoneModel.showDialog();
+              //   }else{
+              //   }
+              // })
             },
             fail:function(res1){
               console.log(res1)

@@ -99,6 +99,8 @@ App({
               })
             }
 
+          } else if (status == -2012) { //微信未绑定手机号
+            resolve(message);
           } else {
             console.log(res);
             wx.showToast({

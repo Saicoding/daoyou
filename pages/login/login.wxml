@@ -61,5 +61,7 @@
     <image class="fastlogin-icon" src="/images/wx3.png"></image>
     <view class="fastlogin-text">微信登录</view>
   </button>
-
 </view>
+
+<!-- 弹窗 -->
+<bindPhoneModel windowWidth = "{{windowWidth}}" windowHeight = "{{windowHeight}}" id="bindPhoneModel"></bindPhoneModel>

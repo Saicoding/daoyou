@@ -38,7 +38,6 @@ Page({
     midHeight: 430, //中间条的高度
     lastScrollTop: 0, //上次滚动条的位置
     opacity: 1, //banner透明度
-    showTiBlock: true, //题的占位框
     jindu: 0, //当前做题进度
   },
 
@@ -889,7 +888,6 @@ Page({
     let jiaonang = this.data.jiaonang; //胶囊高度
     let showBlock = null; //是否显示空白框
     let unit = 1 / 200;
-    let showTiBlock = this.data.showTiBlock;
 
     if (scrollTop > 200) { //滑动超过200时开始透明变色
       opacity = 1 - (scrollTop - 200) * unit;
@@ -907,7 +905,6 @@ Page({
       self.setData({
         fixed: "",
         showBlock: false,
-        showTiBlock: true,
         opacity: opacity
       })
     }

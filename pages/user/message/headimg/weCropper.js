@@ -1,16 +1,18 @@
+let API_URL = "https://xcx2.chinaplat.com/daoyou/";
 const app = getApp()
+
 Page({
   data: {
     id: 'cropper',
-    width: 150,
-    height: 150,
+    width: 250,
+    height: 250,
     minScale: 1,
     maxScale: 2.5,
-    minRotateAngle: 45 //判断发生旋转的最小角度
-    
+    minRotateAngle: 45, //判断发生旋转的最小角度
+   
   },
   getDevice() {
-    let self = this
+    let self = this;
     !self.device && (self.device = wx.getSystemInfoSync())
     return self.device
   },
@@ -18,7 +20,7 @@ Page({
     var self = this
     wx.chooseImage({
       count: 1,
-      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
@@ -42,9 +44,9 @@ Page({
         self.aspectRatio = aspectRatio
         self.cropperTarget = src
         //裁剪尺寸
-        self.cropperWidth = width * device.windowWidth / 750
-        self.cropperHeight = height * device.windowWidth / 750
-
+        self.cropperWidth = width * device.windowWidth / 375;
+        self.cropperHeight = height * device.windowWidth / 375;
+        
         var minRatio = res.height / self.cropperHeight
         if (minRatio > res.width / self.cropperWidth) {
           minRatio = res.width / self.cropperWidth
@@ -116,7 +118,7 @@ Page({
     //此处操作目的是防止旋转发生两次
     self.touchNum = self.touchNum + 1
     if (self.touchNum >= 2) {
-      
+
       var includedAngle = Math.atan(
         Math.abs(
           (self.newSlope - self.oldSlope) / (1 - self.newSlope * self.oldSlope)
@@ -136,52 +138,41 @@ Page({
   },
   getCropperImage() {
     wx.showLoading({
-      title: '图片上传中……',
+      title: '图片设置中',
     })
     let self = this
     let { id } = self.data
     self.ctx = wx.createCanvasContext(id)
+    let user = wx.getStorageSync('user');
+
+    
+    let zcode = user.zcode;
+    let token = user.token;
 
 
     self.ctx.draw(true, wx.canvasToTempFilePath({
       canvasId: id,
       success(res) {
+        wx.getFileSystemManager().readFile({
+          filePath: res.tempFilePath, //选择图片返回的相对路径
+          encoding: 'base64', //编码格式
+          success: res3 => { //成功的回调
+            res3.data = encodeURIComponent(res3.data); //需要编码
+            app.post(API_URL, "action=saveHeadPic&zcode=" + zcode + "&token=" + token + "&Pic=" + res3.data, false, false, "", "", "", self).then(res4 => {
+          wx.hideLoading({})
+          wx.showToast({
+            title: '成功',
+            icon: 'success',
+            duration: 1000
+          });
+          setTimeout(function () {
 
-        wx.uploadFile({
-          url: app.globalData.interfaceUrl + '/Home/WeChat/s_avator',
-          filePath: res.tempFilePath,
-          name: 'files',
-          formData: {
-            'id': app.globalData.Id
-          },
-          success(res) {
-            wx.hideLoading()
-            if (JSON.parse(res.data).num == 0) {
-              wx.showToast({
-                title: '头像修改成功',
-                icon: 'success',
-                duration: 1000
-              });
-              setTimeout(function () {
-               
-                wx.redirectTo({
-                  url: '../Student/info'
-                })
-              }, 1000);
-              
-             
-            } else {
-
-              wx.showToast({
-                title: '上传失败，请稍后重试',
-                icon: 'none',
-                duration: 1000
-              })
-            }
-
+            wx.navigateBack({})
+          }, 1000);
+          
+            })
           }
-        })
-
+          })
 
       }
     }))

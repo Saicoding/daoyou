@@ -12,6 +12,7 @@ Page({
     danke: false,
     title: "",
     product: "", //套餐类型（基础套餐、冲刺套餐、豪华套餐、题库-60、题库-108）
+    baolist:"",//获取套餐包信息
     num: "",
     name: "",
     time: "1年",
@@ -59,7 +60,8 @@ Page({
       if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
       this.setData({
         tuan_id: tuan_id,
-      })
+      });
+      this.getbao();
     }
     
     var money_zong = Number(options.money_zong);
@@ -198,7 +200,16 @@ Page({
     })
   },
 
-
+  getbao:function(){
+    var that=this;
+    app.post(API_URL, "action=getCourseBao", false, false, "", "").then((res) => {
+      var baolist = res.data.data[0].list;
+      that.setData({
+        loaded: true,
+        baolist: baolist,
+      })
+    })
+  },
 
   /**
    * 提交支付

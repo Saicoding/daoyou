@@ -1,33 +1,41 @@
 <!-- 轮播图 -->
-<navigator url='../index/xuexijihua/xuexijihua' wx:if="{{barUrls.length==1}}">
-  <image src="{{barUrls}}" class="slide-image" mode='widthFix' />
-</navigator>
-<swiper wx:if="{{barUrls.length>1}}" indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300">
+<!-- 最上面的占位框 -->
+<view></view>
+<swiper indicator-dots="{{false}}" autoplay="{{true}}" interval="3000" duration="300" class="swiper">
   <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
-    <swiper-item>
+    <swiper-item wx:if="{{barUrls}}">
       <navigator url='../index/xuexijihua/xuexijihua'>
         <image src="{{img}}" class="slide-image" mode='widthFix' />
       </navigator>
     </swiper-item>
   </block>
+
+  <swiper-item wx:if="{{!barUrls}}">
+    <image src="/images/imgLoading.gif" class="imgLoading" style="display:block;width:60rpx;height:60rpx;margin:0 auto;margin-top:{{statusBarHeight+100}}rpx;" mode='widthFix' />
+  </swiper-item>
 </swiper>
 
-<scroll-view scroll-x class="bars {{className?'fixed':''}}">
+  <!-- 占位背景 -->
+  <view  class ="blank" style = "height:{{jiaonang.top+jiaonang.height}}px;opacity:{{1-opacity}}"></view>
+    <!-- 占位块 -->
+  <view wx:if="{{showBlock}}" style = "width:100%;height:80rpx;"></view>
+
+<view class="bars {{fixed}}" style = "top:{{fixedTop}}rpx;">
   <view class="bars-huodong {{types=='笔试'?'on':''}}" data-val='笔试' bindtap='getList'>笔试</view>
   <view class="bars-huodong {{types=='面试'?'on':''}}" data-val='面试' bindtap='getList'>面试</view>
-  
+
   <view class="bars-huodong {{types=='导考套餐'?'on':''}}" data-val='导考套餐' bindtap='getList'>讲座</view>
- 
+
   <view class="bars-huodong {{types=='导游词'?'on':''}}" data-val='导游词' bindtap='getList2' style='margin-right: 4%;'>导游词</view>
 
-</scroll-view>
+</view>
 
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/loading/loading.gif" mode="aspectFit"></image>
 
 <view wx:if="{{loaded}}" class="content">
   <view wx:if="{{!daoyouci}}" wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
     <!-- 一项 -->
-    <view data-title="{{video.cname}}" data-index = "{{index}}" class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch" hover-class='select1' hover-stay-time='500'>
+    <view data-title="{{video.cname}}" data-index="{{index}}" class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch" hover-class='select1' hover-stay-time='500'>
       <image src="{{video.pic}}" class="img" mode='widthFix' />
 
       <view class="right-block">
@@ -40,7 +48,7 @@
         <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='面试'}}" src="/images/course/mianshi@2x.png" mode='widthFix'></image>
         <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian=='讲座'}}" src="/images/course/jiangzuo@2x.png" mode='widthFix'></image>
         <image style='width:70rpx; max-height:30rpx;margin:10rpx 0;' wx:if="{{video.biaoqian==''}}" src="/images/course/kong@2x.png" mode='widthFix'></image>
-        
+
 
         <view class='clear'></view>
         <!-- 热度 -->
@@ -62,17 +70,17 @@
     </view>
   </view>
   <view wx:if="{{daoyouci}}" style='padding:4%'>
-      <view class='title_ci'>A-F</view> 
-      <view class='diqu' wx:for="{{diqus[0]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
-      <view class='title_ci'>H </view> 
-      <view class='diqu' wx:for="{{diqus[1]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
-      <view class='title_ci'>Q-S </view> 
-      <view class='diqu' wx:for="{{diqus[2]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
-      <view class='title_ci'>G </view> 
-      <view class='diqu' wx:for="{{diqus[3]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
-      <view class='title_ci'>J-N </view> 
-      <view class='diqu' wx:for="{{diqus[4]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
-      <view class='title_ci'>X-Z </view> 
-      <view class='diqu' wx:for="{{diqus[5]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>A-F</view>
+    <view class='diqu' wx:for="{{diqus[0]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>H </view>
+    <view class='diqu' wx:for="{{diqus[1]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>Q-S </view>
+    <view class='diqu' wx:for="{{diqus[2]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>G </view>
+    <view class='diqu' wx:for="{{diqus[3]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>J-N </view>
+    <view class='diqu' wx:for="{{diqus[4]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
+    <view class='title_ci'>X-Z </view>
+    <view class='diqu' wx:for="{{diqus[5]}}" bindtap='diqu' data-diqu='{{item}}' wx:key="i">{{item}}</view>
   </view>
 </view>

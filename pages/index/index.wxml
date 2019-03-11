@@ -3,19 +3,24 @@
   <!-- 最上面的自定义标题栏 -->
   <view class="up">
     <!-- 扫描图标 -->
-    <image class="up-scan" src="/images/index/scan.png" style="top:{{statusBarHeight+25}}rpx;" bindtap = "scan"></image>
+    <image class="up-scan" src="/images/index/scan.png" style="top:{{statusBarHeight+25}}rpx;" bindtap="scan"></image>
     <!-- 轮播图 -->
-    <swiper class ="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
+    <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
       <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
-        <swiper-item>
-          <image data-from = "banner" src="{{img.pic}}" class="slide-image" bindtap="GOxuexijihua" />
+        <swiper-item wx:if="{{banners}}">
+          <image data-from="banner" src="{{img.pic}}" class="slide-image" bindtap="GOxuexijihua" />
         </swiper-item>
       </block>
+
+      <swiper-item wx:if="{{!banners}}">
+        <image src="/images/imgLoading.gif" class="imgLoading" style="display:block;width:60rpx;height:60rpx;margin:0 auto;margin-top:{{statusBarHeight+100}}rpx;" mode='widthFix' />
+      </swiper-item>
     </swiper>
+
   </view>
 
   <!-- 中间个人信息部分 -->
-  <view class="info" style = "  top: {{statusBarHeight+310}}rpx;">
+  <view class="info" style="  top: {{statusBarHeight+310}}rpx;">
     <!-- 个人信息最上面部分 -->
     <view class="info-up">
       <!-- 个人信息的图像 -->
@@ -26,13 +31,13 @@
         <!-- 名字 -->
         <view class="info-up-name">{{user.Nickname}}</view>
         <!-- 是否加入计划 -->
-        <view  class="info-up-jihua" bindtap = "tapInfo" hover-class='select1' hover-stay-time='500'>
+        <view class="info-up-jihua" bindtap="tapInfo" hover-class='select1' hover-stay-time='500'>
           <image class="info-up-jihua-icon" src="{{user.loginIcon}}"></image>
           <view class="info-up-jihua-text">{{user.text}}</view>
         </view>
       </view>
       <!-- 打卡 -->
-      <view animation = "{{dakaAnimate}}" class="info-up-date" bindtap = "attendance" hover-class='select3' hover-stay-time='500'>打卡</view>
+      <view animation="{{dakaAnimate}}" class="info-up-date" bindtap="attendance" hover-class='select3' hover-stay-time='500'>打卡</view>
     </view>
 
     <!-- 个人信息下面部分 -->
@@ -66,13 +71,13 @@
   </view>
 
   <!-- 刷题 & 看课 -->
-  <view class="mid" style = "  margin-top: {{statusBarHeight+120}}rpx;">
-    <view class="mid-item" bindtap = "continiueShuati" hover-class='select2' hover-stay-time='500'>
+  <view class="mid" style="  margin-top: {{statusBarHeight+120}}rpx;">
+    <view class="mid-item" bindtap="continiueShuati" hover-class='select2' hover-stay-time='500'>
       <view class="mid-item-image icon1">{{midtext}}</view>
-      <view class="mid-item-title wp">{{midtitle}}</view>
+      <view class="mid-item-title">{{midtitle}}</view>
       <image class="mid-item-bottom" src="/images/index/shuati.png"></image>
     </view>
-    <view class="mid-item" bindtap = "continiueKanke" hover-class='select2' hover-stay-time='500'>
+    <view class="mid-item" bindtap="continiueKanke" hover-class='select2' hover-stay-time='500'>
       <view class="mid-item-image icon2">{{ketext}}</view>
       <view class="mid-item-title">{{ketitle}}</view>
 
@@ -84,8 +89,8 @@
   <view class="bottom">
     <!-- 第一行 -->
     <view class="bottom-line">
-      <view wx:for="{{catalogs1}}" wx:for-item= "catalog" wx:key = "c">
-        <view data-id = "{{catalog.id}}" data-index="{{index}}" class="bottom-line-item" bindtap="GOpage" hover-class='select1' hover-stay-time='500'>
+      <view wx:for="{{catalogs1}}" wx:for-item="catalog" wx:key="c">
+        <view data-id="{{catalog.id}}" data-index="{{index}}" class="bottom-line-item" bindtap="GOpage" hover-class='select1' hover-stay-time='500'>
           <image class="bottom-line-item-icon" src="{{icons[index]}}"></image>
           <view class="bottom-line-item-text">{{catalog.name}}</view>
         </view>
@@ -94,7 +99,7 @@
 
     <!-- 第二行 -->
     <view class="bottom-line">
-      <view wx:for="{{catalogs2}}" wx:for-item= "catalog" wx:key = "c">
+      <view wx:for="{{catalogs2}}" wx:for-item="catalog" wx:key="c">
         <view data-id="{{catalog.id}}" data-index="{{index+4}}" class="bottom-line-item" bindtap="GOpage" hover-class='select1' hover-stay-time='500'>
           <image class="bottom-line-item-icon" src="{{icons[index+4]}}"></image>
           <view class="bottom-line-item-text">{{catalog.name}}</view>
@@ -105,12 +110,10 @@
 </view>
 
 <!-- 海报 -->
-<haibao id="haibao"  windowHeight = "{{windowHeight}}" ></haibao>
+<haibao id="haibao" windowHeight="{{windowHeight}}"></haibao>
 
 <!-- 弹窗 -->
-<bindPhoneModel windowWidth = "{{windowWidth}}" windowHeight = "{{windowHeight}}" id="bindPhoneModel"></bindPhoneModel>
+<bindPhoneModel windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" id="bindPhoneModel"></bindPhoneModel>
 
 <!-- 打卡 -->
-<rili windowHeight = "{{windowHeight}}" id="rili" bind:createHaibao = "_createHaibao"></rili>
-
-
+<rili windowHeight="{{windowHeight}}" id="rili" bind:createHaibao="_createHaibao"></rili>

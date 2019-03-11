@@ -29,7 +29,8 @@
     "pages/user/message/news",
     "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pindan",
-    "pages/user/course/pindan_list"
+    "pages/user/course/pindan_list",
+    "pages/user/message/pwd"
   ],
   "window": {
     "backgroundTextStyle": "light",

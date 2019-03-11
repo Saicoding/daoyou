@@ -1,0 +1,21 @@
+<view class="mycontainer">
+
+  <view class="block">
+    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" />
+  </view>
+
+  <!-- 验证码 -->
+  <view wx:if="{{statu.code != 0}}" class="block code">
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" />
+    <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}'>
+      {{text}}
+    </button>
+  </view>
+
+  <view wx:if="{{statu.code!=1}}" class="block">
+    <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.ph_user2}}" placeholder-style="color:#ddd;" bindinput="pwdInput" />
+  </view>
+
+  <!-- 确定按钮 -->
+  <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit">{{statu.confirm_text}}</view>
+</view>

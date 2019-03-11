@@ -143,8 +143,6 @@
     <image wx:if="{{!isLoaded}}" class ="loading-img" src="/images/loading/loading.gif" style ="margin-top:100rpx;"></image>
   </view>
 
-    <!-- 题的占位块 -->
-  <!-- <view wx:if ="{{showTiBlock}}" style="width:100%;height:1300rpx;"></view> -->
 </view>
 
 <!-- 弹窗 -->

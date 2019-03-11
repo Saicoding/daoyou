@@ -15,6 +15,8 @@ Page({
     userInfo: "111",
     value: "",
     inputtype: "",
+    region: ['广东省', '广州市', '海珠区'],
+    sh_dizhi: "",
   },
 
   /**
@@ -35,9 +37,11 @@ Page({
     
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, true, false, "", "", self).then((res) => {
         var userInfo = res.data.data[0];
-       
+        var address = userInfo.Address.split(",");
         that.setData({
-          userInfo: userInfo
+          userInfo: userInfo,
+          region: [address[0], address[1], address[2]],
+          sh_dizhi: address[3]
         })
       
 
@@ -115,7 +119,7 @@ Page({
 
     let datas = [];
 
-    datas = ['未设置', '保密', '男', '女'];
+    datas = ['保密', '男', '女'];
     userInfo.Sex = datas[index]
 
 
@@ -138,9 +142,6 @@ Page({
       case '手机号':
         userInfo.Mobile = text
         break;
-      case '地址':
-        userInfo.Address = text
-        break;
       case '邮箱':
         userInfo.Email = text
         break;
@@ -160,7 +161,17 @@ Page({
       text: ""
     })
   },
-
+  //地址
+  sh_dizhi: function (e) {
+    this.setData({
+      sh_dizhi: e.detail.value
+    })
+  },
+  bindRegionChange: function (e) {
+    this.setData({
+      region: e.detail.value
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -213,19 +224,18 @@ Page({
    * 保存信息
    */
   save: function() {
-    let self = this;
-    
+    let that = this;
+    var address = that.data.region[0] + "," + that.data.region[1] + "," + that.data.region[2] + "," + that.data.sh_dizhi;
 
 
     //{ "Nicename": "游客", "Sex": "男", "Address": "测试", "Mobile": "13292374292", "Email": "", "Jifen": "5", "Money": "19185.60", "xueshi": 618523 }
     let user = wx.getStorageSync('user');
     let token = user.token;
     let zcode = user.zcode;
-    let userInfo = self.data.userInfo;
+    let userInfo = that.data.userInfo;
     let nickname = userInfo.Nicename;
     let sex = userInfo.Sex;
     let mobile = userInfo.Mobile;
-    let Address = userInfo.Address;
     let Email = userInfo.Email;
    
     app.post(API_URL, "action=saveUserInfo" +
@@ -233,7 +243,7 @@ Page({
       "&zcode=" + zcode +
       "&nickname=" + nickname +
       "&sex=" + sex +
-      "&mobile=" + mobile + "&address=" + Address + "&email=" + Email, true, true, "保存中", "", "", self).then(res => {
+      "&mobile=" + mobile + "&address=" + address + "&email=" + Email, true, true, "保存中", "", "", self).then(res => {
       
       wx.showToast({
         icon: 'none',
@@ -247,21 +257,11 @@ Page({
    * 导航到设置头像页面
    */
   GOavatarUpload: function() {
-    wx.chooseImage({
-      count: 1,
-      sizeType: 'compressed',
-      sourceType: ['album', 'camera'],
-      success: function(res) {
-        const src = res.tempFilePaths[0]
 
         wx.navigateTo({
-          url: `/pages/mine/avatarUpload/avatarUpload?src=${src}`
+          url: "headimg/weCropper"
         })
-      },
-      fail: function() {
-        buttonClicked = false
-      }
-    })
+      
   }
 
 })

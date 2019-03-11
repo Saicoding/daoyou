@@ -657,7 +657,7 @@ Page({
   onUnload: function() {
     let self = this;
 
-    if (self.data.loaded) {
+    if (self.data.loaded) {//载入完毕才执行
       let kcid = self.data.kcid;
       let options = self.data.options;
       let px = self.data.px;

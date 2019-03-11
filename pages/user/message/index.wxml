@@ -3,7 +3,7 @@
 <view wx:if="{{loaded}}" class="mycontainer">
 
   <view class="line">
-    <view class="block" bindtap="GOavatarUpload">
+    <view class="block" bindtap="GOavatarUpload" style='padding:5px 0'>
 
       <view class="mytext fl">
         头像
@@ -47,17 +47,25 @@
 
     </view>
   </view>
+
+
   <view class="line">
-    <view class="block" data-info="{{userInfo.Address}}" data-title="地址" data-inputtype="text" data-placeholder="请输入您的邮寄地址" bindtap="showModel">
-
-      <view class="mytext fl">
-        资料邮寄地址
+  <view class="block">
+    <text class='mytext fl'>邮寄地址选择：</text>
+    <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+      <view class="picker hui fr">
+        {{region[0]}}，{{region[1]}}，{{region[2]}}
       </view>
-      <view class='fr hui'>></view>
-      <view class='hui fr'>{{userInfo.Address?userInfo.Address:"未设置"}}</view>
-
-    </view>
+    </picker>
   </view>
+  </view>
+  <view class="line">
+  <view class="block">
+    <text class='mytext fl'>详细地址：</text>
+    <input class='liuyan hui fr tar' value="{{sh_dizhi}}" placeholder='留下您的详细地址' bindinput='sh_dizhi'></input>
+  </view>
+  </view>
+  
 
   <view class="line">
     <view class="block" data-info="{{userInfo.Mobile}}" data-inputtype="number" data-title="手机号" bindtap="showModel" data-placeholder="请输入您的手机号">

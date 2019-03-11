@@ -2,12 +2,14 @@
   <!-- 最上面 -->
   <view class="up">
     <view class="nickname">
-      <view class='f16'>{{user.Nickname}}</view>
+      <view class='f15'>{{user.Nickname}}</view>
       <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
     </view>
     <view class="nickname2">
+      <navigator url='message/index'>
       <view class='fr' style='height: 150rpx;line-height: 150rpx; color:#fff;'>></view>
       <image class="pic fr" src="{{user.Pic}}" mode="widthFit"></image>
+      </navigator>
     </view>
     <view class='clear'></view>
   </view>
@@ -102,6 +104,18 @@
         <view class='fr hui'>></view>
         <view class='hui fr'>周一至周六 09：00~17：30</view>
        
+      </view>
+    </view>
+    <view class="line">
+      <view class="block">
+        <navigator url='message/pwd'>
+        <view class="mytext fl">
+          修改密码
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hong fr'></view>
+        <view class='clear'></view>
+        </navigator>
       </view>
     </view>
     <view class="submit" bindtap="logout" hover-class='select2' hover-stay-time='500'>退出登陆</view>

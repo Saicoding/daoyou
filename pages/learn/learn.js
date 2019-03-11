@@ -16,6 +16,7 @@ Page({
     diqus: [['安徽', '北京', '重庆', '福建'], ['河南', '河北', '湖北', '湖南', '海南', '黑龙江'], ['青海', '山东', '陕西', '四川', '山西', '上海', '深圳'], ['广东', '甘肃', '广西', '贵州'], ['江西', '辽宁', '江苏', '吉林', '宁夏', '内蒙古'], ['浙江', ' 天津', '新疆', '云南', '西藏']],
     diqu:"北京",
     daoyouci:false,
+    opacity: 1, //banner透明度
   },
 
   /**
@@ -29,9 +30,30 @@ Page({
    */
   onReady: function() {
     let self = this;
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        //最上面标题栏不同机型的高度不一样(单位PX)
+        let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+        let jiaonang = wx.getMenuButtonBoundingClientRect(); //胶囊位置及尺寸
+
+        let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
+
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowWidth: windowWidth,
+          windowHeight: windowHeight,
+          statusBarHeight: statusBarHeight,
+          jiaonang: jiaonang,
+          fixedTop: fixedTop
+        })
+      }
+    });
     //获取顶部图
     app.post(API_URL, "action=getCourseAD", false, false, "", "", "", self).then(res => {
       let barUrls = res.data.data[0].pic.split(",");
+      console.log(barUrls)
       self.setData({
         barUrls: barUrls
       });
@@ -101,6 +123,38 @@ Page({
     wx.navigateTo({
       url: 'daoyouci_list?val=' + val,
     })
-
   },
+
+  //页面滚动
+  onPageScroll:function(e){
+    let self = this;
+    let windowWidth = this.data.windowWidth;
+    let scrollTop = e.scrollTop * (750 / windowWidth);
+    let fixedTop = this.data.fixedTop;
+    let opacity = this.data.opacity; //当前页面透明度
+    let jiaonang = this.data.jiaonang; //胶囊高度
+    let showBlock = null; //是否显示空白框
+    let unit = 1 / 290;
+
+    if (scrollTop > 10) { //滑动超过200时开始透明变色
+      opacity = 1 - (scrollTop - 10) * unit;
+    } else {
+      opacity = 1;
+    }
+
+    if (scrollTop > 300 - fixedTop) {
+      console.log('jjd')
+      self.setData({
+        fixed: "fixed",
+        opacity: opacity,
+        showBlock: true,
+      })
+    } else {
+      self.setData({
+        fixed: "",
+        opacity: opacity,
+        showBlock: false
+      })
+    }
+  }
 })
