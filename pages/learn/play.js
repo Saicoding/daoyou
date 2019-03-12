@@ -45,7 +45,7 @@ Page({
   onLoad: function(options) {
     console.log(options)
     var kcid = options.kc_id;
-
+    
     this.setData({
       kcid: kcid,
       options: options
@@ -731,13 +731,13 @@ Page({
             options: options
           },
         })
-        // app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
-
-        // if(self.data.options.fromIndex == 'true'){
-        //   wx.switchTab({
-        //     url:'/pages/learn/learn'
-        //   })
-        // }
+        app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+        
+        if(self.data.options.fromIndex == 'true'){
+          wx.switchTab({
+            url:'/pages/learn/learn'
+          })
+        }
       }
     }
   },

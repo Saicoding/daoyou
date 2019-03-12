@@ -40,13 +40,13 @@
 
 <view wx:if="{{!danke}}" class='rel' style='margin-bottom: 15px;'>
   <view wx:if="{{!dizhiok}}">
-    <view class='ditiao' bindtap='dizhi'>
+    <view class='ditiao' data-type='useradd' bindtap='dizhi'>
       <image src='/images/add.png' style='margin-right:10px;'></image>手动添加地址
       <view class='fr hui f18'>
         <image src='/images/user/baoming_searchnext_13x13_@3x.png'></image>
       </view>
     </view>
-    <view class='ditiao' bindtap='wxdizhi'>
+    <view class='ditiao' data-type='wxadd' bindtap='dizhi'>
       <image src='/images/wx2.png'  style='margin-right:10px;'></image>使用微信地址
       <view class='fr hui f18'>
         <image src='/images/user/baoming_searchnext_13x13_@3x.png'></image>
@@ -58,7 +58,7 @@
     <view style='width:80%' class='fl'>
       <text class='f15 b'>{{sh_name}} </text>
       <text class='f12'>{{sh_number}}</text>
-      <view class='f12' style='color:#666'>{{dizhiList}}</view>
+      <view class='f12' style='color:#666'>{{address}}</view>
       <view class='f12' style='color:#666'>备注：{{sh_beizhu}}</view>
     </view>
     <image src='/images/user/baoming_searchnext_13x13_@3x.png' style='width:35rpx; height:35rpx;margin-top:36rpx;' class='fr'></image>
@@ -104,11 +104,11 @@
   <image class='close' src='/images/close.png' bindtap='close'></image>
   <view class='ditiao'>
     <text class='lab'>收货人：</text>
-    <input class='liuyan' placeholder='留下您的姓名' bindinput='sh_name'></input>
+    <input class='liuyan' placeholder='留下您的姓名' value='{{sh_name}}' bindinput='sh_name'></input>
   </view>
   <view class='ditiao'>
     <text class='lab'>手机号码：</text>
-    <input class='liuyan' placeholder='请填写11位手机号码' bindinput='sh_number' maxlength='11'></input>
+    <input class='liuyan' placeholder='请填写11位手机号码' value='{{sh_number}}' bindinput='sh_number' maxlength='11'></input>
   </view>
   <view class='ditiao'>
     <text class='lab'>地址选择：</text>
@@ -120,7 +120,7 @@
   </view>
   <view class='ditiao'>
     <text class='lab'>详细地址：</text>
-    <input class='liuyan' placeholder='留下您的详细地址' bindinput='sh_dizhi'></input>
+    <input class='liuyan' placeholder='留下您的详细地址' value='{{sh_dizhi}}' bindinput='sh_dizhi'></input>
   </view>
   <view class='ditiao'>
     <text class='lab'>备注留言：</text>

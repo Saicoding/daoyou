@@ -15,7 +15,7 @@
     </block>
 
     <swiper-item wx:if="{{!banners}}">
-      <image src="/images/imgLoading.gif" class="imgLoading" style="display:block;width:60rpx;height:60rpx;margin:0 auto;margin-top:{{statusBarHeight+100}}rpx;" />
+      <image src="/images/imgLoading.gif" class="imgLoading" style="display:block;width:60rpx;height:60rpx;margin:0 auto;margin-top:{{statusBarHeight+150}}rpx;" />
     </swiper-item>
   </swiper>
 

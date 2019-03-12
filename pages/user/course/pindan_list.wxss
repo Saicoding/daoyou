@@ -177,3 +177,6 @@ page {background: #f2f2f2;}
   margin-left:10rpx;
   margin-top:10rpx;
 }
+.content { position: relative}
+.bbg { position: absolute; top:0; left: 0; width:100%; height:100%; background: #eeeeee60; z-index: 3}
+.yinzhang { width:300rpx; height: 300rpx; position: absolute; top:15%; left: 50%; margin-left: -150rpx; z-index: 4  }

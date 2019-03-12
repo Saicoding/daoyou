@@ -12,17 +12,18 @@ Page({
     danke: false,
     title: "",
     product: "", //套餐类型（基础套餐、冲刺套餐、豪华套餐、题库-60、题库-108）
-    baolist:"",//获取套餐包信息
+    baolist: "", //获取套餐包信息
     num: "",
     name: "",
     time: "1年",
     region: ['广东省', '广州市', '海珠区'],
     sh_name: "游客",
-    sh_number: "13333333333",
+    sh_number: "",
+    dizhitype: "", //添加地址方式
     sh_dizhi: "",
     sh_beizhu: "",
     sh_show: false,
-    dizhiList: "广东省 广州市 海珠区 人民广场386号",
+    address: "广东省 广州市 海珠区 人民广场386号",
     dizhiok: false,
     mymoney: "0",
     youhuiquan: "0",
@@ -34,7 +35,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-   
+
     wx.setNavigationBarTitle({ //设置标题
       title: '支付',
     })
@@ -54,16 +55,20 @@ Page({
       keshi = options.keshi;
       teacher = options.teacher;
     } else {
-    //购买套餐
+      //购买套餐
       product = options.product; //套餐名称
       tuan_id = options.tuan_id; //拼团id 发起时没有
-      if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
+      if (tuan_id) {
+        tuan_id = tuan_id
+      } else {
+        tuan_id = ""
+      }
       this.setData({
         tuan_id: tuan_id,
       });
       this.getbao();
     }
-    
+
     var money_zong = Number(options.money_zong);
     var mymoney = 0;
     var mymoney2 = 0;
@@ -137,8 +142,26 @@ Page({
   },
   dizhi: function(e) {
     this.setData({
-      sh_show: true
-    })
+      sh_show: true,
+      dizhitype: e.currentTarget.dataset.type
+    });
+    if (this.data.dizhitype == "wxadd") { //微信添加地址
+      var that = this;
+
+      wx.chooseAddress({
+        success: function(res) {
+          that.setData({
+            sh_name: res.userName,
+            sh_number: res.telNumber,
+            region: [res.provinceName, res.countyName, res.countyName],
+            sh_dizhi: res.detailInfo,
+
+          });
+
+        }
+      });
+    }
+
   },
   bindRegionChange: function(e) {
     this.setData({
@@ -170,22 +193,25 @@ Page({
     let user = wx.getStorageSync('user');
     let zcode = user.zcode; //客户端id号
     let token = user.token;
-    if (this.data.sh_number && this.data.sh_dizhi && this.data.sh_name){
-      var that=this;
+    var that = this;
+
+
+
+    if (this.data.sh_number && this.data.sh_dizhi && this.data.sh_name) {
+
       var address = that.data.region[0] + " " + that.data.region[1] + " " + that.data.region[2] + ", " + that.data.sh_dizhi;
-      
+
       app.post(API_URL, "action=saveDyAdress&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + address + "&uname=" + this.data.sh_name + "&beizhu=" + this.data.sh_beizhu, false, false, "", "", "", self).then(res => {
 
-      that.setData({
-        dizhiList: that.data.region[0] + " " + that.data.region[1] + " " + that.data.region[2] + ", " + that.data.sh_dizhi,
-        dizhiok: true,
-        address: address,
-        daoyouci: false,
-        sh_show: false,
-        
+        that.setData({
+          dizhiok: true,
+          address: address,
+          daoyouci: false,
+          sh_show: false,
+
+        });
       });
-    });
-    }else{
+    } else {
       wx.showToast({
         title: '请将您的信息填写完成',
         icon: 'none',
@@ -193,15 +219,19 @@ Page({
       })
 
     }
+
+
   },
+
+
   close: function(e) {
     this.setData({
       sh_show: false
     })
   },
 
-  getbao:function(){
-    var that=this;
+  getbao: function() {
+    var that = this;
     app.post(API_URL, "action=getCourseBao", false, false, "", "").then((res) => {
       var baolist = res.data.data[0].list;
       that.setData({
@@ -222,7 +252,7 @@ Page({
     let token = user.token;
     let product = this.data.product;
     let money_zong = this.data.money_zong;
-    if (self.data.danke==false && self.data.dizhiok==false) {
+    if (self.data.danke == false && self.data.dizhiok == false) {
       wx.showToast({
         title: '请填写收货地址',
         icon: 'none',
@@ -313,20 +343,20 @@ Page({
       //发起拼单
 
       var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
-     
+
 
       app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
 
-        if (self.data.tuan_id!=""){
+        if (self.data.tuan_id != "") {
           wx.navigateTo({ //拼单完成自动购买 进入我的课程
             url: "/user/course/list"
           });
-        }else{
+        } else {
           wx.navigateTo({ //进入拼单页
             url: "pindan?tuan_id=" + res.data.data[0].tuan_id
           });
         }
-        
+
 
       });
 

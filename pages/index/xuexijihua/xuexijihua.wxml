@@ -1,5 +1,6 @@
 <!--pages/index/xuexijihua/xuexijihua.wxml-->
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
+
 <view hidden="{{!loaded}}" class="content">
 
   <!-- <web-view src="{{web[0]}}" class='web-view'></web-view> -->
@@ -64,8 +65,8 @@
 </view>
 
 <!-- 发起拼团 -->
-<pindanSend id="pindanSend"></pindanSend>
+<!-- <pindanSend id="pindanSend"></pindanSend> -->
 <!-- 购买套餐 -->
 <buyTaocan id="buyTaocan" bindconfirm="_confirm"></buyTaocan>
 <!-- 测试分享成功弹窗 -->
-<shareSuccessModel id="shareSuccessModel"></shareSuccessModel>
+<!-- <shareSuccessModel id="shareSuccessModel"></shareSuccessModel> -->

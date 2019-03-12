@@ -109,6 +109,8 @@
         <view class='clear'></view>
       </view>
     </view>
+    
+
     <view class="submit" bindtap="logout" hover-class='select2' hover-stay-time='500'>退出登陆</view>
   </scroll-view>
   </view>

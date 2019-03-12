@@ -66,7 +66,8 @@ Page({
       this.setData({
         user: user
       })
-      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, true, false, "", "", true, self).then((res) => {
+      console.log("action=GetNoticesNums&zcode=" + zcode + "&token=" + token)
+      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
         that.setData({
           news_num: news_num
@@ -79,6 +80,7 @@ Page({
     }
   },
 
+  
   /**
    * 生命周期函数--监听页面隐藏
    */

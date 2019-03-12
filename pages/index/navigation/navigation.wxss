@@ -140,9 +140,9 @@ page {
 }
 
 .select1{
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(180, 180, 180, 0.1);
 }
 
 .select2{
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(189, 189, 189, 0.1);
 }

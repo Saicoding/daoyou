@@ -66,9 +66,9 @@ Page({
           list: list,
           web: [list[0].url, list[1].url, list[2].url]
         })
-        that.pindanSend.setData({
-          user: user
-        });
+        // that.pindanSend.setData({
+        //   user: user
+        // });
         that.buyTaocan.setData({
           taocans: [{
               title: list[0].biecheng,
@@ -167,9 +167,9 @@ Page({
   onReady: function() {
     let self = this;
 
-    this.pindanSend = this.selectComponent("#pindanSend");
+    // this.pindanSend = this.selectComponent("#pindanSend");
     this.buyTaocan = this.selectComponent("#buyTaocan");
-    this.shareSuccessModel = this.selectComponent("#shareSuccessModel"); //测试
+    // this.shareSuccessModel = this.selectComponent("#shareSuccessModel"); //测试
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -193,12 +193,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    let self = this;
-    if (self.data.ifShare) {
-      self.shareSuccessModel.showDialog();
-    }
+    // let self = this;
+    // if (self.data.ifShare) {
+    //   self.shareSuccessModel.showDialog();
+    // }
 
-    animate.tiaoAnimation(easeOutAnimation, self);
+    // animate.tiaoAnimation(easeOutAnimation, self);
   },
 
   /**
@@ -240,9 +240,9 @@ Page({
           title: '正在跳转',
           duration: 800
         })
-        setTimeout(() => {
-          this.pindanSend.showDialog();
-        }, 3000)
+        // setTimeout(() => {
+        //   this.pindanSend.showDialog();
+        // }, 3000)
 
       } else {
         //登陆并且已购买

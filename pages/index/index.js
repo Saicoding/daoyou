@@ -79,8 +79,6 @@ Page({
         banners: banners
       })
     })
-
-
   },
 
   /**
@@ -276,15 +274,16 @@ Page({
    * 继续看课
    */
   continiueKanke:function(){
+    
     let lastKe = this.data.lastKe
-    if (lastKe) { //如果有最后一次刷题
+    if (lastKe) { //如果有最后一次看课
       lastKe = lastKe.options;
       wx.navigateTo({
-        url: '/pages/learn/play?title=' + lastKe.title + "&renshu=" + lastKe.renshu + "&types=" + lastKe.types + "&clickIndex=" + lastKe.clickIndex + "&kc_id=" + lastKe.kc_id+"&fromIndex=true"
+        url: '/pages/learn/play?title=' + lastKe.title + "&renshu=" + lastKe.renshu + "&types=" + lastKe.types + "&index=" + lastKe.index + "&kc_id=" + lastKe.kc_id+"&fromIndex=true"
       })
     } else {
       wx.navigateTo({
-        url: '/pages/learn/play?title=2018导游考试「政策与法律法规」基础精讲&renshu=6267&types=笔试&clickIndex=0&kc_id=141920&fromIndex=true'
+        url: '/pages/learn/play?title=2018导游考试「政策与法律法规」基础精讲&renshu=6267&types=0&index=0&kc_id=141920&fromIndex=true'
       })
     }
   },

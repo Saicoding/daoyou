@@ -24,7 +24,7 @@
 
 </view>
 
-<swiper indicator-dots="{{false}}" autoplay="{{false}}" interval="3000" duration="300" current="{{current}}" bindchange = "changeSwiper" style = "height:{{windowHeight-380}}rpx;" circular>
+<swiper indicator-dots="{{false}}" autoplay="{{false}}" interval="3000" duration="300" current="{{current}}" bindchange = "changeSwiper" style = "height:{{windowHeight-380}}rpx;" >
   <swiper-item   wx:for="{{loadedList}}" wx:for-item="videoList" wx:key="l">
     <scroll-view wx:if="{{videoList.loaded}}" scroll-y style = "height:{{windowHeight-380}}rpx;" bindscrolltolower="scrolltolower">
     <view  wx:for="{{videoList.list}}" wx:for-item="video" wx:key="v" >

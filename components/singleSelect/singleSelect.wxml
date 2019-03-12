@@ -27,7 +27,7 @@
     </label>
     <label wx:if = "{{shiti.option_D}}">
       <radio hidden value="D" checked="{{checked}}" />
-      <view class="imgAndText"   hover-class='select1' hover-stay-time='300'>
+      <view class="imgAndText"   hover-class='select1' hover-stay-time='300' hover-start-time='200'>
         <image src="{{shiti.srcs.D}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_D}}</view>
       </view>

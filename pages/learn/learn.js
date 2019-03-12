@@ -9,7 +9,6 @@ Page({
    */
   data: {
     types: "0",
-    barUrls: [],
     videoList: "",
     loaded: false,
     page: "0",
@@ -138,8 +137,7 @@ Page({
         console.log(loadedList)
         console.log(parseInt(index))
         self.setData({
-          loadedList: loadedList,
-          current:parseInt(index)
+          loadedList: loadedList
         });
       });
     }

@@ -617,12 +617,29 @@ Page({
                   self.setData({
                     unionid: unionid,
                     wxid: openid,
-                    nicknam: nickname,
+                    nickname: nickname,
                     headurl: headurl,
                     sex: sex
                   })
                 } else {//如果已经绑定了
-
+                  let user = res.data.data[0];
+                  wx.setStorage({
+                    key: 'user',
+                    data: user
+                  })
+                  buttonClicked = false;
+                  wx.navigateBack({}) //先回到登录前的页面
+                  if (ifGoPage == 'true') {
+                    if (redirect == 'true') {
+                      wx.redirectTo({ //是直接跳转
+                        url: url,
+                      })
+                    } else {
+                      wx.navigateTo({
+                        url: url,
+                      })
+                    }
+                  }
                 }
               })
             },
@@ -647,15 +664,34 @@ Page({
     let pwd = e.detail.pwd; //密码
     let unionid = this.data.unionid;
     let wxid = this.data.wxid;
-    let nickname = this.data.nicknam;
+    let nickname = this.data.nickname;
     let headurl = this.data.headurl;
     let sex = this.data.sex;
+    let ifGoPage = this.data.ifGoPage;
+    let redirect = this.data.redirect;
     pwd = md5.md5(pwd).toLowerCase();
 
-    console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile=" + phone + "&pwd=" + pwd + "&code=" + code)
-    app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, false, false, "").then((res) => {
-      let user = res.data.list[0];
+    console.log("action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile=" + phone + "&pwd=" + pwd + "&code=" + code)
+    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, true, false, "绑定中").then((res) => {
+      let user = res.data.data[0];
       console.log(user)
+      wx.setStorage({
+        key: 'user',
+        data: user
+      })
+      buttonClicked = false;
+      wx.navigateBack({}) //先回到登录前的页面
+      if (ifGoPage == 'true') {
+        if (redirect == 'true') {
+          wx.redirectTo({ //是直接跳转
+            url: url,
+          })
+        } else {
+          wx.navigateTo({
+            url: url,
+          })
+        }
+      }
     })
   },
 
@@ -665,14 +701,32 @@ Page({
   _ignore:function(){
     let unionid = this.data.unionid;
     let wxid = this.data.wxid;
-    let nickname = this.data.nicknam;
+    let nickname = this.data.nickname;
     let headurl = this.data.headurl;
+    let ifGoPage = this.data.ifGoPage;
+    let redirect = this.data.redirect;
     let sex = this.data.sex;
 
-    console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
-    app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex , false, false, "").then((res) => {
-      let user = res.data.list[0];
-      console.log(user)
+    console.log("action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
+    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex , true, false, "登录中").then((res) => {
+      let user = res.data.data[0];
+      wx.setStorage({
+        key: 'user',
+        data: user
+      })
+      buttonClicked = false;
+      wx.navigateBack({}) //先回到登录前的页面
+      if (ifGoPage == 'true') {
+        if (redirect == 'true') {
+          wx.redirectTo({ //是直接跳转
+            url: url,
+          })
+        } else {
+          wx.navigateTo({
+            url: url,
+          })
+        }
+      }
     })
   }
 })

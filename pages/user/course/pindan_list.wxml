@@ -1,27 +1,35 @@
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit">
-</image>
+
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"/>
+
 <view wx:if="{{loaded}}" class="content">
-  <view class='tar bgfff' wx:if="{{pin_img==''}}">
+  <view class='bbg'></view>
+
+  <view class='tar bgfff' wx:if="{{pin_img==''&&guoqi==false}}">
     <view class=' fr f14'>待分享，差
       <text class='hong'>1</text>人，
       <text class="hong">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
     <view class='clear'></view>
   </view>
   <view class='tar bgfff' wx:if="{{pin_img!=''}}">
-    拼单已结束
+    <view class=' fr f14'>拼单成功</view>
     <view class='clear'></view>
   </view>
+  <view class='tar bgfff' wx:if="guoqi==true}}">
+  <view class=' fr f14'>拼单已结束</view>
+    <view class='clear'></view>
+  </view>
+
   <view class="block info" bindtap="watch">
     <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>
-    <image src="http://www.chinaplat.com/daoyou/images/quanpei.jpg" class="img" mode='widthFix' />
-    <view class="right-block">
-      <!-- 标题 -->
-      <view class="title f14">{{title}}</view>
-      <view class='hong'>￥{{price_tuan/100}}
-        <text class='f12 hui'> 拼单省50元</text>
+      <image src="http://www.chinaplat.com/daoyou/images/quanpei.jpg" class="img" mode='widthFix' />
+      <view class="right-block">
+        <!-- 标题 -->
+        <view class="title f14">{{title}}</view>
+        <view class='hong'>￥{{price_tuan/100}}
+          <text class='f12 hui'> 拼单省50元</text>
+        </view>
       </view>
-    </view>
-    <view class='clear'></view>
+      <view class='clear'></view>
     </navigator>
   </view>
 
@@ -37,8 +45,10 @@
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>
-    <view wx:if="{{pin_img!=''}}" class="btn huise">拼单成功</view>
-    <view wx:if="{{guoqi==true&&pin_img==''}}" class="btn huise">已过期</view>
+    <button wx:if="{{pin_img!=''}}" class="btn huise">拼单成功</button>
+    <image wx:if="{{pin_img!=''}}" src='/images/user/wancheng.png' class='yinzhang'></image>
+    <button wx:if="{{guoqi==true&&pin_img==''}}" class="btn huise">已过期</button>
+    <image wx:if="{{guoqi==true&&pin_img==''}}" src='/images/user/guoqi.png' class='yinzhang'></image>
     <view class='clear'></view>
   </view>
 </view>
