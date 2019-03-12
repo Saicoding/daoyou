@@ -14,7 +14,8 @@ Page({
     openId: '', //用户唯一标识  
     unionId: '',
     encryptedData: '',
-    news_num: 0
+    news_num: 0,
+    isnum:false //是否是手机号登陆
   },
 
   /**
@@ -38,7 +39,6 @@ Page({
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
 
         windowHeight = (windowHeight * (750 / windowWidth));
-        console.log(windowHeight)
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
@@ -62,11 +62,14 @@ Page({
     if (user) {
       let zcode = user.zcode;
       let token = user.token;
-
+      let isnum = false;
+      if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(user.username)){
+        isnum =true;
+      }
       this.setData({
-        user: user
+        user: user,
+        isnum :true
       })
-      console.log("action=GetNoticesNums&zcode=" + zcode + "&token=" + token)
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
         that.setData({

@@ -115,6 +115,7 @@ Page({
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
+    let token = user.token;
     let first = this.data.first;
 
     let todayDaka= wx.getStorageSync('todayDaka'+zcode);
@@ -124,6 +125,12 @@ Page({
     let day = myDate.getDate();
     let interval = this.data.interval;
 
+    app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
+      var news_num = res.data.data[0].nums;
+      if (news_num == 0) { wx.showTabBarRedDot({index:3})}
+      
+    })
+    
     myDate = "" + year + month + day; //得到当前答题字符串
 
     if (todayDaka != myDate && !interval) {

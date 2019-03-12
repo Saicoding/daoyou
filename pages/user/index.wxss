@@ -41,6 +41,7 @@
   line-height: 100rpx;
 }
 .hong { color: #fc551e}
+.hongdian.fr { width: 36rpx; height: 36rpx; border-radius:50%; background: #fc551e; color: #fff; font-size: 22rpx; text-align: center; line-height: 36rpx; margin-top: 32rpx;  }
 .block .fr { font-size: 26rpx; margin-left: 10px;}
 .block button { background: #fff; padding: 0;line-height: 100rpx;height: 100rpx;}
 

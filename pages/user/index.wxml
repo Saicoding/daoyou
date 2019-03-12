@@ -21,7 +21,7 @@
       </navigator>
     </view>
     <view class='sub'>
-      <navigator url="learn/learn">
+      <navigator url="../learn/learn">
         <image src='../../images/user/zhuanqin@3x.png' mode='aspectFit'></image>
         <view>边学边赚</view>
       </navigator>
@@ -36,7 +36,7 @@
   </view>
 
 <view style = "border:1rpx solid white;">
-  <scroll-view scroll-y class="mycontainer" style="height:{{windowHeight-statusBarHeight-445}}rpx;border:1rpx solid white;">
+  <scroll-view scroll-y class="mycontainer" style="height:{{windowHeight-statusBarHeight-445}}rpx;">
     <view class="line" hover-class="select1" hover-stay-time="500">
       <view class="block">
         <view class="mytext fl">
@@ -62,7 +62,7 @@
           我的消息
         </view>
         <view class='fr hui'>></view>
-        <view class='hong fr'>{{news_num}}条</view>
+        <view class='hongdian fr' wx:if="{{news_num!=0}}">{{news_num}}</view>
         <view class='clear'></view>
       </view>
     </view>
@@ -83,7 +83,7 @@
           <view class="mytext fl">
             在线咨询
           </view>
-          <view class='fr hui'>></view>
+          <view class='fr hui'></view>
           <view class='hui fr'>周一至周六 09：00~17：30</view>
         </button>
       </view>
@@ -94,12 +94,12 @@
         <view class="mytext fl">
           客服热线
         </view>
-        <view class='fr hui'>></view>
+        <view class='fr hui'></view>
         <view class='hui fr'>周一至周六 09：00~17：30</view>
 
       </view>
     </view>
-    <view class="line" bindtap="GOpwd" hover-class="select1" hover-stay-time="500">
+    <view class="line" wx:if="{{isnum}}" bindtap="GOpwd" hover-class="select1" hover-stay-time="500">
       <view class="block">
         <view class="mytext fl">
           修改密码

@@ -20,6 +20,7 @@ Page({
     ifGoPage: '',
     phoneText: "",
     pwdText: '',
+   
     statu: {
       code: 3,
       title: '找回密码',
@@ -239,7 +240,14 @@ Page({
   onLoad: function(options) {
     wx.setNavigationBarTitle({
       title: '修改密码',
-    })
+    }); 
+    var user = wx.getStorageSync("user");
+    
+      this.setData({
+        phone: user.username
+
+      })
+  
   },
 
   /**

@@ -30,7 +30,8 @@
     "pages/index/xuexijihua/xuexijihua",
     "pages/learn/pindan",
     "pages/user/course/pindan_list",
-    "pages/user/message/pwd"
+    "pages/user/message/pwd",
+    "pages/shuati/pay/pay"
   ],
   "window": {
     "backgroundTextStyle": "light",

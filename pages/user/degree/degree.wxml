@@ -1,6 +1,6 @@
 <view class="mycontainer">
   <view class="up rel">
-    <image class="up-backimg1" src="/images/background.jpg"></image>
+    <image class="up-backimg1" src="/images/user/bg_course_detail.jpg"></image>
 
     <view class="pic-container">
 

@@ -37,7 +37,9 @@ Page({
     //meuntop: "",//获取菜单高度
     mybar: "",
     playbackRate: 1, //播放速率  0.5、0.8、1.0、1.25、1.5
-    currentTime: 0 //当前播放时间
+    currentTime: 0, //当前播放时间
+    autoplay: true, //默认自动播放
+    showBeisu: false, //是否显示倍速
   },
   /**
    * 生命周期函数--监听页面加载
@@ -45,7 +47,7 @@ Page({
   onLoad: function(options) {
     console.log(options)
     var kcid = options.kc_id;
-    
+
     this.setData({
       kcid: kcid,
       options: options
@@ -66,7 +68,6 @@ Page({
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         let platform = res.platform;
-        console.log(platform)
 
         windowHeight = (windowHeight * (750 / windowWidth));
 
@@ -83,12 +84,28 @@ Page({
   },
   //改变视频速率
   beisu: function(e) {
+    let self = this;
     var beisu = e.currentTarget.dataset.su * 1;
     this.setData({
       playbackRate: beisu
     });
     this.videoContext.playbackRate(beisu);
     this.videoContext.play();
+
+    let lastTimeout = self.data.timeOut;
+    clearTimeout(lastTimeout);
+    let showBeisu = this.data.showBeisu; //当前是否显示倍速
+
+    let timeOut = setTimeout(function() {
+      self.setData({
+        showBeisu: false,
+      })
+    }, 5000)
+
+    self.setData({
+      timeOut: timeOut
+    })
+
   },
   quan: function() {
     if (this.data.beisuP == "") {
@@ -106,8 +123,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
-
     let self = this;
 
     let windowWidth = wx.getSystemInfoSync().windowWidth;
@@ -395,16 +410,6 @@ Page({
   },
 
   /**
-   * 视频缓冲时
-   */
-  waiting: function(e) {
-    let self = this;
-    this.setData({
-      isPlaying: true,
-    })
-  },
-
-  /**
    * 播放进度改变时
    */
   timeupdate: function(e) {
@@ -570,7 +575,6 @@ Page({
       app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
     }
 
-
   },
 
   /**
@@ -608,6 +612,36 @@ Page({
     self.setData({
       isPlaying: isPlaying,
     })
+  },
+
+  /**
+   * 切换显示倍速
+   */
+  toogleShow: function() {
+    let self = this;
+    let showBeisu = this.data.showBeisu;
+    this.setData({
+      showBeisu: !showBeisu
+    })
+
+    let lastTimeout = self.data.timeOut;
+    console.log(lastTimeout)
+    clearTimeout(lastTimeout);
+
+    if (!showBeisu) {
+      let showBeisu = this.data.showBeisu; //当前是否显示倍速
+
+      let timeOut = setTimeout(function() {
+        self.setData({
+          showBeisu: false,
+        })
+      }, 5000)
+
+      console.log(timeOut)
+      self.setData({
+        timeOut: timeOut
+      })
+    }
   },
 
 
@@ -657,7 +691,7 @@ Page({
   onUnload: function() {
     let self = this;
 
-    if (self.data.loaded) {//载入完毕才执行
+    if (self.data.loaded) { //载入完毕才执行
       let kcid = self.data.kcid;
       let options = self.data.options;
       let px = self.data.px;
@@ -732,10 +766,10 @@ Page({
           },
         })
         app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
-        
-        if(self.data.options.fromIndex == 'true'){
+
+        if (self.data.options.fromIndex == 'true') {
           wx.switchTab({
-            url:'/pages/learn/learn'
+            url: '/pages/learn/learn'
           })
         }
       }
@@ -785,31 +819,37 @@ Page({
       end = false
     }
   },
-  //滚动屏幕时菜单浮动  有延迟  不好用
-  // onPageScroll: function (e) {
 
-  //   if (e.scrollTop> this.data.meuntop){
-  //      this.setData({
-  //        mybar:"on"
-  //      })
-  //   }else{
-  //     this.setData({
-  //       mybar: ""
-  //     })
-  //   }
-  // },
-  //滚动屏幕时出现返回顶部  有延迟  不好用
   onPageScroll: function(e) {
+    let windowWidth = this.data.windowWidth;
+    let scrollTop = e.scrollTop*750/windowWidth;
+    let lastScroll = this.data.lastScroll;
+    //防止多次setData，这里只有在有变化时才去设置
+    if (scrollTop > 422 && lastScroll <=422){
+      this.setData({
+        fixed:'position: fixed;width:375rpx;height:211rpx;left:375rpx;top:0rpx;',
+        showBlank:true
+      })
+    }else if(scrollTop <= 422 && lastScroll >=422){
+      this.setData({
+        fixed: '',
+        showBlank: false
+      })
+    }
 
-    if (e.scrollTop > 400) {
+    if (scrollTop > 900 && lastScroll <=900) {
       this.setData({
         mybar: "on"
       })
-    } else {
+    } else if (scrollTop < 900 && lastScroll >= 900){
       this.setData({
         mybar: ""
       })
     }
+
+    this.setData({
+      lastScroll: scrollTop
+    })
   },
   /**
    * 改变产品时

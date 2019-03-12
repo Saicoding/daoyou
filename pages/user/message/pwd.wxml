@@ -1,7 +1,7 @@
 <view class="mycontainer">
 
   <view class="block">
-    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" />
+    <input value="{{phone}}" disabled="true" type="number" class="block-input" placeholder-style="color:#ddd;" />
   </view>
 
   <!-- 验证码 -->
@@ -17,5 +17,5 @@
   </view>
 
   <!-- 确定按钮 -->
-  <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit">{{statu.confirm_text}}</view>
+  <view wx:if="{{submit_disabled}}" class="submit" bindtap="submit">{{statu.confirm_text}}</view>
 </view>

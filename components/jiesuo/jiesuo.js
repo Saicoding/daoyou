@@ -50,15 +50,10 @@ Component({
       })
     },
 
-    //解锁解析包
-    _buyJiexi:function(){
-      this.triggerEvent('buyJiexi');
-    },
-
-    //解锁全部
-    _buyAll:function(){
-      this.triggerEvent('_buyALl');
+    //解锁
+    _buy:function(e){
+      let product = e.currentTarget.dataset.product;
+      this.triggerEvent('buy',{product:product});
     }
-
   }
 })

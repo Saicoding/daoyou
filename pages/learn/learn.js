@@ -87,14 +87,11 @@ Page({
       key: 'lastkesub' + zcode,
       success: function(res) {
         let lastKe = res.data.options;
-        console.log(lastKe)
           self.setData({
             types: lastKe.types,
             current: parseInt(lastKe.types)
           })
         if (lastKe.types != '3'){
-          console.log('haha')
-          console.log(lastKe.types)
           self.getCourse(lastKe.types)
         }
 
@@ -110,9 +107,7 @@ Page({
   getCourse: function(index) {
     let self = this;
     let loadedList = self.data.loadedList; //已载入列表数组
-    console.log(loadedList)
 
-    console.log(loadedList[parseInt(index)])
     if (loadedList[parseInt(index)].list) { //说明已经载入过
 
     } else { //如果没有载入
@@ -129,13 +124,11 @@ Page({
           break;
       }
 
-      console.log("action=getCourseList&types=" + types)
       app.post(API_URL, "action=getCourseList&types=" + types, false, false, "", "", "", self).then(res => {
         let newcourse = res.data.data[0].list;
         loadedList[parseInt(index)].list = newcourse;
         loadedList[parseInt(index)].loaded = true;//该章节载入结束
-        console.log(loadedList)
-        console.log(parseInt(index))
+
         self.setData({
           loadedList: loadedList
         });
