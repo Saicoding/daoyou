@@ -6,21 +6,21 @@
   <radio-group class="radio-group" bindchange="_answerSelect" >
     <label>
       <radio hidden value="A" checked="{{checked}}" />
-      <view class="imgAndText"   hover-class='select1' hover-stay-time='300' >
+      <view class="imgAndText"   hover-class='select1' hover-stay-time='300' hover-start-time='200'>
         <image class="icon" src="{{shiti.srcs.A}}" mode="aspectFit"></image>
         <view class="answer-text">{{shiti.option_A}}</view>
       </view>
     </label>
     <label >
       <radio hidden value="B" checked="{{checked}}" />
-      <view class="imgAndText"  hover-class='select1' hover-stay-time='300'>
+      <view class="imgAndText"  hover-class='select1' hover-stay-time='300' hover-start-time='200'>
         <image src="{{shiti.srcs.B}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_B}}</view>
       </view>
     </label>
     <label wx:if = "{{shiti.option_C}}" >
       <radio hidden value="C" checked="{{checked}}" />
-      <view class="imgAndText"  hover-class='select1' hover-stay-time='300'>
+      <view class="imgAndText"  hover-class='select1' hover-stay-time='300' hover-start-time='200'>
         <image src="{{shiti.srcs.C}}" mode="aspectFit" class="icon"></image>
         <view class="answer-text">{{shiti.option_C}}</view>
       </view>

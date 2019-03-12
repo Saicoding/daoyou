@@ -21,27 +21,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    let user = wx.getStorageSync('user');
-    let that = this;
-    if (user) {
-      let zcode = user.zcode;
-      let token = user.token;
-
-      this.setData({
-        user: user
-      })
-      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, true, false, "", "", true, self).then((res) => {
-        var news_num = res.data.data[0].nums;
-        that.setData({
-          news_num: news_num
-        })
-      })
-    } else {
-      wx.navigateTo({
-        url: '../login/login',
-      })
-    }
-
 
   },
 
@@ -79,9 +58,19 @@ Page({
    */
   onShow: function() {
     let user = wx.getStorageSync('user');
+    let that = this;
     if (user) {
+      let zcode = user.zcode;
+      let token = user.token;
+
       this.setData({
         user: user
+      })
+      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, true, false, "", "", true, self).then((res) => {
+        var news_num = res.data.data[0].nums;
+        that.setData({
+          news_num: news_num
+        })
       })
     } else {
       wx.navigateTo({

@@ -67,4 +67,4 @@
 </view>
 
 <!-- 弹窗 -->
-<bindPhoneModel windowWidth = "{{windowWidth}}" windowHeight = "{{windowHeight}}" id="bindPhoneModel"></bindPhoneModel>
+<bindPhoneModel windowWidth = "{{windowWidth}}" windowHeight = "{{windowHeight}}" id="bindPhoneModel" bindconfirm = "_confirm" bindignore = "_ignore"></bindPhoneModel>

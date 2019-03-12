@@ -65,31 +65,35 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     let self = this;
     let redirect = options.redirect == undefined ? "" : options.redirect; //是否直接转 测试
-    let showToast = options.showToast?true:false
-    let title = options.title ? options.title:"";
+    let showToast = options.showToast ? true : false
+    let title = options.title ? options.title : "";
     let status = this.data.status;
-    let url1=""; 
+    let url1 = "";
     let ifGoPage = "";
     this.setData({
       url: decodeURIComponent(options.url),
       redirect: redirect,
       statu: status[0]
     });
-    if (options.url){
-      this.setData({ url: options.url});
+    if (options.url) {
+      this.setData({
+        url: options.url
+      });
     }
-    if (options.ifGoPage){
-      this.setData({ ifGoPage: options.ifGoPage });
+    if (options.ifGoPage) {
+      this.setData({
+        ifGoPage: options.ifGoPage
+      });
     }
 
-    if (showToast){//如果有吐司要求
+    if (showToast) { //如果有吐司要求
       wx.showToast({
         title: title,
-        duration:3000,
-        icon:'none'
+        duration: 3000,
+        icon: 'none'
       })
     }
   },
@@ -98,20 +102,20 @@ Page({
   /**
    * 生命周期事件
    */
-  onShow: function () {
+  onShow: function() {
     buttonClicked = false
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     let self = this;
     //获得dialog组件
     this.bindPhoneModel = this.selectComponent("#bindPhoneModel");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function (res) { //转换窗口高度
+      success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
@@ -125,13 +129,13 @@ Page({
     });
   },
 
-  back: function () {
+  back: function() {
     wx.navigateBack({});
   },
   /**
    * 改变登录方式
    */
-  changeLoginType: function (e) {
+  changeLoginType: function(e) {
     let toStatu = e.currentTarget.dataset.statu;
     let status = this.data.status;
     let interval = this.data.interval;
@@ -163,7 +167,7 @@ Page({
       this.setData({
         statu: status[0]
       })
-    } else if (toStatu == 3) {//找回密码
+    } else if (toStatu == 3) { //找回密码
       this.setData({
         statu: status[3],
         phoneText: "",
@@ -194,7 +198,7 @@ Page({
   /**
    * 获取验证码input中的值
    */
-  codeInput: function (e) {
+  codeInput: function(e) {
     this.setData({
       code: e.detail.value
     })
@@ -203,7 +207,7 @@ Page({
   /**
    * 验证码发送
    */
-  codeButtonTap: function (e) {
+  codeButtonTap: function(e) {
     let self = this;
 
     self.setData({
@@ -238,7 +242,7 @@ Page({
       })
 
       //设置一分钟的倒计时
-      var interval = setInterval(function () {
+      var interval = setInterval(function() {
         currentTime--; //每执行一次让倒计时秒数减一
         self.setData({
           text: currentTime + 's', //按钮文字变成倒计时对应秒数
@@ -280,7 +284,7 @@ Page({
   /**
    * 手机号输入框
    */
-  phoneInput: function (e) {
+  phoneInput: function(e) {
     let phone = e.detail.value;
     let submit_disabled = null;
     //校验手机号码
@@ -299,7 +303,7 @@ Page({
   /**
    * 密码输入框
    */
-  pwdInput: function (e) {
+  pwdInput: function(e) {
     this.setData({
       pwd: e.detail.value
     })
@@ -308,7 +312,7 @@ Page({
   /**
    * 点击提交
    */
-  submit: function (e) {
+  submit: function(e) {
     let statu = this.data.statu;
     switch (statu.code) {
       case 0:
@@ -321,7 +325,7 @@ Page({
         this.sign(); //注册
         break;
       case 3:
-        this.findPwd();//找回密码
+        this.findPwd(); //找回密码
         break;
     }
   },
@@ -329,7 +333,7 @@ Page({
   /**
    * 验证码登录
    */
-  codeLogin: function () {
+  codeLogin: function() {
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
@@ -345,7 +349,7 @@ Page({
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
+          success: function() {
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -354,7 +358,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
@@ -377,7 +381,7 @@ Page({
   /**
    * 帐号密码登录
    */
-  userPwdLogin: function (e) {
+  userPwdLogin: function(e) {
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
@@ -399,14 +403,14 @@ Page({
       pwd = md5.md5(pwd).toLowerCase();
       app.post(API_URL, "action=Login&user=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
 
-       
+
         let user = res.data.data[0];
-        
+
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
-           
+          success: function() {
+
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -415,7 +419,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
@@ -435,7 +439,7 @@ Page({
   /**
    * 帐号注册
    */
-  sign: function () {
+  sign: function() {
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
@@ -443,7 +447,7 @@ Page({
     let pwd = self.data.pwd;
     let url = self.data.url;
     let warn;
-    
+
     if (pwd == '' || undefined) {
       warn = "密码不能为空";
     } else if (!/^(\w){6,20}$/.test(pwd)) {
@@ -474,7 +478,7 @@ Page({
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
+          success: function() {
             console.log(wx.getStorageSync("user"))
             wx.navigateBack({})
 
@@ -484,7 +488,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
@@ -509,7 +513,7 @@ Page({
   /**
    * 找回密码
    */
-  findPwd: function () {
+  findPwd: function() {
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
@@ -535,7 +539,7 @@ Page({
     }
 
     if (code == identifyCode && code != undefined) { //如果相等
-      
+
       pwd = md5.md5(pwd).toLowerCase();
       app.post("https://xcx2.chinaplat.com/", "action=GetPwd&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "修改密码中...").then((res) => {
         if (res.data.status == '1') {
@@ -570,7 +574,7 @@ Page({
   /**
    * 微信授权登录
    */
-  wxLogin: function (e) {
+  wxLogin: function(e) {
     let self = this;
     //限制连续点击
     if (buttonClicked) return;
@@ -585,7 +589,7 @@ Page({
           let openid = res.data.data[0].openid;
           console.log(res)
           wx.getUserInfo({
-            success: function (res) {
+            success: function(res) {
               let wxid = ""; //openId
               let session_key = ""; //
 
@@ -604,29 +608,71 @@ Page({
               let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
               let url = self.data.url; //需要导航的url
 
-              console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + openid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
-              app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + openid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex +"&mobile=&pwd=&code=", false, false, "").then((res) => {
-                let user = res.data.list[0];
-                console.log(user)
-              })
+              //监测微信是否有新号
+              app.post(API_URL, "action=ChkUnionId&unionid=" + unionid, false, false, "").then(res => {
+                //存储本地变量
+                if (res.data.status == -2012) { //如果没有绑定
+                  self.bindPhoneModel.showDialog();
+                  console.log(openid)
+                  self.setData({
+                    unionid: unionid,
+                    wxid: openid,
+                    nicknam: nickname,
+                    headurl: headurl,
+                    sex: sex
+                  })
+                } else {//如果已经绑定了
 
-              // //监测微信是否有新号
-              // app.post(API_URL, "action=ChkUnionId&unionid=" + unionid,false,false,"").then(res=>{
-              //   if(res == "未绑定"){
-              //     self.bindPhoneModel.showDialog();
-              //   }else{
-              //   }
-              // })
+                }
+              })
             },
-            fail:function(res1){
+            fail: function(res1) {
               console.log(res1)
             }
           })
         })
       },
-      fail: function () {
+      fail: function() {
 
       }
+    })
+  },
+
+  /**
+   * 绑定手机页面点击绑定
+   */
+  _confirm: function(e) {
+    let phone = e.detail.phone; //手机号
+    let code = e.detail.code; //验证码
+    let pwd = e.detail.pwd; //密码
+    let unionid = this.data.unionid;
+    let wxid = this.data.wxid;
+    let nickname = this.data.nicknam;
+    let headurl = this.data.headurl;
+    let sex = this.data.sex;
+    pwd = md5.md5(pwd).toLowerCase();
+
+    console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile=" + phone + "&pwd=" + pwd + "&code=" + code)
+    app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, false, false, "").then((res) => {
+      let user = res.data.list[0];
+      console.log(user)
+    })
+  },
+
+  /**
+   * 跳过绑定
+   */
+  _ignore:function(){
+    let unionid = this.data.unionid;
+    let wxid = this.data.wxid;
+    let nickname = this.data.nicknam;
+    let headurl = this.data.headurl;
+    let sex = this.data.sex;
+
+    console.log("action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
+    app.post(API_URL, "action=WxLogin&unionId=" + unionid + "&wxid=" + wxid + "&nicknam=" + nickname + "&headurl=" + headurl + "&sex=" + sex , false, false, "").then((res) => {
+      let user = res.data.list[0];
+      console.log(user)
     })
   }
 })

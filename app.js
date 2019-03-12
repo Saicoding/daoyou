@@ -99,8 +99,10 @@ App({
             }
 
           } else if (status == -2012) { //微信未绑定手机号
-            resolve(message);
-          } else {
+            resolve(res);
+          } else if (status == -2020) { //绑定的手机号已经存在
+            resolve(res);
+          }else {
             console.log(res);
             wx.showToast({
               icon: 'none',
