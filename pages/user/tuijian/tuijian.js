@@ -1,11 +1,14 @@
 // pages/user/tuijian/tuijian.js
+let app = getApp();
+let API_URL = "https://xcx2.chinaplat.com/daoyou/";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    isLoaded: false,
+    list:""
   },
 
   /**
@@ -13,6 +16,7 @@ Page({
    */
   onLoad: function (options) {
 
+    
   },
 
   /**
@@ -26,7 +30,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this;
+    app.post(API_URL, "action=getTuijianXCX", false, false, "", "", "", self).then(res => {
+      
+      var list = res.data.data[0];
+      if (list.length == undefined) {
+        list = [list]
+      }
+      that.setData({
+        list: list,
+        isLoaded: true
+      })
+      
+    })
   },
 
   /**
@@ -62,5 +78,18 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+  toapp: function (e) {
+
+    wx.navigateToMiniProgram({
+      appId: '',
+      path: '',
+      extraData: {},
+      envVersion: 'develop',
+      success(res) {
+        // 打开成功
+      }
+    })
+  },
+  
 })

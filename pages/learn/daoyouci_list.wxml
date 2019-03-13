@@ -1,12 +1,17 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
-<view wx:if="{{loaded}}" class="content">
-  <image wx:if="{{list==''}}" src="/images/hasNopage/hasNopage.png" class="hasNopage"></image>
+<view wx:if="{{loaded}}" class="content" style="background:{{list == ''?'white':'#f4f5f6;'}}">
+  <view wx:if="{{list==''}}" class="hasNopage">
+    <image src="/images/hasNopage/nosearch2.png" class="hasNopage-img"></image>
+    <view class="hasNopage-text">抱歉,没有找到相关信息</view>
+  </view>
   <view wx:for="{{list}}" wx:for-item="list" wx:key="i" class='list' data-img='{{list.pic}}' data-id='{{list.id}}' bindtap='info' hover-class='select1' hover-stay-time='500'>
     <view class='listimg'>
-    <image src="{{list.pic}}"></image>
+      <image src="{{list.pic}}"></image>
     </view>
-    <view class='yuyin' wx:if="{{list.audio*1>0}}"><image src="../../images/course/yuyin@2x.png" class='fl' mode="widthFix"></image>语音版</view>
-    <view class='yuyin' wx:if="{{list.audio*1==0}}"><image src="../../images/course/wenzi@3x.png" class='fl' mode="widthFix"></image>文字版</view>
+    <view class='yuyin' wx:if="{{list.audio*1>0}}">
+      <image src="../../images/course/yuyin@2x.png" class='fl' mode="widthFix"></image>语音版</view>
+    <view class='yuyin' wx:if="{{list.audio*1==0}}">
+      <image src="../../images/course/wenzi@3x.png" class='fl' mode="widthFix"></image>文字版</view>
     <view class='list_t'>{{list.title}}</view>
     <view class='biao'>
       <view>
@@ -21,7 +26,7 @@
 
   </view>
 
-<!-- 最下面的加载条 -->
+  <!-- 最下面的加载条 -->
   <view class="loading-block">
     <image wx:if="{{showLoadingGif}}" class="loading-img" src="/images/timg.gif"></image>
     <view class="loading-text"> {{loadingText}}</view>

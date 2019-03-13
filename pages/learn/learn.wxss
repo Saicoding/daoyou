@@ -38,7 +38,6 @@
 
 .bars {
   background: white;
-  display: flex;
   justify-content: space-around;
   width: 710rpx;
   height: 60rpx;
@@ -73,15 +72,15 @@
 }
 
 .bars-huodong {
-  display: inline-block;
-  width: 25%;
+  
+  width: 23%;
   height: 60rpx;
   background: #fff;
   font-size: 28rpx;
   color: #333;
   line-height: 60rpx;
   text-align: center;
-  border-radius: 6rpx;
+  border-radius: 6rpx; float: left;
 }
 
 .bars-huodong.on {

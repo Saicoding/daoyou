@@ -20,6 +20,25 @@
   color: rgb(156, 156, 156);
 }
 
+.hasNopage{
+  background: white;
+}
+
+.hasNopage-img{
+  display: block;
+  margin: 0 auto;
+  margin-top:80rpx;
+  width:250rpx;
+  height:250rpx;
+}
+
+.hasNopage-text{
+  text-align: center;
+  color:rgb(156, 156, 156);
+  font-size:25rpx;
+  margin-top:30rpx;
+}
+
 .loading-gif {
   width: 30rpx;
   height: 30rpx;

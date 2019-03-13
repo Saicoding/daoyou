@@ -104,7 +104,7 @@ button::after {
 .hui {
   color: #999;
 }
-
+.yihang {overflow: hidden; white-space: nowrap;text-overflow: ellipsis; width: 100%; display: block}
 
 /* 文字超行省略号显示 */
 .wp {

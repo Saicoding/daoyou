@@ -6,7 +6,7 @@
   </view>
 
   <view class ="up-text1"><text class="hui">已选套餐：</text>{{taocans[currentIndex].title}}</view>
-  <view class ="up-text2">团购价：<span style = "font-size:38rpx;color:#fd4f64;letter-spacing:3rpx;">¥{{taocans[currentIndex].price_tuan}}</span> 　　原价：¥{{taocans[currentIndex].price_old}}</view>
+  <view class ="up-text2">团购价：<span style = "font-size:38rpx;color:#fd4f64;letter-spacing:3rpx;">¥{{taocans[currentIndex].price_tuan}}</span> 　　原价：¥<text style='text-decoration:line-through'>{{taocans[currentIndex].price_old}}</text></view>
 
   <view class ="up-text1">选择学习套餐</view>
 
