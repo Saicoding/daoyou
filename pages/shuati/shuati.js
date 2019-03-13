@@ -101,9 +101,9 @@ Page({
 
     // 获取章节列表
     if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
-
       app.post(API_URL, "action=getKeMuTestType&types=" + types + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
-
+          
+        
         let zhangjies = res.data.data;
 
         self.initZhangjie(zhangjies); //初始化章节信息
@@ -143,9 +143,10 @@ Page({
 
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
-
+      console.log("action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode)
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
+        console.log(zhangjies)
         tiku[zhangjieLoadedStr] = zhangjies;
 
         self.setData({
@@ -345,7 +346,8 @@ Page({
 
     if (first) { //如果是首次渲染,说明onload已经更新数据
       this.setData({
-        first: false
+        first: false,
+        user: user
       })
     } else { //如果已被污染
       let change = wx.getStorageSync('change' + zcode);
@@ -908,5 +910,15 @@ Page({
         opacity: opacity
       })
     }
-  }
+  },
+  /**
+ * 购买解析包
+ */
+  _buy: function (e) {
+    this.jiesuoti.hideDialog();
+
+    wx.navigateTo({
+      url: '/pages/shuati/pay/pay?product=60&page=shuati',
+    })
+  },
 })

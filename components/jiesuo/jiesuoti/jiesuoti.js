@@ -51,8 +51,8 @@ Component({
     },
 
     //解锁全部
-    _buyAll: function () {
-      this.triggerEvent('buyAll');
+    _buy: function () {
+      this.triggerEvent('buy');
     }
 
   }

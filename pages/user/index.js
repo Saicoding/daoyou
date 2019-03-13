@@ -163,9 +163,11 @@ Page({
   },
 
   /**
-   * 导航到余额
+   * 导航到精品推荐
    */
-  GOyue:function(){
-    console.log('开发中')
+  GOtuijian:function(){
+    wx.navigateTo({
+      url: '../user/tuijian/tuijian',
+    })
   }
 })

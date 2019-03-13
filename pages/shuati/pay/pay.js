@@ -22,11 +22,12 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    console.log(options.product)
-    let product = options.product == '60' ? '题库-60' :'题库-108';
-    let money_zong = options.product == '60' ? 60:108;
-    let title = options.product == '60'?'解析包套餐':'全题库解锁套餐'
+  onLoad: function(options) {
+    let product = options.product == '60' ? '题库-60' : '题库-108';
+    let money_zong = options.product == '60' ? 60 : 108;
+    let xuqiu = money_zong;
+    let title = options.product == '60' ? '解析包套餐' : '全题库解锁套餐'
+    let page = options.page ? options.page:'';
 
     wx.setNavigationBarTitle({ //设置标题
       title: '支付',
@@ -38,15 +39,12 @@ Page({
     var user = wx.getStorageSync("user");
     if (user) {
       mymoney = user.Money * 1;
-      console.log(mymoney)
-      if (mymoney >= money_zong) {
+      if (mymoney >= money_zong) {//如果零钱大于需要金额
         mymoney2 = "-" + money_zong;
-        //money_zong = 0
-        money_zong = 0.01 //下单测试
-      } else {
+        money_zong = 0
+      } else {//如果零钱小于需要金额
         mymoney2 = "-" + mymoney;
-        money_zong = money_zong - mymoney
-        money_zong = 0.01 //下单测试
+        money_zong = money_zong - mymoney;
       }
     } else {
       wx.navigateTo({
@@ -66,12 +64,14 @@ Page({
       mymoney2: mymoney2,
       youhuiquan: "0",
       product: product,
-      money_zong: money_zong
+      money_zong: money_zong,
+      page: page,
+      xuqiu: xuqiu
     })
 
   },
 
-  dateAdd: function (startDate) {
+  dateAdd: function(startDate) {
     startDate = new Date(startDate);
     startDate = +startDate + 3000 * 60 * 60 * 24;
     startDate = new Date(startDate);
@@ -84,7 +84,7 @@ Page({
   /**
    * 提交支付
    */
-  _submit: function (e) {
+  _submit: function(e) {
     let self = this;
     let code = "";
     let user = wx.getStorageSync('user');
@@ -92,6 +92,7 @@ Page({
     let token = user.token;
     let money_zong = this.data.money_zong;
     let product = this.data.product;
+    console.log(user)
 
     if (money_zong > 0) {
       // 登录
@@ -99,10 +100,11 @@ Page({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           code = res.code;
+          console.log("action=getSessionKey&code=" + code)
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.data[0].openid;
             console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&money_zong=" + money_zong + "&product=" + product)
-            app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid  + "&money_zong=" + money_zong+"&product="+product, true, false, "购买中").then((res) => {
+            app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&money_zong=" + money_zong + "&product=" + product, true, false, "购买中").then((res) => {
 
               let status = res.data.status;
 
@@ -125,12 +127,12 @@ Page({
                   'package': myPackage,
                   'paySign': paySign,
                   'signType': "MD5",
-                  success: function (res) {
+                  success: function(res) {
                     if (res.errMsg == "requestPayment:ok") { //成功付款后
-                      self.goumai();
+                      self.goumai(product, zcode, token);
                     }
                   },
-                  fail: function (res) { }
+                  fail: function(res) {}
                 }
                 wx.requestPayment(myObject)
               }
@@ -139,31 +141,47 @@ Page({
         }
       })
     } else {
-      self.goumai();
+      self.goumai(product, zcode, token);
     }
   },
 
-  goumai: function () {
-      app.post(API_URL, "action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1", true, false, "购买中").then((res) => {
-        wx.showToast({
-          title: '购买成功',
-          icon: 'none',
-          duration: 3000
-        })
+  goumai: function(product, zcode, token) {
+    let action = product == '题库-60' ? 'buyshiti' : '	buytiku';
+    let self = this;
 
-        wx.setStorage({
-          key: 'user',
-          data: {
-            Money: res.data.data[0].xuebi
-          }
-        })
-        //进入我的课程页
-        wx.navigateTo({
-          url: '../user/course/list',
-        })
+    app.post(API_URL, "action=" + action+"&token=" + token + "&zcode=" + zcode, true, false, "购买中").then((res) => {
+      let pages = getCurrentPages();
+      let prepage = pages[pages.length-2];//上一页
+      console.log(prepage)
+      let user = prepage.data.user;
+
+      user.TKflag = 1;
+      user.mymoney = self.data.mymoney - self.data.xuqiu >= 0?self.data.mymoney - self.data.xuqiu:0;//更新钱数
+
+      wx.setStorageSync('user', user);
+
+      prepage.setData({
+        user:user
       })
+
+      if(self.data.page == 'shuati'){
+        prepage.setData({
+          jiesuoall: true
+        })
+      }
+
+      wx.navigateBack({
+        success:function(){
+          wx.showToast({
+            title: '购买成功',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      })
+    })
   },
-  youhuiquan: function () {
+  youhuiquan: function() {
     wx.navigateTo({
       url: '/pages/user/coupon/coupon',
     })
@@ -171,49 +189,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

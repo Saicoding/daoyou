@@ -33,7 +33,7 @@
 
           </view>
           <!-- 解析 -->
-          <jiexi level = "{{shiti.level}}" buy="{{user.TKflag}}" beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
+          <jiexi  level = "{{shiti.level}}" buy="{{user.TKflag}}" beizhu = "{{shiti.beizhu}}" answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.JIEXI}}" bindtoggleErrorRecovery="_toggleErrorRecovery" bindjiesuo="_jiesuo"></jiexi>
 
           <!-- 笔记 -->
           <view wx:if="{{shiti.note}}" class="note">
@@ -75,4 +75,4 @@
 <jiaocheng id="jiaocheng"></jiaocheng>
 
 <!-- 解锁 -->
-<jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuyAll = "_buyAll" bindbuyJiexi = "_buyJiexi"></jiesuo>
+<jiesuo id="jiesuo" windowHeight = "{{windowHeight}}" bindbuy = "_buy" ></jiesuo>

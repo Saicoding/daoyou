@@ -156,6 +156,7 @@ Page({
     let self = this;
     let options = this.data.options;
     let user = wx.getStorageSync('user'); //本地用户信息
+    console.log(user)
     let zcode = user.zcode ? user.zcode : "";
 
     if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
@@ -891,18 +892,6 @@ Page({
     
     wx.navigateTo({
       url: '/pages/shuati/pay/pay?product=' + product,
-    })
-  },
-
-  /**
-   * 购买全部
-   */
-  _buyAll: function() {
-    this.jiesuo.hideDialog();
-    wx.showToast({
-      title: '购买全部课程开发中',
-      icon: 'none',
-      duration: 3000
     })
   },
 

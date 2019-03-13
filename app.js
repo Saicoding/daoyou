@@ -87,9 +87,8 @@ App({
               })
             }
 
-          } else if (status == -201) { //没有对应视频教程
+          } else if (status == -201) { //没有权限
             if (self) { //如果传了这个参数
-
               self.setData({
                 notBuy: true, //设置成没有购买
                 first: false,
@@ -97,7 +96,11 @@ App({
                 showPrompt: true //显示购买信息
               })
             }
-
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 3000
+            })
           } else if (status == -2012) { //微信未绑定手机号
             resolve(res);
           } else if (status == -2020) { //绑定的手机号已经存在

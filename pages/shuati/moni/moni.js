@@ -116,7 +116,9 @@ Page({
         page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
+      console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page)
       app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
+        console.log(res)
         let result = res.data.data[0];
 
         let shitiArray = result.list;

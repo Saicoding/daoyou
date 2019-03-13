@@ -124,11 +124,10 @@ Page({
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     let interval = this.data.interval;
-
+    //若有新消息出现红点
     app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
       var news_num = res.data.data[0].nums;
-      if (news_num == 0) { wx.showTabBarRedDot({index:3})}
-      
+      if (news_num > 0) { wx.showTabBarRedDot({index:3})}
     })
     
     myDate = "" + year + month + day; //得到当前答题字符串

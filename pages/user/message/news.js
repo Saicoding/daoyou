@@ -37,7 +37,8 @@ Page({
       let messages = res.data.data[0].list;
       let page_now = res.data.data[0].page_now;
       let page_all = res.data.data[0].page_all;
-
+      //消除红点
+      wx.hideTabBarRedDot({ index: 3 });
       self.setData({
         messages: messages,
         user: user,

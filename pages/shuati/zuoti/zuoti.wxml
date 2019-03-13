@@ -3,7 +3,7 @@
   <view class="back" hover-class='select1' hover-stay-time='500' bindtap="back" style="top:{{statusBarHeight+10}}rpx" bindtap="back">
     <image class="back-icon" src="/images/back.png"></image>
   </view>
-  <view class="title">{{options.title}}</view>
+  <view class="title wp">{{options.title}}</view>
 </view>
 
 <view class="container">

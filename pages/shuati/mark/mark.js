@@ -183,7 +183,6 @@ Page({
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
     let typesid = this.data.options.types;
-    console.log(options)
 
     this.setData({
       huidiaoDaan: huidiaoDaan
@@ -813,17 +812,6 @@ Page({
     })
   },
 
-  /**
-   * 购买全部
-   */
-  _buyAll: function() {
-    this.jiesuo.hideDialog();
-    wx.showToast({
-      title: '购买全部课程开发中',
-      icon: 'none',
-      duration: 3000
-    })
-  },
 
   /**
    * 笔记输入框失去焦点

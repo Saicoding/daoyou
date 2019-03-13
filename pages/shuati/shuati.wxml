@@ -128,10 +128,10 @@
     <!-- 全真模拟和核心密卷 -->
     <view wx:if="{{currentMidIndex !=0 &&isLoaded}}">
       <view wx:for="{{zhangjies}}" wx:for-item="moni" wx:key="m">
-        <view data-maxScore="{{moni.MaxScore}}" data-highScore="{{moni.HighScroe}}" data-nums="{{moni.nums}}" data-time="{{moni.time}}" data-id="{{moni.ID}}" data-title="{{moni.title}}" data-buy="{{moni.buy}}" class="item" bindtap="showModelanswerModel" hover-class='select1'
+        <view data-maxScore="{{moni.MaxScore}}" data-highScore="{{moni.HighScroe}}" data-nums="{{moni.nums}}" data-time="{{moni.time}}" data-id="{{moni.ID}}" data-title="{{moni.title}}" data-buy="{{jiesuoall?'1':moni.buy}}" class="item" bindtap="showModelanswerModel" hover-class='select1'
           hover-stay-time='500'>
           <view class="item-line1">
-            <image class="item-line1-icon" src="{{moni.buy=='1'?'/images/suo1.png':'/images/suo2.png'}}"></image>
+            <image class="item-line1-icon" src="{{moni.buy=='1'|| jiesuoall?'/images/suo1.png':'/images/suo2.png'}}"></image>
             <view class="item-line1-text">{{moni.title}}</view>
           </view>
 
@@ -156,4 +156,4 @@
 
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti" windowHeight="{{windowHeight}}"></goAnswerModel>
 
-<jiesuoti id="jiesuoti" bindbuyAll="_buyAll" windowHeight="{{windowHeight}}"></jiesuoti>
+<jiesuoti id="jiesuoti" bindbuy="_buy" windowHeight="{{windowHeight}}"></jiesuoti>

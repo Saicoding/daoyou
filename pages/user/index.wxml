@@ -109,7 +109,16 @@
         <view class='clear'></view>
       </view>
     </view>
-    
+    <view class="line" bindtap="GOtuijian" hover-class="select1" hover-stay-time="500">
+      <view class="block">
+        <view class="mytext fl">
+          精品推荐
+        </view>
+        <view class='fr hui'>></view>
+        <view class='hong fr'></view>
+        <view class='clear'></view>
+      </view>
+    </view>
 
     <view class="submit" bindtap="logout" hover-class='select2' hover-stay-time='500'>退出登陆</view>
   </scroll-view>
