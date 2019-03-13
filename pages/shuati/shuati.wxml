@@ -143,6 +143,11 @@
           </view>
         </view>
       </view>
+
+      <view wx:if="{{zhangjies.length ==0}}">
+        <image class ="hasNopage" src="/images/hasNopage/nosearch2.png" style = "margin-top:10rpx;width:180rpx;height:180rpx;"></image>
+        <view style="text-align:center;color: rgb(146, 146, 146);font-size:22rpx;margin-top:15rpx;">该科目下没有{{currentMidIndex == 1?'模拟试卷':'核心密卷'}}...</view>
+      </view>
     </view>
 
     <!-- 载入动画 -->

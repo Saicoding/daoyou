@@ -60,7 +60,6 @@ Page({
   onReady: function() {
     let self = this;
     this.payDetail = this.selectComponent("#payDetail");
-    //self.myVideo = wx.createVideoContext('myVideo');
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -144,6 +143,19 @@ Page({
     if (user) {
       app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
 
+        //最后播放视频索引
+        let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
+        let scroll = lastpx * 100 * windowWidth / 750;
+        if (lastpx != "") {
+          px = lastpx.px;
+          //videoID 最后播放视频id
+          //initialTime 最后播放视频时间
+          let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
+          if (lasttime) {
+            this.videoContext.seek(lasttime / 1000)
+          }
+        }
+
         let files = res.data.data[0].files; //视频列表
         let currentVideo = files[px - 1];
 
@@ -166,18 +178,6 @@ Page({
           buy: buy
         });
 
-        //最后播放视频索引
-        let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
-        let scroll = lastpx * 100 * windowWidth / 750;
-        if (lastpx != "") {
-          px = lastpx.px;
-          //videoID 最后播放视频id
-          //initialTime 最后播放视频时间
-          let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
-          if (lasttime) {
-            this.videoContext.seek(lasttime / 1000)
-          }
-        }
       })
 
 
@@ -245,7 +245,8 @@ Page({
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
 
         self.setData({
-          text: ''
+          text: '',
+          value:''
         })
         self.getPL();
         wx.pageScrollTo({
@@ -301,7 +302,7 @@ Page({
 
     let lastVideo = files[px - 1]; //上一个视频
     let videoID = lastVideo.id; //上一个视频id
-    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
+    let flag = 1; //判断是否看完;
     let currentVideo = files[index]; //点击的这个视频
 
     if (currentVideo.files == "") {
@@ -330,29 +331,9 @@ Page({
       playTime = 0;
     }
 
-    console.log(lastVideo.time_length + "_" + currentTime + "_" + playTime)
-
-    let playCourseArr = lastVideo.playCourseArr;
-    let playCourseStr = "";
-    for (let i = 0; i < playCourseArr.length; i++) {
-      if (i < playCourseArr.length - 1) {
-        playCourseStr += playCourseArr[i] + ",";
-      } else {
-        playCourseStr += playCourseArr[i];
-      }
-    }
-
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
-
-    //let angle = currentTime / lastVideo.time_length * 2 * Math.PI;
-
-    //let currentAngle = currentVideo.lastViewLength / currentVideo.time_length * 2 * Math.PI;
-
-    console.log(currentVideo.lastViewLength)
-    console.log(currentVideo.time_length * 1)
     if (currentVideo.lastViewLength >= currentVideo.time_length * 1 - 3) {
-      console.log('哈哈')
       changeVideo = true;
       self.videoContext.stop();
       isPlaying = false;
@@ -377,7 +358,6 @@ Page({
         key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
         data: playTime,
         success: function() {
-          console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
         },
         fail: function() {
           console.log('存储失败')
@@ -391,16 +371,16 @@ Page({
         },
       })
 
-      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag , false, true, "").then((res) => {
+        console.log('改变视频' + flag + "playTime= "+ playTime +'id=' + videoID)
+      })
     }
     //videoID 缓存的视频id
     //initialTime 缓存的视频时间
     let hctime = wx.getStorageSync('kesub' + kcid + "_" + files[index].videoID + "_" + user.zcode);
-    console.log(hctime)
     if (hctime) {
       this.videoContext.seek(hctime / 1000)
       if (hctime / 1000 >= currentVideo.time_length * 1 - 3) {
-        console.log('哈1')
         changeVideo = true;
         self.videoContext.stop();
         isPlaying = false;
@@ -424,13 +404,14 @@ Page({
     }
 
     if (e.detail.currentTime >= video.time_length * 1 - 3 && first) { //刚载入时如果缓存的视频是结尾状态就暂停
-      first = false;
       changeVideo = true;
       self.videoContext.stop();
       self.setData({
         isPlaying: false
       })
     }
+
+    first = false;
 
     self.setData({
       files: files,
@@ -493,7 +474,7 @@ Page({
     if (px == files.length) return; //如果点击的是同一个视频就不做任何操作
 
     let lastVideo = files[px - 1]; //上一个视频
-    let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
+    let flag = 2 //判断是否看完;
     let videoID = lastVideo.id; //视频id
 
 
@@ -529,19 +510,7 @@ Page({
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
 
-    let playCourseArr = lastVideo.playCourseArr;
-    let playCourseStr = "";
-    for (let i = 0; i < playCourseArr.length; i++) {
-      if (i < playCourseArr.length - 1) {
-        playCourseStr += playCourseArr[i] + ",";
-      } else {
-        playCourseStr += playCourseArr[i];
-      }
-    }
-
     let currentAngle = currentVideo.lastViewLength / currentVideo.time_length * 2 * Math.PI;
-
-
 
     if (currentVideo.lastViewLength >= currentVideo.time_length - 3) {
       changeVideo = true;
@@ -577,7 +546,10 @@ Page({
         },
       })
 
-      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+        console.log('结束' + flag + "playTime=" + playTime+ 'id=' + videoID)
+      })
     }
 
   },
@@ -703,18 +675,8 @@ Page({
       let files = self.data.files; //当前所有视频
       let lastVideo = files[px];
 
-      let flag = self.ifEnd(lastVideo) ? 2 : 1; //判断是否看完;
+      let flag = 1; //判断是否看完;
       let videoID = lastVideo.orderid;
-
-      let playCourseArr = lastVideo.playCourseArr;
-      let playCourseStr = "";
-      for (let i = 0; i < playCourseArr.length; i++) {
-        if (i < playCourseArr.length - 1) {
-          playCourseStr += playCourseArr[i] + ",";
-        } else {
-          playCourseStr += playCourseArr[i];
-        }
-      }
 
       let playTime = 0;
       let currentTime = self.data.currentTime;
@@ -726,15 +688,8 @@ Page({
         playTime = 0;
       }
 
-
-
-      //wx.setStorageSync('lastVideo' + kcid + user.zcode, px);
-
-      clearInterval(self.data.interval);
       let user = wx.getStorageSync('user');
       if (user) {
-
-
         let zcode = user.zcode;
         let token = user.token;
         wx.setStorage({
@@ -770,7 +725,10 @@ Page({
             options: options
           },
         })
-        app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+
+        app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+          console.log('页面销毁' + flag + "playTime=" + playTime + 'id=' + videoID)
+        })
 
         if (self.data.options.fromIndex == 'true') {
           wx.switchTab({
@@ -806,25 +764,6 @@ Page({
     }
   },
 
-  /**
-   * 是否真正看完
-   */
-  ifEnd: function(video) {
-    let end = true;
-    if (video.playCourseArr) {
-      for (let i = 0; i < video.playCourseArr.length; i++) {
-        let playCourse = video.playCourseArr[i];
-        if (playCourse == 0) {
-          end = false;
-          break;
-        }
-      }
-      return end;
-    } else {
-      end = false
-    }
-  },
-
   onPageScroll: function(e) {
     let windowWidth = this.data.windowWidth;
     let scrollTop = e.scrollTop * 750 / windowWidth;
@@ -856,10 +795,14 @@ Page({
       lastScroll: scrollTop
     })
   },
+
   /**
    * 改变产品时
    */
   scrolltop: function(e) {
+    this.setData({
+      mybar: ""
+    })
     wx.pageScrollTo({
       scrollTop: 0
     })

@@ -51,8 +51,9 @@ Component({
     },
 
     //解锁全部
-    _buy: function () {
-      this.triggerEvent('buy');
+    _buy: function (e) {
+      let product = e.currentTarget.dataset.product;
+      this.triggerEvent('buy',{product:product});
     }
 
   }

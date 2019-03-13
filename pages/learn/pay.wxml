@@ -92,7 +92,7 @@
   <view class='bottom-price f14'>实付款：
     <text>￥{{money_zong}}</text>
   </view>
-  <view class='bottom-buy' bindtap='_submit'>立即支付</view>
+  <view class='bottom-buy' bindtap='_submit' hover-class='select2' hover-stay-time='500'>立即支付</view>
 </view>
 <view class='bg' bindtap='close' wx:if="{{sh_show}}"></view>
 

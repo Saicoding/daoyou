@@ -524,6 +524,7 @@ Page({
 
         app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys, false, false, "", "").then(res => {
           let zhangjies = res.data.data;
+          console.log(zhangjies)
 
           tiku[currentLoadedStr] = zhangjies;
           zhangjieLoadedStrArray.push(currentLoadedStr);
@@ -817,18 +818,6 @@ Page({
   },
 
   /**
-   * 导航到购买页面
-   */
-  _buyAll: function() {
-    this.jiesuoti.hideDialog();
-    wx.showToast({
-      icon: 'none',
-      title: '购买开发中',
-      duration: 3000
-    })
-  },
-
-  /**
    * 导航到笔记页面
    */
   GOnoteAndErrList: function(e) {
@@ -925,9 +914,10 @@ Page({
  */
   _buy: function (e) {
     this.jiesuoti.hideDialog();
+    let product = e.detail.product;
 
     wx.navigateTo({
-      url: '/pages/shuati/pay/pay?product=60&page=shuati',
+      url: '/pages/shuati/pay/pay?product='+product+'&page=shuati',
     })
   },
 

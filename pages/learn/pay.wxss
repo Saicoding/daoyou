@@ -50,4 +50,6 @@ page { background: #f7f7f7; padding-bottom:200rpx; }
 .dizhiadd .close { width: 30rpx; height:30rpx; position: absolute; top: 4%; right: 4%; }
 .dizhibtn { background: #02c255;color: #fff; text-align: center; font-size: 30rpx; line-height: 80rpx; width: 94%; margin:30rpx auto}
 
-
+.select2{
+  background: #c00a00;
+}

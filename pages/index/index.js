@@ -126,7 +126,7 @@ Page({
     let interval = this.data.interval;
     //若有新消息出现红点
 
-    if (user) {//有用户信息时才请求
+    if (user) { //有用户信息时才请求
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
         if (news_num > 0) {
@@ -401,4 +401,10 @@ Page({
       })
     }
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  }
 })

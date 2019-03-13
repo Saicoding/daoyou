@@ -172,15 +172,9 @@ Page({
       let token = user.token;
       let kcid = self.data.id;
       let content = self.data.text;
-
-      let obj = {};
-      obj.nickname = user.Nickname;
-      obj.pl_time = "刚刚";
-      obj.pc_content = content;
     
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
-        console.log()
-
+        console.log(res)
         self.setData({
           text: ''
         })

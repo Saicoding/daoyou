@@ -1,5 +1,4 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
-
 <video bindtap="toogleShow" id="myVideo" class='myVideo' style = "{{fixed}}" controls initial-time="{{files[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{files[px-1].files == undefined?'':files[px-1].files}}" bindended="end" bindfullscreenchange="quan" bindtimeupdate="timeupdate"
  custom-cache="false"  bindplay="play" bindpause="pause" enable-progress-gesture show-center-play-btn="{{true}}" autoplay="{{autoplay}}">
 
@@ -32,12 +31,12 @@
     <view class='kc_money'>
       <text class='b'>{{kc_money?kc_money:"免费"}}</text>
       <text class='f12'>{{kc_money?"元":""}}</text>
-      <view class='f12 hui'>已有{{renshu}}人报名</view>
+      <view class='f12 hui'>已有{{options.renshu}}人报名</view>
     </view>
     <button open-type="contact" class='hui f14 fl zixun'>
       <image src="/images/course/icon_humanService_black@2x.png" class='fl'></image>咨询</button>
 
-    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">立即购买</view>
+    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui" hover-class ="select2" hover-stay-time='500'>立即购买</view>
     <view wx:if="{{buy==1}}" class="purchased">已开通</view>
   </view>
   <view style='padding:4%;'>
@@ -58,7 +57,7 @@
       <navigator url='learn' open-type="switchTab" class='xk {{zi=="冲刺"?"on":""}}'>考前冲刺</navigator>
       <view class='clear' style='height:20rpx;'></view>
       <text class='hui mr10'>优惠</text>
-      <navigator url='../index/xuexijihua/xuexijihua' class='text hong'>购买导游考试【全陪学习套餐】劲省320元</navigator>
+      <navigator url='../index/xuexijihua/xuexijihua' class='text hong'>购买导游考试【全陪学习套餐】劲省2000元</navigator>
       <view class='clear' style='height:20rpx;'></view>
     </view>
   </view>
@@ -72,7 +71,7 @@
 
   <view style="padding-bottom: 180rpx;">
     <!-- 简介信息 -->
-    <view hidden="{{product != 'introduction'}}" class="info">
+    <view hidden="{{product != 'introduction'}}" class="info" style = "padding:20rpx 15rpx 100rpx 15rpx;">
       <view wx:if = "{{!info}}">
         <image src="/images/hasNopage/hasNopage.png" class ="hasNopage" style = "width:180rpx;height:180rpx;margin-top:20rpx;"></image>
         <view class ="hasNopage-text">没有找到简介信息...</view>
@@ -117,21 +116,9 @@
       </view>
       <view class="bottomkk">
         <input focus='{{focus}}' cursor-spacing="14rpx" value="{{value}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
-        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
+        <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage" hover-class='select3' hover-stay-time='500'>发送</view>
       </view>
     </view>
   </view>
-
-  <!-- bottom -->
-  <!-- android -->
-  <!-- <view wx:if="{{buy==0 && platform == 'android' }}" data-product="{{files[px-1].id}}" class="bottom" bindtap='buy'>
-    <view class="bottom-price">¥{{kc_money}}</view>
-    <view class="bottom-buy">开通此课</view>
-  </view> -->
-
-  <!-- ios -->
-  <!-- <view data-product="{{myproduct}}" wx:if="{{buy==0 && platform == 'ios'}}" class="bottom" bindtap='goPay'>
-    <view class="bottom-buy" style="width:100%;">点此开通</view>
-  </view> -->
 </view>
-<view class='scrolltop f12 hui {{mybar}}' bindtap='scrolltop'>top</view>
+<view class='scrolltop f12 hui {{mybar}}' bindtap='scrolltop' hover-class='select1' hover-stay-time='800'>top</view>
