@@ -879,6 +879,15 @@ Page({
   },
 
   /**
+   * 导航到学习计划
+   */
+  GOxuexijihua:function(){
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
    * 监测滚动条滚动
    */
   onPageScroll: function(e) {
@@ -921,4 +930,11 @@ Page({
       url: '/pages/shuati/pay/pay?product=60&page=shuati',
     })
   },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
 })

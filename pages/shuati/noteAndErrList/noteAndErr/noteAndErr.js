@@ -839,6 +839,13 @@ Page({
   _viewWrong:function(){
     this.tongji.hideDialog();
     this.markAnswer.showDialog();
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 
 })

@@ -162,15 +162,24 @@ Page({
   sendMessage: function () {
     buttonClicked = false;
     let self = this;
+    let pl = self.data.pl;//当前所有评论信息
+    console.log(pl)
 
     let user = wx.getStorageSync('user');
-    console.log(user)
     if (user) {
+
       let zcode = user.zcode;
       let token = user.token;
       let kcid = self.data.id;
       let content = self.data.text;
+
+      let obj = {};
+      obj.nickname = user.Nickname;
+      obj.pl_time = "刚刚";
+      obj.pc_content = content;
+    
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
+        console.log()
 
         self.setData({
           text: ''
@@ -249,7 +258,15 @@ Page({
    */
   onShareAppMessage: function() {
 
+  },
+
+  /**
+   * 如何自己写导游词
+   */
+  writeSelf:function(){
+    wx.navigateTo({
+      url: '/pages/index/catalogDetail/catalogDetail?id=10016&title=如何自己写导游词',
+    })
   }
 
-  
 })

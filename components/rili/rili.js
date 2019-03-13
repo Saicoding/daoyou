@@ -73,6 +73,7 @@ Component({
         let SignHeadImgs = result.SignHeadImg ? result.SignHeadImg :'/images/avatar.png';
         let SignNums = result.SignNums?result.SignNums:1;
         let SendJifen = result.SendJifen;
+        let SignTotalDays = result.SignTotalDays;
         let current = SignDays - 3 <= 0 ? 0 : SignDays - 3;
 
         self.setQiandao(SignDays);
@@ -102,6 +103,7 @@ Component({
           SignDays: SignDays,
           SignHeadImgs: SignHeadImgs,
           SignNums: SignNums,
+          SignTotalDays: SignTotalDays,
           current: current,
           isDaka: false,
           ksDate: result.ksDate ? result.ksDate:0
@@ -211,7 +213,7 @@ Component({
         isShow: false
       })
 
-      self.triggerEvent("createHaibao", { SignDays: this.data.SignDays});
+      self.triggerEvent("createHaibao", { SignDays: this.data.SignDays, SignTotalDays: this.data.SignTotalDays});
     }
   }
 

@@ -69,9 +69,9 @@ Component({
     stopBubbling: function(e) {},
 
     //开始绘图
-    draw: function(num) {
+    draw: function (num, SignTotalDays) {
       let self = this;
-      let num2 = 189;
+      let num2 = SignTotalDays;
       //绘制背景
       let context = wx.createCanvasContext('mycanvas', this);
       let windowWidth = this.data.windowWidth;
@@ -148,7 +148,7 @@ Component({
 
                   let sub2 = 0;
                   if (num2 < 10) {
-                    sub = 15
+                    sub2 = 15
                   } else if (num2 > 99) {
                     sub2 = -15
                   }

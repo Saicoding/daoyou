@@ -849,4 +849,11 @@ Page({
     let self = this;
     common.restartModelReal(self);
   },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
 })

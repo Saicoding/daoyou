@@ -247,5 +247,12 @@ Page({
     wx.navigateTo({
       url: '/pages/index/catalogDetail/catalogDetail?id='+id+"&title="+title,
     })
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 })

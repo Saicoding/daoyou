@@ -9,6 +9,7 @@ let myanimation = animate.easeOutAnimation();
 let buttonClicked = false;
 let changeVideo = false; //是否是通过点击更换的video
 let changeType = false; //网络类型是否更改
+let first = true; //是不是第一次控制自动播放
 
 let icon = { //图标高度宽度
   'width': 38,
@@ -31,7 +32,6 @@ Page({
     page_all: '2',
     page_now: '1',
     text: "",
-    infowidth: "",
 
     beisuP: "", //全屏倍速样式
     //meuntop: "",//获取菜单高度
@@ -52,7 +52,6 @@ Page({
       kcid: kcid,
       options: options
     })
-    changeVideo = true; //防止视频结束时自动播放到下一个视频
   },
 
   /**
@@ -134,71 +133,61 @@ Page({
     let px = 1;
     let user = wx.getStorageSync('user');
 
-    let zcode = user.zcode; //客户端id号
-    let token = user.token;
+    let zcode = user.zcode ? user.zcode : ''; //客户端id号
+    let token = user.token ? user.token : '';
 
 
     if (loaded == undefined) return;
 
     loaded = false;
-    app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", "", self).then((res) => {
 
-      let files = res.data.data[0].files; //视频列表
-      let currentVideo = files[px - 1];
+    if (user) {
+      app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
 
-      let buy = res.data.data[0].buy; //是否已经开通
-      let kc_money = res.data.data[0].money; //价格 
-      if (res.data.data[0].kc_info) {
-        var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/g;
-        var info3 = res.data.data[0].kc_info.match(srcReg) + "";
-        var info = info3.replace(/src=/i, "").replace(/[\'\"]?/g, "");
-        var infowidth = "94"
-      } else {
-        var info = "/images/hasNopage/hasNopage.png"
-        var infowidth = "40"
-      }
+        let files = res.data.data[0].files; //视频列表
+        let currentVideo = files[px - 1];
 
-      self.initfiles(files, px)
-      self.setData({
-        files: files,
-        kc_name: res.data.data[0].kc_name,
-        teacher: res.data.data[0].teacher,
-        zi: res.data.data[0].kc_name.substr(res.data.data[0].kc_name.length - 2, 2),
-        info: info,
-        kc_money: kc_money,
-        loaded: true,
-        img: res.data.data[0].kc_img,
-        kcid: kcid,
-        px: px,
-        buy: buy,
-        infowidth: infowidth
-        //user: user,
-        //scroll: scroll
-      });
-      // setTimeout(() => { //获取菜单高度
-      //   wx.createSelectorQuery().selectAll('.mybar').boundingClientRect(function (rect) {
-      //     var meuntop = rect[0].top;
-      //     self.setData({ meuntop: meuntop});
-      //   }).exec()
-      // }, 1000)
+        let buy = res.data.data[0].buy; //是否已经开通
+        let kc_money = res.data.data[0].money; //价格 
+        let info = res.data.data[0].kc_info ? res.data.data[0].kc_info:'';//课程信息
 
-      //最后播放视频索引
-      let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
-      let scroll = lastpx * 100 * windowWidth / 750;
-      if (lastpx != "") {
-        px = lastpx.px;
-        //videoID 最后播放视频id
-        //initialTime 最后播放视频时间
-        let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
-        if (lasttime) {
-          this.videoContext.seek(lasttime / 1000)
+        self.initfiles(files, px)
+        self.setData({
+          files: files,
+          kc_name: res.data.data[0].kc_name,
+          teacher: res.data.data[0].teacher,
+          zi: res.data.data[0].kc_name.substr(res.data.data[0].kc_name.length - 2, 2),
+          info: info,
+          kc_money: kc_money,
+          loaded: true,
+          img: res.data.data[0].kc_img,
+          kcid: kcid,
+          px: px,
+          buy: buy
+        });
+
+        //最后播放视频索引
+        let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
+        let scroll = lastpx * 100 * windowWidth / 750;
+        if (lastpx != "") {
+          px = lastpx.px;
+          //videoID 最后播放视频id
+          //initialTime 最后播放视频时间
+          let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
+          if (lasttime) {
+            this.videoContext.seek(lasttime / 1000)
+          }
         }
-      }
-    })
+      })
 
 
-    //获取评论列表
-    self.getPL();
+      //获取评论列表
+      self.getPL();
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login?showToast=true&title=您还没有登录',
+      })
+    }
 
   },
 
@@ -360,7 +349,10 @@ Page({
 
     //let currentAngle = currentVideo.lastViewLength / currentVideo.time_length * 2 * Math.PI;
 
-    if (currentVideo.lastViewLength >= currentVideo.time_length - 3) {
+    console.log(currentVideo.lastViewLength)
+    console.log(currentVideo.time_length * 1)
+    if (currentVideo.lastViewLength >= currentVideo.time_length * 1 - 3) {
+      console.log('哈哈')
       changeVideo = true;
       self.videoContext.stop();
       isPlaying = false;
@@ -404,8 +396,15 @@ Page({
     //videoID 缓存的视频id
     //initialTime 缓存的视频时间
     let hctime = wx.getStorageSync('kesub' + kcid + "_" + files[index].videoID + "_" + user.zcode);
+    console.log(hctime)
     if (hctime) {
       this.videoContext.seek(hctime / 1000)
+      if (hctime / 1000 >= currentVideo.time_length * 1 - 3) {
+        console.log('哈1')
+        changeVideo = true;
+        self.videoContext.stop();
+        isPlaying = false;
+      }
     }
   },
 
@@ -419,25 +418,30 @@ Page({
     let video = files[px - 1];
 
     let m = parseInt(e.detail.currentTime / 60);
-    //let angle = currentTime / video.length * 2 * Math.PI;
 
     if (video.playCourseArr[m] == 0) {
       video.playCourseArr[m] = 1;
     }
 
-
-    if (e.detail.currentTime % 10 >= 0 && e.detail.currentTime % 10 <= 1) {
-      //self.drawPlay(cv, angle, px - 1, files);
+    if (e.detail.currentTime >= video.time_length * 1 - 3 && first) { //刚载入时如果缓存的视频是结尾状态就暂停
+      first = false;
+      changeVideo = true;
+      self.videoContext.stop();
       self.setData({
-        files: files,
-        currentTime: e.detail.currentTime
+        isPlaying: false
       })
     }
+
+    self.setData({
+      files: files,
+      currentTime: e.detail.currentTime
+    })
+
   },
   /**
    * 点击开始播放
    */
-  play: function() {
+  play: function(e) {
     let self = this;
     let px = self.data.px; //当前视频编号
     let files = self.data.files; //当前所有视频
@@ -451,7 +455,7 @@ Page({
       })
       return;
     }
-
+    console.log('播放')
     this.setData({
       isPlaying: true,
     })
@@ -472,6 +476,7 @@ Page({
   end: function(e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
+    console.log(changeVideo)
     if (changeVideo) { //如果点击的视频时结尾状态就暂停
       self.videoContext.stop();
       return; //如果是通过点击更换的video
@@ -822,26 +827,26 @@ Page({
 
   onPageScroll: function(e) {
     let windowWidth = this.data.windowWidth;
-    let scrollTop = e.scrollTop*750/windowWidth;
+    let scrollTop = e.scrollTop * 750 / windowWidth;
     let lastScroll = this.data.lastScroll;
     //防止多次setData，这里只有在有变化时才去设置
-    if (scrollTop > 422 && lastScroll <=422){
+    if (scrollTop > 422 && lastScroll <= 422) {
       this.setData({
-        fixed:'position: fixed;width:375rpx;height:211rpx;left:375rpx;top:0rpx;',
-        showBlank:true
+        fixed: 'position: fixed;width:375rpx;height:211rpx;left:375rpx;top:0rpx;',
+        showBlank: true
       })
-    }else if(scrollTop <= 422 && lastScroll >=422){
+    } else if (scrollTop <= 422 && lastScroll >= 422) {
       this.setData({
         fixed: '',
         showBlank: false
       })
     }
 
-    if (scrollTop > 900 && lastScroll <=900) {
+    if (scrollTop > 900 && lastScroll <= 900) {
       this.setData({
         mybar: "on"
       })
-    } else if (scrollTop < 900 && lastScroll >= 900){
+    } else if (scrollTop < 900 && lastScroll >= 900) {
       this.setData({
         mybar: ""
       })
@@ -888,6 +893,13 @@ Page({
     wx.navigateTo({
       url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money + '&title=' + this.data.kc_name + '&keshi=' + this.data.files.length + '&teacher=' + this.data.teacher
     })
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 
 })

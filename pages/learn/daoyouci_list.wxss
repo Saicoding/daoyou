@@ -1,3 +1,7 @@
+page{
+  background: #f4f5f6;
+}
+
 .content {background: #f4f5f6; padding: 4% 0}
 .list { width: 47%; margin-left: 2%; display: inline-block; position: relative;margin-bottom:2%; overflow: hidden; border-radius:10rpx; background: #fff; padding-bottom: 2%  }
 

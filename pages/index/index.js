@@ -261,10 +261,11 @@ Page({
    */
   _createHaibao: function(e) {
     let SignDays = e.detail.SignDays;
+    let SignTotalDays = e.detail.SignTotalDays;
     wx.showLoading({
       title: '生成中',
     })
-    this.haibao.draw(SignDays);
+    this.haibao.draw(SignDays, SignTotalDays);
   },
 
   /**

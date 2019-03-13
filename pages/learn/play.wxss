@@ -235,8 +235,8 @@
 .beisu {
   width: 4em;
   text-align: center;
-  border: 1px #eee solid;
-  background: rgba(255, 255, 255, 0.8);
+  border: 1px rgba(238, 238, 238,0.3) solid;
+  background: rgba(255, 255, 255, 0.3);
   font-size: 22rpx;
   border-radius: 4px;
   line-height: 38rpx;
@@ -247,9 +247,16 @@
 }
 
 .beisu.on {
-  background: rgba(255, 153, 0, 0.8);
+  background: rgba(255, 153, 0, 0.2);
   color: #fff;
-  border: 1px rgb(252, 177, 65) solid;
+  border: 1px rgba(252, 177, 65,0.2) solid;
+}
+
+.hasNopage-text{
+  color:rgb(153, 153, 153);
+  text-align: center;
+  font-size:25rpx;
+  margin-top:20rpx;
 }
 
 .title1 {
