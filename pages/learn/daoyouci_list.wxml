@@ -1,7 +1,7 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
 <view wx:if="{{loaded}}" class="content">
   <image wx:if="{{list==''}}" src="/images/hasNopage/hasNopage.png" class="hasNopage"></image>
-  <view wx:for="{{list}}" wx:for-item="list" wx:key="i" class='list' data-img='{{list.pic}}' data-id='{{list.id}}' bindtap='info'>
+  <view wx:for="{{list}}" wx:for-item="list" wx:key="i" class='list' data-img='{{list.pic}}' data-id='{{list.id}}' bindtap='info' hover-class='select1' hover-stay-time='500'>
     <view class='listimg'>
     <image src="{{list.pic}}"></image>
     </view>

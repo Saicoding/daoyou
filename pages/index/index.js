@@ -118,22 +118,29 @@ Page({
     let token = user.token;
     let first = this.data.first;
 
-    let todayDaka= wx.getStorageSync('todayDaka'+zcode);
+    let todayDaka = wx.getStorageSync('todayDaka' + zcode);
     let myDate = new Date(); //获取系统当前时间
     let year = myDate.getFullYear();
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     let interval = this.data.interval;
     //若有新消息出现红点
-    app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
-      var news_num = res.data.data[0].nums;
-      if (news_num > 0) { wx.showTabBarRedDot({index:3})}
-    })
-    
+
+    if (user) {//有用户信息时才请求
+      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
+        var news_num = res.data.data[0].nums;
+        if (news_num > 0) {
+          wx.showTabBarRedDot({
+            index: 3
+          })
+        }
+      })
+    }
+
     myDate = "" + year + month + day; //得到当前答题字符串
 
     if (todayDaka != myDate && !interval) {
-      self.riliAnimate();//日历动画
+      self.riliAnimate(); //日历动画
     }
 
     if (this.rili) { //如果有弹出日历信息
@@ -176,7 +183,7 @@ Page({
           lastKe: lastKe
         })
       },
-      fail:function(res){
+      fail: function(res) {
         console.log('无看课记录')
       }
     })
@@ -211,7 +218,7 @@ Page({
   /**
    * 日历动画
    */
-  riliAnimate: function(){
+  riliAnimate: function() {
     let self = this;
     let obj = {
       transformOrigin: '10% 10% 0',
@@ -250,9 +257,9 @@ Page({
   },
 
   /**
- * 创建海报
- */
-  _createHaibao: function (e) {
+   * 创建海报
+   */
+  _createHaibao: function(e) {
     let SignDays = e.detail.SignDays;
     wx.showLoading({
       title: '生成中',
@@ -279,13 +286,13 @@ Page({
   /**
    * 继续看课
    */
-  continiueKanke:function(){
-    
+  continiueKanke: function() {
+
     let lastKe = this.data.lastKe
     if (lastKe) { //如果有最后一次看课
       lastKe = lastKe.options;
       wx.navigateTo({
-        url: '/pages/learn/play?title=' + lastKe.title + "&renshu=" + lastKe.renshu + "&types=" + lastKe.types + "&index=" + lastKe.index + "&kc_id=" + lastKe.kc_id+"&fromIndex=true"
+        url: '/pages/learn/play?title=' + lastKe.title + "&renshu=" + lastKe.renshu + "&types=" + lastKe.types + "&index=" + lastKe.index + "&kc_id=" + lastKe.kc_id + "&fromIndex=true"
       })
     } else {
       wx.navigateTo({
@@ -384,7 +391,7 @@ Page({
    */
   attendance: function() {
     let user = wx.getStorageSync('user');
-    let self =this;
+    let self = this;
     if (user) {
       this.rili.showDialog(self);
     } else {

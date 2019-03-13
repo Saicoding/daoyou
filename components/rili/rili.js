@@ -68,6 +68,7 @@ Component({
 
       app.post(API_URL, "action=QianDao&zcode=" + zcode + "&token=" + token, false, false, "", "", false, self).then(res => {
         let result = res.data.data[0];
+        console.log(result)
         let SignDays = result.SignDays;//连续签到
         let SignHeadImgs = result.SignHeadImg ? result.SignHeadImg :'/images/avatar.png';
         let SignNums = result.SignNums?result.SignNums:1;

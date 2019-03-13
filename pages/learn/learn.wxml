@@ -4,7 +4,7 @@
   <block wx:for="{{barUrls}}" wx:for-item="img" wx:key='i'>
     <swiper-item wx:if="{{barUrls}}">
       <navigator url='../index/xuexijihua/xuexijihua'>
-        <image src="{{img}}" class="slide-image" mode='widthFix' />
+        <image src="{{img}}" class="slide-image"  />
       </navigator>
     </swiper-item>
   </block>

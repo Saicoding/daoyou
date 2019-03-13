@@ -32,3 +32,7 @@
   margin-left: 10rpx;
   vertical-align: middle;
 }
+
+.select1{
+  opacity: 0.5
+}

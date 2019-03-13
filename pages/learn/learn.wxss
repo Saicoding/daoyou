@@ -40,7 +40,7 @@
   background: white;
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  width: 710rpx;
   height: 60rpx;
   box-shadow: 0 8rpx 10rpx #eee;
   overflow: hidden;

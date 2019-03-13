@@ -342,7 +342,8 @@ Page({
 
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
-      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
+
+      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, false, true, "").then((res) => {
 
         let user = res.data.data[0];
 
@@ -350,7 +351,9 @@ Page({
           key: 'user',
           data: user,
           success: function() {
-            wx.navigateBack({})
+            wx.navigateBack({
+
+            })
 
             if (ifGoPage == "true") {
               wx.navigateTo({
@@ -580,14 +583,17 @@ Page({
     if (buttonClicked) return;
     buttonClicked = true;
 
+    wx.showLoading({
+      title: '登录中',
+    })
+    
     wx.login({
       success: res => {
         let code = res.code;
-        console.log("action=getSessionKey&code=" + code)
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
+        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
           let sesstion_key = res.data.data[0].sessionKey;
           let openid = res.data.data[0].openid;
-          console.log(res)
+
           wx.getUserInfo({
             success: function(res) {
               let wxid = ""; //openId
@@ -612,6 +618,7 @@ Page({
               app.post(API_URL, "action=ChkUnionId&unionid=" + unionid, false, false, "").then(res => {
                 //存储本地变量
                 if (res.data.status == -2012) { //如果没有绑定
+                  wx.hideLoading();
                   self.bindPhoneModel.showDialog();
                   console.log(openid)
                   self.setData({
@@ -627,8 +634,12 @@ Page({
                     key: 'user',
                     data: user
                   })
-                  buttonClicked = false;
-                  wx.navigateBack({}) //先回到登录前的页面
+                  buttonClicked = false;          
+                  wx.navigateBack({
+                    success:function(){
+                      wx.hideLoading();
+                    }
+                  }) //先回到登录前的页面
                   if (ifGoPage == 'true') {
                     if (redirect == 'true') {
                       wx.redirectTo({ //是直接跳转
@@ -671,8 +682,10 @@ Page({
     let redirect = this.data.redirect;
     pwd = md5.md5(pwd).toLowerCase();
 
-    console.log("action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile=" + phone + "&pwd=" + pwd + "&code=" + code)
-    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, true, false, "绑定中").then((res) => {
+    wx.showLoading({
+      title: '绑定中',
+    })
+    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, false, false, "").then((res) => {
       let user = res.data.data[0];
       console.log(user)
       wx.setStorage({
@@ -680,7 +693,11 @@ Page({
         data: user
       })
       buttonClicked = false;
-      wx.navigateBack({}) //先回到登录前的页面
+      wx.navigateBack({
+        success:function(){
+          wx.hideLoading();
+        }
+      }) //先回到登录前的页面
       if (ifGoPage == 'true') {
         if (redirect == 'true') {
           wx.redirectTo({ //是直接跳转
