@@ -1,7 +1,8 @@
 /* pages/index/xuexijihua/xuexijihua.wxss */
 
-/* 优惠券 */
-
+.bg {width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); position: fixed;bottom: 0; left: 0; z-index:19}
+#myVideo { position: fixed;bottom: 0; left: 0; width: 100%; z-index:20}
+.w100 { width: 100%;vertical-align:bottom;}
 .float {
   width: 100%;
   display: flex;

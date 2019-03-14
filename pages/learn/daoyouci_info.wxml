@@ -1,44 +1,48 @@
 <!--pages/learn/daoyouci_info.wxml-->
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
-<view wx:if="{{loaded}}" class="content">
+<scroll-view scroll-y wx:if="{{loaded}}" class="content" style="height:{{windowHeight-90}}rpx;" lower-threshold="100rpx" bindscrolltolower="scrolltolower" scroll-top="{{scrollTop}}" scroll-into-view="{{toView}}" bindscroll = "scroll">
+  <view id = "content">
+    <image src='{{img}}' mode='widthFix' class='topimg' style='width:100%'></image>
 
-  <image src='{{img}}' mode='widthFix' class='topimg' style='width:100%'></image>
-
-  <view class='cont_t rel'>
-    <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPlay' data-play='bofang' wx:if="{{play=='zanting'&&daoyouci.mp3!=''}}"></image>
-    <image src='../../images/course/zanting@2x.png' class='playbtn' bindtap='audioPause' data-play='zanting' wx:if="{{play=='bofang'&&daoyouci.mp3!=''}}"></image>
-    <view class='f16' style='margin-bottom: 20px'>{{daoyouci.title}}</view>
-    <view wx:if="{{daoyouci.mp3!=''}}">
-      <view style='width:85%;' class='fl progress' bindtap='progress'>
-        <view class='progress_sub' style='width:{{(timeon2/time2)*100}}%'></view>
+    <view class='cont_t rel'>
+      <image src='../../images/course/bofang@2x.png' class='playbtn' bindtap='audioPlay' data-play='bofang' wx:if="{{play=='zanting'&&daoyouci.mp3!=''}}"></image>
+      <image src='../../images/course/zanting@2x.png' class='playbtn' bindtap='audioPause' data-play='zanting' wx:if="{{play=='bofang'&&daoyouci.mp3!=''}}"></image>
+      <view class='f16' style='margin-bottom: 20px'>{{daoyouci.title}}</view>
+      <view wx:if="{{daoyouci.mp3!=''}}">
+        <view style='width:85%;' class='fl progress' bindtap='progress'>
+          <view class='progress_sub' style='width:{{(timeon2/time2)*100}}%'></view>
+        </view>
+        <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{!bofang}}">{{time}}</text>
+        <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
+        <view class='clear' style='height:10px;'></view>
       </view>
-      <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{!bofang}}">{{time}}</text>
-      <text style='width:15%; margin-top: -5px;line-height: 30rpx;' class='fr hui f12 tar' wx:if="{{bofang}}">{{timeon}}</text>
-      <view class='clear' style='height:10px;'></view>
+      <rich-text class='f13 infos {{infos=="show"?"on":""}}' nodes="{{daoyouci.info}}"></rich-text>
+      <view bindtap='infos' class='infos_btn'>{{infos=='show'?'收起':'查看全文'}}</view>
     </view>
-    <rich-text class='f13 infos {{infos=="show"?"on":""}}' nodes="{{daoyouci.info}}"></rich-text>
-    <view bindtap='infos' class='infos_btn'>{{infos=='show'?'收起':'查看全文'}}</view>
+
+    <view class="cont_b">
+      <!-- 其他参考，如何自己写导游词 -->
+      <view class="ref">
+        <!-- 空白条 -->
+        <view class="ref-left">
+          <view class="ref-left-tiao"></view>
+          <view class="ref-left-text">其他参考</view>
+        </view>
+        <view class="ref-right" bindtap="writeSelf" hover-class='select1' hover-stay-time='500'>
+          <view class="ref-right-text">如何自己写导游词</view>
+          <view class="ref-right-circle">?</view>
+        </view>
+      </view>
+      <rich-text nodes="{{daoyouci.content}}" class='f13'></rich-text>
+    </view>
   </view>
 
-  <view class="cont_b">
-    <!-- 其他参考，如何自己写导游词 -->
-    <view class="ref">
-      <!-- 空白条 -->
-      <view class="ref-left">
-        <view class ="ref-left-tiao"></view>
-        <view class ="ref-left-text" >其他参考</view>
-      </view>
-      <view class="ref-right" bindtap = "writeSelf" hover-class='select1' hover-stay-time='500'>
-        <view class ="ref-right-text">如何自己写导游词</view>
-        <view class ="ref-right-circle">?</view>
-      </view>
-    </view>
-    <rich-text nodes="{{daoyouci.content}}" class=' f13'></rich-text>
-  </view>
+  <view class="pltitle {{fixed?'fixed':''}}">全部评论 {{pl.length}} 条</view>
+  <view id ="blank" wx:if="{{showBlank}}" style = "width:100%;height:50rpx;"></view>
 
-  <view class="pingjia">
+  <view wx:if="{{pl.length !=0}}" class="pingjia">
     <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
-      <view class='pllist'>
+      <view class='pllist' id="pl{{index}}">
         <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
         <view class='plcont'>
           <view class='clear'>
@@ -53,9 +57,14 @@
       </view>
     </view>
   </view>
-  <view class="bottomkk">
 
-    <input focus='{{focus}}' cursor-spacing="14rpx" value="{{text}}" class="bottom-input" style="width:{{text?550:700}}rpx;" bindinput='typing' bindblur="blur"></input>
-    <view wx:if="{{text}}" class="bottom-send" style="width:{{text?140:0}}rpx;" bindtap="sendMessage">发送</view>
+  <!-- 最下面的加载条 -->
+  <view class="loading-block">
+    <image wx:if="{{showLoadingGif}}" class="loading-gif" src="/images/timg.gif"></image>
+    <view class="loading-text"> {{loadingText}}</view>
   </view>
-</view>
+  <view class="bottomkk">
+    <input placeholder='请输入评论内容' focus='{{focus}}' cursor-spacing="14rpx" value="{{text}}" class="bottom-input" bindinput='typing' bindblur="blur"></input>
+    <view class="bottom-send" bindtap="sendMessage" hover-class='select2' hover-stay-time='500'>发送</view>
+  </view>
+</scroll-view>

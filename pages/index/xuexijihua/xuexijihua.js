@@ -16,6 +16,7 @@ Page({
     money_zong: "",
     product: "", //基础套餐、冲刺套餐、豪华套餐
     webind: 0,
+    video_show:false,//视频显示与否
     web: [],
     mine: true, //确认身份
     tuan_id:"", //团购id，如果是好友进来的id存在
@@ -26,7 +27,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    
+    this.videoContext = wx.createVideoContext('myVideo');
+
     var that = this;
     wx.setNavigationBarTitle({ //设置标题
       title: '学习计划',
@@ -47,10 +49,8 @@ Page({
 
     //拼单列表
     app.post(API_URL, "action=getTuangouList", false, false, "", "").then((res) => {
-      var list = res.data.data[0];
-      if (list.length==undefined){
-        list=[list]
-      }
+      var list = res.data.data;
+     
       that.setData({
         pindan_list:list
       })
@@ -159,8 +159,26 @@ Page({
 
     
   },
+  video_show: function () {
+    if (this.data.video_show==false){
+      this.setData({
+        video_show:true
+      });
+      this.videoContext.play();
+    }else{
+      this.setData({
+        video_show: false
+      })
+      this.videoContext.pause();
+    }
 
-
+  },
+  video_hide: function () {
+    this.setData({
+      video_show: false
+    })
+    this.videoContext.pause();
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -234,7 +252,7 @@ Page({
         let title = this.buyTaocan.data.taocans[0].title;
 
         wx.navigateTo({
-          url: '/pages/learn/pay?danke=&title=' + title + '&money_zong=' + (money_zong - 50) + '&product=' + product + '&tuan_id=' + tuan_id
+          url: '/pages/learn/pay?danke=false&title=' + title + '&money_zong=' + (money_zong - 50) + '&product=' + product + '&tuan_id=' + tuan_id
         })
         wx.showLoading({
           title: '正在跳转',
@@ -314,7 +332,7 @@ Page({
           let product = e.detail.product;
 
           wx.navigateTo({
-            url: '/pages/learn/pay?danke=&title=' + title + '&money_zong=' + money_zong + '&product=' + product
+            url: '/pages/learn/pay?danke=false&title=' + title + '&money_zong=' + money_zong + '&product=' + product
           })
         } else {
           wx.showToast({
@@ -334,7 +352,7 @@ Page({
   },
   getYouhui: function() {
     wx.navigateTo({
-      url: '/pages/learn/pay?danke=&title=' + title + '&money_zong=' + money_zong + '&product=' + product
+      url: '/pages/learn/pay?danke=false&title=' + title + '&money_zong=' + money_zong + '&product=' + product
     })
 
   }

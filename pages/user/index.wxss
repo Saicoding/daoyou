@@ -38,10 +38,10 @@
   height: 100rpx;
   width: 100%;
   border-bottom: 1rpx solid #ebebeb;
-  line-height: 100rpx;
+  line-height: 100rpx; overflow: hidden;
 }
 .hong { color: #fc551e}
-.hongdian.fr { width: 36rpx; height: 36rpx; border-radius:50%; background: #fc551e; color: #fff; font-size: 22rpx; text-align: center; line-height: 36rpx; margin-top: 32rpx;  }
+.hongdian { width: 36rpx; height: 36rpx; top: 0; left: 50%; border-radius:50%; background: #fc551e; color: #fff; font-size: 22rpx; text-align: center; line-height: 36rpx;  }
 .block .fr { font-size: 26rpx; margin-left: 10px;}
 .block button { background: #fff; padding: 0;line-height: 100rpx;height: 100rpx;}
 
@@ -70,7 +70,8 @@
   height: 40rpx;
   margin-top: 20rpx;
 }
-
+.more { width:30rpx; height: 30rpx;margin-top: 35rpx; opacity: 0.5 }
+.more2 { width:32rpx; height: 32rpx; margin-top: 65rpx }
 .mytext {
   font-size: 28rpx;
 }
@@ -111,7 +112,6 @@
   width: 80%;
   height: 40px;
   line-height: 40px;
- 
   margin: 30rpx auto;
   margin-top: 30rpx;
   color: white;

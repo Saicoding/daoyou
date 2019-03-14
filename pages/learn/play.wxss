@@ -346,7 +346,7 @@
 .title-block-img {
   position: absolute;
   right: 0;
-  top: 8px;
+  top: 26px;
 }
 
 .title-block-tiao {
@@ -436,6 +436,31 @@
   color: #64d56b;
 }
 
+/* 评论载入框 */
+.loading-block {
+  width: 100%;
+  height: 50rpx;
+  font-size: 23rpx;
+  line-height: 53rpx;
+  margin: 0rpx auto;
+  text-align: center;
+  color: rgb(156, 156, 156);
+}
+
+.loading-gif {
+  width: 30rpx;
+  height: 30rpx;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.loading-text {
+  display: inline-block;
+  margin-left: 10rpx;
+  vertical-align: middle;
+}
+
+
 /* 最下面部分 */
 
 .bottom {
@@ -457,6 +482,7 @@
 .bottom-input {
   background: white;
   border: 1px #eee solid;
+  width:520rpx;
   border-radius: 10rpx;
   margin-left: 20rpx;
   height: 70rpx;

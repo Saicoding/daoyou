@@ -22,11 +22,12 @@ Page({
     daoyouci: "",
     nodes: "",
     nodes2: "",
-    pl: "",
-    page_all: '2',
-    page_now: '1',
+    pl: [],
     text: "",
-    infos:"hide"
+    infos: "hide",
+    loadingMore: false, //是否在加载更多
+    loadingText: "", //上拉载入更多的文字
+    showLoadingGif: false, //是否显示刷新gif图
   },
 
   /**
@@ -91,10 +92,6 @@ Page({
 
       that.getPL()
     });
-
-
-
-
   },
 
   s_to_hs: function(s) {
@@ -114,23 +111,53 @@ Page({
     s = (s.length == 1) ? '0' + s : s;
     return h + ':' + s;
   },
-  infos: function () {
-    if (this.data.infos=="hide"){
-      this.setData({ infos: "show"})
-    }else{
-      this.setData({ infos: "hide" })
+  infos: function() {
+    let self = this;
+    if (this.data.infos == "hide") {
+      this.setData({
+        infos: "show"
+      })
+    } else {
+      this.setData({
+        infos: "hide"
+      })
       wx.pageScrollTo({
         scrollTop: 0
       })
     }
+
+    //获取高度内容高度
+    var query = wx.createSelectorQuery();
+    query.select('#content').boundingClientRect(function (rect) {
+      self.setData({
+        contentHeight: rect.height//单位px
+      })
+    }).exec();
+
 
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function(e) {
+    let self = this;
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function(res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
 
+        windowHeight = (windowHeight * (750 / windowWidth));
 
+        self.setData({
+          windowHeight: windowHeight,
+          windowWidth: windowWidth
+        })
+      }
+    });
+
+    var query = wx.createSelectorQuery();
+    //选择id
+    var that = this;
   },
   audioPlay() {
     myaudio.play();
@@ -144,11 +171,11 @@ Page({
       play: "zanting"
     })
   },
-  
+
   /**
    * 输入文字
    */
-  typing: function (e) {
+  typing: function(e) {
 
     let text = e.detail.value;
     this.setData({
@@ -159,57 +186,128 @@ Page({
   /**
    * 发送信息
    */
-  sendMessage: function () {
+  sendMessage: function() {
     buttonClicked = false;
     let self = this;
-    let pl = self.data.pl;//当前所有评论信息
-    console.log(pl)
+    let pl = self.data.pl;
+
+    if (self.data.text == ''){
+      wx.showToast({
+        title: '评论内容不能为空',
+      })
+      return;
+    }
 
     let user = wx.getStorageSync('user');
     if (user) {
+      let content = self.data.text;
+      // 本地先更新
+      let obj = {};
+      obj.hf = "";
+      obj.nickname = user.Nickname;
+      obj.pc_content = content;
+      obj.pl_time = "刚刚";
+      obj.userimg = user.Pic;
+
+      pl.unshift(obj);
+
+      self.setData({
+        pl: pl,
+        text: '',
+        value: '',
+        toView: self.data.fixed?'blank':'pl0'
+      })
+
+      console.log(pl)
 
       let zcode = user.zcode;
       let token = user.token;
       let kcid = self.data.id;
-      let content = self.data.text;
-    
+
+
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
-        console.log(res)
-        self.setData({
-          text: ''
-        })
-        self.getPL();
-        
+        console.log('保存评论成功')
       })
     } else {
       wx.navigateTo({
         url: '../login/login',
       })
-
-
     }
   },
-  getPL: function () {
-    //获取评论列表
-   
-    if (this.data.page_now < this.data.page_all) {
-     
-      var self = this;
 
-      app.post(API_URL, "action=getCoursePL&cid=" + this.data.id + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
-        var page_all = res.data.data[0].page_all;
-        var page_now = res.data.data[0].page_now;
-        if (page_all == 0) { page_all = 2 }
-        if (page_now > page_all) { page_all = page_now }
-        
+  /**
+   * 获取评论信息
+   */
+  getPL: function() {
+    let self = this;
+    let kcid = this.data.id;
+    let pl = this.data.pl;
+
+    //获取评论列表
+    let page_all = this.data.page_all ? this.data.page_all : 1000; //如果有page_all说明已经请求过,如果没有,说明第一次，默认为1000
+    let page_now = this.data.page_now ? this.data.page_now : 0; //当前页默认为0
+
+    self.setData({
+      loadingMore: true
+    })
+
+    app.post(API_URL, "action=getCoursePL&cid=" + kcid + "&page=" + page_now + 1, false, false, "", "").then((res) => {
+      console.log(res)
+      var page_all = res.data.data[0].page_all;
+      var page_now = res.data.data[0].page_now;
+      let newpl = res.data.data[0].pllist;
+      page_now = page_all == 0 ? 0 : page_now; //如果当前页总数为0,那么就把当前页设为0
+
+      pl = pl.concat(newpl); //连接数组
+
+      let info = "";
+
+      if (!self.data.plfirst) { //如果第一次载入
         self.setData({
           page_all: page_all,
           page_now: page_now,
-          pl: res.data.data[0].pllist
+          loadingMore: false,
+          plfirst: true,
+          pl: pl,
+        })
+        //获取高度内容高度
+        var query = wx.createSelectorQuery();
+        query.select('#content').boundingClientRect(function (rect) {
+          self.setData({
+            contentHeight:rect.height//单位px
+          })
+        }).exec();
+
+        if (page_now == page_all) { //说明已经最后一页
+          self.setData({
+            plAllDone: true,
+            loadingText: "别扯了,我是有底线的..."
+          })
+        }
+      } else { //如果第N次载入
+        self.setData({
+          showLoadingGif: false,
+          loadingText: "载入完成"
         })
 
-      })
-    }
+        setTimeout(function() {
+          self.setData({
+            page_all: page_all,
+            page_now: page_now,
+            loadingMore: false,
+            pl: pl,
+            loadingText: ""
+          })
+
+          if (page_now == page_all) { //说明已经最后一页
+            self.setData({
+              plAllDone: true,
+              loadingText: "别扯了,我是有底线的..."
+            })
+          }
+        }, 200)
+      }
+    })
   },
 
   /**
@@ -219,32 +317,12 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
     myaudio.destroy()
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
   },
 
   /**
@@ -257,10 +335,49 @@ Page({
   /**
    * 如何自己写导游词
    */
-  writeSelf:function(){
+  writeSelf: function() {
     wx.navigateTo({
       url: '/pages/index/catalogDetail/catalogDetail?id=10016&title=如何自己写导游词',
     })
-  }
+  },
+
+  /**
+   * 滚动事件
+   */
+  scroll:function(e){
+    let scroll = e.detail.scrollTop;
+    let contentHeight = this.data.contentHeight;
+
+    if(scroll >= contentHeight){
+      this.setData({
+        fixed:true,
+        showBlank:true
+      })
+    }else{
+      this.setData({
+        fixed:false,
+        showBlank: false
+      })
+    }
+  },
+
+  /**
+   * 滚动条滑动到底
+   */
+  scrolltolower: function() {
+    let self = this;
+    let loadingMore = self.data.loadingMore;
+
+    if (loadingMore || self.data.plAllDone || self.data.page_all == 0) return; //如果还在载入中或者都载入完成或者没有评论,就不继续执行
+
+    let product = this.data.product;
+
+    self.setData({ //正在载入
+      showLoadingGif: true,
+      loadingText: "载入更多资讯 ..."
+    })
+    self.getPL();
+
+  },
 
 })

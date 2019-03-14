@@ -49,11 +49,15 @@ Page({
     var tuan_id = ""; //团购id 发起时没有
     title = options.title;
     //购买单课
-    if (danke) {
+    if (danke==true) {
       id = options.id;
-
       keshi = options.keshi;
       teacher = options.teacher;
+      this.setData({
+        id: id,
+        num: keshi,
+        name: teacher,
+      })
     } else {
       //购买套餐
       product = options.product; //套餐名称
@@ -114,18 +118,15 @@ Page({
     money_zong = Number(money_zong).toFixed(2);
     this.setData({
       danke: danke,
-      id: id,
-
       mymoney: mymoney,
       mymoney2: mymoney2,
       title: title,
-      num: keshi,
-      name: teacher,
+      
       youhuiquan: "0",
       guoqi: guoqi,
       money_zong: money_zong
     })
-    if (!danke) {
+    if (danke==false) {
       this.setData({
         product: product
       })
@@ -269,9 +270,9 @@ Page({
           code = res.code;
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.data[0].openid;
-
+            console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong)
             app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
-
+              console.log(res)
               let status = res.data.status;
 
               if (status == 1) {
@@ -318,9 +319,10 @@ Page({
     let zcode = user.zcode; //客户端id号
     let token = user.token;
     let product = this.data.product;
-    if (self.data.danke) {
+    if (self.data.danke==true) {
       //购买单课
       var id = self.data.id;
+      console.log("action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1")
       app.post(API_URL, "action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1", true, false, "购买中").then((res) => {
         wx.showToast({
           title: '购买成功',
@@ -344,6 +346,7 @@ Page({
 
       var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
 
+      console.log("action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id)
 
       app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
 

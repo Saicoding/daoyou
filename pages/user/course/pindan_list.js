@@ -43,7 +43,7 @@ Page({
       zcode = user.zcode;
     } else {
       wx.navigateTo({
-        url: '/login/login',
+        url: '/pages/login/login',
       })
     }
     let that = this;
@@ -168,11 +168,13 @@ Page({
       this.setData({
         ifShare: true
       });
+      var userid = user.zcode;
       var img = '/images/avatar.png';
       if (user.Pic) { img = user.Pic }
+      console.log('/pages/learn/pindan?tuan_id=' + this.data.tuan_id + '&img=' + img)
       return {
         title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
-        path: '/pages/learn/pindan?tuan_id=' + this.data.tuan_id + '&img=' + img,
+        path: '/pages/learn/pindan?tuan_id=' + this.data.tuan_id + '&img=' + img + '&userid=' + userid,
         imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
       }
     }else{

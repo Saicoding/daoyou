@@ -1,8 +1,21 @@
 <!--pages/index/xuexijihua/xuexijihua.wxml-->
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
 
-<view hidden="{{!loaded}}" class="content">
-
+<view hidden="{{!loaded}}" class="content" style='padding-bottom:300rpx'>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (1).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (2).jpg" bindtap='video_show' mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (3).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (4).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (5).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (6).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (7).jpg" mode='widthFix'></image>
+  <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (8).jpg" mode='widthFix'></image>
+  <view class='bg' hidden='{{!video_show}}' bindtap='video_hide'></view>
+  <video hidden='{{!video_show}}'
+    id="myVideo"
+    src="http://www.chinaplat.com/html/yse/daoyounew/daoyou.mp4"
+    controls
+  ></video>
   <!-- <web-view src="{{web[0]}}" class='web-view'></web-view> -->
 
   <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html" class='web-view' style='height:{{webheight}}px'></web-view> -->

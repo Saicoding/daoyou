@@ -9,10 +9,11 @@ Page({
   data: {
     loaded: false,
     ifShare: false,//是否分享
-    mine:true,//此页面是否是自己分享的
+    mine: false,//此页面是否是自己分享的
     img: "",//分享出去的头像，只有被点击才存在
     user:"",//判断是否登录
     tuan_id: "",
+    userid:"",
     video: "",
     maxtime: "",
     endtime:0,
@@ -36,28 +37,32 @@ Page({
     wx.setNavigationBarTitle({ //设置标题
       title: '全陪套餐拼单中……',
     })
-    //let tuan_id = options.tuan_id;
-    let tuan_id = 23;
+    
+    let tuan_id = options.tuan_id;
     if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
     let img = options.img; //分享出去的头像，只有被点击才存在
-    if(img){
-      this.setData({
-        mine:false,
-        img:img
-      })
-
-    }
+    if (img) { img = img } else { img = "" }
+    let userid = options.userid;
+    
+    
     var user = wx.getStorageSync("user");
     var token = "";
     var zcode = "";
     if (user) {
       this.setData({
-        user: user,
-        tuan_id: tuan_id
+        user: user
       })
       token = user.token;
       zcode = user.zcode;
     }
+    let mine = false;
+    if (userid == zcode) { mine == true }
+    this.setData({
+      mine: false,
+      img: img,
+      tuan_id: tuan_id,
+      userid: userid
+    })
     let that = this;
     app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
 
@@ -135,13 +140,15 @@ Page({
 
   pindan:function(){
     var user= wx.getStorageSync("user");
+   
     if(user){
       wx.navigateTo({
-        url: 'pay?tuan_id=' + tuan_id,
+      
+        url: '/pages/learn/pay?tuan_id=' + this.data.tuan_id + '&danke=false&title=' + this.data.title + '&money_zong=' + this.data.price_tuan + '&product=豪华套餐'
       })
     }else{
       wx.navigateTo({
-        url: '/login/login',
+        url: '/pages/login/login',
       })
 
     }
@@ -198,6 +205,8 @@ Page({
    */
   onShareAppMessage: function () {
     var user = wx.getStorageSync("user");
+    var tuan_id = this.data.tuan_id;
+    var userid = user.zcode;
     if (user) {
       this.setData({
         ifShare: true
@@ -206,7 +215,7 @@ Page({
       if (user.Pic) { img = user.Pic}
     return {
       title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
-      path: '/pages/learn/pindan?tuan_id=' + tuan_id + '&img=' + img,
+      path: '/pages/learn/pindan?tuan_id=' + tuan_id + '&img=' + img + '&userid=' + userid,
       imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
       }
     } else {

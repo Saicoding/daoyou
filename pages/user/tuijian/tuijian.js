@@ -8,7 +8,7 @@ Page({
    */
   data: {
     isLoaded: false,
-    list:""
+    list:[]
   },
 
   /**
@@ -31,12 +31,12 @@ Page({
    */
   onShow: function () {
     var that = this;
-    app.post(API_URL, "action=getTuijianXCX", false, false, "", "", "", self).then(res => {
-      
-      var list = res.data.data[0];
-      if (list.length == undefined) {
-        list = [list]
-      }
+    app.post(API_URL, "action=getTuijianXCX&appid=wx274bc5c5c5ce0434", false, false, "", "", "", self).then(res => {
+      // console.log(res.data.data[0].length)
+      var list = res.data.data;
+      // if (list.length == undefined) {
+      //   list = [list]
+      // }
       that.setData({
         list: list,
         isLoaded: true
@@ -79,10 +79,17 @@ Page({
   onShareAppMessage: function () {
 
   },
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+    wx.previewImage({
+      current: current,
+      urls: [current]
+    })
+  },
   toapp: function (e) {
-
+    var appId = e.currentTarget.dataset.id
     wx.navigateToMiniProgram({
-      appId: '',
+      appId: appId,
       path: '',
       extraData: {},
       envVersion: 'develop',

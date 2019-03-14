@@ -28,9 +28,7 @@ Page({
     isWifi: true, //默认有wifi
     lastType: "first",
     product: 'option',
-    pl: "",
-    page_all: '2',
-    page_now: '1',
+    pl: [],
     text: "",
 
     beisuP: "", //全屏倍速样式
@@ -40,6 +38,9 @@ Page({
     currentTime: 0, //当前播放时间
     autoplay: true, //默认自动播放
     showBeisu: false, //是否显示倍速
+    loadingMore: false, //是否在加载更多
+    loadingText: "", //上拉载入更多的文字
+    showLoadingGif: false, //是否显示刷新gif图
   },
   /**
    * 生命周期函数--监听页面加载
@@ -161,7 +162,7 @@ Page({
 
         let buy = res.data.data[0].buy; //是否已经开通
         let kc_money = res.data.data[0].money; //价格 
-        let info = res.data.data[0].kc_info ? res.data.data[0].kc_info:'';//课程信息
+        let info = res.data.data[0].kc_info ? res.data.data[0].kc_info : ''; //课程信息
 
         self.initfiles(files, px)
         self.setData({
@@ -180,9 +181,6 @@ Page({
 
       })
 
-
-      //获取评论列表
-      self.getPL();
     } else {
       wx.navigateTo({
         url: '/pages/login/login?showToast=true&title=您还没有登录',
@@ -193,28 +191,70 @@ Page({
 
 
   getPL: function() {
+    let self = this;
+    let kcid = this.data.kcid;
+    let pl = this.data.pl;
+
     //获取评论列表
-    if (this.data.page_now < this.data.page_all) {
-      var self = this;
+    let page_all = this.data.page_all ? this.data.page_all : 1000; //如果有page_all说明已经请求过,如果没有,说明第一次，默认为1000
+    let page_now = this.data.page_now ? this.data.page_now : 0; //当前页默认为0
 
-      app.post(API_URL, "action=getCoursePL&cid=" + this.data.kcid + "&page=" + this.data.page_now, false, false, "", "").then((res) => {
-        var page_all = res.data.data[0].page_all;
-        var page_now = res.data.data[0].page_now;
-        if (page_all == 0) {
-          page_all = 2
-        }
-        if (page_now > page_all) {
-          page_all = page_now
-        }
+    self.setData({
+      loadingMore: true
+    })
 
+    console.log("action=getCoursePL&cid=" + kcid + "&page=" + page_now)
+    app.post(API_URL, "action=getCoursePL&cid=" + kcid + "&page=" + page_now + 1, false, false, "", "").then((res) => {
+      console.log(res)
+      var page_all = res.data.data[0].page_all;
+      var page_now = res.data.data[0].page_now;
+      let newpl = res.data.data[0].pllist;
+
+      pl = pl.concat(newpl); //连接数组
+
+      let info = "";
+
+      page_now = page_all == 0?0:page_now;//如果当前页总数为0,那么就把当前页设为0
+
+      if (!self.data.plfirst) { //如果第一次载入
         self.setData({
           page_all: page_all,
           page_now: page_now,
-          pl: res.data.data[0].pllist
+          loadingMore: false,
+          plfirst: true,
+          pl: pl,
         })
 
-      })
-    }
+        if (page_now == page_all) { //说明已经最后一页
+          self.setData({
+            plAllDone: true,
+            loadingText: "别扯了,我是有底线的..."
+          })
+        }
+      } else { //如果第N次载入
+        self.setData({
+          showLoadingGif: false,
+          loadingText: "载入完成"
+        })
+
+        setTimeout(function() {
+          self.setData({
+            page_all: page_all,
+            page_now: page_now,
+            loadingMore: false,
+            pl: pl,
+            loadingText: ""
+          })
+
+          if (page_now == page_all) { //说明已经最后一页
+            self.setData({
+              plAllDone: true,
+              loadingText: "别扯了,我是有底线的..."
+            })
+          }
+        }, 200)
+      }
+    })
   },
 
   /**
@@ -234,31 +274,46 @@ Page({
   sendMessage: function() {
     buttonClicked = false;
     let self = this;
+    let pl = self.data.pl;
+
+    if (self.data.text == '') {
+      wx.showToast({
+        title: '评论内容不能为空',
+      })
+      return
+    }
 
     let user = wx.getStorageSync('user');
-
     if (user) {
+      let content = self.data.text;
+      // 本地先更新
+      let obj = {};
+      obj.hf = "";
+      obj.nickname = user.Nickname;
+      obj.pc_content = content;
+      obj.pl_time = "刚刚";
+      obj.userimg = user.Pic;
+
+      pl.unshift(obj);
+
+      self.setData({
+        pl: pl,
+        text: '',
+        value: '',
+        scrollTop:0
+      })
+
       let zcode = user.zcode;
       let token = user.token;
       let kcid = self.data.kcid;
-      let content = self.data.text;
-      app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
 
-        self.setData({
-          text: '',
-          value:''
-        })
-        self.getPL();
-        wx.pageScrollTo({
-          scrollTop: 0
-        })
+      app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
+        console.log('保存评论成功')
       })
     } else {
       wx.navigateTo({
         url: '../login/login',
       })
-
-
     }
   },
 
@@ -357,8 +412,7 @@ Page({
       wx.setStorage({
         key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
         data: playTime,
-        success: function() {
-        },
+        success: function() {},
         fail: function() {
           console.log('存储失败')
         }
@@ -371,8 +425,8 @@ Page({
         },
       })
 
-      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag , false, true, "").then((res) => {
-        console.log('改变视频' + flag + "playTime= "+ playTime +'id=' + videoID)
+      app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+        console.log('改变视频' + flag + "playTime= " + playTime + 'id=' + videoID)
       })
     }
     //videoID 缓存的视频id
@@ -436,6 +490,7 @@ Page({
       })
       return;
     }
+
     console.log('播放')
     this.setData({
       isPlaying: true,
@@ -548,7 +603,7 @@ Page({
 
 
       app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
-        console.log('结束' + flag + "playTime=" + playTime+ 'id=' + videoID)
+        console.log('结束' + flag + "playTime=" + playTime + 'id=' + videoID)
       })
     }
 
@@ -661,7 +716,6 @@ Page({
 
     }
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -673,7 +727,7 @@ Page({
       let options = self.data.options;
       let px = self.data.px;
       let files = self.data.files; //当前所有视频
-      let lastVideo = files[px];
+      let lastVideo = files[px-1];
 
       let flag = 1; //判断是否看完;
       let videoID = lastVideo.orderid;
@@ -764,9 +818,9 @@ Page({
     }
   },
 
-  onPageScroll: function(e) {
+  scroll: function(e) {
     let windowWidth = this.data.windowWidth;
-    let scrollTop = e.scrollTop * 750 / windowWidth;
+    let scrollTop = e.detail.scrollTop * 750 / windowWidth;
     let lastScroll = this.data.lastScroll;
     //防止多次setData，这里只有在有变化时才去设置
     if (scrollTop > 422 && lastScroll <= 422) {
@@ -807,6 +861,10 @@ Page({
       scrollTop: 0
     })
   },
+
+  /**
+   * 改变目录
+   */
   changeOption: function(e) {
     let self = this;
     let currentProduct = self.data.product; //当前种类
@@ -819,8 +877,11 @@ Page({
       moveData = animate.moveX(easeOutAnimation, -250 * (windowWidth / 750));
     } else if (product == "option") {
       moveData = animate.moveX(easeOutAnimation, 0);
-    } else {
+    } else { //课程评价
       moveData = animate.moveX(easeOutAnimation, 250 * (windowWidth / 750));
+      if (!this.data.plfirst) { //如果还没获取评论过
+        self.getPL();
+      }
     }
 
     self.setData({
@@ -839,9 +900,29 @@ Page({
   },
 
   /**
+   * 滚动条滑动到底
+   */
+  scrolltolower: function() {
+    let self = this;
+    let loadingMore = self.data.loadingMore;
+    console.log(loadingMore)
+    if (loadingMore || self.data.plAllDone || self.data.page_all == 0) return; //如果还在载入中或者都载入完成或者没有评论,就不继续执行
+
+    let product = this.data.product;
+
+    if (product == 'pingjia') { //如果是评价目录下的滚床单到底事件
+      self.setData({ //正在载入
+        showLoadingGif: true,
+        loadingText: "载入更多资讯 ..."
+      })
+      self.getPL();
+    }
+  },
+
+  /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 
