@@ -11,7 +11,7 @@
     <view class="right-block">
       <!-- 标题 -->
       <view class="title f14">{{title}}</view>
-      <view class='hong'>￥{{price_tuan/100-50}}
+      <view class='hong'>￥{{price_tuan/100}}
         <text class='f12 hui'> 拼单省50元</text>
       </view>
       
@@ -27,7 +27,7 @@
   <view class="up">
    
     <!-- 头像 -->
-    <view class="up-avatar" wx:if="{{mine==true}}">
+    <view class="up-avatar" wx:if="{{mine=='true'}}">
       <view>
         <image class="up-avatar-pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}"></image>
         <view class="up-avatar-text">拼主</view>
@@ -36,13 +36,13 @@
         <image src="/images/wenhao.png" class="up-avatar-pic"></image>
       </view>
     </view>
-    <view class="up-avatar" wx:if="{{mine==false}}">
+    <view class="up-avatar" wx:if="{{mine=='false'}}">
       <view>
         <image class="up-avatar-pic" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
         <view class="up-avatar-text">拼主</view>
       </view>
       <view style="margin-left:30rpx;">
-        <image  src="{{user?user.Pic:'/images/wenhao.png'}}" class="up-avatar-pic"></image>
+        <image  src="/images/wenhao.png" class="up-avatar-pic"></image>
       </view>
     </view>
     <view class="up-text">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>

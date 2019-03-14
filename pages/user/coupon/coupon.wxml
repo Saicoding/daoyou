@@ -3,13 +3,13 @@
 <view wx:if="{{loaded}}" class="content">
 
 <view class='rel' wx:if="{{user.YHQ==1}}">
-<image src='/images/user/youhuiquanbeijing.jpg' style='width:100%; max-height:320rpx' class='{{guoqi?"heibai":""}}' mode='widthFix'></image>
+<image src='/images/user/youhuiquanbeijing.jpg' style='width:100%; max-height:320rpx' class='{{guoqi== "true"?"heibai":""}}'  mode='widthFix'></image>
 <view class='abs' style='top:12%; left:4%; width:92%'>
 <view><text style='font-size:30px;font-weight: bold'>100</text><text class='f16'> 元</text> (解锁题库赠送)</view>
 <view><text style='width:4.5em;display: inline-block'>有效期：</text>{{user.yhq_time}} 至</view>
 <view style='line-height:30rpx'><text style='width:4.5em;display: inline-block'></text>{{time2}}</view>
-<view class='abs' style='top:50rpx; right:0;' wx:if="{{!guoqi}}">去使用 ></view>
-<view class='abs' style='top:50rpx; right:0;' wx:if="{{guoqi}}">已过期 ></view>
+<view class='abs' style='top:50rpx; right:0;' wx:if="{{guoqi== 'false'}}">去使用 ></view>
+<view class='abs' style='top:50rpx; right:0;' wx:if="{{guoqi=='true'}}">已过期 ></view>
 </view>
 <view class='abs' style='bottom:6px; left:4%; color:#222'>[全陪学习计划]课程套餐专用券</view>
 </view>

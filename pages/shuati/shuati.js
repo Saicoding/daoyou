@@ -102,8 +102,8 @@ Page({
     // 获取章节列表
     if (currentMidIndex == 0) { //默认目录是章节列表时才去请求
       app.post(API_URL, "action=getKeMuTestType&types=" + types + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
-          
-        
+
+
         let zhangjies = res.data.data;
 
         self.initZhangjie(zhangjies); //初始化章节信息
@@ -119,15 +119,15 @@ Page({
           isLoaded: true
         })
 
-        if (change) {//自动定位
+        if (change) { //自动定位
           let zhangIdx = change.zhangIdx; //当前章index
           let jieIdx = change.jieIdx; //当前节index
           let windowWidth = self.data.windowWidth;
-          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750);//滚动条的位置
+          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750); //滚动条的位置
 
           wx.pageScrollTo({
             scrollTop: scroll,
-            success: function (res) {
+            success: function(res) {
 
               zhangjies[zhangIdx].list[jieIdx].selected = true;
               self.setData({
@@ -156,15 +156,15 @@ Page({
           zhangjies: zhangjies
         })
 
-        if (change) {//自动定位
+        if (change) { //自动定位
           let zhangIdx = change.zhangIdx; //当前章index
           let jieIdx = change.jieIdx; //当前节index
           let windowWidth = self.data.windowWidth;
-          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750);//滚动条的位置
+          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750); //滚动条的位置
 
           wx.pageScrollTo({
             scrollTop: scroll,
-            success: function (res) {
+            success: function(res) {
 
               zhangjies[zhangIdx].list[jieIdx].selected = true;
               self.setData({
@@ -263,7 +263,7 @@ Page({
       }
 
       zhangjie.rateWidth = 470 * zhangjie.donenum / parseInt(zhangjie.all_num); //绿条宽度
-      zhangjie.rate = (zhangjie.donenum / parseInt(zhangjie.all_num)*100).toFixed(2);//完成比例
+      zhangjie.rate = (zhangjie.donenum / parseInt(zhangjie.all_num) * 100).toFixed(2); //完成比例
       zhangjie.rightrate = zhangjie.donenum == 0 ? '0.00' : ((zhangjie.rightNum / zhangjie.donenum) * 100).toFixed(2);
     }
 
@@ -351,6 +351,10 @@ Page({
       })
     } else { //如果已被污染
       let change = wx.getStorageSync('change' + zcode);
+      console.log(user)
+      self.setData({
+        user:user
+      })
       if (change) { //如果有更新数据
         self.setData({
           currentIndex: parseInt(change.currentIndex),
@@ -391,7 +395,7 @@ Page({
           })
 
 
-          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750);//滚动条的位置
+          let scroll = (zhangIdx * 130 + 600) * (windowWidth / 750); //滚动条的位置
 
           wx.pageScrollTo({
             scrollTop: scroll,
@@ -625,6 +629,7 @@ Page({
    * 展示模拟真题答题弹窗
    */
   showModelanswerModel: function(e) {
+    let user = wx.getStorageSync('user');
     let buy = e.currentTarget.dataset.buy;
     let title = e.currentTarget.dataset.title;
     let id = e.currentTarget.dataset.id;
@@ -656,7 +661,13 @@ Page({
         id: id
       })
     } else { //不免费
+      if(user){
       this.jiesuoti.showDialog();
+      }else{
+        wx.navigateTo({
+          url: '/pages/login/login?showToast=true&title=您还没有登录',
+        })
+      }
     }
   },
 
@@ -672,7 +683,7 @@ Page({
     let f_id = e.currentTarget.dataset.f_id; //章节id
     let zhangIdx = e.currentTarget.dataset.zhangidx; //章的idx
     let jieIdx = e.currentTarget.dataset.jieidx; //章的idx
-    let videoid = e.currentTarget.dataset.videoid;//教程id
+    let videoid = e.currentTarget.dataset.videoid; //教程id
 
     let currentIndex = this.data.currentIndex;
     let modelIndex = this.goAnswerModel.data.currentIndex;
@@ -792,7 +803,7 @@ Page({
     let types = this.getkemuIDByindex(currentIndex); //科目ID
     let f_id = e.detail.f_id; //章节id
     let all_nums = e.detail.all_nums; //点击章节的题数
-    let videoid = e.detail.videoid;//教程id
+    let videoid = e.detail.videoid; //教程id
     let num_dan = e.detail.num_dan; //单选题数量
     let num_duo = e.detail.num_duo; //多选题数量
     let num_pan = e.detail.num_pan; //判断题数量
@@ -813,7 +824,7 @@ Page({
     }
 
     wx.navigateTo({
-      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex + "&zhangIdx=" + zhangIdx + "&jieIdx=" + jieIdx+"&videoid="+videoid,
+      url: '/pages/shuati/zuoti/zuoti?leibie=' + currentSelectIndex + "&selected=" + selected + "&title=" + title + "&f_id=" + f_id + "&types=" + types + "&all_nums=" + all_nums + "&donenum=" + donenum + "&num_dan=" + num_dan + "&num_duo=" + num_duo + "&num_pan=" + num_pan + "&currentIndex=" + currentIndex + "&currentMidIndex=" + currentMidIndex + "&zhangIdx=" + zhangIdx + "&jieIdx=" + jieIdx + "&videoid=" + videoid,
     })
   },
 
@@ -870,7 +881,7 @@ Page({
   /**
    * 导航到学习计划
    */
-  GOxuexijihua:function(){
+  GOxuexijihua: function() {
     wx.navigateTo({
       url: '/pages/index/xuexijihua/xuexijihua',
     })
@@ -910,21 +921,22 @@ Page({
     }
   },
   /**
- * 购买解析包
- */
-  _buy: function (e) {
+   * 购买解析包
+   */
+  _buy: function(e) {
+
     this.jiesuoti.hideDialog();
     let product = e.detail.product;
-
     wx.navigateTo({
-      url: '/pages/shuati/pay/pay?product='+product+'&page=shuati',
+      url: '/pages/shuati/pay/pay?product=' + product + '&page=shuati',
     })
+
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

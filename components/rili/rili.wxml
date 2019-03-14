@@ -16,7 +16,7 @@
       <span style="color:#4cd32b;">{{ksDate}}</span> 天</view>
 
     <view class="headpics">
-      <image class="headpics-icon" src="{{headPic}}" wx:for="{{SignHeadImgs}}" wx:for-item="headPic" >
+      <image class="headpics-icon" src="{{headPic}}" wx:for="{{SignHeadImgs}}" wx:for-item="headPic" wx:key= "h">
       </image>
     </view>
 

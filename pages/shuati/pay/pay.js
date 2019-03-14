@@ -23,52 +23,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    let product = options.product == '60' ? '题库-60' : '题库-108';
-    let money_zong = options.product == '60' ? 60 : 108;
-    let xuqiu = money_zong;
-    let title = options.product == '60' ? '解析包套餐' : '全题库解锁套餐'
-    let page = options.page ? options.page:'';
-
-    wx.setNavigationBarTitle({ //设置标题
-      title: '支付',
-    })
-
-    let mymoney = 0;
-    let mymoney2 = "0";
-    //判断账户余额
-    var user = wx.getStorageSync("user");
-    if (user) {
-      mymoney = user.Money * 1;
-      if (mymoney >= money_zong) {//如果零钱大于需要金额
-        mymoney2 = "-" + money_zong;
-        money_zong = 0
-      } else {//如果零钱小于需要金额
-        mymoney2 = "-" + mymoney;
-        money_zong = money_zong - mymoney;
-      }
-    } else {
-      wx.navigateTo({
-        url: '../login/login',
-      })
-
-    }
-
-    if (money_zong < 0) {
-      money_zong = 0
-    }
-
-    money_zong = Number(money_zong).toFixed(2);
-
     this.setData({
-      mymoney: mymoney,
-      mymoney2: mymoney2,
-      youhuiquan: "0",
-      product: product,
-      money_zong: money_zong,
-      page: page,
-      xuqiu: xuqiu
+      options: options
     })
-
   },
 
   dateAdd: function(startDate) {
@@ -194,9 +151,69 @@ Page({
   },
 
   /**
+   * 导航到学习计划
+   */
+  GOxuexijihua:function(){
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let self = this;
+    let options = self.data.options;
+    let product = options.product == '60' ? '题库-60' : '题库-108';
+    let money_zong = options.product == '60' ? 60 : 108;
+    let xuqiu = money_zong;
+    let title = options.product == '60' ? '解析包套餐' : '全题库解锁套餐'
+    let page = options.page ? options.page : '';
+
+    wx.setNavigationBarTitle({ //设置标题
+      title: '支付',
+    })
+
+    let mymoney = 0;
+    let mymoney2 = "0";
+    //判断账户余额
+    var user = wx.getStorageSync("user");
+    console.log(user)
+    if (user) {
+      mymoney = user.Money * 1;
+      console.log(user)
+      console.log(mymoney)
+      if (mymoney >= money_zong) {//如果零钱大于需要金额
+        mymoney2 = "-" + money_zong;
+        money_zong = 0
+      } else {//如果零钱小于需要金额
+        mymoney2 = "-" + mymoney;
+        money_zong = money_zong - mymoney;
+      }
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+
+    }
+
+    if (money_zong < 0) {
+      money_zong = 0
+    }
+
+    money_zong = Number(money_zong).toFixed(2);
+
+    this.setData({
+      mymoney: mymoney,
+      mymoney2: mymoney2,
+      youhuiquan: "0",
+      product: product,
+      money_zong: money_zong,
+      page: page,
+      xuqiu: xuqiu,
+      title: title
+    })
 
   },
 

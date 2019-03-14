@@ -68,28 +68,44 @@ Component({
 
       app.post(API_URL, "action=QianDao&zcode=" + zcode + "&token=" + token, false, false, "", "", false, self).then(res => {
         let result = res.data.data[0];
-        console.log(result)
         let SignDays = result.SignDays;//连续签到
         let SignHeadImgs = result.SignHeadImg ? result.SignHeadImg :'/images/avatar.png';
         let SignNums = result.SignNums?result.SignNums:1;
         let SendJifen = result.SendJifen;
         let SignTotalDays = result.SignTotalDays;
         let current = SignDays - 3 <= 0 ? 0 : SignDays - 3;
-
+        console.log(result)
         self.setQiandao(SignDays);
-
+        console.log(user)
         if (SendJifen) {
           let myDate = new Date(); //获取系统当前时间
           let year = myDate.getFullYear();
           let month = myDate.getMonth() + 1;
           let day = myDate.getDate();
           let interval = that.data.interval;
+
+          if (SignDays * 1 == 7) {
+            SendJifen = SendJifen*1 + 100;
+          } else if (SignDays * 1 == 15) {
+            SendJifen = SendJifen * 1 + 200;
+          } else if (SignDays * 1 == 30) {
+            SendJifen = SendJifen * 1 + 500;
+          }
+
+          user.Jifen = (user.Jifen * 1 + SendJifen*1)+"";//更新积分
+
+          console.log('当前积分为' + user.Jifen)
          
           clearInterval(interval);
 
           myDate = "" + year + month + day; //得到当前答题字符串
 
           wx.setStorageSync("todayDaka"+zcode, myDate);
+
+          wx.setStorage({
+            key: 'user',
+            data: user,
+          })
 
           this.daka = this.selectComponent("#daka");
           this.daka.setData({

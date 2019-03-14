@@ -1,7 +1,8 @@
 
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"/>
+<image wx:if="{{loaded&&kong=='kong'}}" class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit"/>
+<view wx:if="{{loaded&&kong==''}}" class="content">
 
-<view wx:if="{{loaded}}" class="content">
   <view class='bbg' wx:if="{{guoqi==true||pin_img!=''}}"></view>
 
   <view class='tar bgfff' wx:if="{{pin_img==''&&guoqi==false}}">
@@ -37,10 +38,11 @@
     <text class='f12 hui'>（免运费）</text>
   </view>
   <view class='tar bgfff'>
-    <image class="block-icon1 fl" src="{{list.tuanzhuImg?list.tuanzhuImg:'/images/avatar.png'}}"></image>
-    <view class="block-icon2-container fl" style="border:1rpx dashed rgb(187, 187, 187);">
-      <image class="block-icon2" src="{{pin_img?pin_img:'/images/wenhao.png'}}"></image>
+    <image class="block-icon1 fl" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
+    <view wx:if="{{!pin_img}}" class="block-icon2-container fl" style="border:1rpx dashed rgb(187, 187, 187);">
+      <image class="block-icon2" src="/images/wenhao.png"></image>
     </view>
+    <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}" ></image>
 
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单

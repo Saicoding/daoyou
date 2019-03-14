@@ -28,7 +28,8 @@ Page({
     mymoney: "0",
     youhuiquan: "0",
     money_zong: "0",
-    guoqi: false,
+   
+    guoqi: 'true', //默认已过期
     tuan_id: "" //团购id 发起时没有
   },
   /**
@@ -49,7 +50,7 @@ Page({
     var tuan_id = ""; //团购id 发起时没有
     title = options.title;
     //购买单课
-    if (danke==true) {
+    if (danke=='true') {
       id = options.id;
       keshi = options.keshi;
       teacher = options.teacher;
@@ -74,6 +75,7 @@ Page({
     }
 
     var money_zong = Number(options.money_zong);
+    
     var mymoney = 0;
     var mymoney2 = 0;
     var youhuiquan = 0;
@@ -99,11 +101,11 @@ Page({
     }
 
     //判断优惠券是否存在、是否过期
-    var guoqi = false;
+    var guoqi = 'true';
     if (user.YHQ == 1) {
       var time2 = this.dateAdd(user.yhq_time);
-      if (new Date(time2) < new Date()) {
-        guoqi = true;
+      if (new Date(time2) > new Date()) {
+        guoqi = 'false';
       } else {
         if (money_zong != 0) {
           money_zong = money_zong - 100
@@ -125,8 +127,9 @@ Page({
       youhuiquan: "0",
       guoqi: guoqi,
       money_zong: money_zong
+   
     })
-    if (danke==false) {
+    if (danke=='false') {
       this.setData({
         product: product
       })
@@ -253,62 +256,64 @@ Page({
     let token = user.token;
     let product = this.data.product;
     let money_zong = this.data.money_zong;
-    if (self.data.danke == false && self.data.dizhiok == false) {
+    console.log(self.data.danke +","+self.data.dizhiok)
+    if (self.data.danke=='false' && self.data.dizhiok == false) {
       wx.showToast({
         title: '请填写收货地址',
         icon: 'none',
         duration: 2000
       })
-      return;
-    }
+     
+    }else{
 
-    if (money_zong > 0) {
-      // 登录
-      wx.login({
-        success: res => {
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-          code = res.code;
-          app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
-            let openid = res.data.data[0].openid;
-            console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong)
-            app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
-              console.log(res)
-              let status = res.data.status;
+      if (money_zong > 0) {
+        // 登录
+        wx.login({
+          success: res => {
+            // 发送 res.code 到后台换取 openId, sessionKey, unionId
+            code = res.code;
+            app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+              let openid = res.data.data[0].openid;
+              console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong)
+              app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
+                console.log(res)
+                let status = res.data.status;
 
-              if (status == 1) {
-                let timestamp = Date.parse(new Date());
-                timestamp = timestamp / 1000;
-                timestamp = timestamp.toString();
-                let nonceStr = "TEST";
-                let prepay_id = res.data.data[0].prepay_id;
-                let appId = "wx274bc5c5c5ce0434";
-                let myPackage = "prepay_id=" + prepay_id;
-                let key = "e625b97ae82c3622af5f5a56d1118825";
+                if (status == 1) {
+                  let timestamp = Date.parse(new Date());
+                  timestamp = timestamp / 1000;
+                  timestamp = timestamp.toString();
+                  let nonceStr = "TEST";
+                  let prepay_id = res.data.data[0].prepay_id;
+                  let appId = "wx274bc5c5c5ce0434";
+                  let myPackage = "prepay_id=" + prepay_id;
+                  let key = "e625b97ae82c3622af5f5a56d1118825";
 
-                let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-                let paySign = md5.md5(str).toUpperCase();
+                  let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
+                  let paySign = md5.md5(str).toUpperCase();
 
-                let myObject = {
-                  'timeStamp': timestamp,
-                  'nonceStr': nonceStr,
-                  'package': myPackage,
-                  'paySign': paySign,
-                  'signType': "MD5",
-                  success: function(res) {
-                    if (res.errMsg == "requestPayment:ok") { //成功付款后
-                      self.goumai();
-                    }
-                  },
-                  fail: function(res) {}
+                  let myObject = {
+                    'timeStamp': timestamp,
+                    'nonceStr': nonceStr,
+                    'package': myPackage,
+                    'paySign': paySign,
+                    'signType': "MD5",
+                    success: function(res) {
+                      if (res.errMsg == "requestPayment:ok") { //成功付款后
+                        self.goumai();
+                      }
+                    },
+                    fail: function(res) {}
+                  }
+                  wx.requestPayment(myObject)
                 }
-                wx.requestPayment(myObject)
-              }
+              })
             })
-          })
-        }
-      })
-    } else {
-      self.goumai();
+          }
+        })
+      } else {
+        self.goumai();
+      }
     }
   },
 
@@ -319,7 +324,7 @@ Page({
     let zcode = user.zcode; //客户端id号
     let token = user.token;
     let product = this.data.product;
-    if (self.data.danke==true) {
+    if (self.data.danke=='true') {
       //购买单课
       var id = self.data.id;
       console.log("action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1")
@@ -343,20 +348,35 @@ Page({
       })
     } else {
       //发起拼单
-
+      console.log(this.data.dizhiok)
+      if (this.data.dizhiok == false) {
+        wx.showToast({
+          title: '请填写收货信息',
+          icon: 'none',
+          duration: 3000
+        })
+        return false;
+      }else{
       var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
 
-      console.log("action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id)
-
       app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
-
+        
+        wx.setStorage({
+          key: 'user',
+          data: {
+            Money: res.data.data[0].yue,
+            YHQ:0,
+            TKflag:1
+          },
+        })
         if (self.data.tuan_id != "") {
           wx.navigateTo({ //拼单完成自动购买 进入我的课程
-            url: "/user/course/list"
+            url: "/pages/user/course/list"
           });
         } else {
+
           wx.navigateTo({ //进入拼单页
-            url: "pindan?tuan_id=" + res.data.data[0].tuan_id
+            url: "pindan?tuan_id=" + res.data.data[0].tuan_id +"&userid=false&img=false"
           });
         }
 
@@ -365,31 +385,8 @@ Page({
 
 
 
-      //购买套餐  先注释，拼单成功再购买
-      // app.post(API_URL, "action=buyCourseBao&token=" + token + "&zcode=" + zcode + "&types=" + product + "&jiaocai=1", true, false, "购买中").then((res) => {
-
-      //   wx.showToast({
-      //     title: '购买成功',
-      //     icon: 'none',
-      //     duration: 3000
-      //   })
-      //   wx.setStorage({
-      //     key: 'user',
-      //     data: { Money: res.data.data[0].xuebi }
-      //   })
-      //   if (product =="豪华套餐"){
-      //     wx.navigateBack({});
-
-      //   }else{
-      //     //进入我的课程页
-      //     wx.navigateTo({
-      //       url: '../user/course/list',
-      //     })
-
-      //   }
-      // })
     }
-
+    }
   },
   youhuiquan: function() {
     wx.navigateTo({

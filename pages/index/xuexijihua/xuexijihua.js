@@ -18,7 +18,7 @@ Page({
     webind: 0,
     video_show:false,//视频显示与否
     web: [],
-    mine: true, //确认身份
+    
     tuan_id:"", //团购id，如果是好友进来的id存在
     pindan_list:[]
   },
@@ -33,13 +33,7 @@ Page({
     wx.setNavigationBarTitle({ //设置标题
       title: '学习计划',
     });
-    var mine = options.mine;
     
-    if (mine){
-      that.setData({
-        mine: mine
-      })
-    }
     var tuan_id = options.tuan_id;
     if (tuan_id) {
       that.setData({
@@ -244,7 +238,7 @@ Page({
     var tuan_id = e.currentTarget.dataset.id;
     if (tuan_id) { tuan_id = tuan_id } else { tuan_id = this.data.tuan_id}
     if (user) {
-      let buy = this.buyTaocan.data.taocans[0].buy;
+      let buy = user.taocan;
       //登陆并且未购买
       if (buy == 0) {
         let money_zong = this.buyTaocan.data.taocans[0].price_tuan;

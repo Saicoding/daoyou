@@ -33,7 +33,7 @@
 
       <image src='../../images/notice.png' mode='aspectFit'></image>
       <view>我的消息</view>
-      <view class='hongdian abs' wx:if="{{news_num==0}}">{{news_num}}</view>
+      <view class='hongdian abs' wx:if="{{news_num!=0}}">{{news_num}}</view>
     </view>
     <view class='clear'></view>
   </view>
@@ -56,7 +56,8 @@
       <view class='fr'>
         <image src='/images/moreh.png' class='more'></image>
       </view>
-      <view class='hui fr'>100元</view>
+
+      <view class='hui fr' wx:if="{{user.YHQ==1&&guoqi!= 'true'}}">100元</view>
       <view class='clear'></view>
     </view>
   </view>

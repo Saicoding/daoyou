@@ -10,7 +10,7 @@ Page({
     loaded: false,
     user:"",
     time2:"",
-    guoqi: false,
+    guoqi: 'true',
   },
 
   /**
@@ -20,8 +20,8 @@ Page({
     var user = wx.getStorageSync("user");
     var time2 = this.dateAdd(user.yhq_time);
     
-    var guoqi=false;
-    if (new Date(time2) < new Date()) { guoqi=true}
+    var guoqi = 'true';
+    if (new Date(time2) < new Date()) { guoqi = 'true' } else { guoqi = 'false'}
     this.setData({
      user:user,
      time2:time2,

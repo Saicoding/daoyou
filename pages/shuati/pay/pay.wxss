@@ -149,6 +149,10 @@ page {
   z-index: 19;
 }
 
+.select1{
+  background: rgba(199, 199, 199,0.1);
+}
+
 .select2{
   background:#cc0a00;
 }

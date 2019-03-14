@@ -66,9 +66,14 @@ Page({
       if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(user.username)){
         isnum =true;
       }
+      var time2 = this.dateAdd(user.yhq_time);
+
+      var guoqi = 'true';
+      if (new Date(time2) < new Date()) { guoqi = 'true' } else { guoqi = 'false' }
       this.setData({
         user: user,
-        isnum :true
+        isnum :true,
+        guoqi: guoqi
       })
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
@@ -76,13 +81,23 @@ Page({
           news_num: news_num
         })
       })
+
+
     } else {
       wx.navigateTo({
         url: '../login/login',
       })
     }
   },
+  dateAdd: function (startDate) {
+    startDate = new Date(startDate);
+    startDate = +startDate + 3000 * 60 * 60 * 24;
+    startDate = new Date(startDate);
 
+    var nextStartDate = startDate.getFullYear() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getDate() + " " + startDate.getHours() + ":" + startDate.getMinutes() + ":" + startDate.getSeconds();
+    return nextStartDate;
+
+  },
   
   /**
    * 生命周期函数--监听页面隐藏

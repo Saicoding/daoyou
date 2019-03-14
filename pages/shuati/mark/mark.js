@@ -85,6 +85,7 @@ Page({
         let px = 1; //最后一次浏览的题的编号
         app.post(API_URL, "action=getFavoriteShiti&typesid=" + options.types + "&token=" + token + "&zcode=" + zcode + "&page=" + page, false, false, "", "", false, self).then((res) => {
           let result = res.data.data[0];
+          console.log(result)
           let shitiArray = result.list;
           let all_nums = parseInt(result.records_all);
           let beginTimestamp = Date.parse(new Date());

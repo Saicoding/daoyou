@@ -9,7 +9,7 @@ Page({
   data: {
     loaded: false,
     ifShare: false,//是否分享
-    mine: false,//此页面是否是自己分享的
+    mine: 'false',//此页面是否是自己分享的
     img: "",//分享出去的头像，只有被点击才存在
     user:"",//判断是否登录
     tuan_id: "",
@@ -55,10 +55,10 @@ Page({
       token = user.token;
       zcode = user.zcode;
     }
-    let mine = false;
-    if (userid == zcode) { mine == true }
+    let mine = 'false';
+    if (userid == zcode || userid== 'false') { mine == true }
     this.setData({
-      mine: false,
+      mine: mine,
       img: img,
       tuan_id: tuan_id,
       userid: userid

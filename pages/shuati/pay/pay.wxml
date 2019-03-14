@@ -3,29 +3,43 @@
 <view class='topk'>
   <view style='padding:4%'>
     <view class='title b'>{{title}}</view>
-    <view class="text">
-      1.全课程解析解锁,畅享秘籍攻略。
+    <view wx:if="{{title == '解析包套餐'}}">
+      <view class="text">
+        1.全科试题解析解锁。
+      </view>
+      <view class="text">
+        2.两年超长课程解析保质期。
+      </view>
+      <view class="text">
+        3.一次解锁,全程无忧。
+      </view>
     </view>
-    <view class="text">
-      2.两年超长课程解析保质期。
-    </view>
-    <view class="text">
-      3.一次解锁,全程无忧。
+    <view wx:if="{{title == '全题库解锁套餐'}}">
+      <view class="text">
+        1.章节题库解析。
+      </view>
+      <view class="text">
+        2.全真模拟(10套)。
+      </view>
+      <view class="text">
+        3.核心密卷(3套)。
+      </view>
+            <view class="text">
+        4.100元代金券(3套)。
+      </view>
     </view>
   </view>
   <view class='tishi'>
     <image src='/images/index/danger.png'></image>特别提示：
     <view class='f13 hui2'>您购买的套餐为
-      <text class='lv' >解析包 </text>套餐,
+      <text class='lv'>解析包 </text>套餐,
       <text class='lv'>不享受 </text>第二年重学服务，无教材题库赠送，请确认后购买。</view>
   </view>
 
-  <view class='tuijian'>
-    <navigator url='../index/xuexijihua/xuexijihua'>
+  <view class='tuijian' bindtap = "GOxuexijihua" hover-class='select1' hover-stay-time='500'>
       <image src='/images/libao.png'></image>
       <text class='f15'>优惠推荐</text>
       <text style='color:#fb6d0b;margin-left: 5px;' class='f13'>导游考试【全陪学习套餐】劲省320元</text>
-    </navigator>
   </view>
 </view>
 

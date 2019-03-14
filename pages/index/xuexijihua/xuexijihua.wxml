@@ -30,7 +30,7 @@
 
   <!-- 快速参团 //"HeadPic":"http://www.chinaplat.com/user/UserHeadImg/10013.jpg","NickName":"","EndTime":"2019/3/9 17:05:42","Id":"22"-->
   
-  <view wx:if="mine=='false'&&pindan_list!=''" class="block">
+  <view wx:if="{{pindan_list!=''}}" class="block">
     <swiper vertical="true" autoplay="true" interval="5000" duration="200"  >
       <block wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i">
         <swiper-item>

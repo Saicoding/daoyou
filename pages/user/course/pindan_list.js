@@ -9,6 +9,7 @@ Page({
    */
   data: {
     loaded: false,
+    kong:"",
     tuan_id: "",
     user: "",//判断是否登录
     video: "",
@@ -49,17 +50,23 @@ Page({
     let that = this;
     app.post(API_URL, "action=getMyTuangouInfo&token=" + user.token + '&zcode=' + user.zcode, false, false, "", "").then((res) => {
       var list = res.data.data[0];
-      var endtime = Date.parse(new Date(list.endtime)) / 1000;
-      that.setData({
-        tuan_id:list.id,
-        title: list.title,
-        price_tuan: list.money,
-        endtime: endtime,
-        tuanzhuImg: list.tuanzhuImg,
-        pin_img: list.pin_img,
-        loaded: true,
-      });
-      that.time();
+      
+      if(list){
+        var endtime = Date.parse(new Date(list.endtime)) / 1000;
+        that.setData({
+          tuan_id:list.id,
+          title: list.title,
+          price_tuan: list.money,
+          endtime: endtime,
+          tuanzhuImg: list.tuanzhuImg,
+          pin_img: list.pin_img,
+          loaded: true,
+        });
+        that.time();
+      }else{
+        that.setData({ kong: 'kong', loaded: true,});
+
+      }
     });
 
 
@@ -171,7 +178,7 @@ Page({
       var userid = user.zcode;
       var img = '/images/avatar.png';
       if (user.Pic) { img = user.Pic }
-      console.log('/pages/learn/pindan?tuan_id=' + this.data.tuan_id + '&img=' + img)
+      
       return {
         title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
         path: '/pages/learn/pindan?tuan_id=' + this.data.tuan_id + '&img=' + img + '&userid=' + userid,
