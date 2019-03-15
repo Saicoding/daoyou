@@ -26,11 +26,11 @@ RdWXBizDataCrypt.prototype.decryptData = function (encryptedData, iv) {
     
     decryptResult = JSON.parse(bytes);
   } catch (err) {
-    console.log(err)
+  
   }
   
   if (decryptResult.watermark.appid !== this.appId) {
-    console.log(err)
+   
   }
   return decryptResult
 }

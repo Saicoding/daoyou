@@ -79,11 +79,11 @@ Page({
       path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
       imageUrl: '/images/denglu@3x.jpg',
       success: (res) => {
-        console.log('分享成功')
+       
         // 转发成功
       },
       fail: (res) => {
-        console.log('分享失败')
+       
         // 转发失败
       }
     }

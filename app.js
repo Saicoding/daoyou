@@ -45,14 +45,14 @@ App({
           if (status == 1) { //请求成功
             resolve(res);
           } else if (status == -2) { //没有权限
-            console.log(res);
+          
             wx.showToast({
               icon: 'none',
               title: message,
               duration: 3000
             })
           } else if (status == -101) { //没有试题
-            console.log('没有试题')
+           
             self.setData({
               isHasShiti: false,
               isLoaded: true,
@@ -61,7 +61,7 @@ App({
 
           } else if (status == -2010) { //重复登录
             wx.removeStorageSync('user');
-            console.log(message)
+           
             if (self) { //如果传了这个参数
               self.setData({
                 isReLoad: true,
@@ -117,7 +117,6 @@ App({
           } else if (status == -2020) { //绑定的手机号已经存在
             resolve(res);
           }else {
-            console.log(res);
             wx.showToast({
               icon: 'none',
               title: message,

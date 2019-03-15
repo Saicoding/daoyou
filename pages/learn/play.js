@@ -46,7 +46,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
+   
     var kcid = options.kc_id;
 
     this.setData({
@@ -143,7 +143,7 @@ Page({
 
     if (user) {
       app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
-        console.log(res)
+       
         //最后播放视频索引
         let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
         let scroll = lastpx * 100 * windowWidth / 750;
@@ -205,9 +205,9 @@ Page({
       loadingMore: true
     })
 
-    console.log("action=getCoursePL&cid=" + kcid + "&page=" + page_now)
+   
     app.post(API_URL, "action=getCoursePL&cid=" + kcid + "&page=" + page_now + 1, false, false, "", "").then((res) => {
-      console.log(res)
+     
       var page_all = res.data.data[0].page_all;
       var page_now = res.data.data[0].page_now;
       let newpl = res.data.data[0].pllist;
@@ -312,7 +312,7 @@ Page({
       let kcid = self.data.kcid;
 
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
-        console.log('保存评论成功')
+       
       })
     } else {
       wx.navigateTo({
@@ -418,7 +418,7 @@ Page({
         data: playTime,
         success: function() {},
         fail: function() {
-          console.log('存储失败')
+         
         }
       })
 
@@ -430,7 +430,7 @@ Page({
       })
 
       app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
-        console.log('改变视频' + flag + "playTime= " + playTime + 'id=' + videoID)
+       
       })
     }
     //videoID 缓存的视频id
@@ -495,7 +495,7 @@ Page({
       return;
     }
 
-    console.log('播放')
+  
     this.setData({
       isPlaying: true,
     })
@@ -516,7 +516,7 @@ Page({
   end: function(e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
-    console.log(changeVideo)
+  
     if (changeVideo) { //如果点击的视频时结尾状态就暂停
       self.videoContext.stop();
       return; //如果是通过点击更换的video
@@ -591,10 +591,10 @@ Page({
         key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
         data: playTime,
         success: function() {
-          console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
+          
         },
         fail: function() {
-          console.log('存储失败')
+         
         }
       })
 
@@ -607,7 +607,7 @@ Page({
 
 
       app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
-        console.log('结束' + flag + "playTime=" + playTime + 'id=' + videoID)
+      
       })
     }
 
@@ -618,7 +618,7 @@ Page({
    */
   tooglePlay: function() {
     let self = this;
-    console.log('ok')
+
 
     let px = self.data.px; //当前视频编号
     let files = self.data.files; //当前所有视频
@@ -661,7 +661,7 @@ Page({
     })
 
     let lastTimeout = self.data.timeOut;
-    console.log(lastTimeout)
+   
     clearTimeout(lastTimeout);
 
     if (!showBeisu) {
@@ -673,7 +673,7 @@ Page({
         })
       }, 5000)
 
-      console.log(timeOut)
+    
       self.setData({
         timeOut: timeOut
       })
@@ -704,10 +704,10 @@ Page({
           videoID: videoID
         },
         success: function() {
-          console.log('lastVideo' + kcid + user.zcode + "_" + px + "_" + videoID)
+         
         },
         fail: function() {
-          console.log('存储失败')
+         
         }
       })
 
@@ -757,10 +757,10 @@ Page({
             videoID: videoID
           },
           success: function() {
-            console.log('lastVideo' + kcid + zcode + "_" + px + "_" + videoID)
+         
           },
           fail: function() {
-            console.log('存储失败')
+          
           }
         })
 
@@ -769,10 +769,10 @@ Page({
           key: 'kesub' + kcid + "_" + videoID + "_" + zcode,
           data: playTime,
           success: function() {
-            console.log('kesub' + kcid + "_" + videoID + "_" + zcode + "_" + playTime)
+          
           },
           fail: function() {
-            console.log('存储失败')
+          
           }
         })
 
@@ -785,7 +785,7 @@ Page({
         })
 
         app.post(API_URL, "action=savePlayTime&zcode=" + zcode + "&token=" + token + "&videoid=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
-          console.log('页面销毁' + flag + "playTime=" + playTime + 'id=' + videoID)
+       
         })
 
         if (self.data.options.fromIndex == 'true') {
@@ -928,7 +928,7 @@ Page({
   scrolltolower: function() {
     let self = this;
     let loadingMore = self.data.loadingMore;
-    console.log(loadingMore)
+  
     if (loadingMore || self.data.plAllDone || self.data.page_all == 0) return; //如果还在载入中或者都载入完成或者没有评论,就不继续执行
 
     let product = this.data.product;

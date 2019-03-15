@@ -56,7 +56,7 @@ Page({
 
       app.post(API_URL,"action=getMyNoteType&token="+token+"&zcode="+zcode+"&typesid="+typesid,false,false,"","",false,self).then(res=>{
         let notes = res.data.data;//笔记列表
-        console.log(notes)
+      
         let all_nums = self.getNumOfNote(notes)//得到笔记数量
 
         self.setData({

@@ -128,7 +128,7 @@ Page({
         var direction = self.newSlope > self.oldSlope ? 1 : -1 //旋转方向
         //旋转角度，范围{0,90,180,270}
         self.rotate = ((self.rotate + direction * 90) % 360 + 360) % 360
-        console.log('rotate:' + self.rotate)
+      
         self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
         self.ctx.rotate(self.rotate * Math.PI / 180)
         self.ctx.drawImage(self.cropperTarget, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
@@ -219,7 +219,7 @@ var throttle = function (fn, delay, mustRun) {
 }
 
 function drawOnTouchMove(self, e) {
-  console.log('run drawOnTouchMove')
+  
   let { minScale, maxScale } = self.data
   let [touch0, touch1] = e.touches
   let xMove, yMove, newDistance, newSlope

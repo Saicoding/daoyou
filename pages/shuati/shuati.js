@@ -145,7 +145,7 @@ Page({
       let keys = currentMidIndex == 1 ? 0 : 1
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
-        console.log(zhangjies)
+       
         tiku[zhangjieLoadedStr] = zhangjies;
 
         self.setData({
@@ -195,7 +195,7 @@ Page({
               wx.removeStorage({
                 key: key,
                 success: function(res) {
-                  console.log('清除前一天做题数缓存成功')
+              
                 },
               })
             }
@@ -351,7 +351,7 @@ Page({
       })
     } else { //如果已被污染
       let change = wx.getStorageSync('change' + zcode);
-      console.log(user)
+     
       self.setData({
         user:user
       })
@@ -432,6 +432,15 @@ Page({
     let type = e.currentTarget.dataset.type; //切换类型(1.点击科目,2.点击题型)
     let currentIndex = null;
     let currentMidIndex = null;
+   
+    if (!self.data.zhangjieLoadedStrArray){//还没有载入完毕
+      wx.showToast({
+        title: '等待载入...',
+        icon:'none',
+        duration:3000
+      })
+      return
+    }
 
     if (type == 1) { //点击科目
       currentIndex = e.currentTarget.dataset.index; //点击的科目id
@@ -489,6 +498,7 @@ Page({
     let zhangjieLoadedStrArray = self.data.zhangjieLoadedStrArray; //已载入的科目id和题型标识数组，用于控制如果已经载入一次就不再重新载入
     let tiku = this.data.tiku;
 
+
     if (zhangjieLoadedStrArray.indexOf(currentLoadedStr) != -1) { //如果包含,就使用本地tiku数组
       self.setData({
         isLoaded: false
@@ -528,7 +538,7 @@ Page({
 
         app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys, false, false, "", "").then(res => {
           let zhangjies = res.data.data;
-          console.log(zhangjies)
+        
 
           tiku[currentLoadedStr] = zhangjies;
           zhangjieLoadedStrArray.push(currentLoadedStr);

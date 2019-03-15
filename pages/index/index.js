@@ -112,6 +112,8 @@ Page({
    * 生命周期事件
    */
   onShow: function() {
+    let pages = getCurrentPages();
+   
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
@@ -176,7 +178,7 @@ Page({
       key: 'lastkesub' + zcode,
       success: function(res) {
         let lastKe = res.data;
-        console.log(res)
+      
         self.setData({
           ketext: "继续看课",
           ketitle: lastKe.options.title,
@@ -184,7 +186,7 @@ Page({
         })
       },
       fail: function(res) {
-        console.log('无看课记录')
+       
       }
     })
 

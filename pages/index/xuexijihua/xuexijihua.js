@@ -190,7 +190,7 @@ Page({
         //最上面标题栏不同机型的高度不一样(单位PX)
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         let platform = res.platform;
-        console.log(platform)
+       
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
@@ -331,10 +331,10 @@ Page({
       path: '', //这里设定都是以"/page"开头,并拼接好传递的参数
       imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
       success: (res) => {
-        console.log('转发成功')
+     
       },
       fail: (res) => {
-        console.log('转发失败')
+       
       }
       }
     }

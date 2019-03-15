@@ -255,7 +255,7 @@ Page({
     let token = user.token;
     let product = this.data.product;
     let money_zong = this.data.money_zong;
-    console.log(self.data.danke +","+self.data.dizhiok)
+   
     if (self.data.danke=='false' && self.data.dizhiok == false) {
       wx.showToast({
         title: '请填写收货地址',
@@ -273,9 +273,9 @@ Page({
             code = res.code;
             app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
               let openid = res.data.data[0].openid;
-              console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong)
+              
               app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&product=" + product + "&money_zong=" + money_zong, true, false, "购买中").then((res) => {
-                console.log(res)
+              
                 let status = res.data.status;
 
                 if (status == 1) {
@@ -326,13 +326,14 @@ Page({
     if (self.data.danke=='true') {
       //购买单课
       var id = self.data.id;
-      console.log("action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1")
+     
       app.post(API_URL, "action=BuyCourse&token=" + token + "&zcode=" + zcode + "&cid=" + id + "&buy=1", true, false, "购买中").then((res) => {
         wx.showToast({
           title: '购买成功',
           icon: 'none',
           duration: 3000
-        })
+        });
+       
         user.Money = res.data.data[0].xuebi
         wx.setStorage({
           key: 'user',
@@ -345,7 +346,7 @@ Page({
       })
     } else {
       //发起拼单
-      console.log(this.data.dizhiok)
+    
       if (this.data.dizhiok == false) {
         wx.showToast({
           title: '请填写收货信息',
@@ -360,6 +361,7 @@ Page({
         user.Money = res.data.data[0].yue;
         user.YHQ=0;
         user.TKflag=1;
+        user.taocan=1;
         wx.setStorage({
           key: 'user',
           data: user

@@ -74,7 +74,7 @@ Component({
 
       if (!this.data.show) {//如果目前是隐藏状态就显示
         if (first) { //如果第一次展示,并且是隐藏状态
-          console.log("action=getTestVideo&token=" + token + "&zcode=" + zcode + "&video_id=" + video_id)
+         
           app.post(API_URL, "action=getTestVideo&token=" + token + "&zcode=" + zcode + "&video_id=" + video_id, false, false, "", "", false, self).then(res => {
             let videoUrl = res.data.data[0].files_url;
 

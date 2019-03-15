@@ -54,15 +54,13 @@
 }
 
 .phoneBtn{
-  border:1rpx solid red;
-  width:70rpx;
-  height:70rpx;
-  position: relative;
-}
-
-.phoneBtn-icon{
-  width:70rpx;
-  height:70rpx;
+  width:100rpx;
+  height:100rpx;
+  background-color:white;
+  background-repeat: no-repeat;
+  background-position:center;
+  background-size:50rpx 50rpx;
+  background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACsklEQVRoQ+1ZTWsTURQ9J00bxBa3LtyLaGZwIeLGImgFUSvUFAVduKxIEj9w4VZcVEEnAy1046JSNbYK1UpUAi50VQoykwqCuPYPtA3Wdq5oa1Layde8CUnhzfLNnDvn4743A5fY5he3OX9oAVsSnM9cgIdbEDFJRoMmLMAvAF8QwR0cSH2sVCe8BEQINzNCcigoaT+cAAKwD0Yy73c/HAHf7RiKkiXQv/klAuRB7x6EGYLG//sieIeINwyhTTBeWofkQLkP4SjBfX/XBTIHI32oOQJ+jO3CYjFH8Ii/gzIIIz0Jxz5PymSZKM7BSE3DeXSRjDwtrVPOIJ6eQcG6ROGTfwJEFmGmu8MX4Nh7QC9PcG+lthGRfpjp13CssySnywK8UzCu5+BYAySnygJ4EvHkBxQygxRk1wRgCWZqZ7gCvj7cj9WOPIHd1Xq+PQW4di/gvSHYU2vDtp8A10pAOEGisxb59f5toxZy7CFSRushXj5t2mEPrJ3xD0jebIR8eyQwN9aJruIEwUSj5Fsv4NtwD5ZjMwSPBiHfWgHzI93wVj4TMIOSb60AN/OYwBUV8q0W8LPWR6oecUIOIJ58BddKEHyx9XTa/CvB04gn36KQuUzBePAvsWMtkdxRD8nqX2I8BzuvAstZgic2CHiGqHcNKx1TJI5tWB9HV/QGfq++JNDbcgGqBmgBYTioWiPY32hIe0CVvG6hMBxUraFbSNVBVbxOQNVBVbxOQNVBVbxOQNVBVbxOQNVBVbxOQNVBVbxOQNVBVbxOQNVBVXzQBBZI+k5FVAk1ihdgAUbKdxZRecjnWrMEfQdrjRJQfV4EszBTh/3qVBZQsPso8l715WHghetzM59i1cesrn0ckLsADhKIhUGm3hqlQbfwNszkp0q4cObE9bJqwnNaQBNMbajkHxHNHE+Fm5FJAAAAAElFTkSuQmCC');
 }
 
 .block-input {

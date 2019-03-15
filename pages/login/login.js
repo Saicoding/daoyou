@@ -235,7 +235,7 @@ Page({
           duration: 2000
         });
         let identifyCode = res.data.data[0].yzm;
-        console.log(identifyCode)
+       
         self.setData({
           identifyCode: identifyCode
         })
@@ -362,7 +362,7 @@ Page({
             }
           },
           fail: function() {
-            console.log('存储失败')
+          
           }
         })
       })
@@ -423,7 +423,7 @@ Page({
             }
           },
           fail: function() {
-            console.log('存储失败')
+            
           }
         })
       })
@@ -469,7 +469,7 @@ Page({
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
       app.post(API_URL, "action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
-
+        
         let user = res.data.list[0];
 
         wx.showToast({
@@ -477,12 +477,12 @@ Page({
           title: '注册成功',
           duration: 3000
         })
-        console.log(user)
+        
         wx.setStorage({
           key: 'user',
           data: user,
           success: function() {
-            console.log(wx.getStorageSync("user"))
+         
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -492,19 +492,19 @@ Page({
             }
           },
           fail: function() {
-            console.log('存储失败')
+            
           }
         })
       })
     } else if (code == undefined) {
-      console.log('heihei')
+      
       wx.showToast({
         title: '验证码不能为空',
         icon: 'none',
         duration: 2000
       });
     } else {
-      console.log('lele')
+     
       wx.showToast({
         title: '验证码不正确',
         icon: 'none',
@@ -559,14 +559,14 @@ Page({
         }
       })
     } else if (code == undefined) {
-      console.log('heihei')
+    
       wx.showToast({
         title: '验证码不能为空',
         icon: 'none',
         duration: 2000
       });
     } else {
-      console.log('lele')
+     
       wx.showToast({
         title: '验证码不正确',
         icon: 'none',
@@ -617,10 +617,11 @@ Page({
               //监测微信是否有新号
               app.post(API_URL, "action=ChkUnionId&unionid=" + unionid, false, false, "").then(res => {
                 //存储本地变量
+                
                 if (res.data.status == -2012) { //如果没有绑定
                   wx.hideLoading();
                   self.bindPhoneModel.showDialog();
-                  console.log(openid)
+                
                   self.setData({
                     unionid: unionid,
                     wxid: openid,
@@ -655,7 +656,7 @@ Page({
               })
             },
             fail: function(res1) {
-              console.log(res1)
+              
             }
           })
         })
@@ -687,7 +688,7 @@ Page({
     })
     app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, false, false, "").then((res) => {
       let user = res.data.data[0];
-      console.log(user)
+   
       wx.setStorage({
         key: 'user',
         data: user
@@ -724,7 +725,7 @@ Page({
     let redirect = this.data.redirect;
     let sex = this.data.sex;
 
-    console.log("action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
+    
     app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex , true, false, "登录中").then((res) => {
       let user = res.data.data[0];
       wx.setStorage({
@@ -745,6 +746,13 @@ Page({
         }
       }
     })
+  },
+
+  /**
+   * 获取用户号码
+   */
+  getphonenumber:function(e){
+    console.log(e)
   },
 
   /**

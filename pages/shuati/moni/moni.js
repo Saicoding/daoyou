@@ -116,9 +116,9 @@ Page({
         page = ((px - 1) - (px - 1) % 10) / 10 + 1;
       }
 
-      console.log("action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page)
+      
       app.post(API_URL, "action=getShijuanShow&token=" + token + "&zcode=" + zcode + "&id=" + id + "&page=" + page, false, true, "", "", false, self).then((res) => {
-        console.log(res)
+       
         let result = res.data.data[0];
 
         let shitiArray = result.list;
@@ -156,7 +156,7 @@ Page({
           common.initShiti(preShiti, self); //初始化试题对象
         }
 
-        console.log(midShiti)
+      
 
         circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
@@ -466,7 +466,7 @@ Page({
     let currentShiti = sliderShitiArray[current];
 
     let shiti = shitiArray[px - 1];
-    console.log(shiti.answer)
+  
     //初始化多选的checked值
     // common.initMultiSelectChecked(shiti);
     common.initMultiSelectChecked(currentShiti);

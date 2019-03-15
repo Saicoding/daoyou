@@ -74,9 +74,9 @@ Component({
         let SendJifen = result.SendJifen;
         let SignTotalDays = result.SignTotalDays;
         let current = SignDays - 3 <= 0 ? 0 : SignDays - 3;
-        console.log(result)
+       
         self.setQiandao(SignDays);
-        console.log(user)
+       
         if (SendJifen) {
           let myDate = new Date(); //获取系统当前时间
           let year = myDate.getFullYear();
@@ -94,7 +94,7 @@ Component({
 
           user.Money = (user.Money * 1 + SendJifen*1/100)+"";//更新积分
 
-          console.log('当前积分为' + user.Jifen)
+        
          
           clearInterval(interval);
 
@@ -209,7 +209,7 @@ Component({
 
     //点击了空地,让蒙版消失
     tapBlank: function(e) {
-      console.log('点击日历蒙版')
+     
       this.setData({
         isShow: false
       })

@@ -6,8 +6,8 @@
   <view class="title">{{options.title}}</view>
 </view>
 
-  <view style = "width:100%;height:{{statusBarHeight}}">
-  </view>
+<view style="width:100%;height:{{statusBarHeight}}">
+</view>
 
 <view class='rel'>
   <image src="/images/denglu@3x.jpg" style='width:100%; height:689rpx;' mode="widthFix"></image>
@@ -25,23 +25,22 @@
   <!-- <view class="title">
     {{statu.title}}
   </view> -->
-  <view class="block">
-    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" cursor-spacing = "50rpx" />
-    <!-- <button open-type='getPhoneNumber' bindgetphonenumber = "getphonenumber" class ="phoneBtn">
-      <image src="/images/phone.png"  class ="phoneBtn-icon"></image>
-    </button> -->
-  </view>
+  <view class="block" style = "display:flex;">
+    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" cursor-spacing="50rpx"  style="width:80%;"/>
+    <button open-type='getPhoneNumber' bindgetphonenumber="getphonenumber" class="phoneBtn">
 
+    </button>
+  </view>
   <!-- 验证码 -->
   <view wx:if="{{statu.code != 0}}" class="block code">
-    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing = "50rpx" />
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing="50rpx" />
     <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}'>
       {{text}}
     </button>
   </view>
 
   <view wx:if="{{statu.code!=1}}" class="block">
-    <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.ph_user2}}" placeholder-style="color:#ddd;" bindinput="pwdInput"  cursor-spacing = "50rpx"/>
+    <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.ph_user2}}" placeholder-style="color:#ddd;" bindinput="pwdInput" cursor-spacing="50rpx" />
   </view>
 
   <view class="smallblock clear">
@@ -70,4 +69,4 @@
 </view>
 
 <!-- 弹窗 -->
-<bindPhoneModel windowWidth = "{{windowWidth}}" windowHeight = "{{windowHeight}}" id="bindPhoneModel" bindconfirm = "_confirm" bindignore = "_ignore"></bindPhoneModel>
+<bindPhoneModel windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" id="bindPhoneModel" bindconfirm="_confirm" bindignore="_ignore"></bindPhoneModel>

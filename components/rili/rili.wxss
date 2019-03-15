@@ -71,7 +71,7 @@
 
 .content-text{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   font-size:25rpx;
   color:#bdbdbd;
   height:120rpx;

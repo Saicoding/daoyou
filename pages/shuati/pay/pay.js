@@ -49,7 +49,7 @@ Page({
     let token = user.token;
     let money_zong = this.data.money_zong;
     let product = this.data.product;
-    console.log(user)
+   
 
     if (money_zong > 0) {
       // 登录
@@ -57,10 +57,10 @@ Page({
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           code = res.code;
-          console.log("action=getSessionKey&code=" + code)
+        
           app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
             let openid = res.data.data[0].openid;
-            console.log("action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&money_zong=" + money_zong + "&product=" + product)
+           
             app.post(API_URL, "action=unifiedorder&zcode=" + zcode + "&token=" + token + "&openid=" + openid + "&money_zong=" + money_zong + "&product=" + product, true, false, "购买中").then((res) => {
 
               let status = res.data.status;
@@ -109,7 +109,7 @@ Page({
     app.post(API_URL, "action=" + action+"&token=" + token + "&zcode=" + zcode, true, false, "购买中").then((res) => {
       let pages = getCurrentPages();
       let prepage = pages[pages.length-2];//上一页
-      console.log(prepage)
+     
       let user = prepage.data.user;
 
       user.TKflag = 1;
@@ -179,11 +179,10 @@ Page({
     let mymoney2 = "0";
     //判断账户余额
     var user = wx.getStorageSync("user");
-    console.log(user)
+ 
     if (user) {
       mymoney = user.Money * 1;
-      console.log(user)
-      console.log(mymoney)
+     
       if (mymoney >= money_zong) {//如果零钱大于需要金额
         mymoney2 = "-" + money_zong;
         money_zong = 0

@@ -45,12 +45,12 @@
   </view>
 
   <view class="bottom">
-    <view class="bottom-item1" style="border-right:1rpx solid #ececec;" bindtap="GOindex" hover-class='select2' hover-stay-time='500'>
+    <view class="bottom-item1" style="border-right:1rpx solid #ececec;" bindtap="GOindex" >
       <image class="bottom-item1-icon" src="/images/home.png"></image>
       <view class="bottom-item1-text">首页</view>
     </view>
     <view>
-      <button open-type="contact" show-message-card="{{true}}" session-from="xuexijihua" session-from="weapp" class="bottom-item" bindtap="GOkefu" hover-class='select2' hover-stay-time='500'>
+      <button open-type="contact" show-message-card="{{true}}" session-from="xuexijihua" session-from="weapp" class="bottom-item" bindtap="GOkefu">
         <image class="bottom-item1-icon" src="/images/kefu.png" style=""></image>
         <view class="bottom-item1-text" style="margin-left:15rpx;">客服</view>
       </button>

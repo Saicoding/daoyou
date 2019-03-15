@@ -173,7 +173,7 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
     })
   }
 
-  console.log(sliderShitiArray)
+ 
 
   self.setData({
     options: options,

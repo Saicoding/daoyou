@@ -46,7 +46,7 @@ Page({
     })
     app.post(API_URL,"action=getLcShow&id="+id,false,false,"","").then(res=>{
       let content = res.data.data[0].content;
-      console.log(res)
+     
 
       self.setData({
         isLoaded:true,

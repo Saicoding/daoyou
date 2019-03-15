@@ -140,7 +140,7 @@ Page({
         let windowWidth = res.windowWidth;
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         let platform = res.platform;
-        console.log(platform)
+      
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
@@ -160,7 +160,7 @@ Page({
     let self = this;
     let options = this.data.options;
     let user = wx.getStorageSync('user'); //本地用户信息
-    console.log(user)
+   
     let zcode = user.zcode ? user.zcode : "";
 
     if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
@@ -890,7 +890,7 @@ Page({
    * 购买解析包
    */
   _buy: function(e) {
-    console.log(e)
+  
     let product = e.detail.product;
     this.jiesuo.hideDialog();
     

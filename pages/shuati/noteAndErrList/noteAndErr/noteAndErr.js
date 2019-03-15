@@ -753,7 +753,7 @@ Page({
     let px = this.data.px;
     let shiti = shitiArray[px - 1];
     let sliderShiti = sliderShitiArray[lastSliderIndex];
-    console.log(sliderShiti)
+ 
 
     let tid = shiti.id;
     let content = this.data.noteText;
@@ -796,7 +796,7 @@ Page({
  * 购买解析包
  */
   _buy: function (e) {
-    console.log(e)
+  
     let product = e.detail.product;
     this.jiesuo.hideDialog();
 

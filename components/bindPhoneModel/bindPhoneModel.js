@@ -125,9 +125,9 @@ Component({
               icon: 'none',
               duration: 2000
             });
-            console.log(res)
+           
             let identifyCode = res.data.data[0].code;
-            console.log(identifyCode)
+           
             self.setData({
               identifyCode: identifyCode
             })

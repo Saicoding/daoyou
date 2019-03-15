@@ -44,7 +44,7 @@ Page({
     var that = this;
 
     app.post(API_URL, "action=getDaoyouciShow&id=" + this.data.id, false, false, "", "", "", self).then(res => {
-      console.log(res)
+     
       let daoyouci = res.data.data[0];
       that.setData({
         daoyouci: daoyouci,
@@ -60,7 +60,7 @@ Page({
 
 
         setTimeout(() => {
-          console.log(myaudio.duration)
+        
           var time = that.s_to_hs(myaudio.duration);
           this.setData({
             time: time,
@@ -88,8 +88,7 @@ Page({
 
 
         myaudio.onError((res) => {
-          console.log(res.errMsg)
-          console.log(res.errCode)
+      
         })
 
       }
@@ -224,7 +223,7 @@ Page({
         toView: self.data.fixed?'blank':'pl0'
       })
 
-      console.log(pl)
+    
 
       let zcode = user.zcode;
       let token = user.token;
@@ -232,7 +231,7 @@ Page({
 
 
       app.post(API_URL, "action=saveCoursePL&token=" + token + "&zcode=" + zcode + "&cid=" + kcid + "&plcontent=" + content + "&page=1", false, false, "", "", "", self).then(res => {
-        console.log('保存评论成功')
+      
       })
     } else {
       wx.navigateTo({

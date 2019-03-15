@@ -59,7 +59,7 @@ Page({
 
       app.post(API_URL, "action=" + action+"&token="+token+"&zcode="+zcode+"&typesid="+typesid,false,false,"","",false,self).then(res=>{
         let tis = res.data.data;//题列表
-        console.log(tis)
+       
         let all_nums = self.getNumOfTi(tis)//得到题数量
 
         self.setData({

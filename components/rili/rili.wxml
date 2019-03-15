@@ -8,8 +8,8 @@
   </view>
   <view class="content">
     <view class="content-text">
-      <view>已坚持</view>
-      <view style="margin-left:250rpx;">签到　</view>
+      <view style="margin-left:145rpx;">已坚持</view>
+      <view style="margin-right:120rpx;">连续签到</view>
     </view>
 
     <view style="text-align:center;font-size:28rpx;height:70rpx;line-height:70rpx;">距离导游资格证考试还有

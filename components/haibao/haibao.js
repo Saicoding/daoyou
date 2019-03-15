@@ -24,7 +24,7 @@ Component({
 
     },
     detached() {
-      console.log('haha')
+    
     },
   },
 
@@ -61,7 +61,7 @@ Component({
     },
     //点击了空地,让蒙版消失
     tapBlank: function(e) {
-      console.log('点击海报蒙版')
+     
       this.setData({
         isShow: false
       })
@@ -100,14 +100,14 @@ Component({
         wx.downloadFile({
           url: picUrl,
           success: (res) => {
-            console.log(res)
+           
             if (res.statusCode === 200) {
               //得到图片信息
-              console.log(res.tempFilePath)
+             
               wx.getImageInfo({
                 src: res.tempFilePath,
                 success:function(res3){
-                  console.log('获取图片成功')
+                
                   let width = res3.width;
                   let height = res3.height;                  
 
@@ -175,7 +175,7 @@ Component({
                         wx.hideLoading();
                       },
                       fail: function (res) {
-                        console.log('haha')
+                      
                         self.setData({
                           isShow: true
                         });
@@ -188,7 +188,7 @@ Component({
                   });
                 },
                 fail:function(res4){
-                  console.log(res4)
+                 
                 }
               })  
             }
@@ -218,7 +218,7 @@ Component({
               }
             },
             fail: function(res) {
-              console.log('出错')
+            
             }
           })
         },

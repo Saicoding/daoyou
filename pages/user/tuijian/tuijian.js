@@ -32,7 +32,7 @@ Page({
   onShow: function () {
     var that = this;
     app.post(API_URL, "action=getTuijianXCX&appid=wx274bc5c5c5ce0434", false, false, "", "", "", self).then(res => {
-      // console.log(res.data.data[0].length)
+    
       var list = res.data.data;
       // if (list.length == undefined) {
       //   list = [list]

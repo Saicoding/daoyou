@@ -211,7 +211,7 @@ Page({
       })
       app.post(API_URL, "action=getLcList&tid=" + tid, false, false, "").then(res => {
         let infos = res.data.data;
-        console.log( infos)
+      
         self.setData({
           infos: infos,
           isLoaded:true
