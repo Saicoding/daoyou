@@ -1,4 +1,4 @@
-
+.more { width:30rpx; height: 30rpx;margin-top: 35rpx; opacity: 0.5 }
 
 .pic {
   width:80rpx;
@@ -32,7 +32,7 @@
 }
 .liuyan {line-height: 100rpx;height: 100rpx;}
 .hong { color: #fc551e}
-.block .fr { font-size: 26rpx; margin-left: 10px;}
+.block .fr { font-size: 26rpx; margin-left: 12px;}
 .block button { background: #fff; padding: 0;line-height: 100rpx;height: 100rpx;}
 
 .jie {

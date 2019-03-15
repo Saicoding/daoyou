@@ -19,7 +19,7 @@ Page({
     endtime:0,
     tuanzhuImg: "",//拼主头像
     pin_img: "",//已拼网友头像
-    guoqi:false,//是否过期
+    guoqi:'false',//是否过期
     isHiddenLoading: true,
     isHiddenToast: true,
     dataList: {},
@@ -129,7 +129,7 @@ Page({
         })
         
         this.setData({
-          guoqi:true,
+          guoqi:'true',
           countDownDay: '00',
           countDownHour: '00',
           countDownMinute: '00',
@@ -145,7 +145,7 @@ Page({
     if(user){
       wx.navigateTo({
       
-        url: '/pages/learn/pay?tuan_id=' + this.data.tuan_id + '&danke=false&title=' + this.data.title + '&money_zong=' + this.data.price_tuan + '&product=豪华套餐'
+        url: '/pages/learn/pay?tuan_id=' + this.data.tuan_id + '&danke=false&title=' + this.data.title + '&money_zong=' + (this.data.price_tuan/100) + '&product=豪华套餐'
       })
     }else{
       wx.navigateTo({

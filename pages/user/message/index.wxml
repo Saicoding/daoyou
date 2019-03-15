@@ -7,7 +7,7 @@
       <view class="mytext fl">
         头像
       </view>
-      <view class='fr hui'>></view>
+      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
       <view class='hui fr'>
         <image class="pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}" mode="aspectFit"></image>
       </view>
@@ -18,7 +18,7 @@
       <view class="mytext fl">
         昵称
       </view>
-      <view class='fr hui'>></view>
+      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
       <view class='hui fr'>{{userInfo.Nicename?userInfo.Nicename:"游客"}}</view>
     </view>
   </view>
@@ -39,7 +39,7 @@
       <view class="mytext fl">
         性别
       </view>
-      <view class='fr hui'>></view>
+      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
       <view class='hui fr'>{{userInfo.Sex?userInfo.Sex:"保密"}}</view>
 
     </view>
@@ -70,7 +70,7 @@
       <view class="mytext fl">
         手机号码
       </view>
-      <view class='fr hui'>></view>
+      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
       <view class='hui fr'>{{userInfo.Mobile?userInfo.Mobile:userInfo.username}}</view>
 
     </view>
@@ -81,7 +81,7 @@
       <view class="mytext fl">
         E-mail
       </view>
-      <view class='fr hui'>></view>
+      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
       <view class='hui fr'>{{userInfo.Email?userInfo.Email:"未设置"}}</view>
 
     </view>

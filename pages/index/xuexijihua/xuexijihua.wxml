@@ -57,7 +57,7 @@
     </view>
 
     <!-- android -->
-    <view wx:if = "{{platform == 'android'}}" style = "display:flex;">
+    <view wx:if = "{{platform !='ios'}}" style = "display:flex;">
       <view class="bottom-item2 " bindtap="buy" hover-class='select3' hover-stay-time='500'>
         <view class="bottom-item2-line1">¥ {{list[0].money}}</view>
         <view class="bottom-item2-line2">单独购买</view>

@@ -92,7 +92,7 @@ Component({
             SendJifen = SendJifen * 1 + 500;
           }
 
-          user.Jifen = (user.Jifen * 1 + SendJifen*1)+"";//更新积分
+          user.Money = (user.Money * 1 + SendJifen*1/100)+"";//更新积分
 
           console.log('当前积分为' + user.Jifen)
          

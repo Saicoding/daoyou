@@ -72,15 +72,13 @@ Page({
       if (new Date(time2) < new Date()) { guoqi = 'true' } else { guoqi = 'false' }
       // { "Message": "请求成功", "status": 1, "data": [{ "Nicename": "屌丝洋", "Sex": "男", "Address": "北京市,北京市,东城区,人民广场", "Mobile": "13292374292", "Email": "819992797@qq.com", "Jifen": "0", "Money": "15907.54", "xueshi": 618523 }] }
       // { "Message": "请求成功", "status": 1, "data": [{ "token": "e37658e391e4194a22008f4dea71e50f", "Mycode": "111562", "username": "13292374292", "Nickname": "屌丝洋", "Jifen": "0", "Money": "15907.54", "xueshi": "618523", "Vip": "0", "Ktime": "", "Jtime": "", "zcode": 11562, "Pic": "http://www.chinaplat.com/user/UserHeadImg/11562.jpg", "TKflag": 0, "YHQ": 0, "taocan": "1", "yhq_time": "" }] }
-
+  
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
+        user.Money = res.data.data[0].Money;
+        user.Nicename = res.data.data[0].Nicename;
         wx.setStorage({
           key: 'user',
-          data: {
-            Money: res.data.data[0].Money,
-            Nicename: res.data.data[0].Nicename,
-            
-          }
+          data:user
         }) 
 
       })

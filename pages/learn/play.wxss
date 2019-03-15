@@ -80,20 +80,19 @@
 }
 
 .xk {
-  display: inline-block;
   margin-right: 20rpx;
   border: 1px #ddd solid;
-  padding: 0 30rpx;
-  border-radius: 4px;
+  padding: 0 15rpx;
+  border-radius: 3px;
   color: #aaa;
-  font-size: 24rpx;
-  line-height: 50rpx;
+  font-size: 20rpx;
+  line-height: 35rpx;
 }
 
 .xk.on {
   color: #fff;
-  background: #ee804c;
-  border: 1px #ee804c solid;
+  background: #d3d3d3;
+  border: 1px #d3d3d3 solid;
 }
 
 .mr10 {

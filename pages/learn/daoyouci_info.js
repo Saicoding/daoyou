@@ -197,7 +197,9 @@ Page({
 
     if (self.data.text == ''){
       wx.showToast({
-        title: '评论内容不能为空',
+        title: '内容不能为空',
+        image:'/images/sad.png',
+        duration:3000
       })
       return;
     }

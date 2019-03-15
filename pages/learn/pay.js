@@ -106,11 +106,10 @@ Page({
       var time2 = this.dateAdd(user.yhq_time);
       if (new Date(time2) > new Date()) {
         guoqi = 'false';
-      } else {
         if (money_zong != 0) {
           money_zong = money_zong - 100
         }
-      }
+      } 
     }
 
 
@@ -334,12 +333,10 @@ Page({
           icon: 'none',
           duration: 3000
         })
-
+        user.Money = res.data.data[0].xuebi
         wx.setStorage({
           key: 'user',
-          data: {
-            Money: res.data.data[0].xuebi
-          }
+          data: user
         })
         //进入我的课程页
         wx.navigateTo({
@@ -360,14 +357,12 @@ Page({
       var address = this.data.region[0] + this.data.region[1] + this.data.region[2] + this.data.sh_dizhi;
 
       app.post(API_URL, "action=saveTuangouInfo&token=" + token + "&zcode=" + zcode + "&mobile=" + this.data.sh_number + "&address=" + this.data.address + "&tname=" + this.data.sh_name + "&tuan_id=" + this.data.tuan_id, false, false, "", "", "", self).then(res => {
-        
+        user.Money = res.data.data[0].yue;
+        user.YHQ=0;
+        user.TKflag=1;
         wx.setStorage({
           key: 'user',
-          data: {
-            Money: res.data.data[0].yue,
-            YHQ:0,
-            TKflag:1
-          },
+          data: user
         })
         if (self.data.tuan_id != "") {
           wx.navigateTo({ //拼单完成自动购买 进入我的课程

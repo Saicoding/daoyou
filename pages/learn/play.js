@@ -143,7 +143,7 @@ Page({
 
     if (user) {
       app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
-
+        console.log(res)
         //最后播放视频索引
         let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
         let scroll = lastpx * 100 * windowWidth / 750;
@@ -280,9 +280,11 @@ Page({
 
     if (self.data.text == '') {
       wx.showToast({
-        title: '评论内容不能为空',
+        title: '内容不能为空',
+        image: '/images/sad.png',
+        duration: 3000
       })
-      return
+      return;
     }
 
     let user = wx.getStorageSync('user');
@@ -548,7 +550,7 @@ Page({
         return;
       } else {
         wx.navigateTo({
-          url: '../login/login',
+          url: '/pages/login/login',
         })
       }
     }
