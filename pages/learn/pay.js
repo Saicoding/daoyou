@@ -226,6 +226,15 @@ Page({
 
   },
 
+  /**
+ * 导航到学习计划
+ */
+  GOxuexijihua: function () {
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
 
   close: function(e) {
     this.setData({

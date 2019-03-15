@@ -45,7 +45,7 @@
   </swiper>
 </view>
 <!-- 载入动画 -->
-<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/imgLoading.gif" style = "margin-top:{{(windowHeight-420)/2}}rpx;"></image>
+<image wx:if="{{!isLoaded}}" class="loading-img" src="/images/imgLoading.gif" style = "margin-top:300rpx;"></image>
 
 <!-- 答题板 -->
 <markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">

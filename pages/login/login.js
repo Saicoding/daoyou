@@ -385,6 +385,7 @@ Page({
    * 帐号密码登录
    */
   userPwdLogin: function(e) {
+    console.log('od')
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
@@ -405,7 +406,6 @@ Page({
       //开始登录
       pwd = md5.md5(pwd).toLowerCase();
       app.post(API_URL, "action=Login&user=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
-
 
         let user = res.data.data[0];
 
@@ -428,7 +428,7 @@ Page({
         })
       })
     }
-
+    console.log('ok'+warn)
     if (warn != null) {
       wx.showToast({
         icon: 'none',
@@ -752,7 +752,29 @@ Page({
    * 获取用户号码
    */
   getphonenumber:function(e){
-    console.log(e)
+    let self = this;
+    let encryptedData = e.detail.encryptedData;
+    let iv = e.detail.iv;
+    wx.login({
+      success: res => {
+        let code = res.code;
+        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
+          let sesstion_key = res.data.data[0].sessionKey;
+          let openid = res.data.data[0].openid;
+          //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
+          let pc = new WXBizDataCrypt(appId, sesstion_key);
+          let data = pc.decryptData(encryptedData, iv);
+          let phoneNumber = data.phoneNumber;
+          self.setData({
+            phoneText: phoneNumber,
+            isBenji:true
+          })
+        })
+      },
+      fail:res=>{
+        console.log('shibai')
+      }
+    })
   },
 
   /**

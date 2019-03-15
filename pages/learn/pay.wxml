@@ -4,13 +4,13 @@
   <view style='padding:4%'>
     <view class='title b'>{{title}}</view>
     <view class='hui f12' wx:if="{{danke=='false'&&product=='豪华套餐'}}">
-    {{baolist[0].beizhu?baolist[0].beizhu:"全套视频课程+全套教材+全套题库,两年超长课程保质期"}}
+      {{baolist[0].beizhu?baolist[0].beizhu:"全套视频课程+全套教材+全套题库,两年超长课程保质期"}}
     </view>
     <view class='hui f12' wx:if="{{danke=='false'&&product=='基础套餐'}}">
-    {{baolist[1].beizhu?baolist[1].beizhu:"基础视频课程+全套教材+全套题库,两年超长课程保质期"}}
+      {{baolist[1].beizhu?baolist[1].beizhu:"基础视频课程+全套教材+全套题库,两年超长课程保质期"}}
     </view>
     <view class='hui f12' wx:if="{{danke=='false'&&product=='冲刺套餐'}}">
-    {{baolist[2].beizhu?baolist[2].beizhu:"冲刺视频课程+全套教材+全套题库,两年超长课程保质期"}}
+      {{baolist[2].beizhu?baolist[2].beizhu:"冲刺视频课程+全套教材+全套题库,两年超长课程保质期"}}
     </view>
 
     <view class='hui f13' wx:if="{{danke=='true'}}">
@@ -29,12 +29,11 @@
     <image src='/images/danger2.png'></image>该套餐额外赠送：
     <view class='f13'>1.2019新版教材，2.面试指导课，3.各省指导词。</view>
   </view>
-  <view class='tuijian' wx:if="{{danke=='true'}}">
-    <navigator url='../index/xuexijihua/xuexijihua'>
+
+  <view class='tuijian' wx:if="{{danke=='true'}}" bindtap="GOxuexijihua" hover-class='select1' hover-stay-time='500'>
     <image src='/images/libao.png'></image>
     <text class='f15'>优惠推荐</text>
-    <text style='color:#fb6d0b;margin-left: 5px;' class='f13'>超值导游考试【全陪学习套餐】</text>
-    </navigator>
+    <text style='color:#fb6d0b;margin-left: 5px;' class='f13'>导游考试【全陪学习套餐】劲省320元</text>
   </view>
 </view>
 
@@ -47,7 +46,7 @@
       </view>
     </view>
     <view class='ditiao' data-type='wxadd' bindtap='dizhi'>
-      <image src='/images/wx2.png'  style='margin-right:10px;'></image>使用微信地址
+      <image src='/images/wx2.png' style='margin-right:10px;'></image>使用微信地址
       <view class='fr hui f18'>
         <image src='/images/user/baoming_searchnext_13x13_@3x.png'></image>
       </view>
@@ -71,7 +70,7 @@
   <text class='lab'>教材运费：</text>
   <text class='hui' wx:if="{{danke=='true'}}">无教材赠送</text>
   <text class='hui' wx:if="{{danke=='false'}}">免运费</text>
- 
+
 </view>
 <view class='ditiao' bindtap='youhuiquan'>
   <text class='lab'>优惠券：</text>

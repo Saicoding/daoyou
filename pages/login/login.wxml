@@ -49,9 +49,7 @@
   </view>
 
   <!-- 确定按钮 -->
-  <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
-
-  <view wx:if="{{submit_disabled}}" class="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
+  <view  class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
 
   <!-- 快速登录 -->
   <view class="line">
