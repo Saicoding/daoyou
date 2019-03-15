@@ -53,6 +53,18 @@
   border-bottom: 1px solid #e6e6e6;
 }
 
+.phoneBtn{
+  border:1rpx solid red;
+  width:70rpx;
+  height:70rpx;
+  position: relative;
+}
+
+.phoneBtn-icon{
+  width:70rpx;
+  height:70rpx;
+}
+
 .block-input {
   height: 70rpx;
   padding-bottom: 10rpx;

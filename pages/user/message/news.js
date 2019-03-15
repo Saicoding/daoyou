@@ -39,6 +39,7 @@ Page({
       let page_all = res.data.data[0].page_all;
       //消除红点
       wx.hideTabBarRedDot({ index: 3 });
+      wx.removeTabBarBadge({ index: 3 });
       self.setData({
         messages: messages,
         user: user,

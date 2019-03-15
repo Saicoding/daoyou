@@ -1,5 +1,5 @@
 <!--components/Dialog/dialog.wxml-->
-<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style="top:{{(windowHeight-900)/2}}rpx">
+<view wx:if="{{isShow}}" catchtap='stopBubbling' class="container" style="top:{{(windowHeight-900)/2}}rpx;opacity:{{opacity}}">
   <view class="close" bindtap="hideDialog">
     <image class="close-icon" src="/images/close2.png"></image>
   </view>
@@ -47,7 +47,7 @@
       </swiper>
     </view>
 
-    <view class="btn" bindtap="_createHaibao" hover-class='select1' hover-stay-time='500'>
+    <view class="btn" catchtap="_createHaibao" hover-class='select1' hover-stay-time='500'>
       生成学习打卡海报
     </view>
   </view>

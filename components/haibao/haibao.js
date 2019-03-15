@@ -61,6 +61,7 @@ Component({
     },
     //点击了空地,让蒙版消失
     tapBlank: function(e) {
+      console.log('点击海报蒙版')
       this.setData({
         isShow: false
       })
@@ -69,7 +70,7 @@ Component({
     stopBubbling: function(e) {},
 
     //开始绘图
-    draw: function (num, SignTotalDays) {
+    draw: function (num, SignTotalDays,pre) {
       let self = this;
       let num2 = SignTotalDays;
       //绘制背景
@@ -93,10 +94,6 @@ Component({
         }
       })
 
-
-      wx.showLoading({
-        title: '生成中',
-      })
       app.post(API_URL, "action=getSignPic", false, false, "", "", false, self).then(res => {
         let picUrl = res.data.data[0]; //从服务器获取背景图
         //画背景,下载网络图片
@@ -106,9 +103,11 @@ Component({
             console.log(res)
             if (res.statusCode === 200) {
               //得到图片信息
+              console.log(res.tempFilePath)
               wx.getImageInfo({
                 src: res.tempFilePath,
                 success:function(res3){
+                  console.log('获取图片成功')
                   let width = res3.width;
                   let height = res3.height;                  
 
@@ -169,18 +168,27 @@ Component({
                           imageUrl: tempFilePath,
                           isShow: true
                         })
+                        pre.rili.setData({//日历页面隐藏
+                          isShow: false
+                        })
 
                         wx.hideLoading();
                       },
                       fail: function (res) {
-                        wx.hideLoading();
                         console.log('haha')
                         self.setData({
                           isShow: true
                         });
+                        pre.rili.setData({//日历页面隐藏
+                          isShow: false
+                        })
+                        wx.hideLoading();
                       }
                     }, self);
                   });
+                },
+                fail:function(res4){
+                  console.log(res4)
                 }
               })  
             }

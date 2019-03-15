@@ -160,6 +160,12 @@ Page({
             res3.data = encodeURIComponent(res3.data); //需要编码
             app.post(API_URL, "action=saveHeadPic&zcode=" + zcode + "&token=" + token + "&Pic=" + res3.data, false, false, "", "", "", self).then(res4 => {
           wx.hideLoading({})
+              wx.setStorage({
+                key: 'user',
+                data: {
+                  Pic:res4.data.data[0].pic
+                }
+              }) 
           wx.showToast({
             title: '成功',
             icon: 'success',

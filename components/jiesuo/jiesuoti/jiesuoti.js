@@ -7,6 +7,10 @@ Component({
     windowHeight: {
       type: Number,
       value: 1333
+    },
+    platform: {
+      type: String,
+      value: ''
     }
   },
 
@@ -33,6 +37,15 @@ Component({
         isShow: true
       })
     },
+
+    /**
+     * 打电话
+     */
+    phone: function() {
+      wx.makePhoneCall({
+        phoneNumber: '4006-456-114'
+      })
+    },
     //toogle展示
     toogleDialog() {
       this.setData({
@@ -40,20 +53,21 @@ Component({
       })
     },
     //阻止事件冒泡
-    stopBubbling: function (e) {
-    },
+    stopBubbling: function(e) {},
 
     //点击了空地,让蒙版消失
-    tapBlank: function (e) {
+    tapBlank: function(e) {
       this.setData({
         isShow: false
       })
     },
 
     //解锁全部
-    _buy: function (e) {
+    _buy: function(e) {
       let product = e.currentTarget.dataset.product;
-      this.triggerEvent('buy',{product:product});
+      this.triggerEvent('buy', {
+        product: product
+      });
     }
 
   }

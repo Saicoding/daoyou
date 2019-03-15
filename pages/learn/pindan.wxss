@@ -294,3 +294,4 @@
   opacity: 0.6;
   z-index: 99;
 }
+.yinzhang { width:300rpx; height: 300rpx; position: absolute; bottom:15%; left: 50%; margin-left: -150rpx; z-index: 4  }

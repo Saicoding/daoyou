@@ -88,19 +88,30 @@ App({
             }
 
           } else if (status == -201) { //没有权限
-            if (self) { //如果传了这个参数
-              self.setData({
-                notBuy: true, //设置成没有购买
-                first: false,
-                show: true,
-                showPrompt: true //显示购买信息
-              })
-            }
+            // if (self) { //如果传了这个参数
+            //   self.setData({
+            //     notBuy: true, //设置成没有购买
+            //     first: false,
+            //     show: true,
+            //     showPrompt: true //显示购买信息
+            //   })
+            // }
             wx.showToast({
               icon: 'none',
-              title: message,
+              title: '没权权限,将为您推荐学习计划',
               duration: 3000
             })
+
+            setTimeout(function(){
+              wx.navigateBack({
+                success: function () {
+                  wx.navigateTo({
+                    url: '/pages/index/xuexijihua/xuexijihua',
+                  })
+                }
+              })
+            },3000);
+
           } else if (status == -2012) { //微信未绑定手机号
             resolve(res);
           } else if (status == -2020) { //绑定的手机号已经存在

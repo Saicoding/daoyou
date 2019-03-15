@@ -193,7 +193,7 @@ Page({
     })
 
     if (user) { //如果已经登录
-      if (user.buy == 0) { //未加入学习计划
+      if (user.taocan == '0') { //未加入学习计划
         user.text = "你尚未加入学习计划,去加入>>";
         user.loginIcon = "/images/index/danger.png";
       } else {
@@ -260,12 +260,13 @@ Page({
    * 创建海报
    */
   _createHaibao: function(e) {
+    let self = this;
     let SignDays = e.detail.SignDays;
     let SignTotalDays = e.detail.SignTotalDays;
-    wx.showLoading({
-      title: '生成中',
+    this.haibao.setData({
+      imageUrl:false
     })
-    this.haibao.draw(SignDays, SignTotalDays);
+    this.haibao.draw(SignDays, SignTotalDays,self);
   },
 
   /**

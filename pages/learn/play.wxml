@@ -53,7 +53,7 @@
         <text class='hui mr10' style='margin-left:50rpx;'>讲师</text>{{teacher}}
         <view class='clear' style='height:20rpx;'></view>
 
-        <text class='hui mr10'>选课</text>
+        <text class='hui mr10'>类型</text>
         <navigator url='learn' open-type="switchTab" class='xk {{zi=="精讲"?"on":""}}'>基础精讲</navigator>
         <navigator url='learn' open-type="switchTab" class='xk {{zi=="提升"?"on":""}}'>习题提升</navigator>
         <navigator url='learn' open-type="switchTab" class='xk {{zi=="冲刺"?"on":""}}'>考前冲刺</navigator>

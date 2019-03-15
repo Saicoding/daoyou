@@ -86,12 +86,12 @@ Page({
       mymoney = user.Money * 1;
       if (mymoney >= money_zong) {
         mymoney2 = "-" + money_zong;
-        //money_zong = 0
-        money_zong = 0.01 //下单测试
+        money_zong = 0
+        //money_zong = 0.01 //下单测试
       } else {
         mymoney2 = "-" + mymoney;
-        // money_zong = money_zong - mymoney
-        money_zong = 0.01 //下单测试
+        money_zong = money_zong - mymoney
+        //money_zong = 0.01 //下单测试
       }
     } else {
       wx.navigateTo({

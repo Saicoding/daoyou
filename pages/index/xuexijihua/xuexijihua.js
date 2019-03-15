@@ -189,12 +189,15 @@ Page({
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+        let platform = res.platform;
+        console.log(platform)
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
-          statusBarHeight: statusBarHeight
+          statusBarHeight: statusBarHeight,
+          platform: platform
         })
       }
     });
@@ -223,10 +226,47 @@ Page({
   },
 
   /**
+   * 苹果系统点击加入学习计划
+   */
+  iosBuy:function(){
+    wx.showModal({
+      title: '提示',
+      content: '因Apple政策原因，IOS暂不支持小程序内开通学习计划，苹果用户请使用安卓设备开通！服务电话：4006-456-114',
+      showCancel: true,
+      confirmText: '拨打电话',
+      confirmColor: '#2ec500',
+      success:function(e){
+        if(e.confirm){
+          wx.makePhoneCall({
+            phoneNumber:'4006-456-114'
+          })
+        }
+      }
+    })
+  },
+
+  /**
    * 单独购买
    */
   buy: function() {
-    this.buyTaocan.showDialog();
+    var user = wx.getStorageSync("user");
+
+    if (user) {
+      let buy = user.taocan;
+      //登陆并且未购买
+      if (buy != 0) {
+        //登陆并且已购买
+        wx.showToast({
+          title: '您已经购买套餐包',
+          icon: 'none',
+          duration: 3000
+        })
+      }else{
+
+        this.buyTaocan.showDialog();
+      }
+    }
+   
   },
 
   /**

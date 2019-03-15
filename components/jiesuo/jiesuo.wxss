@@ -72,6 +72,20 @@
   background: #31cb97;
 }
 
+.btn{
+  width: 500rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 70rpx;
+  border:none;
+  color: white;
+  text-align: center;
+  font-size: 25rpx;
+  margin: 0 auto;
+  margin-top:30rpx;
+  background: #fd635b;
+}
+
 /* 下面部分 */
 
 .down {
@@ -95,6 +109,17 @@
   font-size: 22rpx;
   text-align: center;
   color: #545a50;
+}
+
+.down-text1 {
+  width: 630rpx;
+  line-height: 40rpx;
+  font-size: 22rpx;
+  text-align: center;
+  color: #545a50;
+  padding-top:20rpx;
+  padding-left:30rpx;
+  padding-right:30rpx;
 }
 
 .down-btn {

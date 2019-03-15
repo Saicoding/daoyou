@@ -2,7 +2,7 @@
   <!-- 最上面 -->
   <view class="up">
     <view class="nickname">
-      <view class='f15'>{{user.Nickname}}</view>
+      <view class='f16'>{{user.Nickname}}</view>
       <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
     </view>
     <view class="nickname2">
@@ -87,19 +87,15 @@
     </view>
   </view>
 
-
-
-  <view class="line" hover-class="select1" hover-stay-time="500" style='border-top:15rpx solid #f0f3fa;'>
+  <button open-type="contact" class="line" hover-class="select1" hover-stay-time="500" style='border-top:15rpx solid #f0f3fa;'>
     <view class="block">
-      <button open-type="contact">
-        <view class="mytext fl">
-          在线咨询
-        </view>
-        <view class='fr hui'></view>
-        <view class='hui fr'>周一至周六 08：30~17：30</view>
-      </button>
+      <view class="mytext fl">
+        在线咨询
+      </view>
+      <view class='fr hui'></view>
+      <view class='hui fr'>周一至周六 08：30~17：30</view>
     </view>
-  </view>
+  </button>
   <view class="line" hover-class="select1" hover-stay-time="500">
     <view class="block" bindtap='calling' data-tel='4006456114'>
 

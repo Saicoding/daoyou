@@ -209,6 +209,7 @@ Component({
 
     //点击了空地,让蒙版消失
     tapBlank: function(e) {
+      console.log('点击日历蒙版')
       this.setData({
         isShow: false
       })
@@ -223,13 +224,13 @@ Component({
           duration:3000,
           icon:'none'
         })
+      }else{
+        wx.showLoading({
+          title: '生成中',
+          mask: true
+        })
+        self.triggerEvent("createHaibao", { SignDays: this.data.SignDays, SignTotalDays: this.data.SignTotalDays });
       }
-      //生成海报
-      this.setData({
-        isShow: false
-      })
-
-      self.triggerEvent("createHaibao", { SignDays: this.data.SignDays, SignTotalDays: this.data.SignTotalDays});
     }
   }
 

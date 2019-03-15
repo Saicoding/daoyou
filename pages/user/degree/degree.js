@@ -23,9 +23,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    stepText: 5,
+    stepText:8,
     zong: 0.00,
-    chanelArray: [["政策与法律法规","0.00"], ["地方导游基础知识","0.00"], ["导游业务","0.00"], ["全国导游基础知识","0.00"], ["导游面试","0.00" ]],
+    chanelArray: [["政策法规","0.00"], ["地方导基","0.00"], ["导游业务","0.00"], ["全国导基","0.00"], ["导游面试","0.00" ]],
     loaded: false,
   
     startYear: 2018,
@@ -168,7 +168,7 @@ Page({
   drawTextCans: function (mData) {
 
     radCtx.setFillStyle("black")
-    radCtx.font = 'bold 15px' //设置字体
+    radCtx.font = '14px Arial' //设置字体
     for (let n = 0; n < numCount; n++) {
       let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
       let y = mCenter - 30 + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
@@ -192,7 +192,7 @@ Page({
       }
     }
 
-    radCtx.font = 'bold 12px' //设置字体
+    radCtx.font = '12px Arial' //设置字体
     for (let n = 0; n < numCount; n++) {
       let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
       let y = mCenter - 30 + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);

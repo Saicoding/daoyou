@@ -34,7 +34,7 @@
     </navigator>
   </view>
 
-  <view class='tar bgfff f14'>实付:￥{{price_tuan/100-50}}
+  <view class='tar bgfff f14'>实付:￥{{price_tuan/100}}
     <text class='f12 hui'>（免运费）</text>
   </view>
   <view class='tar bgfff'>

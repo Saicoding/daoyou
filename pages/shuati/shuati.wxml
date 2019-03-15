@@ -161,4 +161,4 @@
 
 <goAnswerModel id="goAnswerModel" bindGOzuoti="_GOzuoti" windowHeight="{{windowHeight}}"></goAnswerModel>
 
-<jiesuoti id="jiesuoti" bindbuy="_buy" windowHeight="{{windowHeight}}"></jiesuoti>
+<jiesuoti platform = "{{platform}}"  id="jiesuoti" bindbuy="_buy" windowHeight="{{windowHeight}}"></jiesuoti>

@@ -143,7 +143,6 @@ Page({
 
     } else { //模拟 & 核心
       let keys = currentMidIndex == 1 ? 0 : 1
-      console.log("action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode)
       app.post(API_URL, "action=getShijuanList&types=" + types + "&keys=" + keys + "&token=" + token + "&zcode=" + zcode, false, false, "", "").then(res => {
         let zhangjies = res.data.data;
         console.log(zhangjies)
@@ -312,13 +311,14 @@ Page({
         //最上面标题栏不同机型的高度不一样(单位PX)
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         let jiaonang = wx.getMenuButtonBoundingClientRect(); //胶囊位置及尺寸
-
+        let platform = res.platform;
         let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
+          platform: platform,
           statusBarHeight: statusBarHeight,
           jiaonang: jiaonang,
           fixedTop: fixedTop

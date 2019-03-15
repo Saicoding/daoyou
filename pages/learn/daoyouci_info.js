@@ -44,12 +44,16 @@ Page({
     var that = this;
 
     app.post(API_URL, "action=getDaoyouciShow&id=" + this.data.id, false, false, "", "", "", self).then(res => {
+      console.log(res)
       let daoyouci = res.data.data[0];
       that.setData({
         daoyouci: daoyouci,
         nodes: daoyouci.content,
         nodes2: daoyouci.info,
         loaded: true
+      });
+      wx.setNavigationBarTitle({ //设置标题
+        title: daoyouci.title
       });
       if (that.data.daoyouci.mp3) {
         myaudio.src = this.data.daoyouci.mp3;
@@ -251,8 +255,7 @@ Page({
       loadingMore: true
     })
 
-    app.post(API_URL, "action=getCoursePL&cid=" + kcid + "&page=" + page_now + 1, false, false, "", "").then((res) => {
-      console.log(res)
+    app.post(API_URL, "action=getDaoyouciPL&cid=" + kcid + "&page=" + page_now + 1, false, false, "", "").then((res) => {
       var page_all = res.data.data[0].page_all;
       var page_now = res.data.data[0].page_now;
       let newpl = res.data.data[0].pllist;
@@ -266,6 +269,7 @@ Page({
         self.setData({
           page_all: page_all,
           page_now: page_now,
+          recordsall: res.data.data[0].recordsall,
           loadingMore: false,
           plfirst: true,
           pl: pl,

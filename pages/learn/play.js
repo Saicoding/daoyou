@@ -178,7 +178,9 @@ Page({
           px: px,
           buy: buy
         });
-
+        wx.setNavigationBarTitle({ //设置标题
+          title: res.data.data[0].kc_name
+        });
       })
 
     } else {
@@ -312,7 +314,7 @@ Page({
       })
     } else {
       wx.navigateTo({
-        url: '../login/login',
+        url: '/pages/login/login',
       })
     }
   },
@@ -894,9 +896,28 @@ Page({
    * 导航到套餐页面
    */
   goPay: function() {
-    wx.navigateTo({
-      url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money + '&title=' + this.data.kc_name + '&keshi=' + this.data.files.length + '&teacher=' + this.data.teacher
-    })
+    let platform = this.data.platform;
+    if (platform == 'ios'){
+      wx.showModal({
+        title: '提示',
+        content: '因Apple政策原因，IOS暂不支持小程序内购买课程，苹果用户请使用安卓设备开通！服务电话：4006-456-114',
+        showCancel: true,
+        confirmText: '拨打电话',
+        confirmColor: '#2ec500',
+        success: function (e) {
+          if (e.confirm) {
+            wx.makePhoneCall({
+              phoneNumber: '4006-456-114'
+            })
+          }
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: 'pay?danke=true&id=' + this.data.kcid + '&money_zong=' + this.data.kc_money + '&title=' + this.data.kc_name + '&keshi=' + this.data.files.length + '&teacher=' + this.data.teacher
+      })
+    }
+
   },
 
   /**

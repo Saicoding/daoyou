@@ -1,7 +1,7 @@
 <!--pages/index/xuexijihua/xuexijihua.wxml-->
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"></image>
 
-<view hidden="{{!loaded}}" class="content" style='padding-bottom:300rpx'>
+<view hidden="{{!loaded}}" class="content" style='padding-bottom:100rpx'>
   <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (1).jpg" mode='widthFix'></image>
   <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (2).jpg" bindtap='video_show' mode='widthFix'></image>
   <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (3).jpg" mode='widthFix'></image>
@@ -11,11 +11,7 @@
   <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (7).jpg" mode='widthFix'></image>
   <image class="w100" src="https://xcx2.chinaplat.com/daoyou/images/xuexijihua (8).jpg" mode='widthFix'></image>
   <view class='bg' hidden='{{!video_show}}' bindtap='video_hide'></view>
-  <video hidden='{{!video_show}}'
-    id="myVideo"
-    src="http://www.chinaplat.com/html/yse/daoyounew/daoyou.mp4"
-    controls
-  ></video>
+  <video hidden='{{!video_show}}' id="myVideo" src="http://www.chinaplat.com/html/yse/daoyounew/daoyou.mp4" controls></video>
   <!-- <web-view src="{{web[0]}}" class='web-view'></web-view> -->
 
   <!-- <web-view src="https://xcx2.chinaplat.com/daoyou/taocan.html" class='web-view' style='height:{{webheight}}px'></web-view> -->
@@ -29,9 +25,9 @@
 
 
   <!-- 快速参团 //"HeadPic":"http://www.chinaplat.com/user/UserHeadImg/10013.jpg","NickName":"","EndTime":"2019/3/9 17:05:42","Id":"22"-->
-  
+
   <view wx:if="{{pindan_list!=''}}" class="block">
-    <swiper vertical="true" autoplay="true" interval="5000" duration="200"  >
+    <swiper vertical="true" autoplay="true" interval="5000" duration="200">
       <block wx:for="{{pindan_list}}" wx:for-item="list" wx:key="i">
         <swiper-item>
           <view data-id="{{list.Id}}" bindtap="GOtuangou" style='width:100%; height:100%'>
@@ -60,15 +56,24 @@
       </button>
     </view>
 
-    <view class="bottom-item2 " bindtap="buy" hover-class='select3' hover-stay-time='500'>
-      <view class="bottom-item2-line1">¥ {{list[0].money}}</view>
-      <view class="bottom-item2-line2">单独购买</view>
+    <!-- android -->
+    <view wx:if = "{{platform == 'android'}}" style = "display:flex;">
+      <view class="bottom-item2 " bindtap="buy" hover-class='select3' hover-stay-time='500'>
+        <view class="bottom-item2-line1">¥ {{list[0].money}}</view>
+        <view class="bottom-item2-line2">单独购买</view>
+      </view>
+
+      <view wx:if="{{list[0].buy=='0'}}" class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
+        <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
+        <view class="bottom-item2-line2">{{tuan_id?"与TA拼单":"发起团购"}}</view>
+      </view>
     </view>
 
-    <view wx:if="{{list[0].buy=='0'}}" class="bottom-item3" bindtap="GOtuangou" hover-class='select4' hover-stay-time='500'>
-      <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
-      <view class="bottom-item2-line2">{{tuan_id?"与TA拼单":"发起团购"}}</view>
+    <!-- ios -->
+    <view wx:if="{{platform == 'ios'}}" class="iosBtn" bindtap = "iosBuy" hover-class='select5' hover-stay-time='500'>
+      加入学习计划
     </view>
+
     <view wx:if="{{list[0].buy!='0'}}" class="bottom-item3">
       <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
       <view class="bottom-item2-line2">您已支付</view>

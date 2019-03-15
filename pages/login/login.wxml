@@ -27,6 +27,9 @@
   </view> -->
   <view class="block">
     <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" cursor-spacing = "50rpx" />
+    <!-- <button open-type='getPhoneNumber' bindgetphonenumber = "getphonenumber" class ="phoneBtn">
+      <image src="/images/phone.png"  class ="phoneBtn-icon"></image>
+    </button> -->
   </view>
 
   <!-- 验证码 -->

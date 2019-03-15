@@ -39,6 +39,7 @@ Page({
     })
     
     let tuan_id = options.tuan_id;
+  
     if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
     let img = options.img; //分享出去的头像，只有被点击才存在
     if (img) { img = img } else { img = "" }

@@ -65,6 +65,16 @@
   margin-top:10rpx;
 }
 
+.iosBtn{
+  font-size:35rpx;
+  color:white;
+  text-align: center;
+  height:120rpx;
+  line-height: 120rpx;
+  background:rgb(46, 197, 0);
+  width:415rpx;
+}
+
 /* 最下面 */
 
 .bottom {
@@ -137,6 +147,7 @@
   height: 60rpx;
   line-height: 40rpx;
 }
+.username { max-width:5em; overflow: hidden; white-space: nowrap;text-overflow: ellipsis;}
 
 .select1 {
   background: linear-gradient(to right, rgba(248, 0, 8, 0.3), rgba(255, 154, 158, 0.3));
@@ -153,4 +164,8 @@
 .select4 {
   background: #77cf99;
 }
-.username { max-width:5em; overflow: hidden; white-space: nowrap;text-overflow: ellipsis;}
+
+.select5{
+   background: #76f301;
+}
+

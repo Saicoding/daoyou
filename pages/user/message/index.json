@@ -3,5 +3,6 @@
     "myinput": "/components/myinput/myinput",
     "singleSelect": "/components/singleSelect2/singleSelect"
   },
-  "enablePullDownRefresh": false
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "个人信息"
 }

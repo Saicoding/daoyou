@@ -1,11 +1,11 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit">
 </image>
 
-<view wx:if="{{loaded}}" class="content">
+<view wx:if="{{loaded}}" class="content rel">
 
   <view class="block" bindtap="watch">
    
-    <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>
+    <navigator url='../index/xuexijihua/xuexijihua?tuan_id={{tuan_id}}'>
     <image src="http://www.chinaplat.com/daoyou/images/quanpei.jpg" class="img" mode='widthFix' />
 
     <view class="right-block">
@@ -33,7 +33,7 @@
         <view class="up-avatar-text">拼主</view>
       </view>
       <view style="margin-left:30rpx;">
-        <image src="/images/wenhao.png" class="up-avatar-pic"></image>
+        <image src="{{pin_img?pin_img:'/images/wenhao.png'}}" class="up-avatar-pic"></image>
       </view>
     </view>
     <view class="up-avatar" wx:if="{{mine=='false'}}">
@@ -42,27 +42,29 @@
         <view class="up-avatar-text">拼主</view>
       </view>
       <view style="margin-left:30rpx;">
-        <image  src="/images/wenhao.png" class="up-avatar-pic"></image>
+        <image  src="{{pin_img?pin_img:'/images/wenhao.png'}}" class="up-avatar-pic"></image>
       </view>
     </view>
-    <view class="up-text">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
+    <view class="up-text" wx:if="{{pin_img==''}}">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
 
     <!-- 邀请按钮 -->
-    <button open-type="share" wx:if="{{mine==true&&guoqi==false}}" class="btn" hover-class='select1' hover-stay-time='500'>
+    <button open-type="share" wx:if="{{mine=='true'&&guoqi=='false'}}" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>
 
-    <view wx:if="{{mine==false&&guoqi==false}}" bindtap='pindan' class='btn' hover-class='select1' hover-stay-time='500'>
+    <view wx:if="{{mine=='false'&&guoqi=='false'}}" bindtap='pindan' class='btn' hover-class='select1' hover-stay-time='500'>
       与他一起拼单
     </view>
-    <view wx:if="{{guoqi==true}}" class='btn huise' >
+    <view wx:if="{{guoqi=='true'||pin_img!=''}}" class='btn huise' >
       拼单已结束
     </view>
     
     <view class='tac hui f14'>
-      <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>查看课程详情</navigator>
+      <navigator url='../index/xuexijihua/xuexijihua?tuan_id={{tuan_id}}'>查看课程详情</navigator>
     </view>
-    
+    <image wx:if="{{pin_img!=''}}" src='/images/user/wancheng.png' class='yinzhang'></image>
+   
+    <image wx:if="{{guoqi=='true'&&pin_img==''}}" src='/images/user/guoqi.png' class='yinzhang'></image>
   </view>
 
   
