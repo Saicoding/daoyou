@@ -27,6 +27,7 @@
 }
 
 .pic {
+  border-radius: 10rpx;
   width: 660rpx;
   height: 902rpx;
 }

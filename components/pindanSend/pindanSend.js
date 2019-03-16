@@ -15,8 +15,8 @@ Component({
    */
   data: {
     isShow: false,
-    downShow:true,
-    user:""
+    downShow: true,
+    user: ""
   },
 
   /**
@@ -43,32 +43,33 @@ Component({
       })
     },
     //阻止事件冒泡
-    stopBubbling: function (e) {
-    },
+    stopBubbling: function(e) {},
 
     //点击了空地,让蒙版消失
-    tapBlank: function (e) {
+    tapBlank: function(e) {
       this.setData({
         isShow: false
       })
     },
 
     //点击关闭按钮
-    close:function(){
+    close: function() {
       this.setData({
-        downShow:false
+        downShow: false
       })
     },
 
 
     //得到海报
-    getHaibao:function(){
-    //this.hideDialog();
-      wx.showShareMenu({
-        withShareTicket: true
-      })
-    }
+    //点击海报按钮
+    _createHaibao: function(e) {
+      let self = this;
 
-    
+      wx.showLoading({
+        title: '生成中',
+        mask: true
+      })
+      self.triggerEvent("createHaibao");
+    }
   },
 })

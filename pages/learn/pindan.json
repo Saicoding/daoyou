@@ -1,3 +1,7 @@
 {
-  "navigationBarTitleText": "全陪套餐拼单"
+  "navigationBarTitleText": "全陪套餐拼单",
+  "usingComponents": {
+    "pindanSend": "/components/pindanSend/pindanSend",
+    "haibao": "/components/haibao/haibao"
+  }
 }

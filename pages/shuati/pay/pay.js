@@ -113,7 +113,8 @@ Page({
       let user = prepage.data.user;
 
       user.TKflag = 1;
-      user.mymoney = self.data.mymoney - self.data.xuqiu >= 0?self.data.mymoney - self.data.xuqiu:0;//更新钱数
+
+      user.Money = self.data.mymoney - self.data.xuqiu >= 0?self.data.mymoney - self.data.xuqiu:0;//更新钱数
 
       wx.setStorageSync('user', user);
 

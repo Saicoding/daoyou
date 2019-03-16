@@ -77,7 +77,22 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    let self = this;
+    this.haibao = this.selectComponent("#haibao");
 
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        //最上面标题栏不同机型的高度不一样(单位PX)
+
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowWidth: windowWidth,
+          windowHeight: windowHeight
+        })
+      }
+    });
   },
   time: function () {
     var totalSecond = this.data.endtime - (Date.parse(new Date()) / 1000);
@@ -164,6 +179,27 @@ Page({
    */
   onReachBottom: function () {
 
+  },
+
+  /**
+ * 创建海报
+ */
+  createHaibao: function (e) {
+    let self = this;
+
+    let user = wx.getStorageSync('user');
+    var userid = user.zcode;
+    var img = '/images/avatar.png';
+
+    if (user.Pic) { img = user.Pic }
+    this.haibao.setData({
+      imageUrl: false
+    })
+    wx.showLoading({
+      title: '生成中',
+      mask: true
+    })
+    this.haibao.draw2(this.data.tuan_id, img, userid);
   },
 
   /**

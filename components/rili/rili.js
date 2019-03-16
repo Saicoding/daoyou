@@ -66,6 +66,7 @@ Component({
 
       this.initQiandao();
 
+      console.log("action=QianDao&zcode=" + zcode + "&token=" + token)
       app.post(API_URL, "action=QianDao&zcode=" + zcode + "&token=" + token, false, false, "", "", false, self).then(res => {
         let result = res.data.data[0];
         let SignDays = result.SignDays;//连续签到
@@ -73,6 +74,8 @@ Component({
         let SignNums = result.SignNums?result.SignNums:1;
         let SendJifen = result.SendJifen;
         let SignTotalDays = result.SignTotalDays;
+        let money = result.money;
+
         let current = SignDays - 3 <= 0 ? 0 : SignDays - 3;
        
         self.setQiandao(SignDays);
@@ -92,9 +95,9 @@ Component({
             SendJifen = SendJifen * 1 + 500;
           }
 
-          user.Money = (user.Money * 1 + SendJifen*1/100)+"";//更新积分
+          user.Money = money;  
 
-        
+          console.log(user.Money)
          
           clearInterval(interval);
 

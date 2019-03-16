@@ -66,8 +66,8 @@
    
     <image wx:if="{{guoqi=='true'&&pin_img==''}}" src='/images/user/guoqi.png' class='yinzhang'></image>
   </view>
-
-  
-
-
 </view>
+
+<pindanSend id ="pindanSend" bind:createHaibao="_createHaibao"></pindanSend>
+<!-- 海报 -->
+<haibao id="haibao" windowHeight="{{windowHeight}}"></haibao>

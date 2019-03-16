@@ -1,6 +1,8 @@
 {
   "pages": [
+
     "pages/index/index",
+            "pages/learn/pindan",
     "pages/user/degree/degree",
     "pages/user/course/list",
     "pages/learn/learn",
@@ -27,7 +29,6 @@
     "pages/shuati/moni/modelRealScore/modelRealScore",
     "pages/user/message/news",
     "pages/index/xuexijihua/xuexijihua",
-    "pages/learn/pindan",
     "pages/user/course/pindan_list",
     "pages/user/message/pwd",
     "pages/user/tuijian/tuijian",

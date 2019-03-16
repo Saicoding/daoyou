@@ -1,6 +1,5 @@
-
-<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit"/>
-<image wx:if="{{loaded&&kong=='kong'}}" class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit"/>
+<image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit" />
+<image wx:if="{{loaded&&kong=='kong'}}" class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit" />
 <view wx:if="{{loaded&&kong==''}}" class="content">
 
   <view class='bbg' wx:if="{{guoqi==true||pin_img!=''}}"></view>
@@ -16,7 +15,7 @@
     <view class='clear'></view>
   </view>
   <view class='tar bgfff' wx:if="{{guoqi==true}}">
-  <view class=' fr f14'>拼单已结束</view>
+    <view class=' fr f14'>拼单已结束</view>
     <view class='clear'></view>
   </view>
 
@@ -26,8 +25,12 @@
       <view class="right-block">
         <!-- 标题 -->
         <view class="title f14">{{title}}</view>
-        <view class='hong'>￥{{price_tuan/100}}
-          <text class='f12 hui'> 拼单省50元</text>
+        <view style="display:flex;">
+          <view class='hong'>￥{{price_tuan/100}}
+          </view>
+          <view class='f12 hui' style="margin-left:30rpx;margin-top:10rpx;"> 原价
+            <span style="text-decoration:line-through;">{{price_tuan/100+50}}</span>
+          </view>
         </view>
       </view>
       <view class='clear'></view>
@@ -37,13 +40,15 @@
   <view class='tar bgfff f14'>实付:￥{{price_tuan/100}}
     <text class='f12 hui'>（免运费）</text>
   </view>
-  <view class='tar bgfff'>
+  <view class='tar bgfff' style = "display:flex;">
+    <view>
     <image class="block-icon1 fl" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
     <view wx:if="{{!pin_img}}" class="block-icon2-container fl" style="border:1rpx dashed rgb(187, 187, 187);">
       <image class="block-icon2" src="/images/wenhao.png"></image>
     </view>
-    <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}" ></image>
-
+    <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}"></image>
+    </view>
+    <view class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>
@@ -51,6 +56,8 @@
     <image wx:if="{{pin_img!=''}}" src='/images/user/wancheng.png' class='yinzhang'></image>
     <button wx:if="{{guoqi==true&&pin_img==''}}" class="btn huise">已过期</button>
     <image wx:if="{{guoqi==true&&pin_img==''}}" src='/images/user/guoqi.png' class='yinzhang'></image>
-    <view class='clear'></view>
   </view>
 </view>
+
+<!-- 海报 -->
+<haibao id="haibao" windowHeight="{{windowHeight}}"></haibao>

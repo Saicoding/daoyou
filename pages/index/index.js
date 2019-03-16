@@ -116,6 +116,7 @@ Page({
    
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
+    console.log(user)
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let token = user.token;
     let first = this.data.first;

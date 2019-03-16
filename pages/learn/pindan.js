@@ -27,62 +27,60 @@ Page({
     countDownHour: 0,
     countDownMinute: 0,
     countDownSecond: 0,
-
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({ //设置标题
-      title: '全陪套餐拼单中……',
-    })
+    // wx.setNavigationBarTitle({ //设置标题
+    //   title: '全陪套餐拼单中……',
+    // })
     
-    let tuan_id = options.tuan_id;
+    // let tuan_id = options.tuan_id;
   
-    if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
-    let img = options.img; //分享出去的头像，只有被点击才存在
-    if (img) { img = img } else { img = "" }
-    let userid = options.userid;
+    // if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
+    // let img = options.img; //分享出去的头像，只有被点击才存在
+    // if (img) { img = img } else { img = "" }
+    // let userid = options.userid;
     
     
-    var user = wx.getStorageSync("user");
-    var token = "";
-    var zcode = "";
-    if (user) {
-      this.setData({
-        user: user
-      })
-      token = user.token;
-      zcode = user.zcode;
-    }
-    let mine = 'false';
-    if (userid == zcode || userid== 'false') { mine == true }
-    this.setData({
-      mine: mine,
-      img: img,
-      tuan_id: tuan_id,
-      userid: userid
-    })
-    let that = this;
-    app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
+    // var user = wx.getStorageSync("user");
+    // var token = "";
+    // var zcode = "";
+    // if (user) {
+    //   this.setData({
+    //     user: user
+    //   })
+    //   token = user.token;
+    //   zcode = user.zcode;
+    // }
+    // let mine = 'false';
+    // if (userid == zcode || userid== 'false') { mine == true }
+    // this.setData({
+    //   mine: mine,
+    //   img: img,
+    //   tuan_id: tuan_id,
+    //   userid: userid
+    // })
+    // let that = this;
+    // app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
 
-      var list = res.data.data[0];
-      //日期转化时间戳
-      var time = Date.parse(new Date(list.endtime)) / 1000;
+    //   var list = res.data.data[0];
+    //   //日期转化时间戳
+    //   var time = Date.parse(new Date(list.endtime)) / 1000;  
      
-     
-      that.setData({
-        title: list.title,
-        price_tuan: list.money,
-        endtime: time,
-        tuanzhuImg: list.tuanzhuImg,
-        pin_img: list.pin_img,
-        loaded: true,
-      })
+    //   that.setData({
+    //     title: list.title,
+    //     price_tuan: list.money,
+    //     endtime: time,
+    //     tuanzhuImg: list.tuanzhuImg,
+    //     pin_img: list.pin_img,
+    //     loaded: true,
+    //   })
     
-      that.time();
-    });
+    //   that.time();
+    // });
     
     
   },
@@ -155,22 +153,40 @@ Page({
     }
 
   },
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    let self = this;
+    this.pindanSend = this.selectComponent("#pindanSend");
+    this.pindanSend.showDialog();
+    this.haibao = this.selectComponent("#haibao");
 
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        //最上面标题栏不同机型的高度不一样(单位PX)
+
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowWidth: windowWidth,
+          windowHeight: windowHeight
+        })
+      }
+    });
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    if (this.data.ifShare==true){
-      wx.navigateTo({
-        url: '../user/course/pindan_list',
-      })
-    }
+    // if (this.data.ifShare==true){
+    //   wx.navigateTo({
+    //     url: '../user/course/pindan_list',
+    //   })
+    // }
   },
 
   /**
@@ -199,6 +215,17 @@ Page({
    */
   onReachBottom: function () {
 
+  },
+
+  /**
+   * 创建海报
+   */
+  _createHaibao: function (e) {
+    let self = this;
+    this.haibao.setData({
+      imageUrl: false
+    })
+    this.haibao.draw2();
   },
 
   /**

@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+    "usingComponents": {
+      "haibao": "/components/haibao/haibao"
+    },
   "navigationBarTitleText": "我的拼单"
 }

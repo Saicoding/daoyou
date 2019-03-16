@@ -279,8 +279,9 @@ Page({
     if (tuan_id) { tuan_id = tuan_id } else { tuan_id = this.data.tuan_id}
     if (user) {
       let buy = user.taocan;
+  
       //登陆并且未购买
-      if (buy == 0) {
+      if (buy*1 == 1) {
         let money_zong = this.buyTaocan.data.taocans[0].price_tuan;
         let product = this.buyTaocan.data.taocans[0].typesname;
         let title = this.buyTaocan.data.taocans[0].title;
@@ -292,9 +293,6 @@ Page({
           title: '正在跳转',
           duration: 800
         })
-        // setTimeout(() => {
-        //   this.pindanSend.showDialog();
-        // }, 3000)
 
       } else {
         //登陆并且已购买

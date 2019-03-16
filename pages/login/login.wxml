@@ -33,7 +33,7 @@
   </view>
   <!-- 验证码 -->
   <view wx:if="{{statu.code != 0}}" class="block code">
-    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing="50rpx" />
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing="50rpx" focus='{{pwdFocus}}' auto-focus = "{{pwdFocus}}" />
     <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}'>
       {{text}}
     </button>

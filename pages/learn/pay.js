@@ -343,7 +343,8 @@ Page({
           duration: 3000
         });
        
-        user.Money = res.data.data[0].xuebi
+        user.Money = res.data.data[0].xuebi + res.data.data[0].jifen/100;
+
         wx.setStorage({
           key: 'user',
           data: user
@@ -380,7 +381,6 @@ Page({
             url: "/pages/user/course/list"
           });
         } else {
-
           wx.navigateTo({ //进入拼单页
             url: "pindan?tuan_id=" + res.data.data[0].tuan_id +"&userid=false&img=false"
           });

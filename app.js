@@ -36,6 +36,7 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
+        console.log(res)
           if (ifShow) { //隐藏载入
             wx.hideLoading();
           }
