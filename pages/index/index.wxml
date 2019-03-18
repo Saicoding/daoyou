@@ -53,7 +53,7 @@
       <view class="info-down-item">
         <image class="info-down-item-icon" src="/images/index/yikanke.png"></image>
         <view class="info-down-item-mid">
-          <view class="info-down-item-num">0</view>
+          <view class="info-down-item-num">{{todayKeNum?todayKeNum:0}}</view>
           <view class="info-down-item-midtext">今日看课</view>
         </view>
 

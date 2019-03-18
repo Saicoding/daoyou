@@ -143,7 +143,7 @@ Page({
 
     if (user) {
       app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
-       
+
         //最后播放视频索引
         let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
         let scroll = lastpx * 100 * windowWidth / 750;
@@ -159,6 +159,23 @@ Page({
 
         let files = res.data.data[0].files; //视频列表
         let currentVideo = files[px - 1];
+
+        //获取当前看课节数
+        let myDate = new Date(); //获取系统当前时间
+        let year = myDate.getFullYear();
+        let month = myDate.getMonth() + 1;
+        let day = myDate.getDate();
+        myDate = "" + year + month + day; //得到当前答题字符串
+
+        let todayDoneKe = wx.getStorageSync("todayKe" + myDate + user.zcode) ? wx.getStorageSync("todayKe" + myDate + user.zcode) : [];
+        if (todayDoneKe.indexOf(currentVideo.id) == -1) {//如果不包含当前id
+          todayDoneKe.push(currentVideo.id);
+        }
+
+        wx.setStorage({
+          key: "todayKe" + myDate + user.zcode,
+          data: todayDoneKe,
+        })
 
         let buy = res.data.data[0].buy; //是否已经开通
         let kc_money = res.data.data[0].money; //价格 
@@ -176,11 +193,14 @@ Page({
           img: res.data.data[0].kc_img,
           kcid: kcid,
           px: px,
-          buy: buy
+          buy: buy,
+          todayDoneKe: todayDoneKe//今日看课节数
         });
         wx.setNavigationBarTitle({ //设置标题
           title: res.data.data[0].kc_name
         });
+
+
       })
 
     } else {
@@ -410,6 +430,22 @@ Page({
     })
     let user = wx.getStorageSync('user');
     if (user) {
+      //获取当前看课节数
+      let myDate = new Date(); //获取系统当前时间
+      let year = myDate.getFullYear();
+      let month = myDate.getMonth() + 1;
+      let day = myDate.getDate();
+      myDate = "" + year + month + day; //得到当前答题字符串
+
+      let todayDoneKe = wx.getStorageSync("todayKe" + myDate + user.zcode) ? wx.getStorageSync("todayKe" + myDate + user.zcode) : [];
+      if (todayDoneKe.indexOf(currentVideo.id) == -1) {//如果不包含当前id
+        todayDoneKe.push(currentVideo.id);
+      }
+
+      wx.setStorage({
+        key: "todayKe" + myDate + user.zcode,
+        data: todayDoneKe,
+      })
       let zcode = user.zcode;
       let token = user.token;
 
@@ -585,6 +621,23 @@ Page({
 
     let user = wx.getStorageSync('user');
     if (user) {
+      //获取当前看课节数
+      let myDate = new Date(); //获取系统当前时间
+      let year = myDate.getFullYear();
+      let month = myDate.getMonth() + 1;
+      let day = myDate.getDate();
+      myDate = "" + year + month + day; //得到当前答题字符串
+
+      let todayDoneKe = wx.getStorageSync("todayKe" + myDate + user.zcode) ? wx.getStorageSync("todayKe" + myDate + user.zcode) : [];
+      if (todayDoneKe.indexOf(currentVideo.id) == -1) {//如果不包含当前id
+        todayDoneKe.push(currentVideo.id);
+      }
+
+      wx.setStorage({
+        key: "todayKe" + myDate + user.zcode,
+        data: todayDoneKe,
+      })
+
       let zcode = user.zcode;
       let token = user.token;
       wx.setStorage({

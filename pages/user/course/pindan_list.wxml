@@ -48,7 +48,7 @@
     </view>
     <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}"></image>
     </view>
-    <view wx:if="{{pin_img==''&&guoqi==false}}" class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
+    <view  class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>

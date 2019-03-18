@@ -218,4 +218,56 @@ Component({
     }
   },
 
+  /**
+  * 获取用户号码
+  */
+  getphonenumber: function (e) {
+    let self = this;
+    let encryptedData = e.detail.encryptedData;
+    let iv = e.detail.iv;
+    wx.showLoading({
+      title: '请求中'
+    })
+    wx.login({
+      success: res => {
+        console.log('开始请求')
+        let code = res.code;
+        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
+          console.log('请求完毕')
+          let sesstion_key = res.data.data[0].sessionKey;
+          let openid = res.data.data[0].openid;
+          //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
+          let pc = new WXBizDataCrypt(appId, sesstion_key);
+          let data = pc.decryptData(encryptedData, iv);
+          let phoneNumber = data.phoneNumber;
+          if (!phoneNumber) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '请再点击一次',
+              icon: 'none',
+              duration: 2000
+            })
+            return
+          }
+
+          let pwdText = wx.getStorageSync('pwdSave' + phoneNumber);
+          let pwd = pwdText;//上次快捷获取电话号码的密码
+
+          self.setData({
+            phoneText: phoneNumber,
+            phone: phoneNumber,
+            isKuaijie: true,
+            pwd: pwd,
+            pwdText: pwdText
+          })
+
+          wx.hideLoading();
+        })
+      },
+      fail: res => {
+        console.log('shibai')
+      }
+    })
+  },
+
 })

@@ -12,7 +12,10 @@
     <view class="content-line">还差最后一步...</view>
     <view class="num">
       <view class="num-text">+86</view>
-      <input type="number" class="phone-input" placeholder-style='font-size:25rpx;' placeholder='请输入手机号' class="phone-input"  bindinput="phoneInput"></input>
+      <view class="phone-input-container">
+        <input type="number" class="phone-input1" placeholder-style='font-size:25rpx;' placeholder='请输入手机号'  bindinput="phoneInput"></input>
+        <button open-type='getPhoneNumber' bindgetphonenumber="getphonenumber" class="phoneBtn"></button>
+      </view>
     </view>
     <view class="num">
       <input type="number" class="phone-input" placeholder='请输入验证码' class="phone-input" style="width:400rpx;" bindinput="codeInput"></input>
@@ -28,8 +31,8 @@
 
 
     <view class="submit">
-      <view class ="submit-btn1"  hover-class='select1' hover-stay-time='500' bindtap ="_ignore">跳过绑定</view>
-      <view class ="submit-btn2"  hover-class='select2' hover-stay-time='500' bindtap = "_confrim">确认绑定</view>
+      <view class="submit-btn1" hover-class='select1' hover-stay-time='500' bindtap="_ignore">跳过绑定</view>
+      <view class="submit-btn2" hover-class='select2' hover-stay-time='500' bindtap="_confrim">确认绑定</view>
     </view>
   </view>
 </view>

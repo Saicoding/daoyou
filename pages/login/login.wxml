@@ -28,7 +28,6 @@
   <view class="block" style = "display:flex;">
     <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' placeholder-style="color:#ddd;" bindinput="phoneInput" cursor-spacing="50rpx"  style="width:80%;"/>
     <button open-type='getPhoneNumber' bindgetphonenumber="getphonenumber" class="phoneBtn">
-
     </button>
   </view>
   <!-- 验证码 -->

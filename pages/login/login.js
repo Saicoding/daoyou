@@ -642,6 +642,9 @@ Page({
                   })
                 } else { //如果已经绑定了
                   let user = res.data.data[0];
+                  // self.bindPhoneModel.showDialog();
+                  // wx.hideLoading();
+                  // return
                   wx.setStorage({
                     key: 'user',
                     data: user
@@ -781,6 +784,7 @@ Page({
           let pc = new WXBizDataCrypt(appId, sesstion_key);
           let data = pc.decryptData(encryptedData, iv);
           let phoneNumber = data.phoneNumber;
+          console.log(phoneNumber)
           if (!phoneNumber){
             wx.hideLoading();
             wx.showToast({

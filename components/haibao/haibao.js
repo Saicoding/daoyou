@@ -231,10 +231,13 @@ Component({
           },
           success: function(res) { //服务器返回数据
             // var XCXbase64 = wx.arrayBufferToBase64(res.data);
+            // xcxCode = "data:image/png;BASE64,"+XCXbase64//不用在保存到本地了，画图时URL直接使用就可以，重新生成海报时不再和微信服务器交互，多次使用====范
 
-            // self.setData({//不用在保存到本地了，画图时URL直接使用就可以，重新生成海报时不再和微信服务器交互，多次使用====范
-            //   xcxCode:"data:image/png;BASE64,"+XCXbase64
+            // self.setData({
+            //   xcxCode:
             // })
+
+            // wx.setStorageSync(key, data)
            
             let filePath = wx.env.USER_DATA_PATH + '/wareInfoShareimg.jpg';
 

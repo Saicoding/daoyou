@@ -42,9 +42,8 @@ Page({
     if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
     let img = options.img; //分享出去的头像，只有被点击才存在
     if (img) { img = img } else { img = "" }
-    let userid = options.userid;
-    
-    
+    let userid = options.userid ? options.userid :'false';
+  
     var user = wx.getStorageSync("user");
     var token = "";
     var zcode = "";
