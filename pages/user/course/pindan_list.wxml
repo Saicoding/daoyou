@@ -20,7 +20,7 @@
   </view>
 
   <view class="block info" bindtap="watch">
-    <navigator url='../index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>
+    <navigator url='/pages/index/xuexijihua/xuexijihua?mine={{mine==true?true:false}}&tuan_id={{tuan_id}}'>
       <image src="http://www.chinaplat.com/daoyou/images/quanpei.jpg" class="img" mode='widthFix' />
       <view class="right-block">
         <!-- 标题 -->
@@ -48,7 +48,7 @@
     </view>
     <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}"></image>
     </view>
-    <view  class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
+    <view wx:if="{{pin_img==''&&guoqi==false}}"  class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>

@@ -314,12 +314,12 @@ Component({
 
       context.setFontSize(19);
       context.setFillStyle('black');
-      context.fillText('主讲老师：陈龙\陈晓华\杨红 有效期:2年', 235, 345);
+      context.fillText('主讲老师：陈龙/\陈晓华/\杨红 有效期:2年', 232, 345);
 
       context.setFontSize(18);
       context.setFillStyle('#797979');
-      context.fillText('全套章节试题\模拟试卷\核心密卷', 250, 393);
-      context.fillText('全套基础\提升\冲刺\面试指导课', 250, 419);
+      context.fillText('全套章节试题/\模拟试卷/\核心密卷', 250, 393);
+      context.fillText('全套基础/\提升/\冲刺/\面试指导课', 250, 419);
 
       // 画最下面的字
       context.setFontSize(26);
@@ -351,7 +351,7 @@ Component({
       context.strokeStyle = "#cfcfcf";
       context.stroke();
       context.beginPath();
-      context.arc(300, 80, 50, 0, 2 * Math.PI) //内圆
+      context.arc(300, 80, 52, 0, 2 * Math.PI) //内圆
       context.fillStyle = "white"
       context.fill();
 

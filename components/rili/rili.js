@@ -99,11 +99,11 @@ Component({
 
           console.log(user.Money)
          
-          clearInterval(interval);
+          that.clear();
 
           myDate = "" + year + month + day; //得到当前答题字符串
 
-          wx.setStorageSync("todayDaka"+zcode, myDate);
+          wx.setStorageSync("todayDaka" + zcode, myDate);
 
           wx.setStorage({
             key: 'user',

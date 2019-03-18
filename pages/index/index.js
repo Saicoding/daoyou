@@ -140,8 +140,9 @@ Page({
     }
 
     myDate = "" + year + month + day; //得到当前答题字符串
-
-    if (todayDaka != myDate && !interval) {
+    console.log(todayDaka)
+    console.log(myDate)
+    if (todayDaka != myDate && !interval) {    
       self.riliAnimate(); //日历动画
     }
 
@@ -262,10 +263,17 @@ Page({
         dakaAnimate: dakaAnimate
       })
     }, 5000);
+    console.log(interval)
 
     self.setData({
       interval: interval
     })
+  },
+
+  clear:function(){
+    let interval = this.data.interval;
+    console.log('清除的是'+interval);
+    clearInterval(interval);
   },
 
   /**
