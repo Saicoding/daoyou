@@ -68,6 +68,6 @@
   </view>
 </view>
 
-<pindanSend id ="pindanSend" bind:createHaibao="_createHaibao"></pindanSend>
+<pindanSend countDownDay ="{{countDownDay}}" countDownHour="{{countDownHour}}" countDownMinute="{{countDownMinute}}" countDownSecond="{{countDownSecond}}" id ="pindanSend" bind:createHaibao="_createHaibao"></pindanSend>
 <!-- 海报 -->
 <haibao id="haibao" windowHeight="{{windowHeight}}"></haibao>

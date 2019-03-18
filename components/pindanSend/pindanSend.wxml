@@ -2,7 +2,7 @@
 
 <view wx:if="{{isShow}}" class="up" catchtap='stopBubbling'>
   <!-- 最上面的时间 -->
-  <view class="up-time">88:88:88.88</view>
+  <view class="up-time">{{countDownDay}}:{{countDownHour}}:{{countDownMinute}}.{{countDownSecond}}</view>
   <!-- 头像 -->
   <view class="up-avatar">
     <view>

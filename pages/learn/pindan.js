@@ -33,54 +33,54 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // wx.setNavigationBarTitle({ //设置标题
-    //   title: '全陪套餐拼单中……',
-    // })
+    wx.setNavigationBarTitle({ //设置标题
+      title: '全陪套餐拼单中……',
+    })
     
-    // let tuan_id = options.tuan_id;
+    let tuan_id = options.tuan_id;
   
-    // if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
-    // let img = options.img; //分享出去的头像，只有被点击才存在
-    // if (img) { img = img } else { img = "" }
-    // let userid = options.userid;
+    if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
+    let img = options.img; //分享出去的头像，只有被点击才存在
+    if (img) { img = img } else { img = "" }
+    let userid = options.userid;
     
     
-    // var user = wx.getStorageSync("user");
-    // var token = "";
-    // var zcode = "";
-    // if (user) {
-    //   this.setData({
-    //     user: user
-    //   })
-    //   token = user.token;
-    //   zcode = user.zcode;
-    // }
-    // let mine = 'false';
-    // if (userid == zcode || userid== 'false') { mine == true }
-    // this.setData({
-    //   mine: mine,
-    //   img: img,
-    //   tuan_id: tuan_id,
-    //   userid: userid
-    // })
-    // let that = this;
-    // app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
+    var user = wx.getStorageSync("user");
+    var token = "";
+    var zcode = "";
+    if (user) {
+      this.setData({
+        user: user
+      })
+      token = user.token;
+      zcode = user.zcode;
+    }
+    let mine = 'false';
+    if (userid == zcode || userid== 'false') { mine == true }
+    this.setData({
+      mine: mine,
+      img: img,
+      tuan_id: tuan_id,
+      userid: userid
+    })
+    let that = this;
+    app.post(API_URL, "action=getTuangouInfo&tuan_id=" + tuan_id, false, false, "", "").then((res) => {
 
-    //   var list = res.data.data[0];
-    //   //日期转化时间戳
-    //   var time = Date.parse(new Date(list.endtime)) / 1000;  
+      var list = res.data.data[0];
+      //日期转化时间戳
+      var time = Date.parse(new Date(list.endtime)) / 1000;  
      
-    //   that.setData({
-    //     title: list.title,
-    //     price_tuan: list.money,
-    //     endtime: time,
-    //     tuanzhuImg: list.tuanzhuImg,
-    //     pin_img: list.pin_img,
-    //     loaded: true,
-    //   })
+      that.setData({
+        title: list.title,
+        price_tuan: list.money,
+        endtime: time,
+        tuanzhuImg: list.tuanzhuImg,
+        pin_img: list.pin_img,
+        loaded: true,
+      })
     
-    //   that.time();
-    // });
+      that.time();
+    });
     
     
   },

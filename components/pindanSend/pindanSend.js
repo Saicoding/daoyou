@@ -7,7 +7,23 @@ Component({
     windowHeight: {
       type: Number,
       value: 1333
-    }
+    },
+    countDownDay:{
+      type:String,
+      value:'00'
+    },
+    countDownHour: {
+      type: String,
+      value: '00'
+    },
+    countDownMinute: {
+      type: String,
+      value: '00'
+    },
+    countDownSecond: {
+      type: String,
+      value: '00'
+    },
   },
 
   /**
