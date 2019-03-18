@@ -62,7 +62,7 @@
       <view class="info-down-item">
         <image class="info-down-item-icon" src="/images/index/yixuexi.png"></image>
         <view class="info-down-item-mid">
-          <view class="info-down-item-num">0</view>
+          <view class="info-down-item-num">{{QDdays?QDdays:0}}</view>
           <view class="info-down-item-midtext">已学习</view>
         </view>
         <view class="info-down-item-text">天</view>

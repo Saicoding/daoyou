@@ -79,6 +79,7 @@ Page({
         banners: banners
       })
     })
+
   },
 
   /**
@@ -126,8 +127,16 @@ Page({
     let month = myDate.getMonth() + 1;
     let day = myDate.getDate();
     let interval = this.data.interval;
-    //若有新消息出现红点
 
+    //请求学习天数
+    app.post(API_URL, "action=getStudyDays&zcode=" + zcode, false, false, "").then(res => {
+      let QDdays = res.data.data[0].QDdays;
+      self.setData({
+        QDdays: QDdays
+      })
+    })
+
+    //若有新消息出现红点
     if (user) { //有用户信息时才请求
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;

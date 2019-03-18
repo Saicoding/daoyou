@@ -639,9 +639,6 @@ Page({
                   })
                 } else { //如果已经绑定了
                   let user = res.data.data[0];
-                  self.bindPhoneModel.showDialog();
-                  wx.hideLoading();
-                  return
                   wx.setStorage({
                     key: 'user',
                     data: user
