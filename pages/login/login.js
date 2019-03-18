@@ -235,7 +235,7 @@ Page({
           duration: 2000
         });
         let identifyCode = res.data.data[0].yzm;
-
+        console.log(identifyCode)
         self.setData({
           identifyCode: identifyCode
         })
@@ -390,7 +390,7 @@ Page({
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
-    let spwd = pwd;//没被MD5的密码
+    let spwd = pwd; //没被MD5的密码
     let ifGoPage = self.data.ifGoPage;
     let url = self.data.url;
 
@@ -432,8 +432,8 @@ Page({
           fail: function() {
             wx.showToast({
               title: '登录失败',
-              icon:'none',
-              duration:3000
+              icon: 'none',
+              duration: 3000
             })
           }
         })
@@ -479,33 +479,30 @@ Page({
 
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
+      console.log("action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd)
       app.post(API_URL, "action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
+        let status = self.data.status;
+        let interval = self.data.interval;
+        let submit_disabled;
 
-        let user = res.data.list[0];
+        clearInterval(interval);
+
+        self.setData({
+          statu: status[0],
+          currentTime: 61,
+          submit_disabled: false,
+          color: '#388ff8',
+          text: '获取验证码',
+          pwd:'',
+          pwdText:''
+        })
 
         wx.showToast({
-          icon: 'none',
           title: '注册成功',
-          duration: 3000
+          icon:'none',
+          duration:3000
         })
 
-        wx.setStorage({
-          key: 'user',
-          data: user,
-          success: function() {
-
-            wx.navigateBack({})
-
-            if (ifGoPage == "true") {
-              wx.navigateTo({
-                url: url,
-              })
-            }
-          },
-          fail: function() {
-
-          }
-        })
       })
     } else if (code == undefined) {
 
@@ -642,9 +639,9 @@ Page({
                   })
                 } else { //如果已经绑定了
                   let user = res.data.data[0];
-                  // self.bindPhoneModel.showDialog();
-                  // wx.hideLoading();
-                  // return
+                  self.bindPhoneModel.showDialog();
+                  wx.hideLoading();
+                  return
                   wx.setStorage({
                     key: 'user',
                     data: user
@@ -770,7 +767,7 @@ Page({
     let encryptedData = e.detail.encryptedData;
     let iv = e.detail.iv;
     wx.showLoading({
-      title:'请求中'
+      title: '请求中'
     })
     wx.login({
       success: res => {
@@ -785,25 +782,25 @@ Page({
           let data = pc.decryptData(encryptedData, iv);
           let phoneNumber = data.phoneNumber;
           console.log(phoneNumber)
-          if (!phoneNumber){
+          if (!phoneNumber) {
             wx.hideLoading();
             wx.showToast({
               title: '请再点击一次',
-              icon:'none',
-              duration:2000
+              icon: 'none',
+              duration: 2000
             })
             return
           }
 
           let pwdText = wx.getStorageSync('pwdSave' + phoneNumber);
-          let pwd = pwdText;//上次快捷获取电话号码的密码
+          let pwd = pwdText; //上次快捷获取电话号码的密码
 
           self.setData({
             phoneText: phoneNumber,
             phone: phoneNumber,
-            isKuaijie:true,
-            pwd:pwd,
-            pwdText:pwdText
+            isKuaijie: true,
+            pwd: pwd,
+            pwdText: pwdText
           })
 
           wx.hideLoading();

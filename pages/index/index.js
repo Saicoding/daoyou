@@ -131,17 +131,22 @@ Page({
     if (user) { //有用户信息时才请求
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
+        console.log(news_num)
         if (news_num > 0) {
-          wx.showTabBarRedDot({
-            index: 3
+          wx.setTabBarBadge({
+            index: 3,
+            text: news_num+""
+          })
+        } else {
+          wx.removeTabBarBadge({
+            index: 3,
           })
         }
       })
     }
 
     myDate = "" + year + month + day; //得到当前答题字符串
-    console.log(todayDaka)
-    console.log(myDate)
+
     if (todayDaka != myDate && !interval) {    
       self.riliAnimate(); //日历动画
     }

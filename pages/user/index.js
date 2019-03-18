@@ -74,19 +74,25 @@ Page({
       // { "Message": "请求成功", "status": 1, "data": [{ "token": "e37658e391e4194a22008f4dea71e50f", "Mycode": "111562", "username": "13292374292", "Nickname": "屌丝洋", "Jifen": "0", "Money": "15907.54", "xueshi": "618523", "Vip": "0", "Ktime": "", "Jtime": "", "zcode": 11562, "Pic": "http://www.chinaplat.com/user/UserHeadImg/11562.jpg", "TKflag": 0, "YHQ": 0, "taocan": "1", "yhq_time": "" }] }
   
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
+
         user.Money = res.data.data[0].Money;
+        console.log(user.Money)
+
+        
         user.Nicename = res.data.data[0].Nicename;
         wx.setStorage({
           key: 'user',
           data:user
         }) 
+        that.setData({
+          user: user,
+          isnum: true,
+          guoqi: guoqi
+        })
 
       })
-      this.setData({
-        user: user,
-        isnum :true,
-        guoqi: guoqi
-      })
+
+
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
         that.setData({

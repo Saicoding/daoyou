@@ -32,7 +32,7 @@
   </view>
   <!-- 验证码 -->
   <view wx:if="{{statu.code != 0}}" class="block code">
-    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing="50rpx" focus='{{pwdFocus}}' auto-focus = "{{pwdFocus}}" />
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' placeholder-style="color:#ddd;" bindinput="codeInput" cursor-spacing="120rpx" focus='{{pwdFocus}}' auto-focus = "{{pwdFocus}}" />
     <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}'>
       {{text}}
     </button>
@@ -48,7 +48,7 @@
   </view>
 
   <!-- 确定按钮 -->
-  <view  class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
+  <view  class="submit" bindtap="submit" style="background:{{submit_disabled?'#a7e0bf':'#63d291'}}" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
 
   <!-- 快速登录 -->
   <view class="line">

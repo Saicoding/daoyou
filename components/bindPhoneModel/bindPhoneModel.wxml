@@ -13,7 +13,7 @@
     <view class="num">
       <view class="num-text">+86</view>
       <view class="phone-input-container">
-        <input type="number" class="phone-input1" placeholder-style='font-size:25rpx;' placeholder='请输入手机号'  bindinput="phoneInput"></input>
+        <input type="number" value = "{{phone}}" class="phone-input1" placeholder-style='font-size:25rpx;' placeholder='请输入手机号'  bindinput="phoneInput"></input>
         <button open-type='getPhoneNumber' bindgetphonenumber="getphonenumber" class="phoneBtn"></button>
       </view>
     </view>
