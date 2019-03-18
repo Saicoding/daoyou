@@ -29,9 +29,9 @@ RdWXBizDataCrypt.prototype.decryptData = function (encryptedData, iv) {
   
   }
   
-  if (decryptResult.watermark.appid !== this.appId) {
-   
-  }
+  // if (decryptResult.watermark.appid !== this.appId) {
+
+  // }
   return decryptResult
 }
 module.exports = RdWXBizDataCrypt

@@ -235,7 +235,7 @@ Page({
           duration: 2000
         });
         let identifyCode = res.data.data[0].yzm;
-       
+
         self.setData({
           identifyCode: identifyCode
         })
@@ -296,6 +296,7 @@ Page({
 
     this.setData({
       phone: e.detail.value,
+      isKuaijie: false,
       submit_disabled: submit_disabled
     })
   },
@@ -362,7 +363,7 @@ Page({
             }
           },
           fail: function() {
-          
+
           }
         })
       })
@@ -389,6 +390,7 @@ Page({
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
+    let spwd = pwd;//没被MD5的密码
     let ifGoPage = self.data.ifGoPage;
     let url = self.data.url;
 
@@ -413,7 +415,12 @@ Page({
           key: 'user',
           data: user,
           success: function() {
-
+            console.log('pwdSave' + phone)
+            console.log(spwd)
+            wx.setStorage({
+              key: 'pwdSave' + phone,
+              data: spwd,
+            })
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -423,12 +430,16 @@ Page({
             }
           },
           fail: function() {
-            
+            wx.showToast({
+              title: '登录失败',
+              icon:'none',
+              duration:3000
+            })
           }
         })
       })
     }
-    console.log('ok'+warn)
+
     if (warn != null) {
       wx.showToast({
         icon: 'none',
@@ -469,7 +480,7 @@ Page({
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
       app.post(API_URL, "action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
-        
+
         let user = res.data.list[0];
 
         wx.showToast({
@@ -477,12 +488,12 @@ Page({
           title: '注册成功',
           duration: 3000
         })
-        
+
         wx.setStorage({
           key: 'user',
           data: user,
           success: function() {
-         
+
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -492,19 +503,19 @@ Page({
             }
           },
           fail: function() {
-            
+
           }
         })
       })
     } else if (code == undefined) {
-      
+
       wx.showToast({
         title: '验证码不能为空',
         icon: 'none',
         duration: 2000
       });
     } else {
-     
+
       wx.showToast({
         title: '验证码不正确',
         icon: 'none',
@@ -559,14 +570,14 @@ Page({
         }
       })
     } else if (code == undefined) {
-    
+
       wx.showToast({
         title: '验证码不能为空',
         icon: 'none',
         duration: 2000
       });
     } else {
-     
+
       wx.showToast({
         title: '验证码不正确',
         icon: 'none',
@@ -586,7 +597,7 @@ Page({
     wx.showLoading({
       title: '登录中',
     })
-    
+
     wx.login({
       success: res => {
         let code = res.code;
@@ -617,11 +628,11 @@ Page({
               //监测微信是否有新号
               app.post(API_URL, "action=ChkUnionId&unionid=" + unionid, false, false, "").then(res => {
                 //存储本地变量
-                
+
                 if (res.data.status == -2012) { //如果没有绑定
                   wx.hideLoading();
                   self.bindPhoneModel.showDialog();
-                
+
                   self.setData({
                     unionid: unionid,
                     wxid: openid,
@@ -629,15 +640,15 @@ Page({
                     headurl: headurl,
                     sex: sex
                   })
-                } else {//如果已经绑定了
+                } else { //如果已经绑定了
                   let user = res.data.data[0];
                   wx.setStorage({
                     key: 'user',
                     data: user
                   })
-                  buttonClicked = false;          
+                  buttonClicked = false;
                   wx.navigateBack({
-                    success:function(){
+                    success: function() {
                       wx.hideLoading();
                     }
                   }) //先回到登录前的页面
@@ -656,7 +667,7 @@ Page({
               })
             },
             fail: function(res1) {
-              
+
             }
           })
         })
@@ -686,16 +697,16 @@ Page({
     wx.showLoading({
       title: '绑定中',
     })
-    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile="+phone+"&pwd="+pwd+"&code="+code, false, false, "").then((res) => {
+    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex + "&mobile=" + phone + "&pwd=" + pwd + "&code=" + code, false, false, "").then((res) => {
       let user = res.data.data[0];
-   
+
       wx.setStorage({
         key: 'user',
         data: user
       })
       buttonClicked = false;
       wx.navigateBack({
-        success:function(){
+        success: function() {
           wx.hideLoading();
         }
       }) //先回到登录前的页面
@@ -716,7 +727,7 @@ Page({
   /**
    * 跳过绑定
    */
-  _ignore:function(){
+  _ignore: function() {
     let unionid = this.data.unionid;
     let wxid = this.data.wxid;
     let nickname = this.data.nickname;
@@ -725,8 +736,8 @@ Page({
     let redirect = this.data.redirect;
     let sex = this.data.sex;
 
-    
-    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex , true, false, "登录中").then((res) => {
+
+    app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&wxid=" + wxid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
       let user = res.data.data[0];
       wx.setStorage({
         key: 'user',
@@ -751,10 +762,13 @@ Page({
   /**
    * 获取用户号码
    */
-  getphonenumber:function(e){
+  getphonenumber: function(e) {
     let self = this;
     let encryptedData = e.detail.encryptedData;
     let iv = e.detail.iv;
+    wx.showLoading({
+      title:'请求中'
+    })
     wx.login({
       success: res => {
         console.log('开始请求')
@@ -767,25 +781,31 @@ Page({
           let pc = new WXBizDataCrypt(appId, sesstion_key);
           let data = pc.decryptData(encryptedData, iv);
           let phoneNumber = data.phoneNumber;
- 
-          setTimeout(function(){
-            console.log('设置数据')
-            self.setData({
-              phoneText: phoneNumber,
-              phone: phoneNumber,
+          if (!phoneNumber){
+            wx.hideLoading();
+            wx.showToast({
+              title: '请再点击一次',
+              icon:'none',
+              duration:2000
             })
-          },1000)
+            return
+          }
 
+          let pwdText = wx.getStorageSync('pwdSave' + phoneNumber);
+          let pwd = pwdText;//上次快捷获取电话号码的密码
 
-          setTimeout(function(){
-            console.log('聚焦')
-            self.setData({
-              pwdFocus:true
-            })
-          },1000)
+          self.setData({
+            phoneText: phoneNumber,
+            phone: phoneNumber,
+            isKuaijie:true,
+            pwd:pwd,
+            pwdText:pwdText
+          })
+
+          wx.hideLoading();
         })
       },
-      fail:res=>{
+      fail: res => {
         console.log('shibai')
       }
     })
@@ -794,7 +814,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

@@ -48,7 +48,7 @@ Page({
     });
   },
   logout: function() {
-    wx.clearStorage("user");
+    wx.removeStorageSync('user');
     wx.navigateTo({
       url: '../login/login',
     })
