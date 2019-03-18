@@ -217,150 +217,172 @@ Component({
         let scene = encodeURIComponent(tuan_id);
         let page = 'pages/learn/pindan';
 
-        // 获取二维码
-        wx.request({
-          url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + access_token,
-          data: {
-            scene: scene,
-            page: page
+        wx.getImageInfo({
+          src: wx.env.USER_DATA_PATH + '/wareInfoShareimg1' + tuan_id + '.jpg',
+          success:function(res5){
+            console.log('已有')
+            let xcxCodePath = res5.path;//二维码图片的地址
+            //画背景,下载网络图片
+            wx.downloadFile({
+              url: picUrl,
+              success: (res) => {
+                if (res.statusCode === 200) {
+                  self.canvasDraw(context, res.tempFilePath,xcxCodePath, nickname);
+                }
+              },
+              fail: function (res) {
+                console.log(res)
+              }
+            })
           },
-          method: 'POST',
-          responseType: "arraybuffer",//少了一句数据接收方式导致转换BASE64失败====范
-          header: {
-            'content-type': 'application/json'
-          },
-          success: function(res) { //服务器返回数据
-            // var XCXbase64 = wx.arrayBufferToBase64(res.data);
-            // xcxCode = "data:image/png;BASE64,"+XCXbase64//不用在保存到本地了，画图时URL直接使用就可以，重新生成海报时不再和微信服务器交互，多次使用====范
+          fail:function(res6){
+            // 获取二维码
+            console.log('没有')
+            wx.request({
+              url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + access_token,
+              data: {
+                scene: scene,
+                page: page
+              },
+              method: 'POST',
+              responseType: "arraybuffer",//少了一句数据接收方式导致转换BASE64失败====范
+              header: {
+                'content-type': 'application/json'
+              },
+              success: function (res) { //服务器返回数据
+                let filePath = wx.env.USER_DATA_PATH + '/wareInfoShareimg1' + tuan_id + '.jpg';
 
-            // self.setData({
-            //   xcxCode:
-            // })
-
-            // wx.setStorageSync(key, data)
-           
-            let filePath = wx.env.USER_DATA_PATH + '/wareInfoShareimg.jpg';
-
-            let fsm = wx.getFileSystemManager();
-            fsm.writeFile({
-              filePath: filePath,
-              data: res.data,
-              encoding: 'binary',
-              success(res1) {
-                console.log(res1)
-                wx.getImageInfo({
-                  src: filePath,
-                  success: function(e) {
-                    let xcxCodePath = e.path;//二维码图片的地址
-                    //画背景,下载网络图片
-                    wx.downloadFile({
-                      url: picUrl,
-                      success: (res) => {
-                        if (res.statusCode === 200) {
-                          context.drawImage(res.tempFilePath, 0, 0, 600, 820);
-                          // 画昵称
-                          context.setFontSize(30);
-                          context.setFillStyle('white');
-                          context.setTextAlign('center');
-                          context.fillText(nickname, 300, 180);
-                          context.setFontSize(25);
-                          context.fillText("「我正在学习导游考试课程,一起学习吧！」", 300, 230);
-
-                          //画中间的文字
-                          context.setFontSize(26);
-                          context.setFillStyle('black');
-                          context.setTextAlign('left');
-                          context.fillText('2019导游考试【全陪学习计划】', 225, 310);
-
-                          context.setFontSize(19);
-                          context.setFillStyle('black');
-                          context.fillText('主讲老师：陈龙\陈晓华\杨红 有效期:2年', 235, 345);
-
-                          context.setFontSize(18);
-                          context.setFillStyle('#797979');
-                          context.fillText('全套章节试题\模拟试卷\核心密卷', 250, 393);
-                          context.fillText('全套基础\提升\冲刺\面试指导课', 250, 419);
-
-                          // 画最下面的字
-                          context.setFontSize(26);
-                          context.setFillStyle('white');
-                          context.setTextAlign('center');
-                          context.fillText('扫码和我一起学习吧', 300, 790);
-
-                          //画二维码框
-                          context.beginPath();
-                          context.arc(300, 610, 130, 0, 2 * Math.PI) //画出外圆
-                          context.lineWidth = 8;
-                          context.strokeStyle = "#d3452f";
-                          context.stroke();
-
-                          context.beginPath();
-                          context.arc(300, 610, 126, 0, 2 * Math.PI) //内圆
-                          context.fillStyle = "white"
-                          context.fill();
-                          context.save();
-                          context.clip(); //裁剪上面的圆形
-                          context.drawImage(xcxCodePath, 178, 488, 246, 246); // 在刚刚裁剪的园上画图
-
-                          context.restore()
-
-                          // 画头像
-                          context.beginPath();
-                          context.arc(300, 80, 53, 0, 2 * Math.PI) //画出外圆
-                          context.lineWidth = 3;
-                          context.strokeStyle = "#cfcfcf";
-                          context.stroke();
-                          context.beginPath();
-                          context.arc(300, 80, 50, 0, 2 * Math.PI) //内圆
-                          context.fillStyle = "white"
-                          context.fill();
-
-                          context.clip(); //裁剪上面的圆形
-
-                          context.drawImage(self.data.headPic, 250, 30, 100, 100); // 在刚刚裁剪的园上画图
-
-                          context.draw(true, function (res) {
-                            console.log('ok')
-                            wx.canvasToTempFilePath({
-                              canvasId: 'mycanvas',
-                              success: function (res) {
-                                let tempFilePath = res.tempFilePath;
-                                self.setData({
-                                  imageUrl: tempFilePath,
-                                  isShow: true
-                                })
-
-                                wx.hideLoading();
-                              },
-                              fail: function (res) {
-                                self.setData({
-                                  isShow: true
-                                });
-                                wx.hideLoading();
-                              }
-                            }, self);
-
-                          })
-                        }
-                      },
-                      fail: function (res) {
-                        console.log(res)
+                let fsm = wx.getFileSystemManager();
+                fsm.writeFile({
+                  filePath: filePath,
+                  data: res.data,
+                  encoding: 'binary',
+                  success(res1) {
+                    console.log(res1)
+                    wx.getImageInfo({
+                      src: filePath,
+                      success: function (e) {
+                        let xcxCodePath = e.path;//二维码图片的地址
+                        //画背景,下载网络图片
+                        wx.downloadFile({
+                          url: picUrl,
+                          success: (res) => {
+                            if (res.statusCode === 200) {
+                              self.canvasDraw(context, res.tempFilePath, xcxCodePath, nickname);
+                            }
+                          },
+                          fail: function (res) {
+                            console.log(res)
+                          }
+                        })
                       }
                     })
-                  }
-                })
+                  },
+                  fail(e) {
+                    console.log(e)
+                  },
+                });
               },
-              fail(e) {
-                console.log(e)
-              },
-            });
-          },
-          fail: function() {
-            console.log('失败')
+              fail: function () {
+                console.log('失败')
+              }
+            })
           }
         })
       })
     },
+
+    /**
+     * 画布画的方法
+     */
+    canvasDraw: function (context, tempFilePath, xcxCodePath, nickname){
+      let self = this;
+      context.drawImage(tempFilePath, 0, 0, 600, 820);
+      // 画昵称
+      context.setFontSize(30);
+      context.setFillStyle('white');
+      context.setTextAlign('center');
+      context.fillText(nickname, 300, 180);
+      context.setFontSize(25);
+      context.fillText("「我正在学习导游考试课程,一起学习吧！」", 300, 230);
+
+      //画中间的文字
+      context.setFontSize(26);
+      context.setFillStyle('black');
+      context.setTextAlign('left');
+      context.fillText('2019导游考试【全陪学习计划】', 225, 310);
+
+      context.setFontSize(19);
+      context.setFillStyle('black');
+      context.fillText('主讲老师：陈龙\陈晓华\杨红 有效期:2年', 235, 345);
+
+      context.setFontSize(18);
+      context.setFillStyle('#797979');
+      context.fillText('全套章节试题\模拟试卷\核心密卷', 250, 393);
+      context.fillText('全套基础\提升\冲刺\面试指导课', 250, 419);
+
+      // 画最下面的字
+      context.setFontSize(26);
+      context.setFillStyle('white');
+      context.setTextAlign('center');
+      context.fillText('扫码和我一起学习吧', 300, 790);
+
+      //画二维码框
+      context.beginPath();
+      context.arc(300, 610, 130, 0, 2 * Math.PI) //画出外圆
+      context.lineWidth = 8;
+      context.strokeStyle = "#d3452f";
+      context.stroke();
+
+      context.beginPath();
+      context.arc(300, 610, 126, 0, 2 * Math.PI) //内圆
+      context.fillStyle = "white"
+      context.fill();
+      context.save();
+      context.clip(); //裁剪上面的圆形
+      context.drawImage(xcxCodePath, 178, 488, 246, 246); // 在刚刚裁剪的园上画图
+
+      context.restore()
+
+      // 画头像
+      context.beginPath();
+      context.arc(300, 80, 53, 0, 2 * Math.PI) //画出外圆
+      context.lineWidth = 3;
+      context.strokeStyle = "#cfcfcf";
+      context.stroke();
+      context.beginPath();
+      context.arc(300, 80, 50, 0, 2 * Math.PI) //内圆
+      context.fillStyle = "white"
+      context.fill();
+
+      context.clip(); //裁剪上面的圆形
+
+      context.drawImage(self.data.headPic, 250, 30, 100, 100); // 在刚刚裁剪的园上画图
+
+      context.draw(true, function (res) {
+        console.log('ok')
+        wx.canvasToTempFilePath({
+          canvasId: 'mycanvas',
+          success: function (res) {
+            let tempFilePath = res.tempFilePath;
+            self.setData({
+              imageUrl: tempFilePath,
+              isShow: true
+            })
+
+            wx.hideLoading();
+          },
+          fail: function (res) {
+            self.setData({
+              isShow: true
+            });
+            wx.hideLoading();
+          }
+        }, self);
+
+      })
+    },
+
     /**
      * 保存到相册
      */
