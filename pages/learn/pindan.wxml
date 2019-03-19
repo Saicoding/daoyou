@@ -48,7 +48,7 @@
     <view class="up-text" wx:if="{{pin_img==''}}">还差<text class='b' style="color:#e02e24;">1</text>个名额，<text class="b">{{countDownDay}}天{{countDownHour}}时{{countDownMinute}}分{{countDownSecond}}秒</text>后结束</view>
 
     <!-- 邀请按钮 -->
-    <button open-type="share" wx:if="{{mine=='true'&&guoqi=='false'&&pin_img==''}}" class="btn" hover-class='select1' hover-stay-time='500'>
+    <button open-type="share" wx:if="{{mine!='false'&&guoqi=='false'&&pin_img==''}}" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>
 

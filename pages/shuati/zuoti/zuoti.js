@@ -35,6 +35,7 @@ Page({
   onLoad: function(options) {
     let self = this;
     let user = wx.getStorageSync('user'); //本地用户信息
+    console.log(user)
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let token = user.token ==undefined?"":user.token
     let page = 1; //默认是第一页

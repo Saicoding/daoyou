@@ -5,3 +5,8 @@
 .info { height: 180rpx; overflow: hidden; line-height: 60rpx; margin: 20rpx 0; margin-bottom: 40rpx}
 
 .btn { width:140rpx; font-size: 25rpx; border: 1px rgb(250, 134, 114) solid; border-radius:4rpx; text-align: center; line-height:50rpx; color: rgb(250, 134, 114); background: #fff; }
+
+
+.select1{
+  background: rgba(202, 202, 202,0.5);
+}

@@ -92,7 +92,7 @@ Page({
       appId: appId,
       path: '',
       extraData: {},
-      envVersion: 'develop',
+      envVersion: 'release',
       success(res) {
         // 打开成功
       }

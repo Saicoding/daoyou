@@ -281,7 +281,7 @@ Page({
       let buy = user.taocan;
   
       //登陆并且未购买
-      if (buy*1 == 1) {
+      if (buy*1 == 0) {
         let money_zong = this.buyTaocan.data.taocans[0].price_tuan;
         let product = this.buyTaocan.data.taocans[0].typesname;
         let title = this.buyTaocan.data.taocans[0].title;

@@ -8,18 +8,18 @@ Page({
    */
   data: {
     loaded: false,
-    ifShare: false,//是否分享
-    mine: 'false',//此页面是否是自己分享的
-    img: "",//分享出去的头像，只有被点击才存在
-    user:"",//判断是否登录
+    ifShare: false, //是否分享
+    mine: 'false', //此页面是否是自己分享的
+    img: "", //分享出去的头像，只有被点击才存在
+    user: "", //判断是否登录
     tuan_id: "",
-    userid:"",
+    userid: "",
     video: "",
     maxtime: "",
-    endtime:0,
-    tuanzhuImg: "",//拼主头像
-    pin_img: "",//已拼网友头像
-    guoqi:'false',//是否过期
+    endtime: 0,
+    tuanzhuImg: "", //拼主头像
+    pin_img: "", //已拼网友头像
+    guoqi: 'false', //是否过期
     isHiddenLoading: true,
     isHiddenToast: true,
     dataList: {},
@@ -32,18 +32,27 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
+    console.log(options)
     wx.setNavigationBarTitle({ //设置标题
       title: '全陪套餐拼单中……',
     })
-    
+
     let tuan_id = options.tuan_id;
-  
-    if (tuan_id) { tuan_id = tuan_id } else { tuan_id=""}
+
+    if (tuan_id) {
+      tuan_id = tuan_id
+    } else {
+      tuan_id = ""
+    }
     let img = options.img; //分享出去的头像，只有被点击才存在
-    if (img) { img = img } else { img = "" }
-    let userid = options.userid ? options.userid :'false';
-  
+    if (img) {
+      img = img
+    } else {
+      img = ""
+    }
+    let userid = options.userid ? options.userid : 'false';
+
     var user = wx.getStorageSync("user");
     var token = "";
     var zcode = "";
@@ -55,7 +64,12 @@ Page({
       zcode = user.zcode;
     }
     let mine = 'false';
-    if (userid == zcode || userid== 'false') { mine == true }
+    console.log(userid )
+    console.log(zcode)
+    if (userid == zcode+'' || userid == 'false') {
+      console.log('相等')
+      mine = true
+    }
     this.setData({
       mine: mine,
       img: img,
@@ -67,8 +81,8 @@ Page({
 
       var list = res.data.data[0];
       //日期转化时间戳
-      var time = Date.parse(new Date(list.endtime)) / 1000;  
-     
+      var time = Date.parse(new Date(list.endtime)) / 1000;
+
       that.setData({
         title: list.title,
         price_tuan: list.money,
@@ -77,16 +91,16 @@ Page({
         pin_img: list.pin_img,
         loaded: true,
       })
-    
+
       that.time();
     });
-    
-    
-  },
-  time:function(){
-    var totalSecond = this.data.endtime- (Date.parse(new Date()) / 1000);
 
-    var interval = setInterval(function () {
+
+  },
+  time: function() {
+    var totalSecond = this.data.endtime - (Date.parse(new Date()) / 1000);
+
+    var interval = setInterval(function() {
       // 秒数
       var second = totalSecond;
 
@@ -124,9 +138,9 @@ Page({
           icon: 'none',
           duration: 2000
         })
-        
+
         this.setData({
-          guoqi:'true',
+          guoqi: 'true',
           countDownDay: '00',
           countDownHour: '00',
           countDownMinute: '00',
@@ -136,15 +150,15 @@ Page({
     }.bind(this), 1000);
   },
 
-  pindan:function(){
-    var user= wx.getStorageSync("user");
-   
-    if(user){
+  pindan: function() {
+    var user = wx.getStorageSync("user");
+
+    if (user) {
       wx.navigateTo({
-      
-        url: '/pages/learn/pay?tuan_id=' + this.data.tuan_id + '&danke=false&title=' + this.data.title + '&money_zong=' + (this.data.price_tuan/100) + '&product=豪华套餐'
+
+        url: '/pages/learn/pay?tuan_id=' + this.data.tuan_id + '&danke=false&title=' + this.data.title + '&money_zong=' + (this.data.price_tuan / 100) + '&product=豪华套餐'
       })
-    }else{
+    } else {
       wx.navigateTo({
         url: '/pages/login/login',
       })
@@ -152,18 +166,21 @@ Page({
     }
 
   },
-  
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     let self = this;
     this.pindanSend = this.selectComponent("#pindanSend");
-    this.pindanSend.showDialog();
+    console.log(self.data.mine)
+    if (self.data.mine != "false") {
+      this.pindanSend.showDialog();
+    }
     this.haibao = this.selectComponent("#haibao");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function (res) { //转换窗口高度
+      success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
@@ -180,7 +197,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     // if (this.data.ifShare==true){
     //   wx.navigateTo({
     //     url: '../user/course/pindan_list',
@@ -191,35 +208,35 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 创建海报
    */
-  _createHaibao: function (e) {
+  _createHaibao: function(e) {
     let self = this;
     this.haibao.setData({
       imageUrl: false
@@ -230,7 +247,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     var user = wx.getStorageSync("user");
     var tuan_id = this.data.tuan_id;
     var userid = user.zcode;
@@ -239,11 +256,13 @@ Page({
         ifShare: true
       });
       var img = '/images/avatar.png';
-      if (user.Pic) { img = user.Pic}
-    return {
-      title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
-      path: '/pages/learn/pindan?tuan_id=' + tuan_id + '&img=' + img + '&userid=' + userid,
-      imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
+      if (user.Pic) {
+        img = user.Pic
+      }
+      return {
+        title: '我发起拼单啦，导游全套视频课程+全套教材+全套试题库，两年超长课程保质期',
+        path: '/pages/learn/pindan?tuan_id=' + tuan_id + '&img=' + img + '&userid=' + userid,
+        imageUrl: 'http://www.chinaplat.com/daoyou/images/quanpei.jpg',
       }
     } else {
       wx.navigateTo({

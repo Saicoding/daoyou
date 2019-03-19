@@ -1,5 +1,7 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit" />
+<view>
 <image wx:if="{{loaded&&kong=='kong'}}" class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit" />
+</view>
 <view wx:if="{{loaded&&kong==''}}" class="content">
 
   <view class='bbg' wx:if="{{guoqi==true||pin_img!=''}}"></view>

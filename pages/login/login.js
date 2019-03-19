@@ -493,14 +493,14 @@ Page({
           submit_disabled: false,
           color: '#388ff8',
           text: '获取验证码',
-          pwd:'',
-          pwdText:''
+          pwd: '',
+          pwdText: ''
         })
 
         wx.showToast({
           title: '注册成功',
-          icon:'none',
-          duration:3000
+          icon: 'none',
+          duration: 3000
         })
 
       })
@@ -761,8 +761,6 @@ Page({
    */
   getphonenumber: function(e) {
     let self = this;
-    let encryptedData = e.detail.encryptedData;
-    let iv = e.detail.iv;
     wx.showLoading({
       title: '请求中'
     })
@@ -774,12 +772,12 @@ Page({
           console.log('请求完毕')
           let sesstion_key = res.data.data[0].sessionKey;
           let openid = res.data.data[0].openid;
+          let encryptedData = e.detail.encryptedData;
+          let iv = e.detail.iv;
           //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
           let pc = new WXBizDataCrypt(appId, sesstion_key);
           let data = pc.decryptData(encryptedData, iv);
-          let phoneNumber = data.phoneNumber;
-          console.log(phoneNumber)
-          if (!phoneNumber) {
+          if (!data) {
             wx.hideLoading();
             wx.showToast({
               title: '请再点击一次',
@@ -788,6 +786,9 @@ Page({
             })
             return
           }
+          let phoneNumber = data.phoneNumber;
+          console.log(phoneNumber)
+
 
           let pwdText = wx.getStorageSync('pwdSave' + phoneNumber);
           let pwd = pwdText; //上次快捷获取电话号码的密码
@@ -796,6 +797,7 @@ Page({
             phoneText: phoneNumber,
             phone: phoneNumber,
             isKuaijie: true,
+            submit_disabled: false,
             pwd: pwd,
             pwdText: pwdText
           })

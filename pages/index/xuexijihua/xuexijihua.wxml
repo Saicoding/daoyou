@@ -78,7 +78,6 @@
       <view class="bottom-item2-line1">¥ {{list[0].money-50}}</view>
       <view class="bottom-item2-line2">您已支付</view>
     </view>
-
   </view>
 </view>
 
