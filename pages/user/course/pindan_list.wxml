@@ -1,6 +1,7 @@
 <image wx:if="{{!loaded}}" class="loading-img" src="/images/imgLoading.gif" mode="aspectFit" />
-<view>
-<image wx:if="{{loaded&&kong=='kong'}}" class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit" />
+<view wx:if="{{loaded&&kong=='kong'}}" style = "width:100%;">
+  <image class="hasNopage" src="/images/hasNopage/hasNopage.png" mode="aspectFit" />
+  <view class="hasNopage-text">当前没有拼单信息 ...</view>
 </view>
 <view wx:if="{{loaded&&kong==''}}" class="content">
 
@@ -42,15 +43,15 @@
   <view class='tar bgfff f14'>实付:￥{{price_tuan/100}}
     <text class='f12 hui'>（免运费）</text>
   </view>
-  <view class='tar bgfff' style = "display:flex;">
+  <view class='tar bgfff' style="display:flex;">
     <view>
-    <image class="block-icon1 fl" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
-    <view wx:if="{{!pin_img}}" class="block-icon2-container fl" style="border:1rpx dashed rgb(187, 187, 187);">
-      <image class="block-icon2" src="/images/wenhao.png"></image>
+      <image class="block-icon1 fl" src="{{tuanzhuImg?tuanzhuImg:'/images/avatar.png'}}"></image>
+      <view wx:if="{{!pin_img}}" class="block-icon2-container fl" style="border:1rpx dashed rgb(187, 187, 187);">
+        <image class="block-icon2" src="/images/wenhao.png"></image>
+      </view>
+      <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}"></image>
     </view>
-    <image wx:if="{{pin_img}}" class="block-icon2-container fl" src="{{pin_img}}"></image>
-    </view>
-    <view wx:if="{{pin_img==''&&guoqi==false}}"  class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
+    <view wx:if="{{pin_img==''&&guoqi==false}}" class="haibaoBtn" bindtap="createHaibao" hover-class='select2' hover-stay-time='500'>生成邀请海报</view>
     <button wx:if="{{pin_img==''&&guoqi==false}}" open-type="share" class="btn" hover-class='select1' hover-stay-time='500'>
       邀请好友拼单
     </button>

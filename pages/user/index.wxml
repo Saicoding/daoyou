@@ -1,20 +1,35 @@
 <view class="body-container">
+  <!-- 最上面的白条 -->
+  <view class="status" style="height:{{statusBarHeight}}rpx;"></view>
   <!-- 最上面 -->
-  <view class="up">
-    <view class="nickname">
-      <view class='f16'>{{user.Nickname}}</view>
-      <view style="font-size:28rpx; color:#fff;text-shadow: #ccc 1px 1px 1px;">{{user.username}}</view>
-    </view>
-    <view class="nickname2">
-      <navigator url='message/index'>
-        <view class='fr'>
-          <image src='/images/moreb.png' class='more2'></image>
-        </view>
-        <image class="pic fr" src="{{user.Pic}}" mode="widthFit"></image>
-      </navigator>
-    </view>
-    <view class='clear'></view>
+  <view class="mine" style="top:{{statusBarHeight}}rpx;height:{{jiaonang.height+jiaonang.top-statusBarHeightpx+10}}px;line-height:{{jiaonang.height+jiaonang.top-statusBarHeightpx+10}}px;  background: rgba(255, 255, 255,{{opacity}});color:{{textColor}}">
+    我
   </view>
+  <view class="up" bindtap="GOmessage" style="padding-bottom:{{user.taocan == '1'?50:150}}rpx">
+    <view class="up-left">
+
+      <image class="pic" src="{{user.Pic}}"></image>
+
+      <view class="up-left-name">
+        <view class="up-left-name1">{{user.Nickname}}</view>
+        <view class="up-left-name2">
+          <image class="up-left-name2-icon" src="/images/huizhang.png"></image>
+          <view class="up-left-name2-text">{{user.username}}</view>
+        </view>
+      </view>
+    </view>
+
+    <image src="/images/more.png" class="up-right"></image>
+  </view>
+  <image src="/images/bk.gif" class="gif" bindtap="GOmessage"></image>
+
+  <!-- 学习计划 -->
+  <view class="xuexijihua" wx:if="{{user.taocan == '0'}}" bindtap="GOxuexijihua">
+    <image class="xx-icon" src="/images/zuanshi.png"></image>
+    <view class="xx-text1">专享学习计划</view>
+    <view class="xx-text2">开通会员</view>
+  </view>
+
   <view class='sankuai'>
     <view class='sub'>
       <navigator url='course/list'>

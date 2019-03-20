@@ -12,8 +12,8 @@ view,text,input,button,textarea,table{letter-spacing:0.6px;}
 /* 为空图片 */
 .hasNopage{
   display: block;
-  width:300rpx;
-  height:300rpx;
+  width:200rpx;
+  height:200rpx;
   margin: 0 auto;
   margin-top:80rpx;
 }

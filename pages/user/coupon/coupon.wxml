@@ -13,6 +13,10 @@
 </view>
 <view class='abs' style='bottom:6px; left:4%; color:#222'>[全陪学习计划]课程套餐专用券</view>
 </view>
-<image src='/images/hasNopage/hasNopage.png' class='hasNopage' wx:if="{{user.YHQ!=1}}"></image>
+
+<view wx:if="{{user.YHQ!=1}}">
+<image src='/images/hasNopage/hasNopage.png' class='hasNopage' ></image>
+<view class='hasNopage-text'>没有发现优惠券 ...</view>
+</view>
 
 </view>

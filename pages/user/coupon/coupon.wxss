@@ -18,3 +18,10 @@
   filter: grayscale(100%);
   filter: gray; 
 }
+
+.hasNopage-text{
+  text-align: center;
+  color:rgb(185, 185, 185);
+  font-size:22rpx;
+  margin-top:20rpx;
+}

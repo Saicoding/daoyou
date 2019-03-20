@@ -15,7 +15,8 @@ Page({
     unionId: '',
     encryptedData: '',
     news_num: 0,
-    isnum:false //是否是手机号登陆
+    isnum:false ,//是否是手机号登陆
+    opacity:0//标题栏颜色
   },
 
   /**
@@ -37,12 +38,20 @@ Page({
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
         let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+        let statusBarHeightpx = res.statusBarHeight;
+        let jiaonang = wx.getMenuButtonBoundingClientRect(); //胶囊位置及尺寸
+        let platform = res.platform;
+        let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
 
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
           windowHeight: windowHeight,
-          statusBarHeight: statusBarHeight
+          platform: platform,
+          statusBarHeight: statusBarHeight,
+          jiaonang: jiaonang,
+          fixedTop: fixedTop,
+          statusBarHeightpx: statusBarHeightpx
         })
       }
     });
@@ -84,6 +93,7 @@ Page({
           key: 'user',
           data:user
         }) 
+        console.log(user)
         that.setData({
           user: user,
           isnum: true,
@@ -160,11 +170,54 @@ Page({
   },
 
   /**
+   * 当页面滚动时
+   */
+  onPageScroll:function(e){
+    let scroll = e.scrollTop;//当前滚动条的位置
+    console.log(scroll)
+    let jiaonang = this.data.jiaonang;//当前胶囊对象
+    let statusBarHeightpx = this.data.statusBarHeightpx;//当前状态栏的高度
+    
+    let titleHeight = jiaonang.height + jiaonang.top - statusBarHeightpx + 10//标题栏的高度(单位px)
+
+    let unit = 1 / titleHeight;//单位
+
+    let opacity = unit * scroll;
+
+    let textColor = opacity > 0.5?'black':'white';
+
+
+    this.setData({
+      opacity: opacity,
+      textColor: textColor
+    })
+
+  },
+
+  /**
+   * 导航到学习计划页面
+   */
+  GOxuexijihua:function(){
+    wx.navigateTo({
+      url: '/pages/index/xuexijihua/xuexijihua',
+    })
+  },
+
+  /**
    * 导航到消息界面
    */
   GOnews:function(){
     wx.navigateTo({
       url: 'message/news',
+    })
+  },
+
+  /**
+   * 导航到设置
+   */
+  GOmessage:function(){
+    wx.navigateTo({
+      url: 'message/index',
     })
   },
 
