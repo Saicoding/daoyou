@@ -1,6 +1,6 @@
 <view class="body-container">
   <!-- 最上面的白条 -->
-  <view class="status" style="height:{{statusBarHeight}}rpx;"></view>
+  <view class="status" style="height:{{statusBarHeight+5}}rpx;"></view>
   <!-- 最上面 -->
   <view class="mine" style="top:{{statusBarHeight}}rpx;height:{{jiaonang.height+jiaonang.top-statusBarHeightpx+10}}px;line-height:{{jiaonang.height+jiaonang.top-statusBarHeightpx+10}}px;  background: rgba(255, 255, 255,{{opacity}});color:{{textColor}}">
     我

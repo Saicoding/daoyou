@@ -429,6 +429,8 @@ Page({
     let user = wx.getStorageSync('user');
     let self = this;
     if (user) {
+      wx.vibrateShort({})
+
       this.rili.showDialog(self);
     } else {
       wx.navigateTo({

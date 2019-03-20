@@ -4,10 +4,11 @@
 .status {
   position: fixed;
   top: 0rpx;
-  background: #d5ddd8;
+  background: linear-gradient(to right, #27ec68, #a3daa6);
   width: 100%;
-  height: 80rpx;
+  height: 85rpx;
   z-index: 99;
+  border:none;
 }
 
 .mine {
@@ -19,6 +20,7 @@
   font-size: 35rpx;
   padding-left: 40rpx;
   z-index: 100;
+  border:none;
 }
 
 .up {
@@ -29,7 +31,7 @@
   width: 690rpx;
   padding: 150rpx 30rpx 50rpx 30rpx;
   color: white;
-  background: linear-gradient(to bottom right, #27ec68, #a3daa6);
+  background: linear-gradient(to right, #27ec68, #a3daa6);
 }
 
 
