@@ -113,8 +113,9 @@
 }
 
 .img {
-  width: 37%;
-  max-height: 190rpx;
+  width: 267rpx;
+  height: 150rpx;
+  border-radius: 10rpx;
 }
 
 .title {

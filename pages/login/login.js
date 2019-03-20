@@ -103,7 +103,8 @@ Page({
    * 生命周期事件
    */
   onShow: function() {
-    buttonClicked = false
+    buttonClicked = false;
+    
   },
 
   /**
@@ -130,6 +131,7 @@ Page({
   },
 
   back: function() {
+    wx.vibrateShort({})//震动一下
     wx.navigateBack({});
   },
   /**
@@ -352,9 +354,8 @@ Page({
           key: 'user',
           data: user,
           success: function() {
-            wx.navigateBack({
-
-            })
+            wx.vibrateShort({})//震动一下
+            wx.navigateBack({ })
 
             if (ifGoPage == "true") {
               wx.navigateTo({
@@ -415,12 +416,11 @@ Page({
           key: 'user',
           data: user,
           success: function() {
-            console.log('pwdSave' + phone)
-            console.log(spwd)
             wx.setStorage({
               key: 'pwdSave' + phone,
               data: spwd,
             })
+            wx.vibrateShort({})//震动一下
             wx.navigateBack({})
 
             if (ifGoPage == "true") {
@@ -644,6 +644,7 @@ Page({
                     data: user
                   })
                   buttonClicked = false;
+                  wx.vibrateShort({})//震动一下
                   wx.navigateBack({
                     success: function() {
                       wx.hideLoading();
@@ -702,6 +703,7 @@ Page({
         data: user
       })
       buttonClicked = false;
+      wx.vibrateShort({})//震动一下
       wx.navigateBack({
         success: function() {
           wx.hideLoading();
@@ -741,6 +743,7 @@ Page({
         data: user
       })
       buttonClicked = false;
+      wx.vibrateShort({})//震动一下
       wx.navigateBack({}) //先回到登录前的页面
       if (ifGoPage == 'true') {
         if (redirect == 'true') {

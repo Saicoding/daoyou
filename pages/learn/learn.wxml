@@ -14,14 +14,11 @@
   </swiper-item>
 </swiper>
 
-<view class="title1" style="top:{{jiaonang.top+(jiaonang.height-30*windowWidth/750)/2}}:px;opacity:{{1-opacity}}" animation="{{titleAnimate}}">每天学习一小时</view>
-
 <view class="bars {{fixed}}" style="top:{{fixedTop}}rpx;">
   <view class="bars-huodong {{types=='0'?'on':''}}" data-val='0' bindtap='getList'>笔试</view>
   <view class="bars-huodong {{types=='1'?'on':''}}" data-val='1' bindtap='getList'>面试</view>
   <view class="bars-huodong {{types=='2'?'on':''}}" data-val='2' bindtap='getList'>讲座</view>
   <view class="bars-huodong {{types=='3'?'on':''}}" data-val='3' bindtap='getList'>导游词</view>
-
 </view>
 
 <swiper indicator-dots="{{false}}" autoplay="{{false}}" interval="3000" duration="300" current="{{current}}" bindchange = "changeSwiper" style = "height:{{windowHeight-380}}rpx;" >
@@ -30,7 +27,7 @@
     <view  wx:for="{{videoList.list}}" wx:for-item="video" wx:key="v" >
       <!-- 一项 -->
       <view data-title="{{video.cname}}" data-index="{{index}}" class="block" data-renshu='{{video.hot}}' data-kc_id="{{video.kc_id}}" bindtap="watch" hover-class='select1' hover-stay-time='500'>
-        <image src="{{video.pic}}" class="img" mode='widthFix' />
+        <image src="{{video.pic}}" class="img" mode='aspectFill' />
 
         <view class="right-block">
           <!-- 标题 -->

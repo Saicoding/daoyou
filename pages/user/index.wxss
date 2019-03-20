@@ -27,7 +27,7 @@
   display: flex;
   justify-content: space-between;
   width: 690rpx;
-  padding: 150rpx 30rpx 150rpx 30rpx;
+  padding: 150rpx 30rpx 50rpx 30rpx;
   color: white;
   background: linear-gradient(to bottom right, #27ec68, #a3daa6);
 }
@@ -288,3 +288,9 @@
 .select2 {
   background: #01cf57;
 }
+
+.select3 {
+ background: linear-gradient(to right, #f7f7f7, #f0dfc0);
+}
+
+

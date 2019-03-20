@@ -24,10 +24,10 @@
   <image src="/images/bk.gif" class="gif" bindtap="GOmessage"></image>
 
   <!-- 学习计划 -->
-  <view class="xuexijihua" wx:if="{{user.taocan == '0'}}" bindtap="GOxuexijihua">
+  <view class="xuexijihua" wx:if="{{user.taocan == '0'}}" bindtap="GOxuexijihua" hover-class='select3' hover-stay-time='2000'>
     <image class="xx-icon" src="/images/zuanshi.png"></image>
     <view class="xx-text1">专享学习计划</view>
-    <view class="xx-text2">开通会员</view>
+    <view class="xx-text2" catchtap = "GOxuexijihua" hover-class='select1' hover-stay-time='2000'>立即加入</view>
   </view>
 
   <view class='sankuai'>

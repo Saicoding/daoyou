@@ -2,6 +2,7 @@
 
 page {
   background: white;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 自定义标题栏 */

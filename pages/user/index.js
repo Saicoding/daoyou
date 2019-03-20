@@ -100,16 +100,14 @@ Page({
           guoqi: guoqi
         })
 
-      })
-
-
-      app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
-        var news_num = res.data.data[0].nums;
-        that.setData({
-          news_num: news_num
+        app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
+          var news_num = res.data.data[0].nums;
+          that.setData({
+            news_num: news_num
+          })
         })
-      })
 
+      })
 
     } else {
       wx.navigateTo({
