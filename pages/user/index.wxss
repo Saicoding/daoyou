@@ -19,7 +19,6 @@
   font-size: 35rpx;
   padding-left: 40rpx;
   z-index: 100;
-  background: rgba(0, 0, 0,0.1);
 }
 
 .up {
@@ -30,7 +29,7 @@
   width: 690rpx;
   padding: 150rpx 30rpx 150rpx 30rpx;
   color: white;
-  background: linear-gradient(to bottom right, #32d584, #a3dabe);
+  background: linear-gradient(to bottom right, #27ec68, #a3daa6);
 }
 
 
@@ -39,7 +38,7 @@
   height: 300rpx;
   position: relative;
   z-index: 91;
-  opacity: 0.1;
+  /* opacity: 0.1; */
   top: -300rpx;
 }
 
@@ -77,6 +76,7 @@
   float: left;
   width: 30rpx;
   height: 30rpx;
+  margin-top:3rpx;
 }
 
 .up-left-name2-text {
@@ -87,7 +87,6 @@
   line-height: 35rpx;
   font-size: 20rpx;
   color: white;
-  /* background:linear-gradient(to right,#ef7b22,#e9a16a); *//* border-radius: 0rpx 40rpx 40rpx 0rpx; *//* margin-left:-5rpx; *//* margin-top:10rpx; */
 }
 
 /* 中间的学习计划 */
