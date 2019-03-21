@@ -4,7 +4,6 @@
 .status {
   position: fixed;
   top: 0rpx;
-  background: linear-gradient(to right, #27ec68, #a3daa6);
   width: 100%;
   height: 85rpx;
   z-index: 99;
@@ -24,8 +23,6 @@
 }
 
 .up {
-  position: relative;
-  z-index: 90;
   display: flex;
   justify-content: space-between;
   width: 690rpx;
@@ -34,36 +31,32 @@
   background: linear-gradient(to right, #27ec68, #a3daa6);
 }
 
-
-.gif {
-  width: 100%;
-  height: 300rpx;
-  position: relative;
-  z-index: 91;
-  /* opacity: 0.1; */
-  top: -300rpx;
-}
-
 .up-left {
   display: flex;
 }
 
 .up-right {
+  position: relative;
   width: 35rpx;
   height: 35rpx;
   margin-top: 30rpx;
+  z-index:120;
 }
 
 .pic {
+  position: relative;
   width: 120rpx;
   height: 120rpx;
   background: white;
   border-radius: 120rpx;
+  z-index: 120;
 }
 
 .up-left-name {
+   position: relative;
   margin-left: 30rpx;
   margin-top: 15rpx;
+  z-index: 120;
 }
 
 .up-left-name1 {
@@ -281,6 +274,54 @@
   text-align: center;
   background: #63d291;
   border-radius: 10rpx;
+}
+
+/* 波浪 */
+.container {
+    position: relative;
+    width: 750rpx;
+    height: 300rpx;
+    top: -300rpx;
+    overflow: hidden;
+    z-index: 91;
+    background: linear-gradient(to right, #27ec68, #a3daa6);
+}
+
+.wave {
+    position: relative;
+    width: 750rpx;
+    height: 300px;
+    background: linear-gradient(to right, #27ec68, #a3daa6);
+}
+.wave::before,
+.wave::after{
+    content: "";
+    position: absolute;
+    width: 1500px;
+    height: 1500px;
+    top: 2150rpx;
+    left:500rpx;
+    background-color: rgba(185, 240, 193, 0.4);
+    border-radius: 45%;
+    transform: translate(-50%, -70%) rotate(0);
+    animation: rotate 9s linear infinite;
+    z-index: 92;
+}   
+.wave::after {
+    border-radius: 47%;
+    background-color: rgba(119, 255, 221, 0.7);
+    transform: translate(-50%, -70%) rotate(0);
+    animation: rotate 10s linear -8s infinite;
+    z-index: 93;
+}
+
+@keyframes rotate {
+  50% {
+    transform: translate(-50%, -73%) rotate(180deg);
+  } 
+  100% {
+    transform: translate(-50%, -70%) rotate(360deg);
+  }
 }
 
 .select1 {

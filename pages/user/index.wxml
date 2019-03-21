@@ -21,7 +21,10 @@
 
     <image src="/images/more.png" class="up-right"></image>
   </view>
-  <image src="/images/bk.gif" class="gif" bindtap="GOmessage"></image>
+  <!-- 波浪 -->
+  <view class ="container" catchtap="GOmessage">
+    <view class = "wave"></view>
+  </view>
 
   <!-- 学习计划 -->
   <view class="xuexijihua" wx:if="{{user.taocan == '0'}}" bindtap="GOxuexijihua" hover-class='select3' hover-stay-time='2000'>
