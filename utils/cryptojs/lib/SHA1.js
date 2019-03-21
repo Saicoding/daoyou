@@ -1,86 +1,23 @@
-(function(){
-
-var C = (typeof window === 'undefined') ? require('./Crypto').Crypto : window.Crypto;
-
-// Shortcuts
-var util = C.util,
-    charenc = C.charenc,
-    UTF8 = charenc.UTF8,
-    Binary = charenc.Binary;
-
-// Public API
-var SHA1 = C.SHA1 = function (message, options) {
-	var digestbytes = util.wordsToBytes(SHA1._sha1(message));
-	return options && options.asBytes ? digestbytes :
-	       options && options.asString ? Binary.bytesToString(digestbytes) :
-	       util.bytesToHex(digestbytes);
-};
-
-// The core
-SHA1._sha1 = function (message) {
-
-	// Convert to byte array
-	if (message.constructor == String) message = UTF8.stringToBytes(message);
-	/* else, assume byte array already */
-
-	var m  = util.bytesToWords(message),
-	    l  = message.length * 8,
-	    w  =  [],
-	    H0 =  1732584193,
-	    H1 = -271733879,
-	    H2 = -1732584194,
-	    H3 =  271733878,
-	    H4 = -1009589776;
-
-	// Padding
-	m[l >> 5] |= 0x80 << (24 - l % 32);
-	m[((l + 64 >>> 9) << 4) + 15] = l;
-
-	for (var i = 0; i < m.length; i += 16) {
-
-		var a = H0,
-		    b = H1,
-		    c = H2,
-		    d = H3,
-		    e = H4;
-
-		for (var j = 0; j < 80; j++) {
-
-			if (j < 16) w[j] = m[i + j];
-			else {
-				var n = w[j-3] ^ w[j-8] ^ w[j-14] ^ w[j-16];
-				w[j] = (n << 1) | (n >>> 31);
-			}
-
-			var t = ((H0 << 5) | (H0 >>> 27)) + H4 + (w[j] >>> 0) + (
-			         j < 20 ? (H1 & H2 | ~H1 & H3) + 1518500249 :
-			         j < 40 ? (H1 ^ H2 ^ H3) + 1859775393 :
-			         j < 60 ? (H1 & H2 | H1 & H3 | H2 & H3) - 1894007588 :
-			                  (H1 ^ H2 ^ H3) - 899497514);
-
-			H4 =  H3;
-			H3 =  H2;
-			H2 = (H1 << 30) | (H1 >>> 2);
-			H1 =  H0;
-			H0 =  t;
-
-		}
-
-		H0 += a;
-		H1 += b;
-		H2 += c;
-		H3 += d;
-		H4 += e;
-
-	}
-
-	return [H0, H1, H2, H3, H4];
-
-};
-
-// Package private blocksize
-SHA1._blocksize = 16;
-
-SHA1._digestsize = 20;
-
-})();
+!function() {
+    var r = "undefined" == typeof window ? require("./Crypto").Crypto : window.Crypto, t = r.util, e = r.charenc, n = e.UTF8, o = e.Binary, s = r.SHA1 = function(r, e) {
+        var n = t.wordsToBytes(s._sha1(r));
+        return e && e.asBytes ? n : e && e.asString ? o.bytesToString(n) : t.bytesToHex(n);
+    };
+    s._sha1 = function(r) {
+        r.constructor == String && (r = n.stringToBytes(r));
+        var e = t.bytesToWords(r), o = 8 * r.length, s = [], i = 1732584193, a = -271733879, y = -1732584194, u = 271733878, c = -1009589776;
+        e[o >> 5] |= 128 << 24 - o % 32, e[15 + (o + 64 >>> 9 << 4)] = o;
+        for (var f = 0; f < e.length; f += 16) {
+            for (var d = i, g = a, v = y, T = u, h = c, l = 0; l < 80; l++) {
+                if (l < 16) s[l] = e[f + l]; else {
+                    var w = s[l - 3] ^ s[l - 8] ^ s[l - 14] ^ s[l - 16];
+                    s[l] = w << 1 | w >>> 31;
+                }
+                var b = (i << 5 | i >>> 27) + c + (s[l] >>> 0) + (l < 20 ? 1518500249 + (a & y | ~a & u) : l < 40 ? 1859775393 + (a ^ y ^ u) : l < 60 ? (a & y | a & u | y & u) - 1894007588 : (a ^ y ^ u) - 899497514);
+                c = u, u = y, y = a << 30 | a >>> 2, a = i, i = b;
+            }
+            i += d, a += g, y += v, u += T, c += h;
+        }
+        return [ i, a, y, u, c ];
+    }, s._blocksize = 16, s._digestsize = 20;
+}();

@@ -1,155 +1,62 @@
-if (typeof Crypto == "undefined" || ! Crypto.util)
-{
-(function(){
-
-var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-// Global Crypto object
-// with browser window or with node module
-var Crypto = (typeof window === 'undefined') ? exports.Crypto = {} : window.Crypto = {}; 
-
-// Crypto utilities
-var util = Crypto.util = {
-
-	// Bit-wise rotate left
-	rotl: function (n, b) {
-		return (n << b) | (n >>> (32 - b));
-	},
-
-	// Bit-wise rotate right
-	rotr: function (n, b) {
-		return (n << (32 - b)) | (n >>> b);
-	},
-
-	// Swap big-endian to little-endian and vice versa
-	endian: function (n) {
-
-		// If number given, swap endian
-		if (n.constructor == Number) {
-			return util.rotl(n,  8) & 0x00FF00FF |
-			       util.rotl(n, 24) & 0xFF00FF00;
-		}
-
-		// Else, assume array and swap all items
-		for (var i = 0; i < n.length; i++)
-			n[i] = util.endian(n[i]);
-		return n;
-
-	},
-
-	// Generate an array of any length of random bytes
-	randomBytes: function (n) {
-		for (var bytes = []; n > 0; n--)
-			bytes.push(Math.floor(Math.random() * 256));
-		return bytes;
-	},
-
-	// Convert a byte array to big-endian 32-bit words
-	bytesToWords: function (bytes) {
-		for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-			words[b >>> 5] |= (bytes[i] & 0xFF) << (24 - b % 32);
-		return words;
-	},
-
-	// Convert big-endian 32-bit words to a byte array
-	wordsToBytes: function (words) {
-		for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-			bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
-		return bytes;
-	},
-
-	// Convert a byte array to a hex string
-	bytesToHex: function (bytes) {
-		for (var hex = [], i = 0; i < bytes.length; i++) {
-			hex.push((bytes[i] >>> 4).toString(16));
-			hex.push((bytes[i] & 0xF).toString(16));
-		}
-		return hex.join("");
-	},
-
-	// Convert a hex string to a byte array
-	hexToBytes: function (hex) {
-		for (var bytes = [], c = 0; c < hex.length; c += 2)
-			bytes.push(parseInt(hex.substr(c, 2), 16));
-		return bytes;
-	},
-
-	// Convert a byte array to a base-64 string
-	bytesToBase64: function (bytes) {
-
-		// Use browser-native function if it exists
-		if (typeof btoa == "function") return btoa(Binary.bytesToString(bytes));
-
-		for(var base64 = [], i = 0; i < bytes.length; i += 3) {
-			var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
-			for (var j = 0; j < 4; j++) {
-				if (i * 8 + j * 6 <= bytes.length * 8)
-					base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
-				else base64.push("=");
-			}
-		}
-
-		return base64.join("");
-
-	},
-
-	// Convert a base-64 string to a byte array
-	base64ToBytes: function (base64) {
-
-		// Use browser-native function if it exists
-		if (typeof atob == "function") return Binary.stringToBytes(atob(base64));
-
-		// Remove non-base-64 characters
-		base64 = base64.replace(/[^A-Z0-9+\/]/ig, "");
-
-		for (var bytes = [], i = 0, imod4 = 0; i < base64.length; imod4 = ++i % 4) {
-			if (imod4 == 0) continue;
-			bytes.push(((base64map.indexOf(base64.charAt(i - 1)) & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2)) |
-			           (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
-		}
-
-		return bytes;
-
-	}
-
-};
-
-// Crypto character encodings
-var charenc = Crypto.charenc = {};
-
-// UTF-8 encoding
-var UTF8 = charenc.UTF8 = {
-
-	// Convert a string to a byte array
-	stringToBytes: function (str) {
-		return Binary.stringToBytes(unescape(encodeURIComponent(str)));
-	},
-
-	// Convert a byte array to a string
-	bytesToString: function (bytes) {
-		return decodeURIComponent(escape(Binary.bytesToString(bytes)));
-	}
-
-};
-
-// Binary encoding
-var Binary = charenc.Binary = {
-
-	// Convert a string to a byte array
-	stringToBytes: function (str) {
-		for (var bytes = [], i = 0; i < str.length; i++)
-			bytes.push(str.charCodeAt(i) & 0xFF);
-		return bytes;
-	},
-
-	// Convert a byte array to a string
-	bytesToString: function (bytes) {
-		for (var str = [], i = 0; i < bytes.length; i++)
-			str.push(String.fromCharCode(bytes[i]));
-		return str.join("");
-	}
-
-};
-
-})();
-}
+"undefined" != typeof Crypto && Crypto.util || function() {
+    var t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", n = "undefined" == typeof window ? exports.Crypto = {} : window.Crypto = {}, r = n.util = {
+        rotl: function(t, n) {
+            return t << n | t >>> 32 - n;
+        },
+        rotr: function(t, n) {
+            return t << 32 - n | t >>> n;
+        },
+        endian: function(t) {
+            if (t.constructor == Number) return 16711935 & r.rotl(t, 8) | 4278255360 & r.rotl(t, 24);
+            for (var n = 0; n < t.length; n++) t[n] = r.endian(t[n]);
+            return t;
+        },
+        randomBytes: function(t) {
+            for (var n = []; t > 0; t--) n.push(Math.floor(256 * Math.random()));
+            return n;
+        },
+        bytesToWords: function(t) {
+            for (var n = [], r = 0, o = 0; r < t.length; r++, o += 8) n[o >>> 5] |= (255 & t[r]) << 24 - o % 32;
+            return n;
+        },
+        wordsToBytes: function(t) {
+            for (var n = [], r = 0; r < 32 * t.length; r += 8) n.push(t[r >>> 5] >>> 24 - r % 32 & 255);
+            return n;
+        },
+        bytesToHex: function(t) {
+            for (var n = [], r = 0; r < t.length; r++) n.push((t[r] >>> 4).toString(16)), n.push((15 & t[r]).toString(16));
+            return n.join("");
+        },
+        hexToBytes: function(t) {
+            for (var n = [], r = 0; r < t.length; r += 2) n.push(parseInt(t.substr(r, 2), 16));
+            return n;
+        },
+        bytesToBase64: function(n) {
+            if ("function" == typeof btoa) return btoa(e.bytesToString(n));
+            for (var r = [], o = 0; o < n.length; o += 3) for (var u = n[o] << 16 | n[o + 1] << 8 | n[o + 2], i = 0; i < 4; i++) 8 * o + 6 * i <= 8 * n.length ? r.push(t.charAt(u >>> 6 * (3 - i) & 63)) : r.push("=");
+            return r.join("");
+        },
+        base64ToBytes: function(n) {
+            if ("function" == typeof atob) return e.stringToBytes(atob(n));
+            n = n.replace(/[^A-Z0-9+\/]/gi, "");
+            for (var r = [], o = 0, u = 0; o < n.length; u = ++o % 4) 0 != u && r.push((t.indexOf(n.charAt(o - 1)) & Math.pow(2, -2 * u + 8) - 1) << 2 * u | t.indexOf(n.charAt(o)) >>> 6 - 2 * u);
+            return r;
+        }
+    }, o = n.charenc = {}, e = (o.UTF8 = {
+        stringToBytes: function(t) {
+            return e.stringToBytes(unescape(encodeURIComponent(t)));
+        },
+        bytesToString: function(t) {
+            return decodeURIComponent(escape(e.bytesToString(t)));
+        }
+    }, o.Binary = {
+        stringToBytes: function(t) {
+            for (var n = [], r = 0; r < t.length; r++) n.push(255 & t.charCodeAt(r));
+            return n;
+        },
+        bytesToString: function(t) {
+            for (var n = [], r = 0; r < t.length; r++) n.push(String.fromCharCode(t[r]));
+            return n.join("");
+        }
+    });
+}();

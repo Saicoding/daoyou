@@ -1,49 +1,19 @@
-(function(){
-
-var C = (typeof window === 'undefined') ? require('./Crypto').Crypto : window.Crypto;
-
-// Shortcuts
-var util = C.util,
-    charenc = C.charenc,
-    UTF8 = charenc.UTF8,
-    Binary = charenc.Binary;
-
-C.PBKDF2 = function (password, salt, keylen, options) {
-
-	// Convert to byte arrays
-	if (password.constructor == String) password = UTF8.stringToBytes(password);
-	if (salt.constructor == String) salt = UTF8.stringToBytes(salt);
-	/* else, assume byte arrays already */
-
-	// Defaults
-	var hasher = options && options.hasher || C.SHA1,
-	    iterations = options && options.iterations || 1;
-
-	// Pseudo-random function
-	function PRF(password, salt) {
-		return C.HMAC(hasher, salt, password, { asBytes: true });
-	}
-
-	// Generate key
-	var derivedKeyBytes = [],
-	    blockindex = 1;
-	while (derivedKeyBytes.length < keylen) {
-		var block = PRF(password, salt.concat(util.wordsToBytes([blockindex])));
-		for (var u = block, i = 1; i < iterations; i++) {
-			u = PRF(password, u);
-			for (var j = 0; j < block.length; j++) block[j] ^= u[j];
-		}
-		derivedKeyBytes = derivedKeyBytes.concat(block);
-		blockindex++;
-	}
-
-	// Truncate excess bytes
-	derivedKeyBytes.length = keylen;
-
-	return options && options.asBytes ? derivedKeyBytes :
-	       options && options.asString ? Binary.bytesToString(derivedKeyBytes) :
-	       util.bytesToHex(derivedKeyBytes);
-
-};
-
-})();
+!function() {
+    var t = "undefined" == typeof window ? require("./Crypto").Crypto : window.Crypto, r = t.util, n = t.charenc, o = n.UTF8, e = n.Binary;
+    t.PBKDF2 = function(n, s, i, c) {
+        function a(r, n) {
+            return t.HMAC(y, n, r, {
+                asBytes: !0
+            });
+        }
+        n.constructor == String && (n = o.stringToBytes(n)), s.constructor == String && (s = o.stringToBytes(s));
+        for (var y = c && c.hasher || t.SHA1, u = c && c.iterations || 1, g = [], f = 1; g.length < i; ) {
+            for (var B = a(n, s.concat(r.wordsToBytes([ f ]))), h = B, T = 1; T < u; T++) {
+                h = a(n, h);
+                for (var d = 0; d < B.length; d++) B[d] ^= h[d];
+            }
+            g = g.concat(B), f++;
+        }
+        return g.length = i, c && c.asBytes ? g : c && c.asString ? e.bytesToString(g) : r.bytesToHex(g);
+    };
+}();

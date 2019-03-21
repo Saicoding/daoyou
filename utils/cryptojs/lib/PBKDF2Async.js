@@ -1,88 +1,36 @@
-(function(){
-
-var C = (typeof window === 'undefined') ? require('./Crypto').Crypto : window.Crypto;
-
-// Shortcuts
-var util = C.util,
-    charenc = C.charenc,
-    UTF8 = charenc.UTF8,
-    Binary = charenc.Binary;
-
-if (!C.nextTick) {
-    // node.js has setTime out but prefer process.nextTick
-    if (typeof process != 'undefined' && typeof process.nextTick !== 'undefined') {
-        C.nextTick = process.nextTick;
-    } else if (typeof setTimeout !== 'undefined') {
-        C.nextTick = function (callback) {
-            setTimeout(callback, 0);
-        };
-    }
-}
-
-C.PBKDF2Async = function (password, salt, keylen, callback, options) {
-
-    // Convert to byte arrays
-    if (password.constructor == String) password = UTF8.stringToBytes(password);
-    if (salt.constructor == String) salt = UTF8.stringToBytes(salt);
-    /* else, assume byte arrays already */
-
-    // Defaults
-    var hasher = options && options.hasher || C.SHA1,
-        iterations = options && options.iterations || 1;
-
-    // Progress callback option
-    var progressChangeHandler = options && options.onProgressChange;
-    var totalIterations = Math.ceil(keylen / hasher._digestsize) * iterations;
-    function fireProgressChange(currentIteration) {
-        if (progressChangeHandler) {
-            var iterationsSoFar = derivedKeyBytes.length / hasher._digestsize * iterations + currentIteration;
-            setTimeout(function () {
-                progressChangeHandler(Math.round(iterationsSoFar / totalIterations * 100));
-            }, 0);
+!function() {
+    var t = "undefined" == typeof window ? require("./Crypto").Crypto : window.Crypto, e = t.util, n = t.charenc, i = n.UTF8, o = n.Binary;
+    t.nextTick || ("undefined" != typeof process && void 0 !== process.nextTick ? t.nextTick = process.nextTick : "undefined" != typeof setTimeout && (t.nextTick = function(t) {
+        setTimeout(t, 0);
+    })), t.PBKDF2Async = function(n, s, r, c, u) {
+        function a(t) {
+            if (h) {
+                var e = v.length / g._digestsize * d + t;
+                setTimeout(function() {
+                    h(Math.round(e / p * 100));
+                }, 0);
+            }
         }
-    }
-
-    // Pseudo-random function
-    function PRF(password, salt) {
-        return C.HMAC(hasher, salt, password, { asBytes: true });
-    }
-
-    var nextTick = C.nextTick;
-
-    // Generate key
-    var derivedKeyBytes = [],
-        blockindex = 1;
-
-    var outer, inner;
-    nextTick(outer = function () {
-        if (derivedKeyBytes.length < keylen) {
-            var block = PRF(password, salt.concat(util.wordsToBytes([blockindex])));
-            fireProgressChange(1);
-
-            var u = block, i = 1;
-            nextTick(inner = function () {
-                if (i < iterations) {
-                    u = PRF(password, u);
-                    for (var j = 0; j < block.length; j++) block[j] ^= u[j];
-                    i++;
-                    fireProgressChange(i);
-
-                    nextTick(inner);
-                } else {
-                    derivedKeyBytes = derivedKeyBytes.concat(block);
-                    blockindex++;
-                    nextTick(outer);
-                }
+        function f(e, n) {
+            return t.HMAC(g, n, e, {
+                asBytes: !0
             });
-        } else {
-            // Truncate excess bytes
-            derivedKeyBytes.length = keylen;
-            callback(
-                    options && options.asBytes ? derivedKeyBytes :
-                    options && options.asString ? Binary.bytesToString(derivedKeyBytes) :
-                    util.bytesToHex(derivedKeyBytes));
         }
-    });
-};
-
-})();
+        n.constructor == String && (n = i.stringToBytes(n)), s.constructor == String && (s = i.stringToBytes(s));
+        var y, T, g = u && u.hasher || t.SHA1, d = u && u.iterations || 1, h = u && u.onProgressChange, p = Math.ceil(r / g._digestsize) * d, l = t.nextTick, v = [], x = 1;
+        l(y = function() {
+            if (v.length < r) {
+                var t = f(n, s.concat(e.wordsToBytes([ x ])));
+                a(1);
+                var i = t, g = 1;
+                l(T = function() {
+                    if (g < d) {
+                        i = f(n, i);
+                        for (var e = 0; e < t.length; e++) t[e] ^= i[e];
+                        a(++g), l(T);
+                    } else v = v.concat(t), x++, l(y);
+                });
+            } else v.length = r, c(u && u.asBytes ? v : u && u.asString ? o.bytesToString(v) : e.bytesToHex(v));
+        });
+    };
+}();

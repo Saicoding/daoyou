@@ -1,221 +1,60 @@
-(function(){
-
-var C = (typeof window === 'undefined') ? require('./Crypto').Crypto : window.Crypto;
-
-// Shortcuts
-var util = C.util,
-    charenc = C.charenc,
-    UTF8 = charenc.UTF8,
-    Binary = charenc.Binary;
-
-// Inner state
-var x = [],
-    c = [],
-    b;
-
-var Rabbit = C.Rabbit = {
-
-	/**
-	 * Public API
-	 */
-
-	encrypt: function (message, password) {
-
-		var
-
-		    // Convert to bytes
-		    m = UTF8.stringToBytes(message),
-
-		    // Generate random IV
-		    iv = util.randomBytes(8),
-
-		    // Generate key
-		    k = password.constructor == String ?
-		        // Derive key from passphrase
-		        C.PBKDF2(password, iv, 32, { asBytes: true }) :
-		        // else, assume byte array representing cryptographic key
-		        password;
-
-		// Encrypt
-		Rabbit._rabbit(m, k, util.bytesToWords(iv));
-
-		// Return ciphertext
-		return util.bytesToBase64(iv.concat(m));
-
-	},
-
-	decrypt: function (ciphertext, password) {
-
-		var
-
-		    // Convert to bytes
-		    c = util.base64ToBytes(ciphertext),
-
-		    // Separate IV and message
-		    iv = c.splice(0, 8),
-
-		    // Generate key
-		    k = password.constructor == String ?
-		        // Derive key from passphrase
-		        C.PBKDF2(password, iv, 32, { asBytes: true }) :
-		        // else, assume byte array representing cryptographic key
-		        password;
-
-		// Decrypt
-		Rabbit._rabbit(c, k, util.bytesToWords(iv));
-
-		// Return plaintext
-		return UTF8.bytesToString(c);
-
-	},
-
-
-	/**
-	 * Internal methods
-	 */
-
-	// Encryption/decryption scheme
-	_rabbit: function (m, k, iv) {
-
-		Rabbit._keysetup(k);
-		if (iv) Rabbit._ivsetup(iv);
-
-		for (var s = [], i = 0; i < m.length; i++) {
-
-			if (i % 16 == 0) {
-
-				// Iterate the system
-				Rabbit._nextstate();
-
-				// Generate 16 bytes of pseudo-random data
-				s[0] = x[0] ^ (x[5] >>> 16) ^ (x[3] << 16);
-				s[1] = x[2] ^ (x[7] >>> 16) ^ (x[5] << 16);
-				s[2] = x[4] ^ (x[1] >>> 16) ^ (x[7] << 16);
-				s[3] = x[6] ^ (x[3] >>> 16) ^ (x[1] << 16);
-
-				// Swap endian
-				for (var j = 0; j < 4; j++) {
-					s[j] = ((s[j] <<  8) | (s[j] >>> 24)) & 0x00FF00FF |
-					       ((s[j] << 24) | (s[j] >>>  8)) & 0xFF00FF00;
-				}
-
-				// Convert words to bytes
-				for (var b = 120; b >= 0; b -= 8)
-					s[b / 8] = (s[b >>> 5] >>> (24 - b % 32)) & 0xFF;
-
-			}
-
-			m[i] ^= s[i % 16];
-
-		}
-
-	},
-
-	// Key setup scheme
-	_keysetup: function (k) {
-
-		// Generate initial state values
-		x[0] = k[0];
-		x[2] = k[1];
-		x[4] = k[2];
-		x[6] = k[3];
-		x[1] = (k[3] << 16) | (k[2] >>> 16);
-		x[3] = (k[0] << 16) | (k[3] >>> 16);
-		x[5] = (k[1] << 16) | (k[0] >>> 16);
-		x[7] = (k[2] << 16) | (k[1] >>> 16);
-
-		// Generate initial counter values
-		c[0] = util.rotl(k[2], 16);
-		c[2] = util.rotl(k[3], 16);
-		c[4] = util.rotl(k[0], 16);
-		c[6] = util.rotl(k[1], 16);
-		c[1] = (k[0] & 0xFFFF0000) | (k[1] & 0xFFFF);
-		c[3] = (k[1] & 0xFFFF0000) | (k[2] & 0xFFFF);
-		c[5] = (k[2] & 0xFFFF0000) | (k[3] & 0xFFFF);
-		c[7] = (k[3] & 0xFFFF0000) | (k[0] & 0xFFFF);
-
-		// Clear carry bit
-		b = 0;
-
-		// Iterate the system four times
-		for (var i = 0; i < 4; i++) Rabbit._nextstate();
-
-		// Modify the counters
-		for (var i = 0; i < 8; i++) c[i] ^= x[(i + 4) & 7];
-
-	},
-
-	// IV setup scheme
-	_ivsetup: function (iv) {
-
-		// Generate four subvectors
-		var i0 = util.endian(iv[0]),
-		    i2 = util.endian(iv[1]),
-		    i1 = (i0 >>> 16) | (i2 & 0xFFFF0000),
-		    i3 = (i2 <<  16) | (i0 & 0x0000FFFF);
-
-		// Modify counter values
-		c[0] ^= i0;
-		c[1] ^= i1;
-		c[2] ^= i2;
-		c[3] ^= i3;
-		c[4] ^= i0;
-		c[5] ^= i1;
-		c[6] ^= i2;
-		c[7] ^= i3;
-
-		// Iterate the system four times
-		for (var i = 0; i < 4; i++) Rabbit._nextstate();
-
-	},
-
-	// Next-state function
-	_nextstate: function () {
-
-		// Save old counter values
-		for (var c_old = [], i = 0; i < 8; i++) c_old[i] = c[i];
-
-		// Calculate new counter values
-		c[0] = (c[0] + 0x4D34D34D + b) >>> 0;
-		c[1] = (c[1] + 0xD34D34D3 + ((c[0] >>> 0) < (c_old[0] >>> 0) ? 1 : 0)) >>> 0;
-		c[2] = (c[2] + 0x34D34D34 + ((c[1] >>> 0) < (c_old[1] >>> 0) ? 1 : 0)) >>> 0;
-		c[3] = (c[3] + 0x4D34D34D + ((c[2] >>> 0) < (c_old[2] >>> 0) ? 1 : 0)) >>> 0;
-		c[4] = (c[4] + 0xD34D34D3 + ((c[3] >>> 0) < (c_old[3] >>> 0) ? 1 : 0)) >>> 0;
-		c[5] = (c[5] + 0x34D34D34 + ((c[4] >>> 0) < (c_old[4] >>> 0) ? 1 : 0)) >>> 0;
-		c[6] = (c[6] + 0x4D34D34D + ((c[5] >>> 0) < (c_old[5] >>> 0) ? 1 : 0)) >>> 0;
-		c[7] = (c[7] + 0xD34D34D3 + ((c[6] >>> 0) < (c_old[6] >>> 0) ? 1 : 0)) >>> 0;
-		b = (c[7] >>> 0) < (c_old[7] >>> 0) ? 1 : 0;
-
-		// Calculate the g-values
-		for (var g = [], i = 0; i < 8; i++) {
-
-			var gx = (x[i] + c[i]) >>> 0;
-
-			// Construct high and low argument for squaring
-			var ga = gx & 0xFFFF,
-			    gb = gx >>> 16;
-
-			// Calculate high and low result of squaring
-			var gh = ((((ga * ga) >>> 17) + ga * gb) >>> 15) + gb * gb,
-			    gl = (((gx & 0xFFFF0000) * gx) >>> 0) + (((gx & 0x0000FFFF) * gx) >>> 0) >>> 0;
-
-			// High XOR low
-			g[i] = gh ^ gl;
-
-		}
-
-		// Calculate new state values
-		x[0] = g[0] + ((g[7] << 16) | (g[7] >>> 16)) + ((g[6] << 16) | (g[6] >>> 16));
-		x[1] = g[1] + ((g[0] <<  8) | (g[0] >>> 24)) + g[7];
-		x[2] = g[2] + ((g[1] << 16) | (g[1] >>> 16)) + ((g[0] << 16) | (g[0] >>> 16));
-		x[3] = g[3] + ((g[2] <<  8) | (g[2] >>> 24)) + g[1];
-		x[4] = g[4] + ((g[3] << 16) | (g[3] >>> 16)) + ((g[2] << 16) | (g[2] >>> 16));
-		x[5] = g[5] + ((g[4] <<  8) | (g[4] >>> 24)) + g[3];
-		x[6] = g[6] + ((g[5] << 16) | (g[5] >>> 16)) + ((g[4] << 16) | (g[4] >>> 16));
-		x[7] = g[7] + ((g[6] <<  8) | (g[6] >>> 24)) + g[5];
-
-	}
-
-};
-
-})();
+!function() {
+    var t, r = "undefined" == typeof window ? require("./Crypto").Crypto : window.Crypto, e = r.util, n = r.charenc, o = n.UTF8, a = (n.Binary, 
+    []), s = [], i = r.Rabbit = {
+        encrypt: function(t, n) {
+            var a = o.stringToBytes(t), s = e.randomBytes(8), c = n.constructor == String ? r.PBKDF2(n, s, 32, {
+                asBytes: !0
+            }) : n;
+            return i._rabbit(a, c, e.bytesToWords(s)), e.bytesToBase64(s.concat(a));
+        },
+        decrypt: function(t, n) {
+            var a = e.base64ToBytes(t), s = a.splice(0, 8), c = n.constructor == String ? r.PBKDF2(n, s, 32, {
+                asBytes: !0
+            }) : n;
+            return i._rabbit(a, c, e.bytesToWords(s)), o.bytesToString(a);
+        },
+        _rabbit: function(t, r, e) {
+            i._keysetup(r), e && i._ivsetup(e);
+            for (var n = [], o = 0; o < t.length; o++) {
+                if (o % 16 == 0) {
+                    i._nextstate(), n[0] = a[0] ^ a[5] >>> 16 ^ a[3] << 16, n[1] = a[2] ^ a[7] >>> 16 ^ a[5] << 16, 
+                    n[2] = a[4] ^ a[1] >>> 16 ^ a[7] << 16, n[3] = a[6] ^ a[3] >>> 16 ^ a[1] << 16;
+                    for (var s = 0; s < 4; s++) n[s] = 16711935 & (n[s] << 8 | n[s] >>> 24) | 4278255360 & (n[s] << 24 | n[s] >>> 8);
+                    for (var c = 120; c >= 0; c -= 8) n[c / 8] = n[c >>> 5] >>> 24 - c % 32 & 255;
+                }
+                t[o] ^= n[o % 16];
+            }
+        },
+        _keysetup: function(r) {
+            a[0] = r[0], a[2] = r[1], a[4] = r[2], a[6] = r[3], a[1] = r[3] << 16 | r[2] >>> 16, 
+            a[3] = r[0] << 16 | r[3] >>> 16, a[5] = r[1] << 16 | r[0] >>> 16, a[7] = r[2] << 16 | r[1] >>> 16, 
+            s[0] = e.rotl(r[2], 16), s[2] = e.rotl(r[3], 16), s[4] = e.rotl(r[0], 16), s[6] = e.rotl(r[1], 16), 
+            s[1] = 4294901760 & r[0] | 65535 & r[1], s[3] = 4294901760 & r[1] | 65535 & r[2], 
+            s[5] = 4294901760 & r[2] | 65535 & r[3], s[7] = 4294901760 & r[3] | 65535 & r[0], 
+            t = 0;
+            for (n = 0; n < 4; n++) i._nextstate();
+            for (var n = 0; n < 8; n++) s[n] ^= a[n + 4 & 7];
+        },
+        _ivsetup: function(t) {
+            var r = e.endian(t[0]), n = e.endian(t[1]), o = r >>> 16 | 4294901760 & n, a = n << 16 | 65535 & r;
+            s[0] ^= r, s[1] ^= o, s[2] ^= n, s[3] ^= a, s[4] ^= r, s[5] ^= o, s[6] ^= n, s[7] ^= a;
+            for (var c = 0; c < 4; c++) i._nextstate();
+        },
+        _nextstate: function() {
+            for (var r = [], e = 0; e < 8; e++) r[e] = s[e];
+            s[0] = s[0] + 1295307597 + t >>> 0, s[1] = s[1] + 3545052371 + (s[0] >>> 0 < r[0] >>> 0 ? 1 : 0) >>> 0, 
+            s[2] = s[2] + 886263092 + (s[1] >>> 0 < r[1] >>> 0 ? 1 : 0) >>> 0, s[3] = s[3] + 1295307597 + (s[2] >>> 0 < r[2] >>> 0 ? 1 : 0) >>> 0, 
+            s[4] = s[4] + 3545052371 + (s[3] >>> 0 < r[3] >>> 0 ? 1 : 0) >>> 0, s[5] = s[5] + 886263092 + (s[4] >>> 0 < r[4] >>> 0 ? 1 : 0) >>> 0, 
+            s[6] = s[6] + 1295307597 + (s[5] >>> 0 < r[5] >>> 0 ? 1 : 0) >>> 0, s[7] = s[7] + 3545052371 + (s[6] >>> 0 < r[6] >>> 0 ? 1 : 0) >>> 0, 
+            t = s[7] >>> 0 < r[7] >>> 0 ? 1 : 0;
+            for (var n = [], e = 0; e < 8; e++) {
+                var o = a[e] + s[e] >>> 0, i = 65535 & o, c = o >>> 16, u = ((i * i >>> 17) + i * c >>> 15) + c * c, f = ((4294901760 & o) * o >>> 0) + ((65535 & o) * o >>> 0) >>> 0;
+                n[e] = u ^ f;
+            }
+            a[0] = n[0] + (n[7] << 16 | n[7] >>> 16) + (n[6] << 16 | n[6] >>> 16), a[1] = n[1] + (n[0] << 8 | n[0] >>> 24) + n[7], 
+            a[2] = n[2] + (n[1] << 16 | n[1] >>> 16) + (n[0] << 16 | n[0] >>> 16), a[3] = n[3] + (n[2] << 8 | n[2] >>> 24) + n[1], 
+            a[4] = n[4] + (n[3] << 16 | n[3] >>> 16) + (n[2] << 16 | n[2] >>> 16), a[5] = n[5] + (n[4] << 8 | n[4] >>> 24) + n[3], 
+            a[6] = n[6] + (n[5] << 16 | n[5] >>> 16) + (n[4] << 16 | n[4] >>> 16), a[7] = n[7] + (n[6] << 8 | n[6] >>> 24) + n[5];
+        }
+    };
+}();

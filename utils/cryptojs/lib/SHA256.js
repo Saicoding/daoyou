@@ -1,130 +1,25 @@
-(function(){
-
-var C = (typeof window === 'undefined') ? require('./Crypto').Crypto : window.Crypto;
-
-// Shortcuts
-var util = C.util,
-    charenc = C.charenc,
-    UTF8 = charenc.UTF8,
-    Binary = charenc.Binary;
-
-// Constants
-var K = [ 0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
-          0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
-          0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
-          0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
-          0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
-          0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
-          0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
-          0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
-          0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
-          0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
-          0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
-          0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
-          0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
-          0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
-          0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
-          0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2 ];
-
-// Public API
-var SHA256 = C.SHA256 = function (message, options) {
-	var digestbytes = util.wordsToBytes(SHA256._sha256(message));
-	return options && options.asBytes ? digestbytes :
-	       options && options.asString ? Binary.bytesToString(digestbytes) :
-	       util.bytesToHex(digestbytes);
-};
-
-// The core
-SHA256._sha256 = function (message) {
-
-	// Convert to byte array
-	if (message.constructor == String) message = UTF8.stringToBytes(message);
-	/* else, assume byte array already */
-
-	var m = util.bytesToWords(message),
-	    l = message.length * 8,
-	    H = [ 0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A,
-	          0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19 ],
-	    w = [],
-	    a, b, c, d, e, f, g, h, i, j,
-	    t1, t2;
-
-	// Padding
-	m[l >> 5] |= 0x80 << (24 - l % 32);
-	m[((l + 64 >> 9) << 4) + 15] = l;
-
-	for (var i = 0; i < m.length; i += 16) {
-
-		a = H[0];
-		b = H[1];
-		c = H[2];
-		d = H[3];
-		e = H[4];
-		f = H[5];
-		g = H[6];
-		h = H[7];
-
-		for (var j = 0; j < 64; j++) {
-
-			if (j < 16) w[j] = m[j + i];
-			else {
-
-				var gamma0x = w[j - 15],
-				    gamma1x = w[j - 2],
-				    gamma0  = ((gamma0x << 25) | (gamma0x >>>  7)) ^
-				              ((gamma0x << 14) | (gamma0x >>> 18)) ^
-				               (gamma0x >>> 3),
-				    gamma1  = ((gamma1x <<  15) | (gamma1x >>> 17)) ^
-				              ((gamma1x <<  13) | (gamma1x >>> 19)) ^
-				               (gamma1x >>> 10);
-
-				w[j] = gamma0 + (w[j - 7] >>> 0) +
-				       gamma1 + (w[j - 16] >>> 0);
-
-			}
-
-			var ch  = e & f ^ ~e & g,
-			    maj = a & b ^ a & c ^ b & c,
-			    sigma0 = ((a << 30) | (a >>>  2)) ^
-			             ((a << 19) | (a >>> 13)) ^
-			             ((a << 10) | (a >>> 22)),
-			    sigma1 = ((e << 26) | (e >>>  6)) ^
-			             ((e << 21) | (e >>> 11)) ^
-			             ((e <<  7) | (e >>> 25));
-
-
-			t1 = (h >>> 0) + sigma1 + ch + (K[j]) + (w[j] >>> 0);
-			t2 = sigma0 + maj;
-
-			h = g;
-			g = f;
-			f = e;
-			e = (d + t1) >>> 0;
-			d = c;
-			c = b;
-			b = a;
-			a = (t1 + t2) >>> 0;
-
-		}
-
-		H[0] += a;
-		H[1] += b;
-		H[2] += c;
-		H[3] += d;
-		H[4] += e;
-		H[5] += f;
-		H[6] += g;
-		H[7] += h;
-
-	}
-
-	return H;
-
-};
-
-// Package private blocksize
-SHA256._blocksize = 16;
-
-SHA256._digestsize = 32;
-
-})();
+!function() {
+    var r = "undefined" == typeof window ? require("./Crypto").Crypto : window.Crypto, t = r.util, e = r.charenc, n = e.UTF8, o = e.Binary, s = [ 1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804, 4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298 ], i = r.SHA256 = function(r, e) {
+        var n = t.wordsToBytes(i._sha256(r));
+        return e && e.asBytes ? n : e && e.asString ? o.bytesToString(n) : t.bytesToHex(n);
+    };
+    i._sha256 = function(r) {
+        r.constructor == String && (r = n.stringToBytes(r));
+        var e, o, i, a, y, u, c, f, d, g = t.bytesToWords(r), v = 8 * r.length, T = [ 1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 528734635, 1541459225 ], h = [];
+        g[v >> 5] |= 128 << 24 - v % 32, g[15 + (v + 64 >> 9 << 4)] = v;
+        for (var l = 0; l < g.length; l += 16) {
+            e = T[0], o = T[1], i = T[2], a = T[3], y = T[4], u = T[5], c = T[6], f = T[7];
+            for (var w = 0; w < 64; w++) {
+                if (w < 16) h[w] = g[w + l]; else {
+                    var b = h[w - 15], p = h[w - 2], B = (b << 25 | b >>> 7) ^ (b << 14 | b >>> 18) ^ b >>> 3, S = (p << 15 | p >>> 17) ^ (p << 13 | p >>> 19) ^ p >>> 10;
+                    h[w] = B + (h[w - 7] >>> 0) + S + (h[w - 16] >>> 0);
+                }
+                var _ = e & o ^ e & i ^ o & i, C = (e << 30 | e >>> 2) ^ (e << 19 | e >>> 13) ^ (e << 10 | e >>> 22);
+                d = (f >>> 0) + ((y << 26 | y >>> 6) ^ (y << 21 | y >>> 11) ^ (y << 7 | y >>> 25)) + (y & u ^ ~y & c) + s[w] + (h[w] >>> 0), 
+                f = c, c = u, u = y, y = a + d >>> 0, a = i, i = o, o = e, e = d + (C + _) >>> 0;
+            }
+            T[0] += e, T[1] += o, T[2] += i, T[3] += a, T[4] += y, T[5] += u, T[6] += c, T[7] += f;
+        }
+        return T;
+    }, i._blocksize = 16, i._digestsize = 32;
+}();

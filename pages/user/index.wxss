@@ -18,7 +18,7 @@
   height: 80rpx;
   font-size: 35rpx;
   padding-left: 40rpx;
-  z-index: 100;
+  z-index: 130;
   border:none;
 }
 
@@ -281,10 +281,11 @@
     position: relative;
     width: 750rpx;
     height: 300rpx;
-    top: -300rpx;
+    top: -296rpx;
     overflow: hidden;
     z-index: 91;
     background: linear-gradient(to right, #27ec68, #a3daa6);
+    border:none;
 }
 
 .wave {
@@ -292,35 +293,35 @@
     width: 750rpx;
     height: 300px;
     background: linear-gradient(to right, #27ec68, #a3daa6);
+    border:none;
 }
 .wave::before,
 .wave::after{
     content: "";
     position: absolute;
-    width: 1500px;
-    height: 1500px;
-    top: 2150rpx;
-    left:500rpx;
+    width: 2400rpx;
+    height: 2400rpx;
+    top: 291rpx;
+    left:-800rpx;
     background-color: rgba(185, 240, 193, 0.4);
     border-radius: 45%;
-    transform: translate(-50%, -70%) rotate(0);
-    animation: rotate 9s linear infinite;
+    transform: translate(-50%, -50%);
+    animation: rotate 12s linear infinite;
     z-index: 92;
 }   
 .wave::after {
-    border-radius: 47%;
-    background-color: rgba(119, 255, 221, 0.7);
-    transform: translate(-50%, -70%) rotate(0);
-    animation: rotate 10s linear -8s infinite;
+    
+   
+    animation: rotate 12s linear -1.4s infinite;
     z-index: 93;
 }
 
 @keyframes rotate {
-  50% {
-    transform: translate(-50%, -73%) rotate(180deg);
+  0% {
+    transform: rotate(0deg);
   } 
   100% {
-    transform: translate(-50%, -70%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
