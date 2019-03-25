@@ -23,7 +23,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.chooseAddress({})
+ 
   },
 
   /**
@@ -67,11 +67,7 @@ Page({
   onShow: function() {
     let user = wx.getStorageSync('user');
     let that = this;
-    wx.chooseAddress({
-      success: function (res) {
-        console.log(res)
-      }
-    })
+
     if (user) {
       let zcode = user.zcode;
       let token = user.token;

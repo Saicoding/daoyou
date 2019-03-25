@@ -13,7 +13,7 @@
     "pages/learn/play",
     "pages/shuati/noteAndErrList/noteAndErrList",
     "pages/user/message/edit",
-    "pages/user/message/headimg/weCropper",
+    "pages/user/avatarUpload/avatarUpload",
     "pages/user/message/index",
     "pages/user/coupon/coupon",
     "pages/logs/logs",

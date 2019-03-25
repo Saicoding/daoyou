@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "image-cropper": "/components/imageCropper/image-cropper"
+  },
+  "enablePullDownRefresh": false
+}

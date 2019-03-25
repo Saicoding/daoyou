@@ -36,6 +36,7 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
+        
           if (ifShow) { //隐藏载入
             wx.hideLoading();
           }
@@ -117,6 +118,7 @@ App({
           } else if (status == -2020) { //绑定的手机号已经存在
             resolve(res);
           }else {
+            //console.log(res);
             wx.showToast({
               icon: 'none',
               title: message,

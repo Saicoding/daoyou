@@ -32,16 +32,25 @@ Page({
       let token = user.token;
 
       this.setData({
-        user: user
+        user: user,
+        random: new Date().getTime()
       })
     
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, true, false, "", "", self).then((res) => {
         var userInfo = res.data.data[0];
         var address = userInfo.Address.split(",");
+        let region = [];
+        let hasDizhi = false;
+        if (address[0]){
+          region = [address[0], address[1], address[2]];
+          hasDizhi = true;
+        }
+
         that.setData({
           userInfo: userInfo,
-          region: [address[0], address[1], address[2]],
-          sh_dizhi: address[3]
+          hasDizhi: hasDizhi,
+          region: region,
+          sh_dizhi: address[3] ? address[3]:''
         })
       
 
@@ -54,6 +63,8 @@ Page({
     this.myinput = this.selectComponent('#myinput');
     this.singleSelect = this.selectComponent('#singleSelect');
   },
+
+
   /**
    * 弹出模板
    */
@@ -252,11 +263,21 @@ Page({
    * 导航到设置头像页面
    */
   GOavatarUpload: function() {
+    wx.chooseImage({
+      count: 1,
+      sizeType: 'compressed',
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        const src = res.tempFilePaths[0]
 
         wx.navigateTo({
-          url: "headimg/weCropper"
+          url: `/pages/user/avatarUpload/avatarUpload?src=${src}`
         })
-      
+      },
+      fail: function () {
+        buttonClicked = false
+      }
+    })
   }
 
 })

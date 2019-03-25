@@ -1,6 +1,8 @@
 <!--pages/shuati/shuati.wxml-->
 <view class="container">
-  <view class="bars" style="top:{{jiaonang.top}}px;height:{{jiaonang.height-40}}px;border-radius:{{jiaonang.height}}px;">
+ <!-- 最上面的白条 -->
+ 
+  <view class="bars" style="top:{{jiaonang.top==0?26:jiaonang.top}}px;height:{{jiaonang.height-40}}px;border-radius:{{jiaonang.height==0?32:jiaonang.height}}px;">
     <view wx:for="{{bars}}" wx:for-item="bar" wx:key="b">
       <view data-type="1" data-index="{{index}}" class="bar" style="background:{{currentIndex == index?'#00c356':'white'}};color:{{currentIndex == index?'white':'#00c356'}};height:{{jiaonang.height-40}}px;line-height:{{jiaonang.height-40}}px" bindtap="changeBar">{{currentIndex == index?bar.title2:bar.title1}}</view>
     </view>

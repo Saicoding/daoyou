@@ -306,11 +306,15 @@ Page({
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
+        //console.log(res);
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
-        let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
+       
         let jiaonang = wx.getMenuButtonBoundingClientRect(); //胶囊位置及尺寸
+        console.log(jiaonang);
+        console.log(windowHeight);
+        let statusBarHeight = res.statusBarHeight * (750 / windowWidth);
         let platform = res.platform;
         let fixedTop = (jiaonang.top + jiaonang.height) * (750 / windowWidth); //定位高度 单位rpx
 

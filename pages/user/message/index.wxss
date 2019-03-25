@@ -1,20 +1,35 @@
-.more { width:30rpx; height: 30rpx;margin-top: 35rpx; opacity: 0.5 }
+.more {
+  width: 30rpx;
+  height: 30rpx;
+  margin-top: 35rpx;
+  opacity: 0.5;
+}
 
 .pic {
-  width:80rpx;
-  height:80rpx;
-  border-radius: 50%; margin-right: 10rpx; margin-top: 10rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  margin-top: 10rpx;
 }
+
 .nickname {
-  position: absolute; bottom:50rpx; left:4%;
+  position: absolute;
+  bottom: 50rpx;
+  left: 4%;
   font-size: 36rpx;
   width: 50%;
   line-height: 54rpx;
 }
+
 .nickname2 {
-  position: absolute; bottom:30rpx; right:4%;
-  width: 30%; font-weight: bold
+  position: absolute;
+  bottom: 30rpx;
+  right: 4%;
+  width: 30%;
+  font-weight: bold;
 }
+
 .line {
   padding-left: 40rpx;
   padding-right: 40rpx;
@@ -28,12 +43,33 @@
   height: 100rpx;
   width: 100%;
   border-bottom: 1rpx solid #f4f5f6;
-  line-height: 100rpx; clear: both; overflow: hidden; color: #555
+  line-height: 100rpx;
+  clear: both;
+  overflow: hidden;
+  color: #555;
 }
-.liuyan {line-height: 100rpx;height: 100rpx;}
-.hong { color: #fc551e}
-.block .fr { font-size: 26rpx; margin-left: 12px;}
-.block button { background: #fff; padding: 0;line-height: 100rpx;height: 100rpx;}
+
+.liuyan {
+  line-height: 100rpx;
+  height: 100rpx;
+  width:500rpx;
+}
+
+.hong {
+  color: #fc551e;
+}
+
+.block .fr {
+  font-size: 26rpx;
+  margin-left: 12px;
+}
+
+.block button {
+  background: #fff;
+  padding: 0;
+  line-height: 100rpx;
+  height: 100rpx;
+}
 
 .jie {
   display: block;
@@ -88,12 +124,26 @@
   height: 80rpx;
   line-height: 80rpx;
 }
+
 .select {
   background: rgb(230, 229, 229);
 }
-.btn {display:block; margin: 20px auto; color:#fff; width:92%;  text-align:center; height:90rpx; line-height:90rpx; border-radius:8rpx; font-size:30rpx; background: -moz-linear-gradient(left, #11d66d, #53e4a9);background: -webkit-linear-gradient(left, #11d66d, #53e4a9);background: -o-linear-gradient(left, #11d66d, #53e4a9);}
 
-.select1{
-   background: rgba(99, 99, 99, 0.1);
+.btn {
+  display: block;
+  margin: 20px auto;
+  color: #fff;
+  width: 92%;
+  text-align: center;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 8rpx;
+  font-size: 30rpx;
+  background: -moz-linear-gradient(left, #11d66d, #53e4a9);
+  background: -webkit-linear-gradient(left, #11d66d, #53e4a9);
+  background: -o-linear-gradient(left, #11d66d, #53e4a9);
 }
 
+.select1 {
+  background: rgba(99, 99, 99, 0.1);
+}

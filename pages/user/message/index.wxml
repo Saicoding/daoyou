@@ -3,13 +3,15 @@
 <view wx:if="{{loaded}}" class="mycontainer">
 
   <view class="line" bindtap="GOavatarUpload" hover-class='select1' hover-stay-time='500'>
-    <view class="block"  style='padding:5px 0'>
+    <view class="block" style='padding:5px 0'>
       <view class="mytext fl">
         头像
       </view>
-      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
+      <view class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
       <view class='hui fr'>
-        <image class="pic" src="{{user.Pic?user.Pic:'/images/avatar.png'}}" mode="aspectFit"></image>
+        <image class="pic" src="{{user.Pic?user.Pic+'?'+random:'/images/avatar.png'}}" mode="aspectFit"></image>
       </view>
     </view>
   </view>
@@ -18,7 +20,9 @@
       <view class="mytext fl">
         昵称
       </view>
-      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
+      <view class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
       <view class='hui fr'>{{userInfo.Nicename?userInfo.Nicename:"游客"}}</view>
     </view>
   </view>
@@ -39,30 +43,32 @@
       <view class="mytext fl">
         性别
       </view>
-      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
+      <view class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
       <view class='hui fr'>{{userInfo.Sex?userInfo.Sex:"保密"}}</view>
 
     </view>
   </view>
 
-
-  <view class="line">
-  <view class="block">
-    <text class='mytext fl'>邮寄地址选择：</text>
-    <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-      <view class="picker hui fr">
+  <picker class="line" mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}" hover-class='select1' hover-stay-time='500'>
+    <view class="block">
+      <text class='mytext fl'>邮寄地址选择：</text>
+      <view wx:if="{{hasDizhi}}" class="picker hui fr">
         {{region[0]}}，{{region[1]}}，{{region[2]}}
       </view>
-    </picker>
+            <view wx:if="{{!hasDizhi}}" class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
+    </view>
+  </picker>
+  <view class="line" hover-class='select1' hover-stay-time='500'>
+    <view class="block">
+      <text class='mytext fl'>详细地址：</text>
+      <input focus='{{dizhiFocus}}' class='liuyan hui fr tar' value="{{sh_dizhi}}" placeholder='留下您的详细地址' placeholder-style="text-align:right;"  bindinput='sh_dizhi'></input>
+    </view>
   </view>
-  </view>
-  <view class="line">
-  <view class="block">
-    <text class='mytext fl'>详细地址：</text>
-    <input class='liuyan hui fr tar' value="{{sh_dizhi}}" placeholder='留下您的详细地址' bindinput='sh_dizhi'></input>
-  </view>
-  </view>
-  
+
 
   <view class="line">
     <view class="block" data-info="{{userInfo.Mobile}}" data-inputtype="number" data-title="手机号" bindtap="showModel" data-placeholder="请输入您的手机号">
@@ -70,7 +76,9 @@
       <view class="mytext fl">
         手机号码
       </view>
-      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
+      <view class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
       <view class='hui fr'>{{userInfo.Mobile?userInfo.Mobile:userInfo.username}}</view>
 
     </view>
@@ -81,7 +89,9 @@
       <view class="mytext fl">
         E-mail
       </view>
-      <view class='fr'>         <image src='/images/moreh.png' class='more'></image>       </view>
+      <view class='fr'>
+        <image src='/images/moreh.png' class='more'></image>
+      </view>
       <view class='hui fr'>{{userInfo.Email?userInfo.Email:"未设置"}}</view>
 
     </view>

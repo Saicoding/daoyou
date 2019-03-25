@@ -1,6 +1,7 @@
 // components/errorRecovery/errorRecovery.js
 let newAni = require('../../common/newAnimate.js');
 let time = require('../../common/time.js');
+
 const app = getApp()
 const API_URL = 'https://xcx2.chinaplat.com/daoyou/'; //接口地址
 
@@ -78,30 +79,76 @@ Component({
       let windowWidth = this.data.windowWidth;
       let user = wx.getStorageSync('user');
       let nickname = user.Nickname ? user.Nickname : '';
+      let zcode = user.zcode;
       let mypic = user.Pic;
-
+      
       self.setData({
         isShow: true
       })
 
-      //下载头像
+     
+      //下载头像 
+      
+      if (mypic.slice(0,24) =="http://www.chinaplat.com"){
+
+
+        app.post(API_URL, "action=getHeadPicBase64&zcode=" + zcode, false, false, "", "", false, self).then(res2 => {
+          //获取base64字符串  
+          
+          let base64 = res2.data.data[0].base64;
+         
+          let filePath = wx.env.USER_DATA_PATH + '/HeadPic' + zcode + Math.round(Math.random())+'.jpg';
+          
+          let fsm = wx.getFileSystemManager();
+         
+          
+          fsm.writeFile({
+            filePath: filePath,
+            data: base64 ,
+            encoding: 'base64',
+            success: function (res1) {
+            
+              self.setData({
+                headPic: filePath
+              });
+             
+            },
+            error: function (e) {
+              console.log(e)
+            }
+            })
+
+          
+        })
+
+      }else{
       wx.downloadFile({
         url: mypic,
         success: (res) => {
+          //成功就设置字符串图片地址
           self.setData({
             headPic: res.tempFilePath
           })
+        },
+        fail:(res)=>{//失败就从服务器获取base64字符串
+          
         }
       })
+      }
 
       app.post(API_URL, "action=getSignPic", false, false, "", "", false, self).then(res => {
+  
         let picUrl = res.data.data[0]; //从服务器获取背景图
+      
         //画背景,下载网络图片
+        
         wx.downloadFile({
           url: picUrl,
           success: (res) => {
 
             if (res.statusCode === 200) {
+              //清除画布
+              context.clearRect(0,0,600,820);
               //得到图片信息
               context.drawImage(res.tempFilePath, 0, 0, 600, 820);
 
@@ -130,7 +177,12 @@ Component({
               // 画昵称
               context.setFontSize(30);
               context.setFillStyle('black');
-              context.fillText(nickname, 40, 750);
+              let myni = nickname;
+
+              
+              context.fillText(myni, 40, 750);
+    
+
               context.setFontSize(25);
               context.setFillStyle('#979797');
               context.fillText("在导游考试通累计学习", 40, 790);
@@ -145,16 +197,23 @@ Component({
               }
               context.setFillStyle('#979797');
               context.fillText('天', (327 - sub2), 790);
-
+              context.save();
+              //清空头像
+              context.clearRect(90, 650, 50, 0, 2 * Math.PI);
               // 画头像
               context.arc(90, 650, 50, 0, 2 * Math.PI) //画出圆
               context.strokeStyle = "red";
               context.clip(); //裁剪上面的圆形
-              context.drawImage(self.data.headPic, 40, 600, 100, 100); // 在刚刚裁剪的园上画图
+              context.drawImage(self.data.headPic, 40, 600, 100, 100); // 在刚刚裁剪的圆上画图
+              context.restore();
+              
+
+
               context.draw(true, function(res) {
                 wx.canvasToTempFilePath({
                   canvasId: 'mycanvas',
-                  success: function(res) {
+                  success: function (res) {
+                   
                     let tempFilePath = res.tempFilePath;
                     self.setData({
                       imageUrl: tempFilePath,
@@ -182,23 +241,58 @@ Component({
             }
           }
         })
+       
       })
     },
 
     //开始绘图
-    draw2: function(tuan_id, img, userid) {
+    draw2: function (tuan_id, img, userid) {
       let self = this;
       //绘制背景
       let context = wx.createCanvasContext('mycanvas', this);
       let user = wx.getStorageSync('user');
       let nickname = user.Nickname ? user.Nickname : '';
       let mypic = user.Pic;
-
+      let zcode = user.zcode;
       self.setData({
         isShow: true
       })
 
       // 下载头像
+
+      if (mypic.slice(0, 24) == "http://www.chinaplat.com") {
+
+
+        app.post(API_URL, "action=getHeadPicBase64&zcode=" + zcode, false, false, "", "", false, self).then(res2 => {
+          //获取base64字符串  
+
+          let base64 = res2.data.data[0].base64;
+
+          let filePath = wx.env.USER_DATA_PATH + '/HeadPic' + zcode + Math.round(Math.random()) + '.jpg';
+
+          let fsm = wx.getFileSystemManager();
+
+
+          fsm.writeFile({
+            filePath: filePath,
+            data: base64,
+            encoding: 'base64',
+            success: function (res1) {
+
+              self.setData({
+                headPic: filePath
+              });
+
+            },
+            error: function (e) {
+              console.log(e)
+            }
+          })
+
+
+        })
+
+      } else {
       wx.downloadFile({
         url: mypic,
         success: (res) => {
@@ -207,6 +301,7 @@ Component({
           })
         }
       })
+      }
 
 
       let picUrl = 'https://xcx2.chinaplat.com/daoyou/images/fengmian.png?tdsourcetag=s_pcqq_aiomsg';//背景图
@@ -219,7 +314,7 @@ Component({
 
         wx.getImageInfo({
           src: wx.env.USER_DATA_PATH + '/wareInfoShareimg1' + tuan_id + '.jpg',
-          success:function(res5){
+          success: function (res5) {
             console.log('已有')
             let xcxCodePath = res5.path;//二维码图片的地址
             //画背景,下载网络图片
@@ -227,7 +322,7 @@ Component({
               url: picUrl,
               success: (res) => {
                 if (res.statusCode === 200) {
-                  self.canvasDraw(context, res.tempFilePath,xcxCodePath, nickname);
+                  self.canvasDraw(context, res.tempFilePath, xcxCodePath, nickname);
                 }
               },
               fail: function (res) {
@@ -235,7 +330,7 @@ Component({
               }
             })
           },
-          fail:function(res6){
+          fail: function (res6) {
             // 获取二维码
             console.log('没有')
             wx.request({
@@ -295,7 +390,7 @@ Component({
     /**
      * 画布画的方法
      */
-    canvasDraw: function (context, tempFilePath, xcxCodePath, nickname){
+    canvasDraw: function (context, tempFilePath, xcxCodePath, nickname) {
       let self = this;
       context.drawImage(tempFilePath, 0, 0, 600, 820);
       // 画昵称
@@ -386,7 +481,7 @@ Component({
     /**
      * 保存到相册
      */
-    baocun: function() {
+    baocun: function () {
       var that = this
       wx.saveImageToPhotosAlbum({
         filePath: that.data.imageUrl,
@@ -396,7 +491,7 @@ Component({
             showCancel: false,
             confirmText: '好的',
             confirmColor: '#333',
-            success: function(res) {
+            success: function (res) {
               if (res.confirm) {
                 /* 该隐藏的隐藏 */
                 that.setData({
@@ -404,7 +499,7 @@ Component({
                 })
               }
             },
-            fail: function(res) {
+            fail: function (res) {
 
             }
           })
@@ -427,5 +522,16 @@ Component({
       })
     },
   },
-
+    
+   
 })
+
+
+
+
+
+
+
+
+
+

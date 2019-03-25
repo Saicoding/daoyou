@@ -26,6 +26,7 @@ page {
   z-index:100;
 }
 
+
 .bar {
   width: 100rpx;
   text-align: center;
