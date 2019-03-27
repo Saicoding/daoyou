@@ -8,7 +8,7 @@
   <view class="up" bindtap="GOmessage" style="padding-bottom:{{user.taocan == '1'?50:150}}rpx">
     <view class="up-left">
 
-      <image class="pic" src="{{user.Pic+'?'+random}}"></image>
+      <image wx:if ="{{random}}" class="pic" src="{{user.Pic+'?'+random}}"></image>
 
       <view class="up-left-name">
         <view class="up-left-name1">{{user.Nickname}}</view>

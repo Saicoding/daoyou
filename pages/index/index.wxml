@@ -8,7 +8,7 @@
     <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
       <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
         <swiper-item wx:if="{{banners}}">
-          <image data-from="banner" src="{{img.pic+'?3'}}" class="slide-image" bindtap="GOxuexijihua" />
+          <image  data-from="banner" src="{{img.pic?img.pic+'?3':''}}" class="slide-image" bindtap="GOxuexijihua" />
         </swiper-item>
       </block>
 
@@ -24,7 +24,7 @@
     <!-- 个人信息最上面部分 -->
     <view class="info-up">
       <!-- 个人信息的图像 -->
-      <image class="info-up-avatar" src="{{user.Pic == '/images/avatar.png'?'/images/avatar.png':user.Pic+'?'+random}}"></image>
+      <image wx:if="{{random}}" class="info-up-avatar" src="{{user.Pic == '/images/avatar.png'?'/images/avatar.png':user.Pic+'?'+random}}"></image>
 
       <!-- 个人信息最上面的中间部分 -->
       <view class="info-up-mid">
