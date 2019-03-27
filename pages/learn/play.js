@@ -876,6 +876,13 @@ Page({
     }
   },
 
+  scrollTOtop:function(){
+    this.setData({
+      mybar: "",
+      scrollTop:0
+    })
+  },
+
   scroll: function(e) {
     let windowWidth = this.data.windowWidth;
     let scrollTop = e.detail.scrollTop * 750 / windowWidth;
@@ -905,18 +912,6 @@ Page({
 
     this.setData({
       lastScroll: scrollTop
-    })
-  },
-
-  /**
-   * 改变产品时
-   */
-  scrolltop: function(e) {
-    this.setData({
-      mybar: ""
-    })
-    wx.pageScrollTo({
-      scrollTop: 0
     })
   },
 

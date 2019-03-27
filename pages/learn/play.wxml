@@ -141,4 +141,4 @@
     </view>
   </view>
 </scroll-view>
-<view class='scrolltop f12 hui {{mybar}}' bindtap='scrolltop' hover-class='select1' hover-stay-time='800'>top</view>
+<view class='scrolltop f12 hui {{mybar}}' bindtap='scrollTOtop' hover-class='select1' hover-stay-time='800'>top</view>
