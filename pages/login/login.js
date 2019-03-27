@@ -387,7 +387,6 @@ Page({
    * 帐号密码登录
    */
   userPwdLogin: function(e) {
-    console.log('od')
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
@@ -479,7 +478,6 @@ Page({
 
     if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
-      console.log("action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd)
       app.post(API_URL, "action=SaveReg&mobile=" + self.data.phone + "&code=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
         let status = self.data.status;
         let interval = self.data.interval;
@@ -769,10 +767,8 @@ Page({
     })
     wx.login({
       success: res => {
-        console.log('开始请求')
         let code = res.code;
         app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
-          console.log('请求完毕')
           let sesstion_key = res.data.data[0].sessionKey;
           let openid = res.data.data[0].openid;
           let encryptedData = e.detail.encryptedData;
@@ -790,7 +786,6 @@ Page({
             return
           }
           let phoneNumber = data.phoneNumber;
-          console.log(phoneNumber)
 
 
           let pwdText = wx.getStorageSync('pwdSave' + phoneNumber);

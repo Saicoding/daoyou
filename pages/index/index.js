@@ -132,7 +132,8 @@ Page({
     app.post(API_URL, "action=getStudyDays&zcode=" + zcode, false, false, "").then(res => {
       let QDdays = res.data.data[0].QDdays;
       self.setData({
-        QDdays: QDdays
+        QDdays: QDdays,
+        random: new Date().getTime()
       })
     })
 
@@ -140,7 +141,6 @@ Page({
     if (user) { //有用户信息时才请求
       app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
         var news_num = res.data.data[0].nums;
-        console.log(news_num)
         if (news_num > 0) {
           wx.setTabBarBadge({
             index: 3,
@@ -277,7 +277,6 @@ Page({
         dakaAnimate: dakaAnimate
       })
     }, 5000);
-    console.log(interval)
 
     self.setData({
       interval: interval
@@ -286,7 +285,6 @@ Page({
 
   clear:function(){
     let interval = this.data.interval;
-    console.log('清除的是'+interval);
     clearInterval(interval);
   },
 

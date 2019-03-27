@@ -21,6 +21,7 @@ Page({
       title: type=='note'?'我的笔记':'我的错题',
     })
 
+
     this.setData({
       options: options,//上个页面的参数
       first:true//默认首次载入
@@ -92,9 +93,10 @@ Page({
     let typesid = this.data.options.typesid;
     let type = this.data.options.type;
     let title =  e.currentTarget.dataset.title;
+    let index = e.currentTarget.dataset.index;
 
     wx.navigateTo({
-      url: '/pages/shuati/noteAndErrList/noteAndErr/noteAndErr?title=' + title + "&typesid=" + typesid + "&type=" + type,
+      url: '/pages/shuati/noteAndErrList/noteAndErr/noteAndErr?title=' + title + "&typesid=" + typesid + "&type=" + type+"&index="+index,
     })
   },
 

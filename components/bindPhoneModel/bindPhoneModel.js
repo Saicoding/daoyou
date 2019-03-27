@@ -223,10 +223,8 @@ Component({
       })
       wx.login({
         success: res => {
-          console.log('开始请求')
           let code = res.code;
           app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
-            console.log('请求完毕')
             let sesstion_key = res.data.data[0].sessionKey;
             let openid = res.data.data[0].openid;
             //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
@@ -251,7 +249,7 @@ Component({
           })
         },
         fail: res => {
-          console.log('shibai')
+          console.log('失败')
         }
       })
     },

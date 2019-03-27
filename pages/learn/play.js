@@ -322,6 +322,7 @@ Page({
 
       self.setData({
         pl: pl,
+        page_all:1,
         text: '',
         value: '',
         scrollTop:0

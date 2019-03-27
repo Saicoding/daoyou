@@ -35,7 +35,6 @@ Page({
   onLoad: function(options) {
     let self = this;
     let user = wx.getStorageSync('user'); //本地用户信息
-    console.log(user)
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
     let token = user.token ==undefined?"":user.token
     let page = 1; //默认是第一页
@@ -385,6 +384,7 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
+    console.log(midShiti.answer);
     myFavorite = midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
@@ -585,6 +585,7 @@ Page({
 
       if (allLoaded.length == 1) { //说明已经载入完毕一个
         midShiti = shitiArray[px - 1];
+        console.log(midShiti.answer);
         common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
         allLoaded = [];
       } else {

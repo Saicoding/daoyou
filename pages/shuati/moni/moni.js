@@ -139,6 +139,7 @@ Page({
         let preShiti = undefined; //前一题
         let nextShiti = undefined; //后一题
         let midShiti = shitiArray[px - 1]; //中间题
+        console.log(midShiti.answer);
 
         let sliderShitiArray = [];
 
@@ -327,6 +328,7 @@ Page({
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
+    console.log(midShiti.answer);
 
     common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
 
@@ -714,6 +716,7 @@ Page({
 
       if (allLoaded.length == 1) { //说明已经载入完毕一个
         midShiti = shitiArray[px - 1];
+        console.log(midShiti.answer);
         common.processTapModelRealAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
         allLoaded = [];
       } else {

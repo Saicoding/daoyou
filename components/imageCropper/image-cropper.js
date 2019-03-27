@@ -345,7 +345,6 @@ Component({
      * 设置剪裁框尺寸
      */
     setCutSize(w, h) {
-      console.log(w,h)
       this.setData({
         width: w,
         height: h
@@ -369,7 +368,6 @@ Component({
      * 设置剪裁框宽度-即将废弃
      */
     setWidth(width) {
-      console.log(1)
       this.setData({
         width: width
       });
@@ -442,7 +440,6 @@ Component({
     },
     imageLoad(e) {
       setTimeout(() => {
-        console.log(this.data.imageObject)
         this.triggerEvent('imageload', this.data.imageObject);
       }, 1000)
     },

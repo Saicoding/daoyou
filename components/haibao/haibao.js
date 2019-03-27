@@ -114,7 +114,7 @@ Component({
              
             },
             error: function (e) {
-              console.log(e)
+              console.log('错误')
             }
             })
 
@@ -158,6 +158,7 @@ Component({
               context.fillText(time.getDateToday(), 50, 120);
               //画'我在导游考试通连续学习多少天'
               context.setFontSize(25);
+
               context.setFillStyle('white');
               context.fillText('我在导游考试通', 40, 200);
               context.fillText('连续学习第', 40, 230);
@@ -177,10 +178,8 @@ Component({
               // 画昵称
               context.setFontSize(30);
               context.setFillStyle('black');
-              let myni = nickname;
-
               
-              context.fillText(myni, 40, 750);
+              context.fillText(nickname, 40, 750);
     
 
               context.setFontSize(25);
@@ -206,36 +205,36 @@ Component({
               context.clip(); //裁剪上面的圆形
               context.drawImage(self.data.headPic, 40, 600, 100, 100); // 在刚刚裁剪的圆上画图
               context.restore();
-              
 
+              context.draw(false, function(res) {
+                setTimeout(function(){
+                  wx.canvasToTempFilePath({
+                    canvasId: 'mycanvas',
+                    success: function (res) {
 
-              context.draw(true, function(res) {
-                wx.canvasToTempFilePath({
-                  canvasId: 'mycanvas',
-                  success: function (res) {
-                   
-                    let tempFilePath = res.tempFilePath;
-                    self.setData({
-                      imageUrl: tempFilePath,
-                      isShow: true
-                    })
-                    pre.rili.setData({ //日历页面隐藏
-                      isShow: false
-                    })
+                      let tempFilePath = res.tempFilePath;
+                      self.setData({
+                        imageUrl: tempFilePath,
+                        isShow: true
+                      })
+                      pre.rili.setData({ //日历页面隐藏
+                        isShow: false
+                      })
 
-                    wx.hideLoading();
-                  },
-                  fail: function(res) {
+                      wx.hideLoading();
+                    },
+                    fail: function (res) {
 
-                    self.setData({
-                      isShow: true
-                    });
-                    pre.rili.setData({ //日历页面隐藏
-                      isShow: false
-                    })
-                    wx.hideLoading();
-                  }
-                }, self);
+                      self.setData({
+                        isShow: true
+                      });
+                      pre.rili.setData({ //日历页面隐藏
+                        isShow: false
+                      })
+                      wx.hideLoading();
+                    }
+                  }, self);
+                },1000)
               });
 
             }
@@ -315,7 +314,6 @@ Component({
         wx.getImageInfo({
           src: wx.env.USER_DATA_PATH + '/wareInfoShareimg1' + tuan_id + '.jpg',
           success: function (res5) {
-            console.log('已有')
             let xcxCodePath = res5.path;//二维码图片的地址
             //画背景,下载网络图片
             wx.downloadFile({
@@ -332,7 +330,6 @@ Component({
           },
           fail: function (res6) {
             // 获取二维码
-            console.log('没有')
             wx.request({
               url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + access_token,
               data: {
@@ -353,7 +350,6 @@ Component({
                   data: res.data,
                   encoding: 'binary',
                   success(res1) {
-                    console.log(res1)
                     wx.getImageInfo({
                       src: filePath,
                       success: function (e) {
@@ -454,27 +450,27 @@ Component({
 
       context.drawImage(self.data.headPic, 250, 30, 100, 100); // 在刚刚裁剪的园上画图
 
-      context.draw(true, function (res) {
-        console.log('ok')
-        wx.canvasToTempFilePath({
-          canvasId: 'mycanvas',
-          success: function (res) {
-            let tempFilePath = res.tempFilePath;
-            self.setData({
-              imageUrl: tempFilePath,
-              isShow: true
-            })
+      context.draw(false, function (res) {
+        setTimeout(function(){
+          wx.canvasToTempFilePath({
+            canvasId: 'mycanvas',
+            success: function (res) {
+              let tempFilePath = res.tempFilePath;
+              self.setData({
+                imageUrl: tempFilePath,
+                isShow: true
+              })
 
-            wx.hideLoading();
-          },
-          fail: function (res) {
-            self.setData({
-              isShow: true
-            });
-            wx.hideLoading();
-          }
-        }, self);
-
+              wx.hideLoading();
+            },
+            fail: function (res) {
+              self.setData({
+                isShow: true
+              });
+              wx.hideLoading();
+            }
+          }, self);
+        },1000)
       })
     },
 

@@ -10,6 +10,7 @@ function zuotiOnload(options, px, circular, myFavorite, shitiArray, user, page, 
   let preShiti = undefined; //前一题
   let nextShiti = undefined; //后一题
   let midShiti = shitiArray[px - 1]; //中间题
+  console.log(midShiti.answer)
 
   let sliderShitiArray = [];
   let lastSliderIndex = 0;
@@ -128,6 +129,7 @@ function markOnload(options, px, circular, myFavorite, shitiArray, user, page, a
   let preShiti = undefined; //前一题
   let nextShiti = undefined; //后一题
   let midShiti = shitiArray[px - 1]; //中间题
+  console.log(midShiti.answer);
 
   let sliderShitiArray = [];
   let lastSliderIndex = 0;

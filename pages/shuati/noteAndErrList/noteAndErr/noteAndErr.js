@@ -142,7 +142,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    if (this.data.isReLoad || this.data.isSingin) {//重复登录或者登录
+    if (this.data.isReLoad || this.data.isSingin) { //重复登录或者登录
       self._answerSelect(undefined);
     }
   },
@@ -156,7 +156,7 @@ Page({
     let done_daan = "";
     let huidiaoDaan = null;
 
-    if (e == undefined) {//回调回来的  
+    if (e == undefined) { //回调回来的  
       huidiaoDaan = self.data.huidiaoDaan;
     } else {
       huidiaoDaan = e.detail.done_daan ? e.detail.done_daan : '';
@@ -187,11 +187,11 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    if (shiti.leibie == '1' || shiti.leibie == '3') {//单选和判断
+    if (shiti.leibie == '1' || shiti.leibie == '3') { //单选和判断
       done_daan = huidiaoDaan;
-    } else if (shiti.leibie == '2') {//多选
+    } else if (shiti.leibie == '2') { //多选
       done_daan = shiti.selectAnswer;
-    } else {//面试
+    } else { //面试
       done_daan = "mianshi";
     }
 
@@ -215,6 +215,19 @@ Page({
       isReLoad: false,
       isSingin: false
     })
+
+    //更新上一个页面的数量
+    if (shiti.flag * 1 == 0) {
+      let pages = getCurrentPages();
+      let prepage = pages[pages.length - 2]; //上一个页面
+      let tis = prepage.data.tis;
+      let index = options.index;
+      tis[index * 1].nums -= 1;
+      prepage.setData({
+        tis: tis,
+        all_nums: prepage.data.all_nums-1//总数量减1
+      })
+    }
 
     common.postAnswerToServer(user, shiti.beizhu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
 
@@ -264,11 +277,11 @@ Page({
 
     let self = this;
     let options = self.data.options;
-    let typesid = options.typesid;//科目ID
-    let title = encodeURIComponent(options.title);//请求接口参数之一
+    let typesid = options.typesid; //科目ID
+    let title = encodeURIComponent(options.title); //请求接口参数之一
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
-    let T = self.data.T;//请求接口参数
+    let T = self.data.T; //请求接口参数
 
     let myFavorite = 0;
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
@@ -276,7 +289,7 @@ Page({
 
     let user = self.data.user;
     let zcode = user.zcode == undefined ? '' : user.zcode;
-    let token = user.token?user.token:'';
+    let token = user.token ? user.token : '';
 
     let px = self.data.px;
     let direction = "";
@@ -360,6 +373,7 @@ Page({
       }
     }
     let midShiti = shitiArray[px - 1];
+    console.log(midShiti.answer);
     myFavorite = midShiti.favorite;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
@@ -471,6 +485,7 @@ Page({
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
+    console.log(midShiti.answer);
 
     let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
 
@@ -540,10 +555,10 @@ Page({
   getNewShiti: function(options, page, midShiti, preShiti, nextShiti, px, current, circular) {
     let self = this;
     let user = wx.getStorageSync('user');
-    let zcode = user.zcode?user.zcode:"";
-    let token = user.token?user.token:"";
-    let T = self.data.T;//请求接口参数之一
-    let title = encodeURIComponent(options.title);//请求接口参数之一
+    let zcode = user.zcode ? user.zcode : "";
+    let token = user.token ? user.token : "";
+    let T = self.data.T; //请求接口参数之一
+    let title = encodeURIComponent(options.title); //请求接口参数之一
     let shitiArray = self.data.shitiArray;
 
     app.post(API_URL, "action=getNoteErrList&typesid=" + options.typesid + "&title=" + title + "&page=" + page + "&zcode=" + zcode + "&token=" + token + "&T=" + T, false, false, "", "", false, self).then((res) => {
@@ -564,6 +579,7 @@ Page({
 
       if (allLoaded.length == 1) { //说明已经载入完毕一个
         midShiti = shitiArray[px - 1];
+        console.log(midShiti.answer);
         common.processTapLianxiAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self);
         allLoaded = [];
       } else {
@@ -685,7 +701,7 @@ Page({
     let beginDonenum = 0; //进入页面时的已做题数
     let doneAnswerArray = this.data.doneAnswerArray; //已做题数组
     let rightRate = doneAnswerArray.length == 0 ? 0 : ((rightNum / doneAnswerArray.length) * 100).toFixed(2); //正确率
-    if (this.data.options.currentIndex == 5) {//面试题
+    if (this.data.options.currentIndex == 5) { //面试题
       rightRate = 0;
     }
     let donenum = doneAnswerArray.length //本次做题数
@@ -719,7 +735,7 @@ Page({
   },
 
   onUnload: function() {
-  
+
   },
 
   /**
@@ -753,7 +769,7 @@ Page({
     let px = this.data.px;
     let shiti = shitiArray[px - 1];
     let sliderShiti = sliderShitiArray[lastSliderIndex];
- 
+
 
     let tid = shiti.id;
     let content = this.data.noteText;
@@ -777,11 +793,11 @@ Page({
    */
   _jiaocheng: function(e) {
     let type = this.data.options.type;
-    let title = type == 'note'?'笔记模式':'错题模式'
+    let title = type == 'note' ? '笔记模式' : '错题模式'
     wx.showToast({
-      title: '在'+title+'中没有教程信息',
-      icon:'none',
-      duration:3000
+      title: '在' + title + '中没有教程信息',
+      icon: 'none',
+      duration: 3000
     })
   },
 
@@ -793,10 +809,10 @@ Page({
   },
 
   /**
- * 购买解析包
- */
-  _buy: function (e) {
-  
+   * 购买解析包
+   */
+  _buy: function(e) {
+
     let product = e.detail.product;
     this.jiesuo.hideDialog();
 
@@ -827,7 +843,7 @@ Page({
   /**
    * 导航到学习计划
    */
-  _GOxuexijihua:function(){
+  _GOxuexijihua: function() {
     wx.navigateTo({
       url: '/pages/index/xuexijihua/xuexijihua',
     })
@@ -836,7 +852,7 @@ Page({
   /**
    * 显示错题
    */
-  _viewWrong:function(){
+  _viewWrong: function() {
     this.tongji.hideDialog();
     this.markAnswer.showDialog();
   },
@@ -844,7 +860,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 

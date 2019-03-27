@@ -33,7 +33,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
     wx.setNavigationBarTitle({ //设置标题
       title: '全陪套餐拼单中……',
     })
@@ -64,10 +63,7 @@ Page({
       zcode = user.zcode;
     }
     let mine = 'false';
-    console.log(userid )
-    console.log(zcode)
     if (userid == zcode+'' || userid == 'false') {
-      console.log('相等')
       mine = true
     }
     this.setData({
@@ -173,7 +169,6 @@ Page({
   onReady: function() {
     let self = this;
     this.pindanSend = this.selectComponent("#pindanSend");
-    console.log(self.data.mine)
     if (self.data.mine != "false") {
       this.pindanSend.showDialog();
     }

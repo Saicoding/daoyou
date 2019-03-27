@@ -86,7 +86,6 @@ Page({
     let token = user.token;
     let zcode = user.zcode;
     let windowWidth = self.data.windowWidth;
-    console.log(windowWidth);
 
     wx.showLoading({
       title: '设置头像中...',
@@ -102,7 +101,6 @@ Page({
           wx.canvasToTempFilePath({
             canvasId: 'photo_canvas',
             success: function (res1) {
-              console.log(res1.tempFilePath)
               wx.getFileSystemManager().readFile({
                 filePath: res1.tempFilePath, //选择图片返回的相对路径
                 encoding: 'base64', //编码格式
@@ -110,7 +108,6 @@ Page({
                   res3.data = encodeURIComponent(res3.data); //需要编码
                   app.post(API_URL, "action=saveHeadPic&zcode=" + zcode + "&token=" + token + "&Pic=" + res3.data, false, false, "", "", "", self).then(res4 => {
                     wx.hideLoading({})
-                    console.log(res4)
                     prePage.setData({
                       userInfo: userInfo
                     })

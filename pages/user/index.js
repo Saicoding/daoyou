@@ -85,19 +85,17 @@ Page({
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
 
         user.Money = res.data.data[0].Money;
-        console.log(user.Money)
-
-        
         user.Nicename = res.data.data[0].Nicename;
         wx.setStorage({
           key: 'user',
           data:user
         }) 
-        console.log(user)
+
         that.setData({
           user: user,
           isnum: true,
-          guoqi: guoqi
+          guoqi: guoqi,
+          random: new Date().getTime()
         })
 
         app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
@@ -172,7 +170,6 @@ Page({
    */
   onPageScroll:function(e){
     let scroll = e.scrollTop;//当前滚动条的位置
-    console.log(scroll)
     let jiaonang = this.data.jiaonang;//当前胶囊对象
     let statusBarHeightpx = this.data.statusBarHeightpx;//当前状态栏的高度
     
