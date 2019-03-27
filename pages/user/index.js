@@ -15,15 +15,15 @@ Page({
     unionId: '',
     encryptedData: '',
     news_num: 0,
-    isnum:false ,//是否是手机号登陆
-    opacity:0//标题栏颜色
+    isnum: false, //是否是手机号登陆
+    opacity: 0 //标题栏颜色
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
- 
+
   },
 
   /**
@@ -32,7 +32,7 @@ Page({
   onReady: function() {
     let self = this;
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function (res) { //转换窗口高度
+      success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         //最上面标题栏不同机型的高度不一样(单位PX)
@@ -72,30 +72,34 @@ Page({
       let zcode = user.zcode;
       let token = user.token;
       let isnum = false;
-      if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(user.username)){
-        isnum =true;
+      if (/^1[3|4|5|6|7|8|9]\d{9}$/.test(user.username)) {
+        isnum = true;
       }
       var time2 = this.dateAdd(user.yhq_time);
 
       var guoqi = 'true';
-      if (new Date(time2) < new Date()) { guoqi = 'true' } else { guoqi = 'false' }
+      if (new Date(time2) < new Date()) {
+        guoqi = 'true'
+      } else {
+        guoqi = 'false'
+      }
       // { "Message": "请求成功", "status": 1, "data": [{ "Nicename": "屌丝洋", "Sex": "男", "Address": "北京市,北京市,东城区,人民广场", "Mobile": "13292374292", "Email": "819992797@qq.com", "Jifen": "0", "Money": "15907.54", "xueshi": 618523 }] }
       // { "Message": "请求成功", "status": 1, "data": [{ "token": "e37658e391e4194a22008f4dea71e50f", "Mycode": "111562", "username": "13292374292", "Nickname": "屌丝洋", "Jifen": "0", "Money": "15907.54", "xueshi": "618523", "Vip": "0", "Ktime": "", "Jtime": "", "zcode": 11562, "Pic": "http://www.chinaplat.com/user/UserHeadImg/11562.jpg", "TKflag": 0, "YHQ": 0, "taocan": "1", "yhq_time": "" }] }
-  
+
       app.post(API_URL, "action=getUserInfo&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
 
         user.Money = res.data.data[0].Money;
         user.Nicename = res.data.data[0].Nicename;
         wx.setStorage({
           key: 'user',
-          data:user
-        }) 
+          data: user
+        })
 
         that.setData({
           user: user,
           isnum: true,
           guoqi: guoqi,
-          random: new Date().getTime()
+          random: wx.getStorageSync('random') ? wx.getStorageSync('random') : new Date().toLocaleDateString() 
         })
 
         app.post(API_URL, "action=GetNoticesNums&zcode=" + zcode + "&token=" + token, false, false, "", "", true, self).then((res) => {
@@ -113,7 +117,7 @@ Page({
       })
     }
   },
-  dateAdd: function (startDate) {
+  dateAdd: function(startDate) {
     startDate = new Date(startDate);
     startDate = +startDate + 3000 * 60 * 60 * 24;
     startDate = new Date(startDate);
@@ -122,7 +126,7 @@ Page({
     return nextStartDate;
 
   },
-  
+
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -168,18 +172,18 @@ Page({
   /**
    * 当页面滚动时
    */
-  onPageScroll:function(e){
-    let scroll = e.scrollTop;//当前滚动条的位置
-    let jiaonang = this.data.jiaonang;//当前胶囊对象
-    let statusBarHeightpx = this.data.statusBarHeightpx;//当前状态栏的高度
-    
-    let titleHeight = jiaonang.height + jiaonang.top - statusBarHeightpx + 10//标题栏的高度(单位px)
+  onPageScroll: function(e) {
+    let scroll = e.scrollTop; //当前滚动条的位置
+    let jiaonang = this.data.jiaonang; //当前胶囊对象
+    let statusBarHeightpx = this.data.statusBarHeightpx; //当前状态栏的高度
 
-    let unit = 1 / titleHeight;//单位
+    let titleHeight = jiaonang.height + jiaonang.top - statusBarHeightpx + 10 //标题栏的高度(单位px)
+
+    let unit = 1 / titleHeight; //单位
 
     let opacity = unit * scroll;
 
-    let textColor = opacity > 0.5?'black':'white';
+    let textColor = opacity > 0.5 ? 'black' : 'white';
 
 
     this.setData({
@@ -192,7 +196,7 @@ Page({
   /**
    * 导航到学习计划页面
    */
-  GOxuexijihua:function(){
+  GOxuexijihua: function() {
     wx.navigateTo({
       url: '/pages/index/xuexijihua/xuexijihua',
     })
@@ -201,7 +205,7 @@ Page({
   /**
    * 导航到消息界面
    */
-  GOnews:function(){
+  GOnews: function() {
     wx.navigateTo({
       url: 'message/news',
     })
@@ -210,7 +214,7 @@ Page({
   /**
    * 导航到设置
    */
-  GOmessage:function(){
+  GOmessage: function() {
     wx.navigateTo({
       url: 'message/index',
     })
@@ -219,7 +223,7 @@ Page({
   /**
    * 导航到优惠券
    */
-  GOcoupon:function(){
+  GOcoupon: function() {
     wx.navigateTo({
       url: 'coupon/coupon',
     })
@@ -228,7 +232,7 @@ Page({
   /**
    * 导航到修改密码
    */
-  GOpwd:function(){
+  GOpwd: function() {
     wx.navigateTo({
       url: 'message/pwd',
     })
@@ -237,7 +241,7 @@ Page({
   /**
    * 导航到拼单界面
    */
-  GOpindan:function(){
+  GOpindan: function() {
     wx.navigateTo({
       url: '../user/course/pindan_list',
     })
@@ -246,7 +250,7 @@ Page({
   /**
    * 导航到精品推荐
    */
-  GOtuijian:function(){
+  GOtuijian: function() {
     wx.navigateTo({
       url: '../user/tuijian/tuijian',
     })

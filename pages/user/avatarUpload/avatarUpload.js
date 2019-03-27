@@ -108,6 +108,10 @@ Page({
                   res3.data = encodeURIComponent(res3.data); //需要编码
                   app.post(API_URL, "action=saveHeadPic&zcode=" + zcode + "&token=" + token + "&Pic=" + res3.data, false, false, "", "", "", self).then(res4 => {
                     wx.hideLoading({})
+                    //设置本地random变量
+                    console.log(new Date().toLocaleDateString() + new Date().toLocaleTimeString())
+                    wx.setStorageSync('random', new Date().toLocaleDateString() + new Date().toLocaleTimeString());
+
                     prePage.setData({
                       userInfo: userInfo
                     })

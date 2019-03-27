@@ -112,7 +112,7 @@
         <view wx:if="{{plfirst}}">
           <view wx:for="{{pl}}" wx:for-item='pl' wx:key='p'>
             <view class='pllist'>
-              <image class='plimg' src='{{pl.userimg}}' mode='widthFix'></image>
+              <image class='plimg' src='{{pl.userimg+"?"+random}}' mode='widthFix'></image>
               <view class='plcont'>
                 <view class='clear'>
                   <text class='f15'>{{pl.nickname}}</text>

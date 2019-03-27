@@ -348,6 +348,10 @@ Page({
     let first = this.data.first; //是否是第一次载入
     let windowWidth = this.data.windowWidth; //窗口宽度(px)
 
+    self.setData({
+      random: new Date().toLocaleDateString()
+    })
+
     if (first) { //如果是首次渲染,说明onload已经更新数据
       this.setData({
         first: false,

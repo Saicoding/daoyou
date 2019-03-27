@@ -113,8 +113,6 @@ Page({
    * 生命周期事件
    */
   onShow: function() {
-    let pages = getCurrentPages();
-   
     let self = this;
     let user = wx.getStorageSync('user'); //获取本地用户缓存
     let zcode = user.zcode == undefined ? "" : user.zcode; //缓存标识
@@ -133,7 +131,7 @@ Page({
       let QDdays = res.data.data[0].QDdays;
       self.setData({
         QDdays: QDdays,
-        random: new Date().getTime()
+        random: wx.getStorageSync('random') ? wx.getStorageSync('random') : new Date().toLocaleDateString() 
       })
     })
 

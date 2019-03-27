@@ -161,6 +161,13 @@ Page({
     }
   },
 
+  //生命周期事件
+  onShow:function(){
+    this.setData({
+      random: new Date().toLocaleDateString()
+    })
+  },
+
   //改变编号
   changeSwiper:function(e){
     let current = e.detail.current;

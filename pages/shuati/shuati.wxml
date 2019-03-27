@@ -12,7 +12,7 @@
   <swiper bindtap="GOxuexijihua" class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500" style="  opacity: {{opacity}}"  hover-class ="select2" hover-stay-time=  "500">
     <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
       <swiper-item>
-        <image src="{{img.pic+'?3'}}" class="slide-image" />
+        <image src="{{img.pic+'?'+random}}" class="slide-image" />
       </swiper-item>
     </block>
 
