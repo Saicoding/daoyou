@@ -116,7 +116,7 @@ Page({
       case 5:
         self.setData({
           title: "面试指南",
-          describe: '面试不只时背导游词那么简单哦！'
+          describe: '面试不只是背导游词那么简单哦！'
         })
         break;
       case 6:

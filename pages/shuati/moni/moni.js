@@ -35,6 +35,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(options)
     wx.setNavigationBarTitle({
       title: options.title //设置标题
     })
@@ -429,10 +430,13 @@ Page({
     let px = self.data.px;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
+    let user = self.data.user;
 
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current];
+    let options = self.data.options;
+    let typesid = options.typesid;
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
@@ -445,6 +449,9 @@ Page({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray
     })
+
+
+    common.postAnswerToServer(user, shiti.beizu, shiti.id, shiti.flag, shiti.done_daan, typesid, app, API_URL);
 
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 

@@ -62,6 +62,7 @@ Component({
     //关闭
     close: function() {
       this.hideDialog();
+      this.triggerEvent('ignore');
     },
 
     /**

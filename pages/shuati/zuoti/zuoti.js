@@ -56,6 +56,7 @@ Page({
     }
 
     app.post(API_URL, "action=getKeMuTestshow&types=" + options.types + "&f_id=" + options.f_id + "&leibie=" + options.leibie + "&page=" + page + "&zcode=" + zcode+"&token="+token, false, false, "", "", false, self).then((res) => {
+   
       let result = res.data.data[0];
       let shitiArray = result.list;
       let all_nums = result.records;
@@ -196,6 +197,7 @@ Page({
     let current = self.data.lastSliderIndex //当前滑动编号
     let currentShiti = sliderShitiArray[current]; //当前滑块试题
     let user = wx.getStorageSync('user');
+    let lastSliderIndex = this.data.lastSliderIndex;
 
     this.setData({
       huidiaoDaan: huidiaoDaan
@@ -235,6 +237,7 @@ Page({
     common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
     this.setData({
+      myCurrent: lastSliderIndex+1,
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       restart: false,
@@ -251,6 +254,7 @@ Page({
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
+
   },
 
   /**

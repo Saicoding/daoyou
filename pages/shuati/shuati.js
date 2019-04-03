@@ -890,9 +890,11 @@ Page({
     let nums = e.detail.nums; //总数
     let totalscore = e.detail.maxScore; //总分
     let text_score = e.detail.highScore; //最高分
+    let currentIndex = this.data.currentIndex; //当前科目index
+    let typesid = this.getkemuIDByindex(currentIndex); //科目ID
 
     wx.navigateTo({
-      url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums + "&totalscore=" + totalscore + "&text_score=" + text_score
+      url: '/pages/shuati/moni/moni?title=' + title + "&f_id=" + id + "&times=" + times + "&nums=" + nums + "&totalscore=" + totalscore + "&text_score=" + text_score + "&typesid=" + typesid
     })
   },
 

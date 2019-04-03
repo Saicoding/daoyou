@@ -804,9 +804,12 @@ function postAnswerToServer(user, beizhu, tid, flag, done_daan, typesid, app, AP
   //向服务器提交做题结果
   let token = user.token ? user.token : "";
   let zcode = user.zcode ? user.zcode : "";
+  console.log(beizhu)
   beizhu = encodeURIComponent(beizhu);
-
-  app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid, false).then((res) => {})
+  console.log(beizhu)
+  app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid, false).then((res) => {
+    console.log('ok')
+  })
 }
 
 /**
