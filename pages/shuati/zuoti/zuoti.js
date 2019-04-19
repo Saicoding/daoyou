@@ -237,7 +237,6 @@ Page({
     common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
     this.setData({
-      myCurrent: lastSliderIndex+1,
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       restart: false,
@@ -253,7 +252,9 @@ Page({
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
 
-    common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
+    common.ifDoneAll(shitiArray, self.data.doneAnswerArray,self); //判断是不是所有题已经做完
+
+    
 
   },
 
@@ -289,8 +290,14 @@ Page({
    * slider改变事件
    */
   sliderChange: function(e) {
+    console.log(e)
     let source = e.detail.source;
-    if (source != "touch") return;
+    console.log(!this.data.noAuto)
+    if (source != "touch" && !this.data.noAuto) return;
+    this.setData({
+      noAuto:false
+    })
+
 
     let self = this;
     let options = self.data.options;

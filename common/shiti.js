@@ -701,7 +701,8 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       let new_done_daan = changeShitiChecked(done_daan, shiti);
       changeMultiShiti(new_done_daan, shiti);
 
-      let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
+      let answers = shiti.answer.replace(/,|\s+/g, "");
+      answers = answers.split(""); //将“ABD” 这种字符串转为字符数组
       if (!ifSubmit) shiti.done_daan = new_done_daan; //已经做的选择
 
       for (let i = 0; i < new_done_daan.length; i++) {
@@ -804,11 +805,11 @@ function postAnswerToServer(user, beizhu, tid, flag, done_daan, typesid, app, AP
   //向服务器提交做题结果
   let token = user.token ? user.token : "";
   let zcode = user.zcode ? user.zcode : "";
-  console.log(beizhu)
+
   beizhu = encodeURIComponent(beizhu);
-  console.log(beizhu)
+
   app.post(API_URL, "action=saveShitiResult&token=" + token + "&zcode=" + zcode + "&beizhu=" + beizhu + "&tid=" + tid + "&flag=" + flag + "&answer=" + done_daan + "&typesid=" + typesid, false).then((res) => {
-    console.log('ok')
+
   })
 }
 
@@ -852,7 +853,8 @@ function storeModelRealLastShiti(px, self) {
 /**
  * 判断所有本节题已经做完
  */
-function ifDoneAll(shitiArray, doneAnswerArray) {
+function ifDoneAll(shitiArray, doneAnswerArray,self) {
+
   if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
     wx.showToast({
       title: '所有题已经作答',

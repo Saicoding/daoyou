@@ -1,13 +1,13 @@
-<!--pages/shuati/myti/myti.wxml-->
-<view wx:if = "{{isLoaded}}" class ="container">
-  <view class ="up">共<span style = "color:#575061;font-size:40rpx;">{{all_nums}}</span>条{{options.type=="note"?"笔记":"错题"}}</view>
+  <!--pages/shuati/myti/myti.wxml-->
+  <view wx:if = "{{isLoaded}}" class ="container">
+    <view class ="up">共<span style = "color:#575061;font-size:40rpx;">{{all_nums}}</span>条{{options.type=="note"?"笔记":"错题"}}</view>
 
-  <view class ="content">
-    <view wx:if="{{ti.nums > 0}}" data-index="{{index}}" data-title="{{ti.title}}" class ="ti" wx:for = "{{tis}}" wx:for-item = "ti" wx:key = "n" bindtap='GOnoteAndErr' hover-class='select1' hover-stay-time='500'>
-      <view class ="ti-text wp">{{ti.title}}</view>
-      <view class ="ti-num">{{ti.nums}}</view>
+    <view class ="content">
+      <view wx:if="{{ti.nums > 0}}" data-index="{{index}}" data-title="{{ti.title}}" class ="ti" wx:for = "{{tis}}" wx:for-item = "ti" wx:key = "n" bindtap='GOnoteAndErr' hover-class='select1' hover-stay-time='500'>
+        <view class ="ti-text wp">{{ti.title}}</view>
+        <view class ="ti-num">{{ti.nums}}</view>
+      </view>
     </view>
   </view>
-</view>
 
-<image wx:if="{{!isLoaded}}" class ="loading-img" src="/images/imgLoading.gif"></image>
+  <image wx:if="{{!isLoaded}}" class ="loading-img" src="/images/imgLoading.gif"></image>

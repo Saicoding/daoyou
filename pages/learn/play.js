@@ -143,7 +143,7 @@ Page({
 
     if (user) {
       app.post(API_URL, "action=getCourseShow&cid=" + kcid + "&token=" + token + "&zcode=" + zcode, false, false, "", "", false, self).then((res) => {
-
+        console.log(res)
         //最后播放视频索引
         let lastpx = wx.getStorageSync('lastVideo' + kcid + user.zcode);
         let scroll = lastpx * 100 * windowWidth / 750;
@@ -152,6 +152,7 @@ Page({
           //videoID 最后播放视频id
           //initialTime 最后播放视频时间
           let lasttime = wx.getStorageSync('kesub' + kcid + "_" + lastpx.videoID + "_" + user.zcode);
+          console.log(lasttime)
           if (lasttime) {
             this.videoContext.seek(lasttime / 1000)
           }
@@ -474,8 +475,8 @@ Page({
     //initialTime 缓存的视频时间
     let hctime = wx.getStorageSync('kesub' + kcid + "_" + files[index].videoID + "_" + user.zcode);
     if (hctime) {
-      this.videoContext.seek(hctime / 1000)
-      if (hctime / 1000 >= currentVideo.time_length * 1 - 3) {
+      this.videoContext.seek(hctime)
+      if (hctime>= currentVideo.time_length * 1 - 3) {
         changeVideo = true;
         self.videoContext.stop();
         isPlaying = false;

@@ -5,7 +5,7 @@
     <!-- 扫描图标 -->
     <image class="up-scan" src="/images/index/scan.png" style="top:{{statusBarHeight+25}}rpx;" bindtap="scan"></image>
     <!-- 轮播图 -->
-    <swiper class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
+    <swiper  class="myswiper" indicator-dots="{{false}}" autoplay="{{true}}" interval="2000" duration="500">
       <block wx:for="{{banners}}" wx:for-item="img" wx:key='i'>
         <swiper-item wx:if="{{banners}}">
           <image  data-from="banner" src="{{img.pic?img.pic+'?'+random:''}}" class="slide-image" bindtap="GOxuexijihua" />

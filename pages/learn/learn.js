@@ -95,7 +95,6 @@ Page({
           self.getCourse(lastKe.types)
         }
 
-
       },
       fail: function(res) {
         self.getCourse('0')
@@ -126,6 +125,7 @@ Page({
 
       app.post(API_URL, "action=getCourseList&types=" + types, false, false, "", "", "", self).then(res => {
         let newcourse = res.data.data[0].list;
+        console.log(newcourse)
         loadedList[parseInt(index)].list = newcourse;
         loadedList[parseInt(index)].loaded = true;//该章节载入结束
 
@@ -134,7 +134,6 @@ Page({
         });
       });
     }
-
   },
   watch: function(e) {
     var kc_id = e.currentTarget.dataset.kc_id;
@@ -142,9 +141,10 @@ Page({
     let index = e.currentTarget.dataset.index;
     let types = this.data.types;
     let title = e.currentTarget.dataset.title;
+    let flag = e.currentTarget.dataset.flag;
 
     wx.navigateTo({
-      url: 'play?kc_id=' + kc_id + '&renshu=' + renshu + '&types=' + types + "&index=" + index + '&title=' + title,
+      url: 'play?kc_id=' + kc_id + '&renshu=' + renshu + '&types=' + types + "&index=" + index + '&title=' + title+"&flag="+flag,
     })
   },
   //切换菜单
