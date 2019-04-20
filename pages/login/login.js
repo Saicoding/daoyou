@@ -762,6 +762,7 @@ Page({
    * 获取用户号码
    */
   getphonenumber: function(e) {
+    if (e.detail.errMsg == "getPhoneNumber:fail user deny") return
     let self = this;
     wx.showLoading({
       title: '请求中'
@@ -769,6 +770,7 @@ Page({
     wx.login({
       success: res => {
         let code = res.code;
+        
         app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
           let sesstion_key = res.data.data[0].sessionKey;
           let openid = res.data.data[0].openid;
