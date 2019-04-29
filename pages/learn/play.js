@@ -789,7 +789,7 @@ Page({
       let lastVideo = files[px-1];
 
       let flag = 1; //判断是否看完;
-      let videoID = lastVideo.orderid;
+      let videoID = lastVideo.id;
 
       let playTime = 0;
       let currentTime = self.data.currentTime;
